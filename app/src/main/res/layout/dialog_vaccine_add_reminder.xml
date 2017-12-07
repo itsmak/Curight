@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@android:color/white"
+    android:layout_height="wrap_content"
+    android:paddingBottom="10dp"
+   >
+
+    <TextView
+        android:id="@+id/tvVaccinceTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="@string/addreminder"
+        android:background="@color/colorAccent"
+        android:textAlignment="center"
+        android:padding="5dp"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/l1Name"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_below="@+id/tvVaccinceTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="100">
+
+        <TextView
+            android:id="@+id/tvnamelabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="30"
+            android:text="@string/name"
+            android:textStyle="bold"
+            android:textColor="@color/darkgray" />
+
+        <TextView
+            android:id="@+id/tvNameabelcoumn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text=":"
+            android:textColor="@color/darkgray" />
+
+        <EditText
+            android:id="@+id/etName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="67"
+            android:background="@android:color/white"
+            android:hint="Vaccine Name"
+            android:textColor="@color/darkgray"
+            android:textSize="15sp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/l1"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_below="@+id/l1Name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:weightSum="100">
+
+        <TextView
+            android:id="@+id/tvDueOnlabel"
+            android:layout_width="0dp"
+            android:textColor="@color/darkgray"
+            android:layout_height="wrap_content"
+            android:layout_weight="30"
+            android:text="@string/dueon" />
+
+        <TextView
+            android:textColor="@color/darkgray"
+            android:id="@+id/tvDueOnlabelcoumn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text=":" />
+
+        <EditText
+            android:textColor="@color/darkgray"
+            android:background="@android:color/white"
+            android:id="@+id/etDueOn"
+            android:layout_width="0dp"
+            android:textSize="15sp"
+            android:layout_height="wrap_content"
+            android:layout_weight="67"
+            android:hint="DD/MM/YYYY" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/l2"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_below="@+id/l1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:weightSum="100">
+
+        <TextView
+            android:textColor="@color/darkgray"
+            android:id="@+id/tvTakeOnlabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="30"
+            android:text="@string/takeon" />
+
+        <TextView
+            android:textColor="@color/darkgray"
+            android:id="@+id/tvTakeOnlabelcolumn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text=":" />
+
+        <EditText
+            android:textColor="@color/darkgray"
+            android:id="@+id/etTakeOn"
+            android:background="@android:color/white"
+            android:layout_width="0dp"
+            android:textSize="15sp"
+            android:layout_height="wrap_content"
+            android:layout_weight="67"
+            android:hint="DD/MM/YYYY" />
+
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/l3"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_below="@+id/l2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:weightSum="100">
+
+        <TextView
+            android:textColor="@color/darkgray"
+            android:id="@+id/tvGivenlabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="30"
+            android:text="@string/givenby" />
+
+        <TextView
+            android:textColor="@color/darkgray"
+            android:id="@+id/tvivencolumn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text=":" />
+
+        <EditText
+            android:textColor="@color/darkgray"
+            android:id="@+id/tvGivenBy"
+            android:background="@android:color/white"
+            android:textSize="15sp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="67"
+            android:hint="Doctor Name" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/l4"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_below="@id/l3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:weightSum="100">
+
+        <TextView
+            android:textColor="@color/darkgray"
+            android:id="@+id/tvDetailslabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/details" />
+
+    </LinearLayout>
+    <EditText
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="10dp"
+        android:layout_below="@+id/l4"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:textColor="@color/darkgray"
+        android:id="@+id/tvDetails"
+        android:layout_width="match_parent"
+        android:textSize="15sp"
+        android:background="@drawable/border_circle"
+        android:layout_height="wrap_content"
+        android:hint="" />
+    <LinearLayout
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:id="@+id/l5"
+        android:layout_below="@+id/tvDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:textColor="@color/darkgray"
+            android:id="@+id/tvreminderabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="30"
+            android:text="@string/reminder" />
+
+
+
+        <TextView
+            android:id="@+id/tvReminder"
+            android:padding="8dp"
+            android:layout_width="0dp"
+            android:background="@drawable/border_circle"
+            android:layout_height="wrap_content"
+            android:layout_weight="35"
+            android:textSize="12sp"
+            android:textAlignment="center"
+            android:hint="DD/MM/YYY"/>
+
+        <TextView
+            android:id="@+id/tvReminder2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="35"
+            android:textSize="12sp"
+            android:background="@drawable/border_circle"
+            android:padding="8dp"
+            android:text="DD/MM/YYYY"
+            android:textAlignment="center" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_below="@+id/l5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:weightSum="100">
+
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="50"
+            android:background="@color/colorPrimary"
+            android:text="@string/cancel"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/btnADD"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="50"
+            android:background="@color/colorPrimary"
+            android:text="@string/add"
+            android:textColor="@android:color/white" />
+
+    </LinearLayout>
+</RelativeLayout>

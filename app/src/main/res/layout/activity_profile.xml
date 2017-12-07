@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@android:color/white"
+    android:layout_height="match_parent">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="5dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/ivHome"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:paddingRight="15dp"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/ic_leftarrow" />
+
+            <TextView
+                android:id="@+id/title"
+                android:textAlignment="center"
+                android:layout_width="170dp"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Profile"
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:id="@+id/ivAdd"
+                android:layout_toRightOf="@+id/title"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:paddingRight="15dp"
+                android:layout_marginLeft="40dp"
+                android:src="@drawable/add" />
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:background="?attr/colorPrimary"
+        android:elevation="6dp"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    <FrameLayout
+        android:id="@+id/rlMainFragment"
+        android:layout_above="@+id/hvLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:orientation="vertical" />
+
+
+    <HorizontalScrollView
+
+        android:layout_width="match_parent"
+        android:id="@+id/hvLayout"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp">
+        <LinearLayout
+            android:id="@+id/button_panel"
+            style="@style/button_panel">
+
+            <LinearLayout
+                android:paddingRight="20dp"
+                android:paddingLeft="20dp"
+                android:id="@+id/button_profile"
+                style="@style/button_panel_button">
+
+                <ImageView
+                    android:id="@+id/ivProfile"
+                    style="@style/button_panel_button_image"
+                    android:src="@drawable/profileg" />
+
+                <TextView
+                    android:id="@+id/tvProfile"
+                    style="@style/button_panel_button_text"
+                    android:text="Profile" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:paddingRight="20dp"
+                android:paddingLeft="20dp"
+                android:id="@+id/button_report"
+                style="@style/button_panel_button"
+                >
+
+                <ImageView
+                    android:id="@+id/ivbp"
+                    style="@style/button_panel_button_image"
+                    android:src="@drawable/bpg" />
+
+                <TextView
+                    android:id="@+id/tvBP"
+                    style="@style/button_panel_button_text"
+                    android:text="@string/report" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:paddingRight="20dp"
+                android:paddingLeft="20dp"
+                android:id="@+id/button_bmi"
+                style="@style/button_panel_button">
+
+                <ImageView
+                    android:id="@+id/ivBMI"
+                    style="@style/button_panel_button_image"
+                    android:src="@drawable/bmig" />
+
+                <TextView
+                    android:id="@+id/tvBMI"
+                    style="@style/button_panel_button_text"
+                    android:text="BMI" />
+            </LinearLayout>
+            <LinearLayout
+                android:paddingRight="20dp"
+                android:paddingLeft="20dp"
+                android:id="@+id/button_bloodsugar"
+                style="@style/button_panel_button">
+
+                <ImageView
+                    android:id="@+id/ivbloodsugar"
+                    style="@style/button_panel_button_image"
+                    android:src="@drawable/bloodsugarg" />
+
+                <TextView
+                    android:id="@+id/tvbloodsugar"
+                    style="@style/button_panel_button_text"
+                    android:text="Blood Sugar" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:paddingRight="20dp"
+                android:paddingLeft="20dp"
+                android:id="@+id/button_excercise"
+                style="@style/button_panel_button">
+
+                <ImageView
+                    android:id="@+id/ivExercise"
+                    style="@style/button_panel_button_image"
+                    android:src="@drawable/exeg" />
+
+                <TextView
+                    android:id="@+id/tvExcercise"
+                    style="@style/button_panel_button_text"
+                    android:text="Excercise" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:paddingRight="20dp"
+                android:paddingLeft="20dp"
+                android:id="@+id/button_food"
+                style="@style/button_panel_button">
+
+                <ImageView
+                    android:id="@+id/ivFood"
+                    style="@style/button_panel_button_image"
+                    android:src="@drawable/ic_account" />
+
+                <TextView
+                    android:id="@+id/tvFood"
+                    style="@style/button_panel_button_text"
+                    android:text="Food" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+
+</RelativeLayout>

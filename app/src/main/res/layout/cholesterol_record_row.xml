@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/lightgray">
+
+    <LinearLayout
+        android:id="@+id/ll_articles"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp">
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:text="12:33"
+            android:textSize="10sp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_border"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/ldl_hdl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="152/97"
+                android:textSize="20sp" />
+
+            <ImageView
+
+                android:id="@+id/ivHeart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/ldl_hdl"
+                android:background="@drawable/like" />
+
+            <TextView
+                android:id="@+id/tvMeasure"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ivHeart"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@id/ldl_hdl"
+                android:text="mg/dL"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/triglycerides"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_toRightOf="@id/ivHeart"
+                android:text="97"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:id="@+id/ivline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@id/triglycerides"
+                android:background="@drawable/heartbeat" />
+
+            <TextView
+                android:id="@+id/tvPulseMeasure"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ivline"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@id/triglycerides"
+                android:text="mg/dL"
+                android:textSize="12sp" />
+
+            <ImageView
+                android:id="@+id/delete"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/error"/>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_Tlink2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="3"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/llUser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:orientation="horizontal"
+        android:weightSum="100">
+
+        <Spinner
+            android:id="@+id/spUser"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tab_layout"
+            android:layout_weight="50"
+            style="@style/Widget.AppCompat.Spinner.Underlined"
+            android:backgroundTint="@color/graylight" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="43" />
+
+        <ImageView
+            android:id="@+id/ivEdit"
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="7"
+            android:background="@drawable/edit" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/llUser"
+        android:background="@android:color/white"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:background="@mipmap/profilepic" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:text="Name: John Doe"
+            android:textColor="@color/darkgray"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:text="Patient ID: 187654D"
+            android:textColor="@color/darkgray"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/llProfile"
+        android:orientation="horizontal"
+        android:weightSum="100">
+
+        <RelativeLayout
+            android:id="@+id/tvMedDetails"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_weight="60">
+
+            <TextView
+                android:id="@+id/tvWeightLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="27dp"
+                android:layout_marginTop="10dp"
+                android:text="Weight"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tvWeight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvWeightLabel"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:text="65 kg"
+                android:textColor="@color/darkgray"
+                android:textSize="12sp" />
+
+            <View
+                android:id="@+id/vline1"
+                android:layout_width="0.5dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="20dp"
+                android:layout_toRightOf="@+id/tvWeight"
+                android:background="@android:color/darker_gray" />
+
+            <TextView
+                android:id="@+id/tvBloodPressureLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/vline1"
+                android:text="Blood Pressure"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tvBloodPressure"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvWeightLabel"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/vline1"
+                android:text="93/69 mm Hg"
+                android:textColor="@color/darkgray"
+                android:textSize="12sp" />
+
+            <View
+                android:id="@+id/vline2"
+                android:layout_width="60dp"
+                android:layout_height="0.5dp"
+                android:layout_below="@id/tvWeight"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="5dp"
+
+                android:background="@android:color/darker_gray" />
+
+            <View
+                android:id="@+id/vline3"
+                android:layout_width="70dp"
+                android:layout_height="0.5dp"
+                android:layout_below="@id/tvBloodPressure"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="20dp"
+                android:layout_toRightOf="@id/vline2"
+                android:background="@android:color/darker_gray" />
+
+            <TextView
+                android:id="@+id/tvBMILabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/vline2"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:text="BMI"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tvBMI"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvBMILabel"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="10dp"
+                android:text="25.00"
+                android:textColor="@color/darkgray"
+                android:textSize="12sp" />
+
+            <View
+                android:id="@+id/vline4"
+                android:layout_width="0.5dp"
+                android:layout_height="50dp"
+                android:layout_below="@+id/vline2"
+                android:layout_marginLeft="35dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/tvBMILabel"
+                android:background="@android:color/darker_gray" />
+
+            <TextView
+                android:id="@+id/tvCholestrolLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/vline2"
+                android:layout_marginLeft="18dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@id/vline4"
+                android:text="WHR"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tvCholestrol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvBMILabel"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@id/vline4"
+                android:text="200-239"
+                android:textColor="@color/darkgray"
+                android:textSize="12sp" />
+
+            <View
+                android:id="@+id/vline5"
+                android:layout_width="60dp"
+                android:layout_height="0.5dp"
+                android:layout_below="@id/tvCholestrol"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="20dp"
+                android:background="@android:color/darker_gray" />
+
+            <View
+                android:id="@+id/vline6"
+                android:layout_width="70dp"
+                android:layout_height="0.5dp"
+                android:layout_below="@id/tvCholestrol"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="20dp"
+                android:layout_toRightOf="@id/vline2"
+                android:background="@android:color/darker_gray" />
+
+            <TextView
+                android:id="@+id/tvHDLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/vline5"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:text="Blood Sugar"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tvHDL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvHDLabel"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:text="40-60"
+                android:textColor="@color/darkgray"
+                android:textSize="12sp" />
+
+            <View
+                android:id="@+id/vline7"
+                android:layout_width="0.5dp"
+                android:layout_height="50dp"
+                android:layout_below="@+id/vline5"
+                android:layout_marginLeft="27dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/tvHDL"
+                android:background="@android:color/darker_gray" />
+
+            <TextView
+                android:id="@+id/tvLDLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/vline5"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/vline7"
+                android:text="HDL/LDL"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tvLDL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvHDLabel"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/vline7"
+                android:text="100-129"
+                android:textColor="@color/darkgray"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="40"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginEnd="5dp"
+            android:weightSum="100">
+
+            <ImageView
+                android:id="@+id/icHeight"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="70"
+                android:scaleType="fitXY"
+                android:src="@mipmap/ic_myheight" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="30"
+                android:orientation="vertical"
+                android:paddingBottom="10dp"
+                android:weightSum="100">
+                <TextView
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="12sp"
+                    android:text="@string/height"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <ImageView
+                    android:id="@+id/icTop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="45"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/ic_topbar" />
+
+                <TextView
+                    android:id="@+id/tvMyHeight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="15"
+                    android:text="163"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/colorAccent" />
+
+                <ImageView
+                    android:layout_marginBottom="50dp"
+                    android:id="@+id/icBottom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="45"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/ic_bottombar" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

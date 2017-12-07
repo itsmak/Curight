@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/lightgray"
+    android:layout_height="wrap_content"
+   >
+<TextView
+    android:id="@+id/tv_date"
+    android:layout_marginTop="15dp"
+    android:layout_marginLeft="5dp"
+    android:text="05-06-2017"
+    android:layout_marginBottom="10dp"
+    android:textSize="18sp"
+    android:textColor="@color/darkgray"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" />
+<LinearLayout
+    android:layout_below="@+id/tv_date"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:paddingLeft="5dp"
+    android:paddingRight="10dp"
+    android:paddingBottom="5dp"
+    android:id="@+id/ll_articles"
+    android:paddingTop="5dp"
+    android:layout_height="wrap_content">
+
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_marginRight="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="12:33"
+        android:layout_marginTop="10dp"
+        android:textSize="10sp" />
+
+
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:padding="5dp"
+        android:layout_width="match_parent"
+        android:background="@drawable/round_border"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tvSysDia"
+            android:text="152/97"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp" />
+        <ImageView
+
+            android:id="@+id/ivHeart"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="25dp"
+            android:background="@drawable/like"
+            android:layout_toRightOf="@+id/tvSysDia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tvMeasure"
+            android:text="mmHg"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@id/tvSysDia"
+            android:layout_below="@id/ivHeart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp" />
+        <TextView
+            android:id="@+id/tvPulse"
+            android:text="97"
+            android:layout_marginLeft="30dp"
+            android:layout_toRightOf="@id/ivHeart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp" />
+        <ImageView
+            android:id="@+id/ivline"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="25dp"
+            android:background="@drawable/heartbeat"
+            android:layout_toRightOf="@+id/tvPulse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tvPulseMeasure"
+            android:text="Beats/Min"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@id/tvPulse"
+            android:layout_below="@id/ivline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp" />
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/tv_Tlink2"
+        android:maxLines="3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp" />
+</LinearLayout>
+
+</RelativeLayout>

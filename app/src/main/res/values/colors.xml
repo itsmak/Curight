@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#0075b2</color>
+    <color name="colorPrimaryDark">#74B1E1</color>
+    <color name="colorAccent">#0075b2</color>
+    <color name="darkgray">#3C3D3D</color>
+    <color name="lightpink">#FFD1F4</color>
+    <color name="medpink">#FFEFFB</color>
+    <color name="pink">#FFCFF4</color>
+    <color name="lightgray">#EAEDED</color>
+    <color name="bmitext">#FE5757</color>
+    <color name="linegray">#F2F4F4</color>
+    <color name="gray">#D9DADD</color>
+     <color name="graylight">#9DA1A0</color>
+    <color name="carbs">#009343</color>
+    <color name="protein">#FFC300</color>
+    <color name="fat">#FF5733</color>
+    <color name="red">#C1263A</color>
+     <color name="textcolor">#212121</color>
+    <color name="redish">#EF4E24</color>
+    <color name="white">#FFFFFF</color>
+
+
+
+    <color name="textColorPrimary">#FFFFFF</color>
+    <color name="windowBackground">#FFFFFF</color>
+    <color name="navigationBarColor">#000000</color>
+
+
+</resources>

@@ -1,0 +1,537 @@
+package com.innovellent.curight.activities;
+
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.SearchManager;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.NumberPicker;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.innovellent.curight.R;
+import com.innovellent.curight.adapter.CustomSpinnerAdapter2;
+import com.innovellent.curight.adapter.DiagnosticTestAdapter;
+import com.innovellent.curight.fragment.ArticleFragment;
+import com.innovellent.curight.fragment.BMIFragment;
+import com.innovellent.curight.fragment.BPFragment;
+import com.innovellent.curight.fragment.BloodCountListFragment;
+import com.innovellent.curight.fragment.BloodSugarFragment;
+import com.innovellent.curight.fragment.CholesterolFragment;
+import com.innovellent.curight.fragment.ForyouFragment;
+import com.innovellent.curight.fragment.HomeFragment;
+import com.innovellent.curight.fragment.ListBloodSugarFragment;
+import com.innovellent.curight.fragment.MedicineReminderFragment;
+import com.innovellent.curight.fragment.NavigationDrawerFragment;
+import com.innovellent.curight.fragment.ProfileFragment;
+import com.innovellent.curight.fragment.FemaleCycleFragment;
+import com.innovellent.curight.fragment.VaccineFragment;
+import com.innovellent.curight.fragment.WHRFragment;
+import com.innovellent.curight.fragment.WishListFragment;
+import com.innovellent.curight.model.AddBMIRecordsDialog;
+import com.innovellent.curight.model.AddBPRecordsDialog;
+import com.innovellent.curight.model.AddBloodSugarDialog;
+import com.innovellent.curight.model.ReminderDialog;
+import com.innovellent.curight.utility.BottomNavigationViewHelper;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
+public class HomeActivity extends AppCompatActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks, View.OnClickListener {
+
+    private static final String KEY_SELECTED_PAGE = "KEY_SELECTED_PAGE";
+    DrawerLayout drawer;
+    BottomNavigationView bottomNavigationView;
+    RecyclerView recycler_view;
+    DiagnosticTestAdapter mAdapter;
+    Toolbar toolbar;
+    ViewPager viewpager;
+    HomeActivity.ViewPagerAdapter adapter;
+    Spinner spUser;
+    TextView tvTrends, tvSave;
+    TextView tvHome, tvTitle, tvReminder, tvArticle, tvTrack, tvProfile;
+    ImageView ivHome, ivreminder, ivArticle, ivTrack, ivProfile;
+    Button btnSubmit;
+    AddBPRecordsDialog addRecordsDialog;
+    ReminderDialog reminderDialog;
+    AddBMIRecordsDialog addBMIRecordsDialog;
+    AddBloodSugarDialog addBloodSugarDialog;
+    FrameLayout frameontainer;
+    LinearLayout button_panel, llList, button_track, button_profile, button_article, button_reminder, button_home, button_report, button_bmi, button_bloodsugar, button_excercise;
+    String[] spinner1 = {"John", "Jobby", "Suresh", "Mahesh"};
+    ArrayList<String> arrayList = new ArrayList<String>();
+    FrameLayout frameLayout;
+    ImageView ivBack, ivBack1, ivAdd;
+    Fragment currentFragment;
+    TabLayout tabLayout;
+    private NavigationDrawerFragment mNavigationDrawerFragment;
+    private CharSequence mTitle;
+    private int i = 0;
+    private ViewPager viewPager;
+    private String add = "N";
+    NumberPicker numberpicker;
+    SearchView searchView;
+    public boolean activityStartup = true;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_home);
+        init();
+        getData();
+        onclick();
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
+        mTitle = getTitle();
+        mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (mNavigationDrawerFragment.isDrawerOpen()) {
+            drawer.closeDrawer(GravityCompat.START);
+        }
+
+        ivAdd = (ImageView) findViewById(R.id.ivAdd);
+        ivAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(HomeActivity.this,"Cart under development!",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        ivBack = (ImageView) findViewById(R.id.ivback);
+        ivBack1 = (ImageView) findViewById(R.id.ivback1);
+
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mNavigationDrawerFragment.isDrawerOpen()) {
+                    drawer.closeDrawer(GravityCompat.START);
+                } else {
+                    drawer.openDrawer(GravityCompat.START);
+                    /*ivBack.setVisibility(View.VISIBLE);
+                    ivBack1.setVisibility(View.GONE);*/
+                }
+            }
+        });
+
+
+    }
+
+
+    private void fragmentChange(String name) {
+        SharedPreferences sharedPreferences = getSharedPreferences("mypref", Context.MODE_PRIVATE);
+        String token = sharedPreferences.getString("token", "");
+        String userid = sharedPreferences.getString("userid", "N");
+        Log.d("name", name);
+        android.support.v4.app.FragmentManager mSettingsFragment = getSupportFragmentManager();
+        FragmentTransaction tSettingsFragment = mSettingsFragment.beginTransaction();
+        switch (name) {
+            case "market":
+                button_panel.setVisibility(View.VISIBLE);
+                ivAdd.setVisibility(View.VISIBLE);
+                SharedPreferences sharedPreferences3 = getSharedPreferences("mypref", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor3 = sharedPreferences3.edit();
+
+                break;
+            case "myoffering":
+
+
+        }
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.frame_container, currentFragment).commit();
+
+    }
+
+
+    @Override
+    public void onNavigationDrawerItemSelected(int position) {
+        SharedPreferences sharedPreferences3 = getSharedPreferences("mypref", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor3 = sharedPreferences3.edit();
+        editor3.putString("menu", "cube");
+        editor3.apply();
+        Fragment fragment = null;
+        switch (position) {
+
+
+            case 7:
+
+                break;
+
+
+            default:
+                break;
+        }
+
+        if (fragment != null) {
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.frame_container, fragment).commit();
+
+        }
+    }
+
+    public void init() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
+        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        setupViewPagerHome(viewPager);
+        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        tabLayout.setupWithViewPager(viewPager);
+        spUser = (Spinner) findViewById(R.id.spUser);
+        tvTitle = (TextView) findViewById(R.id.tvTitle);
+        tvTitle.setVisibility(View.GONE);
+        searchView = (SearchView) findViewById(R.id.select_loc);
+        searchView.setVisibility(View.VISIBLE);
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setQueryHint("Select City");
+        //searchView.setIconifiedByDefault(true);
+        //searchView.setIconified(true);
+        //searchView.onActionViewExpanded();
+        //searchView.setQuery("Select City",false);
+        /*searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    if (activityStartup) {
+                        searchView.clearFocus();
+                        activityStartup = false;
+                    }
+                }
+            }
+        });*/
+            tvSave=(TextView)findViewById(R.id.tvSave);
+        frameLayout = (FrameLayout) findViewById(R.id.rlMainFragment);
+        tabLayout.setTabTextColors(
+                ContextCompat.getColor(this, R.color.graylight),
+                ContextCompat.getColor(this, R.color.colorPrimary)
+        );
+        tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        ivAdd = (ImageView) findViewById(R.id.ivAdd);
+
+    }
+
+    public void onclick() {
+        ivAdd.setOnClickListener(this);
+        spUser.setVisibility(View.GONE);
+        tabLayout.setVisibility(View.GONE);
+        //ivAdd.setVisibility(View.INVISIBLE);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                switch (item.getItemId()) {
+                    case R.id.action_home:
+                        ivAdd.setVisibility(View.VISIBLE);
+                        //tvTitle.setText("Home");
+                        tvTitle.setVisibility(View.GONE);
+                        viewPager.setVisibility(View.VISIBLE);
+                        frameLayout.setVisibility(View.GONE);
+                        spUser.setVisibility(View.GONE);
+                        tabLayout.setVisibility(View.GONE);
+                        adapter.notifyDataSetChanged();
+                        setupViewPagerHome(viewPager);
+                        tabLayout.setupWithViewPager(viewPager);
+
+                        return true;
+                    case R.id.action_reminder:
+
+                        tvTitle.setText("Reminder");
+                        ivAdd.setVisibility(View.INVISIBLE);
+                        viewPager.setVisibility(View.VISIBLE);
+                        frameLayout.setVisibility(View.GONE);
+                        tabLayout.setVisibility(View.VISIBLE);
+                        spUser.setVisibility(View.GONE);
+                        adapter.notifyDataSetChanged();
+                        setupViewPagerMedicineReminder(viewPager);
+                        tabLayout.setupWithViewPager(viewPager);
+                        tabLayout.setTabMode(TabLayout.MODE_FIXED);
+
+                        return true;
+                    case R.id.action_article:
+                        tvTitle.setText("Article");
+                        ivAdd.setVisibility(View.INVISIBLE);
+                        viewPager.setVisibility(View.VISIBLE);
+                        frameLayout.setVisibility(View.GONE);
+                        tabLayout.setVisibility(View.VISIBLE);
+                        spUser.setVisibility(View.GONE);
+                        adapter.notifyDataSetChanged();
+                        setupViewPagerArticle(viewPager);
+                        tabLayout.setupWithViewPager(viewPager);
+                        tabLayout.setTabMode(TabLayout.MODE_FIXED);
+
+                        return true;
+                    case R.id.action_track:
+                        tvTitle.setText("Track");
+                        ivAdd.setVisibility(View.INVISIBLE);
+                        viewPager.setVisibility(View.VISIBLE);
+                        frameLayout.setVisibility(View.GONE);
+                        spUser.setVisibility(View.VISIBLE);
+                        tabLayout.setVisibility(View.VISIBLE);
+                        adapter.notifyDataSetChanged();
+                        setupViewPagerTrack(viewPager);
+                        tabLayout.setupWithViewPager(viewPager);
+                        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+                        tabLayout.setVisibility(View.VISIBLE);
+
+                        return true;
+
+                    case R.id.action_profile:
+                        ivAdd.setVisibility(View.INVISIBLE);
+                        tvTitle.setText("Profile");
+                        viewPager.setVisibility(View.VISIBLE);
+                        frameLayout.setVisibility(View.GONE);
+                        spUser.setVisibility(View.GONE);
+                        tabLayout.setVisibility(View.GONE);
+                        adapter.notifyDataSetChanged();
+                        setupViewPagerProfile(viewPager);
+                        tabLayout.setupWithViewPager(viewPager);
+                        return true;
+                }
+                return false;
+            }
+        });
+
+    }
+
+    public void getData() {
+
+        CustomSpinnerAdapter2 customSpinnerAdapter3 = new CustomSpinnerAdapter2(HomeActivity.this, spinner1);
+        spUser.setAdapter(customSpinnerAdapter3);
+        spUser.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+    }
+
+    private void setupViewPagerArticle(ViewPager viewPager) {
+        adapter = new HomeActivity.ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new ArticleFragment(), "CATEGORIES");
+        adapter.addFragment(new ForyouFragment(), "ARTICLES");
+        adapter.addFragment(new WishListFragment(), "WISHLIST");
+        viewPager.setAdapter(adapter);
+    }
+
+    private void setupViewPagerHome(ViewPager viewPager) {
+
+        try {
+            adapter = new HomeActivity.ViewPagerAdapter(getSupportFragmentManager());
+            adapter.addFragment(new HomeFragment(), "");
+            viewPager.setAdapter(adapter);
+        }  catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setupViewPagerProfile(ViewPager viewPager) {
+
+        try {
+            adapter = new HomeActivity.ViewPagerAdapter(getSupportFragmentManager());
+            adapter.addFragment(new ProfileFragment(), "");
+            viewPager.setAdapter(adapter);
+        } catch (Exception e){
+            System.out.println(e);
+        }
+    }
+
+    private void setupViewPagerListBP(ViewPager viewPager) {
+        adapter = new HomeActivity.ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new ListBloodSugarFragment(), "");
+        viewPager.setAdapter(adapter);
+    }
+
+    public void setupViewPagerReminder() {
+        viewPager.setVisibility(View.VISIBLE);
+        frameLayout.setVisibility(View.GONE);
+        adapter.notifyDataSetChanged();
+        tabLayout.setupWithViewPager(viewPager);
+        spUser.setVisibility(View.GONE);
+        tabLayout.setVisibility(View.GONE);
+        adapter = new HomeActivity.ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new MedicineReminderFragment(), "");
+        viewPager.setAdapter(adapter);
+    }
+
+    public void setupViewPagerreset() {
+
+        adapter = new HomeActivity.ViewPagerAdapter(getSupportFragmentManager());
+        adapter.notifyDataSetChanged();
+        viewpager.invalidate();
+    }
+
+
+
+    private void setupViewPagerTrack(ViewPager viewPager) {
+
+        adapter = new HomeActivity.ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new BPFragment(), "BP");
+        adapter.addFragment(new CholesterolFragment(), "Cholestrol");
+        adapter.addFragment(new BMIFragment(), "BMI");
+        adapter.addFragment(new WHRFragment(), "WHR");
+        adapter.addFragment(new BloodSugarFragment(), "Blood Sugar");
+        adapter.addFragment(new BloodCountListFragment(), "Blood Count");
+        adapter.addFragment(new FemaleCycleFragment(), "Female Cycle");
+        viewPager.setAdapter(adapter);
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+
+            case R.id.ivAdd:
+                Intent intent1 = new Intent(HomeActivity.this, EditProfileActivity.class);
+                intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent1);
+                break;
+
+
+        }
+    }
+
+    public void foodfitness() {
+        frameLayout.setVisibility(View.VISIBLE);
+        spUser.setVisibility(View.GONE);
+        tabLayout.setVisibility(View.GONE);
+        viewPager.setVisibility(View.GONE);
+
+    }
+
+    public void bloodcount() {
+        spUser.setVisibility(View.VISIBLE);
+        frameLayout.setVisibility(View.VISIBLE);
+        tabLayout.setVisibility(View.VISIBLE);
+        viewPager.setVisibility(View.GONE);
+
+    }
+
+
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void setupViewPagerMedicineReminder(ViewPager viewPager) {
+        adapter = new HomeActivity.ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new MedicineReminderFragment(), "Medicine");
+        adapter.addFragment(new VaccineFragment(), "Vaccine");
+        viewPager.setAdapter(adapter);
+    }
+
+    private void AddBloodSugarRecords() {
+        addBloodSugarDialog = new AddBloodSugarDialog(this, new AddBloodSugarDialog.AddBloodSugarDialogClickListener() {
+
+
+            @Override
+            public void onSubmit() {
+                addBloodSugarDialog.dismiss();
+            }
+
+            @Override
+            public void onCancel() {
+                addBloodSugarDialog.dismiss();
+            }
+        });
+
+        addBloodSugarDialog.show();
+
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if (i == 0) {
+            i++;
+        } else {
+            super.onBackPressed();
+            finish();
+        }
+
+
+    }
+
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<android.support.v4.app.Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public ViewPagerAdapter(android.support.v4.app.FragmentManager manager) {
+            super(manager);
+            if (manager.getFragments() != null) {
+                manager.getFragments().clear();
+            }
+        }
+
+        @Override
+        public android.support.v4.app.Fragment getItem(int position) {
+            add = position + "";
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFragment(android.support.v4.app.Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public int getItemPosition(Object object) {
+            return PagerAdapter.POSITION_NONE;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
+    }
+
+
+}
+
+

@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:padding="10dp"
+        android:textColor="@android:color/white"
+        android:textSize="15sp"
+        android:text="@string/medication"
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimary"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:weightSum="100">
+
+        <TextView
+            android:id="@+id/tvSelectMedicine"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="90"
+            android:text="@string/selectmedicine" />
+
+        <ImageView
+            android:src="@drawable/arrow"
+            android:layout_width="0dp"
+            android:layout_height="15dp"
+            android:layout_weight="10" />
+
+
+    </LinearLayout>
+    <TextView
+        android:background="@color/gray"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+
+    <LinearLayout
+        android:id="@+id/llReminderTome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvMedicineNameMg"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="25"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text=""
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="10sp" />
+
+            <ImageView
+                android:id="@+id/ivMorning"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_below="@+id/tv_time"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="10dp"
+                android:background="@mipmap/ic_morning_gray"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/tvMorninglabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ivMorning"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:text="Morning"
+                android:textAlignment="center"
+                android:textColor="@color/graylight"
+                android:textSize="10sp" />
+
+
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.1"
+            android:background="@color/gray" />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="25"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/tvTimeNoon"
+                android:textSize="10sp"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="" />
+
+            <ImageView
+                android:id="@+id/tvNoon"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_below="@+id/tvTimeNoon"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="10dp"
+                android:background="@mipmap/ic_noon_gray" />
+
+            <TextView
+                android:id="@+id/tvNoonlabel"
+                android:textSize="10sp"
+                android:textColor="@color/graylight"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvNoon"
+                android:layout_marginTop="10dp"
+                android:text="Noon" />
+
+
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.1"
+            android:background="@color/gray" />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="25"
+            android:padding="5dp">
+
+            <TextView
+                android:textSize="10sp"
+                android:id="@+id/tvTimeEvening"
+                android:layout_width="match_parent"
+                android:textAlignment="center"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/colorPrimaryDark" />
+
+            <ImageView
+                android:id="@+id/tvEvening"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_below="@+id/tvTimeEvening"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="10dp"
+                android:background="@mipmap/ic_evening_gray" />
+
+            <TextView
+                android:id="@+id/tvEveninglabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:textAlignment="center"
+                android:layout_below="@+id/tvEvening"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:text="Evening"
+                android:textColor="@color/graylight" />
+
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="0dp"
+            android:textAlignment="center"
+            android:layout_height="match_parent"
+            android:layout_weight="0.1"
+            android:textColor="@color/graylight" />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="24.7"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/tvTimetNight"
+                android:textSize="10sp"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="" />
+
+            <ImageView
+                android:id="@+id/tvNight"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_below="@+id/tvTimetNight"
+                android:layout_marginLeft="26dp"
+                android:layout_marginTop="10dp"
+                android:background="@mipmap/ic_night_gray" />
+
+            <TextView
+                android:id="@+id/tvNightlabel"
+                android:textSize="10sp"
+                android:textColor="@color/graylight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvNight"
+                android:textAlignment="center"
+                android:layout_marginTop="10dp"
+                android:text="Night" />
+
+
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+    <Spinner
+        android:id="@+id/spItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="#009343" />
+
+    <TextView
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/gray"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+
+            android:id="@+id/etStrength"
+            android:layout_width="0dp"
+            android:layout_weight="50"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/etDos"
+            android:layout_width="0dp"
+            android:layout_weight="50"
+            android:layout_height="wrap_content" />
+        
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tvStartDate"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:text="@string/startdate"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:layout_toRightOf="@id/tvStartDate"
+            android:src="@mipmap/calendar"
+            android:id="@+id/iv_date"
+            android:layout_width="15dp"
+            android:layout_marginLeft="20dp"
+            android:layout_height="15dp" />
+        <TextView
+            android:layout_below="@+id/iv_date"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="2dp"
+            android:layout_toRightOf="@id/tvStartDate"
+            android:layout_marginRight="10dp"
+            android:background="@color/graylight"
+            android:layout_width="100dp"
+            android:layout_height="1dp" />
+
+        <TextView
+            android:layout_toRightOf="@id/iv_date"
+            android:id="@+id/tv_date"
+            android:layout_marginLeft="5dp"
+            android:text="10/02/2017"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+    <TextView
+        android:text="@string/duration"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+<RadioButton
+    android:id="@+id/rbDuration"
+    android:layout_width="0dp"
+    android:layout_weight="10"
+    android:backgroundTint="@color/colorPrimary"
+    android:layout_height="wrap_content" />
+        <Spinner
+            android:id="@+id/spDays"
+            style="@style/Widget.AppCompat.Spinner.Underlined"
+            android:backgroundTint="@color/graylight"
+            android:layout_width="40dp"
+            android:layout_weight="40"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="10dp" />
+
+        <Spinner
+            android:id="@+id/spPeriod"
+            android:layout_width="0dp"
+            android:layout_weight="40"
+            style="@style/Widget.AppCompat.Spinner.Underlined"
+            android:backgroundTint="@color/graylight"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="10dp" />
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/rbDurationLifetime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:text="@string/lifetime"
+            android:backgroundTint="@color/colorPrimary"/>
+
+
+
+    </LinearLayout>
+    <TextView
+        android:text="@string/notes"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/darkgray"
+        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <EditText
+        android:id="@+id/etNotes"
+        android:padding="20dp"
+        android:background="@drawable/border"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:id="@+id/llButton"
+        android:layout_marginTop="20dp"
+        android:paddingBottom="10dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:background="@color/colorAccent"
+            android:textColor="@android:color/white"
+            android:text="@string/save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:id="@+id/llprofile"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:weightSum="100"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:background="@mipmap/aboutus"
+            android:layout_width="0dp"
+            android:layout_weight="10"
+            android:layout_height="30dp" />
+
+        <TextView
+            android:id="@+id/tvProfile"
+            android:text="Profile"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="77"
+            android:textSize="15dp"
+            android:textColor="@color/darkgray"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:background="@mipmap/go_arrow"
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="20dp" />
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:id="@+id/vline1"
+        android:layout_below="@+id/llprofile"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@color/darkgray"/>
+</LinearLayout>

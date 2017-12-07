@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:background="@android:color/white"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:weightSum="100"
+        android:id="@+id/llBasic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tvHealthDetails"
+            android:textSize="12sp"
+            android:textColor="@color/darkgray"
+            android:text="Lipid Profile Basic"
+            android:layout_width="0dp"
+            android:layout_weight="79"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/ivRupee"
+            android:layout_marginTop="2dp"
+            android:background="@mipmap/ic_rupee"
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:layout_marginLeft="15dp"
+            android:layout_height="12dp" />
+        <TextView
+            android:layout_toRightOf="@+id/tvRupeelabel"
+            android:text="100"
+            android:gravity="center"
+            android:textColor="@color/darkgray"
+            android:textSize="12sp"
+            android:layout_marginLeft="5dp"
+            android:id="@+id/tvRupee"
+            android:layout_width="0dp"
+            android:layout_weight="14"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/ivClose"
+            android:layout_toRightOf="@id/tvRupee"
+            android:background="@mipmap/ic_close"
+            android:layout_width="18dp"
+            android:layout_marginLeft="15dp"
+            android:layout_height="18dp" />
+    </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/ivHome"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_below="@id/llBasic"
+        android:background="@mipmap/ic_home"
+        android:layout_width="15dp"
+        android:layout_height="15dp" />
+    <ImageView
+        android:id="@+id/ivBasic"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/ivHome"
+        android:layout_marginLeft="20dp"
+        android:layout_below="@id/llBasic"
+        android:background="@mipmap/ic_basicgreen"
+        android:layout_width="15dp"
+        android:layout_height="15dp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:id="@+id/v1"
+        android:layout_below="@+id/ivBasic"
+        android:layout_marginTop="10dp"
+        android:background="@color/gray" />
+
+</RelativeLayout>

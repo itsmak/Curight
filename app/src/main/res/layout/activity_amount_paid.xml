@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@android:color/white"
+    android:layout_height="match_parent">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="5dp"
+        app:contentInsetRight="0dp"
+        app:theme="@style/ToolbarStyle"
+        app:contentInsetStart="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_marginLeft="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/amoundpaidsuccess"
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
+
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view2"
+        android:background="@drawable/border_rectangle"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        card_view:contentPadding="10dp">
+
+        <RelativeLayout
+            android:id="@+id/rlTransactionId"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true">
+            <TextView
+                android:layout_centerVertical="true"
+                android:id="@+id/tvTransactionIDlabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/transactionid"
+                android:textSize="15sp"
+                android:layout_marginLeft="20dp"
+                android:textColor="@color/darkgray"
+                />
+            <TextView
+                android:layout_centerVertical="true"
+                android:id="@+id/tvTransactionID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="T12"
+                android:layout_toRightOf="@+id/tvTransactionIDlabel"
+                android:textSize="15sp"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/colorPrimary"
+                />
+
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+<LinearLayout
+    android:weightSum="100"
+    android:id="@+id/llName"
+    android:layout_below="@id/card_view2"
+    android:orientation="horizontal"
+    android:layout_marginTop="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+    android:id="@+id/tvPatientName"
+    android:layout_below="@+id/search_panel"
+    android:layout_width="0dp"
+    android:layout_weight="50"
+    android:layout_height="wrap_content"
+    android:textSize="12sp"
+    android:layout_marginLeft="20dp"
+    android:textColor="@color/darkgray"
+    />
+    <TextView
+        android:id="@+id/tvDiscountAmount"
+        android:layout_below="@+id/search_panel"
+        android:layout_width="0dp"
+        android:layout_weight="50"
+        android:layout_height="wrap_content"
+        android:text="Balance: 0"
+        android:textSize="12sp"
+        android:layout_marginLeft="20dp"
+        android:textColor="@color/darkgray"
+        />
+
+</LinearLayout>
+
+    <LinearLayout
+        android:weightSum="100"
+        android:layout_marginTop="20dp"
+        android:id="@+id/llMobileno"
+        android:layout_below="@+id/llName"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tvMobileNo"
+            android:layout_below="@+id/search_panel"
+            android:layout_width="0dp"
+            android:layout_weight="50"
+            android:layout_height="wrap_content"
+            android:text="Mobile No: +9124543333"
+            android:textSize="12sp"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/darkgray"
+            />
+        <TextView
+            android:id="@+id/tvPaidAmount"
+            android:layout_below="@+id/search_panel"
+            android:layout_width="0dp"
+            android:layout_weight="50"
+            android:layout_height="wrap_content"
+            android:text="Paid Amount: 4400"
+            android:textSize="12sp"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/darkgray"
+            />
+
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/ivSuccess"
+        android:layout_marginTop="69dp"
+        android:background="@drawable/ic_paid"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_below="@+id/llMobileno"
+        android:layout_centerHorizontal="true" />
+       <LinearLayout
+        android:id="@+id/llButton"
+        android:layout_marginTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="60dp"
+            android:background="@drawable/button_ripple_effect"
+            android:textColor="@android:color/white"
+            android:text="Close"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</RelativeLayout>

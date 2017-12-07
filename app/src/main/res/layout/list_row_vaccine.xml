@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:weightSum="3">
+
+    <LinearLayout
+        android:id="@+id/duration_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_blue_dark"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="5dp"
+        android:paddingTop="5dp"
+        android:weightSum="100"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/duration_txtvw"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="90"
+            android:text="@string/twoyear"
+            android:textColor="@android:color/white"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/add_medcn_imgvw"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_weight="10"
+            android:src="@drawable/add" />
+    </LinearLayout>
+<LinearLayout
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_weight="2"
+    android:padding="10dp"
+    android:weightSum="100"
+    android:id="@+id/llVaccince"
+    android:layout_height="wrap_content"
+    android:visibility="visible">
+    <TextView
+        android:id="@+id/tvVaccine"
+        android:text="HPV1"
+        android:layout_width="0dp"
+        android:layout_marginLeft="20dp"
+        android:textColor="@color/darkgray"
+        android:layout_weight="45"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/tv_date"
+        android:text="12-09-2017"
+        android:layout_width="0dp"
+        android:textColor="@color/darkgray"
+        android:layout_weight="45"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+
+        android:id="@+id/ivTaken"
+        android:layout_width="0dp"
+        android:layout_weight="10"
+        android:layout_height="30dp"
+         />
+</LinearLayout>
+</LinearLayout>

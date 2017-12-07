@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@android:color/white"
+    android:layout_height="wrap_content"
+    android:paddingBottom="10dp"
+    >
+    <LinearLayout
+        android:id="@+id/card_header"
+        android:padding="20dp"
+        android:weightSum="100"
+        android:orientation="horizontal"
+        android:background="@color/colorAccent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tvAbout"
+            android:layout_width="0dp"
+            android:layout_weight="90"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:layout_gravity="center"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="@string/discountcode"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white" />
+
+        <ImageView
+            android:id="@+id/ivCancel"
+            android:layout_width="0dp"
+            android:layout_weight="10"
+            android:layout_gravity="right"
+            android:src="@drawable/ic_cancel"
+            android:layout_height="20dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/l1Name"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_below="@+id/card_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="100">
+
+        <TextView
+            android:id="@+id/tvnamelabel"
+            android:layout_width="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="50"
+            android:text="@string/discountcode"
+            android:textStyle="bold"
+            android:textColor="@color/darkgray" />
+
+
+        <Spinner
+            android:id="@+id/spCode"
+            android:layout_width="0dp"
+            android:layout_weight="50"
+            android:layout_marginRight="20dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/graylight"
+            style="@style/Widget.AppCompat.Spinner.Underlined"/>
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/llOR"
+        android:layout_below="@+id/l1Name"
+        android:orientation="horizontal"
+        android:weightSum="100"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:background="@color/gray"
+            android:layout_width="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="45"
+            android:layout_height="0.5dp" />
+        <TextView
+            android:id="@+id/tvOR"
+            android:layout_marginLeft="5dp"
+            android:textAlignment="center"
+            android:text="@string/or"
+            android:layout_width="0dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="10"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:background="@color/gray"
+            android:layout_width="0dp"
+            android:layout_weight="45"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_height="0.5dp" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/llCode"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_below="@+id/llOR"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="100">
+
+        <TextView
+            android:id="@+id/tvcodelabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="50"
+            android:text="@string/enterdiscountcode"
+            android:textStyle="bold"
+            android:textColor="@color/darkgray" />
+
+
+        <EditText
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="20dp"
+            android:padding="10dp"
+            android:textColor="@color/darkgray"
+            android:id="@+id/etCode"
+            android:layout_width="0dp"
+            android:layout_weight="50"
+            android:textSize="15sp"
+            android:background="@drawable/border_circle"
+            android:layout_height="wrap_content"
+            android:hint="" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_below="@+id/llCode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:weightSum="100">
+
+
+
+        <Button
+            android:id="@+id/btnADD"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:background="@color/colorPrimary"
+            android:text="@string/add"
+            android:textColor="@android:color/white" />
+
+    </LinearLayout>
+</RelativeLayout>

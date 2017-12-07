@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_marginTop="55dp"
+    android:paddingBottom="20dp"
+    android:background="@android:color/white"
+    android:layout_height="wrap_content"
+    >
+    <LinearLayout
+        android:id="@+id/card_header"
+        android:padding="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tvAbout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="22dp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="Medi1"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimary" />
+
+    </LinearLayout>
+
+<TextView
+    android:id="@+id/tvMedicine"
+    android:text="2mg"
+    android:layout_below="@+id/card_header"
+    android:textColor="@color/darkgray"
+    android:textAlignment="center"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tv_date"
+        android:text="12-08-2017"
+        android:layout_below="@+id/tvMedicine"
+        android:textColor="@color/darkgray"
+        android:textAlignment="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:weightSum="100"
+        android:id="@+id/llButton"
+        android:layout_below="@+id/tv_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:background="@color/colorAccent"
+            android:id="@+id/btnTake"
+            android:text="@string/take"
+            android:layout_below="@+id/tvMedicine"
+            android:layout_marginTop="30dp"
+            android:textSize="20dp"
+            android:textColor="@android:color/white"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_width="0dp"
+            android:layout_weight="50"
+            android:layout_height="wrap_content" />
+        <Button
+            android:background="@color/colorAccent"
+            android:id="@+id/btnSkip"
+            android:text="@string/skip"
+            android:layout_below="@+id/tvMedicine"
+            android:layout_marginTop="30dp"
+            android:textSize="20dp"
+            android:textColor="@android:color/white"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_width="0dp"
+            android:layout_weight="50"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <Button
+        android:background="@color/colorAccent"
+        android:id="@+id/btnClose"
+        android:text="@string/close"
+        android:layout_below="@+id/llButton"
+        android:layout_marginTop="30dp"
+        android:textSize="20dp"
+        android:textColor="@android:color/white"
+        android:layout_marginLeft="70dp"
+        android:layout_marginRight="70dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

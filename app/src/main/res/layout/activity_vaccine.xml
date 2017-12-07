@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="5dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/ivBack"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:paddingRight="15dp"
+                android:src="@drawable/ic_leftarrow" />
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/vaccine"
+                android:textAlignment="center"
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
+
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.Toolbar>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="100">
+
+
+        <Spinner
+            android:id="@+id/spYear"
+            style="@style/Widget.AppCompat.Spinner.Underlined"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="35"
+            android:backgroundTint="@color/graylight" />
+
+        <RelativeLayout
+            android:id="@+id/date_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="35">
+
+            <ImageView
+                android:id="@+id/iv_date"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@mipmap/calendar" />
+
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_marginLeft="2dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_toRightOf="@id/iv_date"
+                android:hint="12/3/2017"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/iv_date"
+                android:background="@color/graylight" />
+        </RelativeLayout>
+
+        <Spinner
+            android:id="@+id/spAge"
+            style="@style/Widget.AppCompat.Spinner.Underlined"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="30"
+            android:backgroundTint="@color/graylight" />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:weightSum="100"
+        android:layout_height="wrap_content">
+        <TextView
+            android:background="@color/colorPrimary"
+            android:textColor="@android:color/white"
+            android:text="@string/vaccine"
+            android:textAlignment="center"
+            android:layout_width="0dp"
+            android:layout_weight="33"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:background="@color/colorPrimary"
+            android:textColor="@android:color/white"
+            android:text="@string/date"
+            android:textAlignment="center"
+            android:layout_width="0dp"
+            android:layout_weight="33"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:background="@color/colorPrimary"
+            android:textColor="@android:color/white"
+            android:text="@string/taken"
+            android:textAlignment="center"
+            android:layout_width="0dp"
+            android:layout_weight="34"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:weightSum="100"
+        android:id="@+id/tvWorkout"
+        android:paddingLeft="10dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:background="@android:color/holo_blue_dark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textColor="@android:color/white"
+            android:text= "@string/sixmonth"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:layout_width="0dp"
+            android:layout_weight="90"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/ivAdd1"
+            android:layout_width="0dp"
+            android:layout_weight="10"
+            android:layout_marginLeft="3dp"
+            android:layout_marginStart="3dp"
+            android:src="@drawable/add"
+            android:layout_height="20dp" />
+    </LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_below="@+id/tvWorkout"
+        android:layout_centerHorizontal="true" />
+
+    <LinearLayout
+        android:id="@+id/tvWorkout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_blue_dark"
+        android:orientation="horizontal"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="5dp"
+        android:paddingTop="5dp"
+        android:weightSum="100">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="90"
+            android:text="@string/twoyear"
+            android:textColor="@android:color/white"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/ivAdd2"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_weight="10"
+            android:src="@drawable/add" />
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view1"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_below="@+id/tvWorkout"
+        android:layout_centerHorizontal="true" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:weightSum="100"
+        android:id="@+id/tvWorkout2"
+        android:paddingLeft="10dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:background="@android:color/holo_blue_dark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textColor="@android:color/white"
+            android:text="@string/fouryear"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:layout_width="0dp"
+            android:layout_weight="90"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/ivAdd3"
+            android:layout_width="0dp"
+            android:layout_weight="10"
+            android:src="@drawable/add"
+            android:layout_height="20dp" />
+    </LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view2"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_below="@+id/tvWorkout"
+        android:layout_centerHorizontal="true" />
+
+</LinearLayout>

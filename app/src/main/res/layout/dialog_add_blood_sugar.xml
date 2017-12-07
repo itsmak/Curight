@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_marginTop="55dp"
+    android:paddingBottom="20dp"
+    android:background="@android:color/white"
+    android:layout_height="wrap_content"
+    >
+    <LinearLayout
+    android:id="@+id/card_header"
+    android:padding="20dp"
+    android:weightSum="100"
+    android:orientation="horizontal"
+    android:background="@color/colorAccent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/tvAbout"
+        android:layout_width="0dp"
+        android:layout_weight="90"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:layout_gravity="center"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="@string/bloodsugar"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white" />
+
+    <ImageView
+        android:id="@+id/ivCancel"
+        android:layout_width="0dp"
+        android:layout_weight="10"
+        android:layout_gravity="right"
+        android:src="@drawable/ic_cancel"
+        android:layout_height="20dp" />
+
+</LinearLayout>
+
+
+
+
+    <ScrollView
+        android:layout_below="@+id/card_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+           android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:paddingLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_gravity="center"
+                android:weightSum="100"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <RelativeLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:orientation="horizontal"
+                    android:layout_width="0dp"
+                    android:layout_weight="50"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:src="@mipmap/calendar"
+                        android:id="@+id/iv_date"
+                        android:layout_width="15dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_height="15dp" />
+                    <TextView
+                        android:layout_below="@+id/iv_date"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_toRightOf="@id/tvStartDate"
+                        android:layout_marginRight="10dp"
+                        android:background="@color/graylight"
+                        android:layout_width="100dp"
+                        android:layout_height="1dp" />
+
+                    <TextView
+                        android:layout_toRightOf="@id/iv_date"
+                        android:id="@+id/tv_date"
+                        android:layout_marginLeft="5dp"
+                        android:text="10/02/2017"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:orientation="horizontal"
+                    android:layout_width="0dp"
+                    android:layout_weight="50"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:src="@mipmap/clock"
+                        android:id="@+id/ivClock"
+                        android:layout_width="15dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_height="15dp" />
+                    <TextView
+                        android:layout_below="@+id/ivClock"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@color/graylight"
+                        android:layout_width="100dp"
+                        android:layout_height="1dp" />
+
+                    <TextView
+                        android:layout_toRightOf="@id/ivClock"
+                        android:id="@+id/tv_time"
+                        android:layout_marginLeft="5dp"
+                        android:text="02:30 PM"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:weightSum="100"
+                android:layout_marginTop="40dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textSize="18sp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:text="@string/befpremeal"
+                    android:layout_width="0dp"
+                    android:layout_weight="50"
+                    android:textAlignment="center"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:textSize="18sp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:text="@string/aftermeal"
+                    android:layout_width="0dp"
+                    android:layout_weight="50"
+                    android:textAlignment="center"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:weightSum="100"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textSize="18sp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:text="mmHg"
+                    android:layout_width="0dp"
+                    android:layout_weight="50"
+                    android:textAlignment="center"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:textSize="18sp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:text="mmHg"
+                    android:layout_width="0dp"
+                    android:layout_weight="50"
+                    android:textAlignment="center"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+              <LinearLayout
+                  android:orientation="horizontal"
+                  android:weightSum="100"
+                  android:layout_marginBottom="20dp"
+                  android:layout_marginTop="20dp"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content">
+                  <EditText
+                      android:id="@+id/etDiastolic"
+                      android:hint="0"
+                      android:layout_marginRight="30dp"
+                      android:layout_marginLeft="30dp"
+                      android:textAlignment="center"
+                      android:layout_width="0dp"
+                      android:layout_weight="50"
+                      android:layout_height="wrap_content" />
+                  <EditText
+                      android:id="@+id/etPulse"
+                      android:hint="0"
+                      android:layout_marginRight="30dp"
+                      android:layout_marginLeft="30dp"
+                      android:textAlignment="center"
+                      android:layout_width="0dp"
+                      android:layout_weight="50"
+                      android:layout_height="wrap_content" />
+
+              </LinearLayout>
+
+
+            <Button
+                android:background="@color/colorAccent"
+                android:id="@+id/btnSubmit"
+                android:text="ADD"
+                android:layout_marginTop="30dp"
+                android:textSize="20dp"
+                android:textColor="@android:color/white"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </ScrollView>
+
+
+
+</RelativeLayout>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="100">
+
+
+        <Spinner
+            android:id="@+id/spYear"
+            style="@style/Widget.AppCompat.Spinner.Underlined"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="60"
+            android:backgroundTint="@color/graylight" />
+
+        <RelativeLayout
+            android:id="@+id/date_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_weight="10">
+        </RelativeLayout>
+
+            <!--<ImageView-->
+                <!--android:id="@+id/iv_date"-->
+                <!--android:layout_width="20dp"-->
+                <!--android:layout_height="20dp"-->
+                <!--android:layout_marginTop="20dp"-->
+                <!--android:background="@mipmap/calendar" />-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/tv_date"-->
+                <!--android:layout_marginLeft="2dp"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="20dp"-->
+                <!--android:layout_toRightOf="@id/iv_date"-->
+                <!--android:hint="12/3/2017"-->
+                <!--android:textSize="15sp" />-->
+
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1dp"-->
+                <!--android:layout_below="@id/iv_date"-->
+                <!--android:background="@color/graylight" />-->
+        <!--</RelativeLayout>-->
+
+        <EditText
+            android:id="@+id/spAge"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="30"
+            android:clickable="false"
+
+            />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:weightSum="100"
+        android:layout_height="wrap_content">
+        <TextView
+            android:background="@color/colorPrimary"
+            android:textColor="@android:color/white"
+            android:text="@string/vaccine"
+            android:textAlignment="center"
+            android:layout_width="0dp"
+            android:layout_weight="33"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:background="@color/colorPrimary"
+            android:textColor="@android:color/white"
+            android:text="@string/date"
+            android:textAlignment="center"
+            android:layout_width="0dp"
+            android:layout_weight="33"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:background="@color/colorPrimary"
+            android:textColor="@android:color/white"
+            android:text="@string/taken"
+            android:textAlignment="center"
+            android:layout_width="0dp"
+            android:layout_weight="34"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/remainder_rclrvw"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true" />
+
+
+</LinearLayout>
+

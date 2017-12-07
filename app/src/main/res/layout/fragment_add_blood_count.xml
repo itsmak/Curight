@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    >
+    <LinearLayout
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+        android:padding="1dp"
+        android:weightSum="100"
+        android:id="@+id/llList"
+        android:layout_below="@id/spUser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tvList"
+            android:text="@string/list"
+            android:layout_marginTop="10dp"
+            android:textSize="18sp"
+            android:layout_marginLeft="30dp"
+            android:textColor="@android:color/white"
+            android:layout_width="0dp"
+            android:layout_weight="80"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/ivAdd"
+            android:padding="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_width="0dp"
+            android:layout_weight="20"
+            android:src="@drawable/add"
+            android:layout_height="40dp" />
+
+    </LinearLayout>
+
+
+    <ScrollView
+    android:layout_below="@+id/llList"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:id="@+id/llprofile"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:weightSum="100"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <ImageView
+            android:background="@drawable/ic_anticpp"
+            android:layout_width="0dp"
+            android:layout_weight="10"
+            android:layout_height="25dp" />
+
+        <EditText
+            android:id="@+id/tvProfile"
+            android:hint="@string/AntiCPP"
+            android:background="@android:color/white"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="80"
+            android:textSize="11sp"
+            android:textColor="@color/darkgray"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:id="@+id/vline1"
+        android:layout_below="@+id/llprofile"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@color/gray"/>
+    <LinearLayout
+        android:layout_below="@+id/vline1"
+        android:id="@+id/llLayout2"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:weightSum="100"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:background="@drawable/ic_crp"
+            android:layout_width="0dp"
+            android:layout_weight="10"
+            android:layout_height="25dp" />
+
+        <EditText
+            android:id="@+id/etCRP"
+            android:background="@android:color/white"
+            android:hint="@string/CRP"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="90"
+            android:textSize="12dp"
+            android:textColor="@color/darkgray"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:id="@+id/vline2"
+        android:layout_below="@+id/llLayout2"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@color/gray"/>
+    <LinearLayout
+        android:layout_below="@+id/vline2"
+        android:id="@+id/llLayout3"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:weightSum="100"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:background="@drawable/ic_esr"
+            android:layout_width="0dp"
+            android:layout_weight="10"
+            android:layout_height="25dp" />
+
+        <EditText
+            android:id="@+id/tvntContactUs"
+            android:layout_width="0dp"
+            android:background="@android:color/white"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="90"
+            android:hint="@string/ESR"
+            android:textSize="12dp" />
+        >
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:id="@+id/vline3"
+        android:layout_below="@+id/llLayout3"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@color/gray"/>
+    <LinearLayout
+        android:layout_below="@+id/vline3"
+        android:id="@+id/llLayout4"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:weightSum="100"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_weight="10"
+            android:background="@drawable/ic_hemoglobin" />
+
+        <EditText
+            android:id="@+id/tvFeedback"
+            android:background="@android:color/white"
+            android:hint="@string/Haemoglobin"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="90"
+            android:textSize="12dp"
+            android:textColor="@color/darkgray"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:id="@+id/vline4"
+        android:layout_below="@+id/llLayout4"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@color/gray"/>
+    <LinearLayout
+        android:layout_below="@+id/vline4"
+        android:id="@+id/llLayout41"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:weightSum="100"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:background="@drawable/ic_hameglobina1c"
+            android:layout_width="0dp"
+            android:layout_weight="10"
+            android:layout_height="25dp" />
+
+        <EditText
+            android:id="@+id/etHbA1c"
+            android:hint="@string/HbA1c"
+            android:background="@android:color/white"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="90"
+            android:textSize="12dp"
+            android:textColor="@color/darkgray"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:id="@+id/vline5"
+        android:layout_below="@+id/llLayout41"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@color/gray"/>
+    <LinearLayout
+        android:layout_below="@+id/vline5"
+        android:id="@+id/llLayout5"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:weightSum="100"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_weight="10"
+            android:background="@drawable/ic_prothrombin" />
+
+        <EditText
+            android:id="@+id/etINR"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="90"
+            android:hint="@string/INR"
+            android:background="@android:color/white"
+            android:textSize="12dp"
+            android:textColor="@color/darkgray"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:id="@+id/vline61"
+        android:layout_below="@+id/llLayout5"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@color/gray"/>
+    <LinearLayout
+        android:layout_below="@id/llLayout5"
+        android:id="@+id/llLayout6"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:weightSum="100"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:background="@drawable/ic_platelet"
+            android:layout_width="0dp"
+            android:layout_weight="10"
+            android:layout_height="25dp" />
+
+        <EditText
+            android:id="@+id/etPlatelet"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="90"
+            android:background="@android:color/white"
+            android:textSize="12sp"
+            android:hint="@string/Platelet"
+            android:textColor="@color/darkgray"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:id="@+id/vline7"
+        android:layout_below="@+id/llLayout6"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@color/gray"/>
+
+
+    <LinearLayout
+        android:layout_below="@id/vline7"
+        android:id="@+id/llLayout8"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:weightSum="100"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:background="@drawable/ic_prolactin"
+            android:layout_width="0dp"
+            android:layout_weight="10"
+            android:layout_height="25dp" />
+
+        <EditText
+            android:id="@+id/etProlactin"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="90"
+            android:textSize="12sp"
+            android:background="@android:color/white"
+            android:hint="@string/Prolactin"
+            android:textColor="@color/darkgray"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:id="@+id/vline8"
+        android:layout_below="@+id/llLayout8"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@color/gray"/>
+
+
+
+    <LinearLayout
+        android:layout_below="@id/vline8"
+        android:id="@+id/llLayout11"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:weightSum="100"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:background="@drawable/ic_red_blood_cell"
+            android:layout_width="0dp"
+            android:layout_weight="10"
+            android:layout_height="25dp" />
+
+        <EditText
+            android:id="@+id/etRBC"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="90"
+            android:textSize="12sp"
+            android:background="@android:color/white"
+            android:hint="@string/RBC"
+            android:textColor="@color/darkgray"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:id="@+id/vline11"
+        android:layout_below="@+id/llLayout11"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@color/gray"/>
+
+    <LinearLayout
+        android:layout_below="@id/vline11"
+        android:id="@+id/llLayout12"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:weightSum="100"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:background="@drawable/ic_rf"
+            android:layout_width="0dp"
+            android:layout_weight="10"
+            android:layout_height="25dp" />
+
+        <EditText
+            android:id="@+id/etRF"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="90"
+            android:background="@android:color/white"
+            android:textSize="12sp"
+            android:hint="@string/RF"
+            android:textColor="@color/darkgray"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:id="@+id/vline14"
+        android:layout_below="@+id/llLayout12"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@color/gray"/>
+    <LinearLayout
+        android:layout_below="@id/vline14"
+        android:id="@+id/llLayout13"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:weightSum="100"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:background="@drawable/ic_white_blood"
+            android:layout_width="0dp"
+            android:layout_weight="10"
+            android:layout_height="25dp" />
+
+        <EditText
+            android:id="@+id/etWBC"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="90"
+            android:textSize="12sp"
+            android:background="@android:color/white"
+            android:hint="@string/WBC"
+            android:textColor="@color/darkgray"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:id="@+id/vline13"
+        android:layout_below="@+id/llLayout13"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@color/gray"/>
+
+</LinearLayout>
+</ScrollView>
+</RelativeLayout>

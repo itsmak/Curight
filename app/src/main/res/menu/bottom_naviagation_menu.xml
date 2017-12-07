@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+  <item
+      android:id="@+id/action_home"
+      android:title="@string/home"
+      android:icon="@drawable/home1"
+      />
+    <item
+        android:id="@+id/action_reminder"
+        android:title="@string/reminder1"
+        android:icon="@drawable/ic_reminder"
+        />
+    <item
+        android:id="@+id/action_article"
+        android:title="@string/article"
+        android:icon="@drawable/ic_article"
+        />
+    <item
+        android:id="@+id/action_track"
+        android:title="@string/track"
+        android:icon="@drawable/ic_track"
+        />
+  <item
+      android:id="@+id/action_profile"
+      android:title="@string/profile"
+      android:icon="@drawable/profile1"
+      />
+
+</menu>

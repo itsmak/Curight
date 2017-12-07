@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+   android:padding="15dp"
+    android:layout_marginBottom="5dp"
+    android:background="@android:color/white"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="match_parent"
+        android:text="25-Sept-2017"
+        android:textSize="12sp"
+        android:layout_marginBottom="10dp"
+        android:textAlignment="center"
+        android:textColor="@color/darkgray"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:weightSum="100"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_weight="24.8"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tvAntiCPP"
+                android:gravity="center"
+                android:text="4444"
+                android:textSize="10sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/ivAntiCPP"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/tvAntiCPP"
+                android:layout_width="match_parent"
+                android:src="@mipmap/ic_anticrpbbb"
+                android:layout_height="20dp" />
+            <TextView
+                android:layout_marginTop="5dp"
+                android:text="@string/AntiCPP"
+                android:layout_below="@+id/ivAntiCPP"
+                android:textSize="10sp"
+                android:layout_marginBottom="5dp"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/gray"
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:layout_height="40dp" />
+
+        <RelativeLayout
+            android:layout_weight="24.8"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tvCRP"
+                android:gravity="center"
+                android:text="4444"
+                android:textSize="10sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/ivCRP"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/tvCRP"
+                android:layout_width="match_parent"
+                android:src="@mipmap/ic_crpb"
+                android:layout_height="20dp" />
+            <TextView
+                android:layout_marginTop="5dp"
+                android:text="@string/CRP"
+                android:layout_below="@+id/ivCRP"
+                android:textSize="10sp"
+                android:layout_marginBottom="5dp"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/gray"
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:layout_height="40dp" />
+        <RelativeLayout
+            android:layout_weight="24.8"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tvESR"
+                android:gravity="center"
+                android:text="4444"
+                android:textSize="10sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/ivESR"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/tvESR"
+                android:layout_width="match_parent"
+                android:src="@drawable/ic_esr"
+                android:layout_height="20dp" />
+            <TextView
+                android:layout_marginTop="5dp"
+                android:text="@string/ESR"
+                android:layout_below="@+id/ivESR"
+                android:textSize="10sp"
+                android:layout_marginBottom="5dp"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/gray"
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:layout_height="40dp" />
+        <RelativeLayout
+            android:layout_weight="24.8"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tvHaemoglobin"
+                android:gravity="center"
+                android:text="4444"
+                android:textSize="10sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/ivHaemoglobin"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/tvHaemoglobin"
+                android:layout_width="match_parent"
+                android:src="@mipmap/ic_hameglobinb"
+                android:layout_height="20dp" />
+            <TextView
+                android:layout_marginTop="5dp"
+                android:text="@string/Haemoglobin"
+                android:layout_below="@+id/ivHaemoglobin"
+                android:textSize="10sp"
+                android:layout_marginBottom="5dp"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/gray"
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp" />
+
+
+    <LinearLayout
+        android:weightSum="100"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_weight="24.8"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tvHbA1c"
+                android:gravity="center"
+                android:text="4444"
+                android:textSize="10sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/ivHbA1c"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/tvHbA1c"
+                android:layout_width="match_parent"
+                android:src="@mipmap/ic_hbacb"
+                android:layout_height="20dp" />
+            <TextView
+                android:layout_marginTop="5dp"
+                android:text="@string/HbA1c"
+                android:layout_below="@+id/ivHbA1c"
+                android:textSize="10sp"
+                android:layout_marginBottom="5dp"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/gray"
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:layout_height="40dp" />
+        <RelativeLayout
+            android:layout_weight="24.8"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tvINR"
+                android:gravity="center"
+                android:text="4444"
+                android:textSize="10sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/ivINR"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/tvINR"
+                android:layout_width="match_parent"
+                android:src="@mipmap/ic_inrb"
+                android:layout_height="20dp" />
+            <TextView
+                android:layout_marginTop="5dp"
+                android:text="@string/INR"
+                android:layout_below="@+id/ivINR"
+                android:textSize="10sp"
+                android:layout_marginBottom="5dp"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/gray"
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:layout_height="40dp" />
+        <RelativeLayout
+            android:layout_weight="24.8"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tvPlatelet"
+                android:gravity="center"
+                android:text="4444"
+                android:textSize="10sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/ivPlatelet"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/tvPlatelet"
+                android:layout_width="match_parent"
+                android:src="@mipmap/ic_plateletcountb"
+                android:layout_height="20dp" />
+            <TextView
+                android:layout_marginTop="5dp"
+                android:text="@string/Platelet"
+                android:layout_below="@+id/ivPlatelet"
+                android:textSize="10sp"
+                android:layout_marginBottom="5dp"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/gray"
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:layout_height="40dp" />
+        <RelativeLayout
+            android:layout_weight="25"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tvProlactin"
+                android:gravity="center"
+                android:text="4444"
+                android:textSize="10sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/ivProlactin"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/tvProlactin"
+                android:layout_width="match_parent"
+                android:src="@mipmap/ic_proctlintestb"
+                android:layout_height="20dp" />
+            <TextView
+                android:layout_marginTop="5dp"
+                android:text="@string/Prolactin"
+                android:layout_below="@+id/ivProlactin"
+                android:textSize="10sp"
+                android:layout_marginBottom="5dp"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/gray"
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp" />
+
+    <LinearLayout
+        android:weightSum="100"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_weight="24.8"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tvRBC"
+                android:gravity="center"
+                android:text="4444"
+                android:textSize="10sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/ivRBC"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/tvRBC"
+                android:layout_width="match_parent"
+                android:src="@mipmap/ic_rbcb"
+                android:layout_height="20dp" />
+            <TextView
+                android:layout_marginTop="5dp"
+                android:text="@string/RBC"
+                android:layout_below="@+id/ivRBC"
+                android:textSize="10sp"
+                android:layout_marginBottom="5dp"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/gray"
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:layout_height="40dp" />
+        <RelativeLayout
+            android:layout_weight="24.8"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tvRF"
+                android:gravity="center"
+                android:text="4444"
+                android:textSize="10sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/ivRF"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/tvRF"
+                android:layout_width="match_parent"
+                android:src="@mipmap/ic_rfb"
+                android:layout_height="20dp" />
+            <TextView
+                android:layout_marginTop="5dp"
+                android:text="@string/RF"
+                android:layout_below="@+id/ivRF"
+                android:textSize="10sp"
+                android:layout_marginBottom="5dp"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/gray"
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:layout_height="40dp" />
+        <RelativeLayout
+            android:layout_weight="25"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tvWBC"
+                android:gravity="center"
+                android:text="4444"
+                android:textSize="10sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/ivWBC"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/tvWBC"
+                android:layout_width="match_parent"
+                android:src="@mipmap/ic_wbcb"
+                android:layout_height="20dp" />
+            <TextView
+                android:layout_marginTop="5dp"
+                android:text="@string/WBC"
+                android:layout_below="@+id/ivWBC"
+                android:textSize="10sp"
+                android:layout_marginBottom="5dp"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/gray"
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp" />
+</LinearLayout>

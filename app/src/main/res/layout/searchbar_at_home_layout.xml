@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/layoutpass"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:orientation="horizontal"
+        android:layout_below="@+id/sliderdots"
+        android:background="@drawable/search_button"
+        android:layout_marginLeft="22dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="5dp"
+        >
+
+        <ImageView
+            android:id="@+id/passwordImg"
+            android:layout_width="16dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="0dp"
+            android:src="@drawable/ic_location"
+            android:paddingBottom="11dp"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp" />
+
+
+
+        >
+        <EditText
+            android:id="@+id/etEmail"
+            android:textColor="#b7b7b7"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_height="40dp"
+
+            android:backgroundTint="#b7b7b7"
+            android:background="@android:color/transparent"
+            android:textColorHint="#b7b7b7"
+            android:hint="Search By City, Locality, Test, Department, Center"
+            android:inputType="text"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+</LinearLayout>
