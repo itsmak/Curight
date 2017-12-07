@@ -11,17 +11,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
-
-import com.innovellent.curight.BuildConfig;
 import com.innovellent.curight.R;
 import com.innovellent.curight.adapter.DiagnosticCenterAdapter;
-import com.innovellent.curight.adapter.DiagnosticTestAdapter;
 import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.Center;
 import com.innovellent.curight.model.DiagnosticCentre;
 import com.innovellent.curight.model.ServerResponseDiagCenter;
-import com.innovellent.curight.model.ServerResponseTest;
-import com.innovellent.curight.model.Test;
 import com.innovellent.curight.model.TestDetail;
 import com.innovellent.curight.utility.Config;
 

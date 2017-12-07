@@ -24,6 +24,15 @@ public class Constants {
     public static final String SNACKS = "Snacks";
     public static final String DINNER = "Dinner";
 
+    public static final String WALKING = "Walking";
+    public static final String RUNNING = "Running";
+    public static final String BICYCLING = "Bicycling";
+    public static final String SWIMMING = "Swimming";
+
+    public static final int SLOW_SPEED = 5;
+    public static final int MEDIUM_SPEED = 10;
+    public static final int FAST_SPEED = 15;
+
     public static final int ADD_FOOD_REQUEST = 1;
 
     public static final String TITLE = "title";

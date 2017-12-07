@@ -2,14 +2,11 @@ package com.innovellent.curight.activities;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -20,25 +17,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-
 import com.innovellent.curight.R;
 import com.innovellent.curight.adapter.DiagnosticTestAdapter;
-import com.innovellent.curight.api.ApiInterface;
-import com.innovellent.curight.model.BookedTest;
-import com.innovellent.curight.model.CreateExercise;
-import com.innovellent.curight.model.ServerResponseBookedTest;
-import com.innovellent.curight.model.ServerResponseCreateExercise;
-import com.innovellent.curight.utility.Config;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by sagar on 9/8/2017.
@@ -97,9 +81,6 @@ public class WalkingActivity extends AppCompatActivity implements View.OnClickLi
         distanceCovered = (EditText) findViewById(R.id.distanceCovered);
         calsBurned = (EditText) findViewById(R.id.calsBurned);
         btnSubmit = (Button) findViewById(R.id.btnSubmit);
-
-
-
     }
 
     public void iniClick() {
@@ -123,7 +104,6 @@ public class WalkingActivity extends AppCompatActivity implements View.OnClickLi
         arrayList.add("Mumbai,MH");
         arrayList.add("Bangalore,KA");
     }
-
 
     public void selectDate() {
         final Calendar c = Calendar.getInstance();
@@ -261,7 +241,7 @@ public class WalkingActivity extends AppCompatActivity implements View.OnClickLi
                 selectDate();
                 break;
             case R.id.btnSubmit:
-                addExercise();
+//                addExercise();
                 break;
         }
     }
@@ -276,47 +256,47 @@ public class WalkingActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
-    public void addExercise() {
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(new Config().SERVER_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        ApiInterface apiInterface = retrofit.create(ApiInterface.class);
-
-        SharedPreferences sharedPreferences = getSharedPreferences("mypref", Context.MODE_PRIVATE);
-        String x_access_token = sharedPreferences.getString("access_token","");
-        long user_id = sharedPreferences.getLong("user_id",0L);
-
-        CreateExercise createExercise = new CreateExercise(user_id+"","Walking",tvTextDate.getText().toString(),tvTextTime.getText().toString(),atTime.getText().toString(),tvSpeed.getText().toString(),distanceCovered.getText().toString(),calsBurned.getText().toString());
-
-        Call<ServerResponseCreateExercise> call = apiInterface.createExercise(x_access_token,createExercise);
-
-        Log.e("CR_EXERCISE","Request URL :: "+call.request().url());
-
-        call.enqueue(new Callback<ServerResponseCreateExercise>() {
-            @Override
-            public void onResponse(Call<ServerResponseCreateExercise> call, Response<ServerResponseCreateExercise> response) {
-
-                if (response.isSuccessful()) {
-
-                    ServerResponseCreateExercise res = response.body();
-
-                    Log.e("CR_EXERCISE","Results ::  "+res.getResults() + "  ## Code ##   "+res.getCode());
-
-                    finish();
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ServerResponseCreateExercise> call, Throwable t) {
-
-            }
-        });
-
-    }
+//    public void addExercise() {
+//
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl(new Config().SERVER_URL)
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build();
+//
+//        ApiInterface apiInterface = retrofit.create(ApiInterface.class);
+//
+//        SharedPreferences sharedPreferences = getSharedPreferences("mypref", Context.MODE_PRIVATE);
+//        String x_access_token = sharedPreferences.getString("access_token","");
+//        long user_id = sharedPreferences.getLong("user_id",0L);
+//
+//        CreateExercise createExercise = new CreateExercise(user_id+"","Walking",tvTextDate.getText().toString(),tvTextTime.getText().toString(),atTime.getText().toString(),tvSpeed.getText().toString(),distanceCovered.getText().toString(),calsBurned.getText().toString());
+//
+//        Call<ServerResponseCreateExercise> call = apiInterface.createExercise(x_access_token,createExercise);
+//
+//        Log.e("CR_EXERCISE","Request URL :: "+call.request().url());
+//
+//        call.enqueue(new Callback<ServerResponseCreateExercise>() {
+//            @Override
+//            public void onResponse(Call<ServerResponseCreateExercise> call, Response<ServerResponseCreateExercise> response) {
+//
+//                if (response.isSuccessful()) {
+//
+//                    ServerResponseCreateExercise res = response.body();
+//
+//                    Log.e("CR_EXERCISE","Results ::  "+res.getResults() + "  ## Code ##   "+res.getCode());
+//
+//                    finish();
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ServerResponseCreateExercise> call, Throwable t) {
+//
+//            }
+//        });
+//
+//    }
 
 
     @Override

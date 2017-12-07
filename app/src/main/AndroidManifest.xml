@@ -3,6 +3,8 @@
     package="com.innovellent.curight">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CALL_PHONE"></uses-permission>
+
 
     <application
         android:name=".CurightApplication"
@@ -151,6 +153,13 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"></activity>
         <activity android:name=".activities.AddFoodConsumptionActivity"></activity>
+        <activity android:name=".activities.AddExerciseActivity">
+
+        </activity>
+        <activity android:name=".activities.DoctorAppointmentActivity">
+
+        </activity>
+        <activity android:name=".activities.SearchActivity"></activity>
     </application>
 
 </manifest>

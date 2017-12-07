@@ -6,6 +6,7 @@ import com.innovellent.curight.model.BloodPressureReport;
 import com.innovellent.curight.model.Calorie;
 import com.innovellent.curight.model.CholesterolReport;
 import com.innovellent.curight.model.CreateExercise;
+import com.innovellent.curight.model.DiagnosticCenterDoctorByDC;
 import com.innovellent.curight.model.DiagnosticCentre;
 import com.innovellent.curight.model.FamilyProfile;
 import com.innovellent.curight.model.FoodCreate;
@@ -14,24 +15,33 @@ import com.innovellent.curight.model.Goal;
 import com.innovellent.curight.model.Login;
 import com.innovellent.curight.model.MyProfile_Response;
 import com.innovellent.curight.model.MyServer_Response;
+import com.innovellent.curight.model.OverviewCenterByDC;
 import com.innovellent.curight.model.POST_UPDATE_CLASS;
+import com.innovellent.curight.model.PhotosCenterByDC;
 import com.innovellent.curight.model.PostBodyClass;
 import com.innovellent.curight.model.PostBodyProfile;
+import com.innovellent.curight.model.SearchingCenter;
 import com.innovellent.curight.model.ServerResponse;
 import com.innovellent.curight.model.ServerResponseAuth;
 import com.innovellent.curight.model.ServerResponseBookedTest;
 import com.innovellent.curight.model.ServerResponseCalorie;
 import com.innovellent.curight.model.ServerResponseCreateExercise;
 import com.innovellent.curight.model.ServerResponseDiagCenter;
+import com.innovellent.curight.model.ServerResponseDoctorAppointment;
+import com.innovellent.curight.model.ServerResponseDoctorByDC;
 import com.innovellent.curight.model.ServerResponseExercise;
 import com.innovellent.curight.model.ServerResponseFood;
 import com.innovellent.curight.model.ServerResponseGetFood;
 import com.innovellent.curight.model.ServerResponseLogin;
 import com.innovellent.curight.model.ServerResponseOffer;
+import com.innovellent.curight.model.ServerResponseOverviewByDC;
+import com.innovellent.curight.model.ServerResponsePhotosByDC;
 import com.innovellent.curight.model.ServerResponseTest;
+import com.innovellent.curight.model.ServerSearchPage;
 import com.innovellent.curight.model.TestBookingCreate;
 import com.innovellent.curight.model.TestBookingDetail;
 import com.innovellent.curight.model.TestBookingId;
+import com.innovellent.curight.model.TestingCenter;
 import com.innovellent.curight.model.UserId;
 import com.innovellent.curight.model.UserIdStr;
 import com.innovellent.curight.model.VACCINE_UPDATE_RESPONSE;
@@ -56,11 +66,29 @@ public interface ApiInterface {
     @GET("test/getalltest")
     Call<ServerResponseTest> getTest();
 
+    @POST("test/gettestbyid")
+    Call<ServerResponseTest> getTestById(@Header("x-access-token") String x_access_token, @Body TestingCenter testingCenter);
+
+    @GET("diagnosticcentre/getalldoctor")
+    Call<ServerResponseDoctorAppointment> getAllDoctor();
+
+    @POST("search/get")
+    Call<ServerSearchPage> getSearch(@Body SearchingCenter searchingCenter );
+
     @POST("diagnosticcentre/gettestmapping")
     Call<ServerResponseDiagCenter> getDcTest(@Body DiagnosticCentre centre);
 
     @POST("diagnosticcentre/gettestdetail")
     Call<ServerResponseDiagCenter> getTestByDc(@Body DiagnosticCentre centre);
+
+    @POST("diagnosticcentre/getdoctorbydc")
+    Call<ServerResponseDoctorByDC> getDoctorByDC(@Body DiagnosticCenterDoctorByDC center);
+
+    @POST("diagnosticcentre/overview")
+    Call<ServerResponseOverviewByDC> getOverviewByDc(@Body OverviewCenterByDC center);
+
+    @POST("diagnosticcentre/getallphotos")
+    Call<ServerResponsePhotosByDC> getPhotosByDC(@Body PhotosCenterByDC center);
 
     @POST("user/authenticate")
     Call<ServerResponseAuth> performAuth(@Body Auth auth);
@@ -78,7 +106,7 @@ public interface ApiInterface {
     Call<ServerResponseExercise> getExercise(@Header("x-access-token") String x_access_token, @Body UserIdStr userIdStr);
 
     @POST("exercise/create")
-    Call<ServerResponseCreateExercise> createExercise(@Header("x-access-token") String x_access_token, @Body CreateExercise createExercise);
+    Call<ServerResponseCreateExercise> createExercise(@Header("x-access-token") String x_access_token, @Body String requestBody);
 
     //Blood Pressure APIs
     @Headers("Content-Type: application/json")

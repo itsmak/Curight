@@ -38,9 +38,9 @@
                     android:layout_marginLeft="2dp"
                     android:layout_marginRight="2dp"
                     android:layout_weight="1"
+                    android:background="@android:color/white"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
-                    android:background="@android:color/white"
                     android:gravity="center|right">
 
                     <EditText
@@ -52,28 +52,30 @@
                         android:drawableLeft="@drawable/ic_search2"
                         android:gravity="center"
                         android:hint="@string/search"
-                        android:textSize="15sp"/>
+                        android:inputType="text"
+                        android:imeOptions="actionSearch"
+                        android:textSize="15sp" />
 
                 </LinearLayout>
 
             </LinearLayout>
 
-<!--            android:paddingLeft="10dp"
+            <!--            android:paddingLeft="10dp"
             android:paddingStart="10dp"
             android:paddingRight="10dp"
             android:paddingEnd="10dp"-->
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/viewPager"
-                android:overScrollMode="never"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
                 android:layout_gravity="center"
-                android:paddingLeft="10dp"
-                android:paddingStart="10dp"
-                android:paddingRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:overScrollMode="never"
                 android:paddingEnd="10dp"
-                android:layout_marginBottom="10dp" />
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingStart="10dp" />
 
             <LinearLayout
                 android:id="@+id/indicator"
@@ -143,30 +145,30 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="120dp"
+                android:layout_gravity="center"
+                android:orientation="horizontal"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
-                android:layout_gravity="center"
-                android:weightSum="2"
-                android:orientation="horizontal">
+                android:weightSum="2">
 
                 <android.support.v7.widget.CardView
                     android:id="@+id/card_view1"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:layout_weight="1"
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
+                    android:layout_weight="1"
                     card_view:contentPadding="0dp">
 
                     <RelativeLayout
                         android:id="@+id/rlBookTest"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center"
                         android:layout_gravity="center"
                         android:background="?android:attr/selectableItemBackground"
                         android:clickable="true"
-                        android:focusable="true">
+                        android:focusable="true"
+                        android:gravity="center">
 
                         <ImageView
                             android:id="@+id/ivBookTest"
@@ -202,9 +204,9 @@
                     android:id="@+id/card_view2"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:layout_weight="1"
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
+                    android:layout_weight="1"
                     card_view:cardCornerRadius="2dp"
                     card_view:contentPadding="0dp">
 
@@ -212,11 +214,11 @@
                         android:id="@+id/rlHealthPackage"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center"
                         android:layout_gravity="center"
                         android:background="?android:attr/selectableItemBackground"
                         android:clickable="true"
-                        android:focusable="true">
+                        android:focusable="true"
+                        android:gravity="center">
 
                         <ImageView
                             android:id="@+id/ivHealthPackage"
@@ -255,48 +257,49 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="120dp"
+                android:layout_gravity="center"
+                android:orientation="horizontal"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
-                android:weightSum="2"
-                android:layout_gravity="center"
-                android:orientation="horizontal">
+                android:weightSum="2">
 
                 <android.support.v7.widget.CardView
                     android:id="@+id/card_view3"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
                     android:layout_margin="5dp"
+                    android:layout_weight="1"
                     card_view:cardCornerRadius="2dp"
                     card_view:contentPadding="0dp">
 
                     <RelativeLayout
+                        android:id="@+id/rlDoctorAppointment"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
                         android:background="?android:attr/selectableItemBackground"
                         android:clickable="true"
                         android:focusable="true"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:gravity="center">
 
                         <ImageView
                             android:id="@+id/ivDoctorAppointment"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
-                            android:layout_marginTop="10dp"
                             android:layout_centerInParent="true"
                             android:layout_marginBottom="10dp"
+                            android:layout_marginTop="10dp"
                             android:background="@mipmap/ic_doctor_appointment5" />
 
                         <TextView
                             android:id="@+id/tvAppontmentOffer"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/doctorappointment"
-                            android:textSize="12sp"
                             android:layout_below="@+id/ivDoctorAppointment"
-                            android:layout_centerHorizontal="true" />
+                            android:layout_centerHorizontal="true"
+                            android:text="@string/doctorappointment"
+                            android:textSize="12sp" />
 
                         <TextView
                             android:id="@+id/tvDoctorOffer"
@@ -314,28 +317,28 @@
                     android:id="@+id/card_view4"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:layout_weight="1"
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
+                    android:layout_weight="1"
                     card_view:cardCornerRadius="2dp"
                     card_view:contentPadding="0dp">
 
                     <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
                         android:background="?android:attr/selectableItemBackground"
                         android:clickable="true"
                         android:focusable="true"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:gravity="center">
 
                         <ImageView
                             android:id="@+id/ivReport"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
-                            android:layout_marginTop="10dp"
                             android:layout_centerInParent="true"
                             android:layout_marginBottom="10dp"
+                            android:layout_marginTop="10dp"
                             android:background="@mipmap/ic_report" />
 
                         <TextView
@@ -357,39 +360,39 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="120dp"
-                android:weightSum="2"
+                android:layout_gravity="center"
+                android:orientation="horizontal"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
-                android:layout_gravity="center"
-                android:orientation="horizontal">
+                android:weightSum="2">
 
                 <android.support.v7.widget.CardView
                     android:id="@+id/card_view5"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:layout_weight="1"
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
+                    android:layout_weight="1"
                     card_view:cardCornerRadius="2dp"
                     card_view:contentPadding="0dp">
 
                     <RelativeLayout
+                        android:id="@+id/rlFood"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
                         android:background="?android:attr/selectableItemBackground"
                         android:clickable="true"
                         android:focusable="true"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:id="@+id/rlFood"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:gravity="center">
 
                         <ImageView
                             android:id="@+id/ivFood"
                             android:layout_width="30dp"
-                            android:layout_marginTop="10dp"
                             android:layout_height="30dp"
                             android:layout_centerInParent="true"
                             android:layout_marginBottom="10dp"
+                            android:layout_marginTop="10dp"
                             android:background="@mipmap/ic_foodfit5" />
 
                         <TextView
@@ -408,41 +411,41 @@
                     android:id="@+id/card_view6"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:layout_weight="1"
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
+                    android:layout_weight="1"
                     card_view:cardCornerRadius="2dp"
                     card_view:contentPadding="0dp">
 
                     <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
                         android:background="?android:attr/selectableItemBackground"
                         android:clickable="true"
                         android:focusable="true"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:gravity="center">
 
                         <ImageView
 
                             android:id="@+id/ivMedicine"
                             android:layout_width="30dp"
-                            android:layout_marginTop="10dp"
                             android:layout_height="30dp"
                             android:layout_centerInParent="true"
                             android:layout_marginBottom="10dp"
+                            android:layout_marginTop="10dp"
                             android:background="@mipmap/ic_median5" />
 
                         <TextView
                             android:id="@+id/tvMedicine"
-                            android:textAlignment="center"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/ivMedicine"
                             android:layout_centerHorizontal="true"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
                             android:text="@string/medicineanddisease"
+                            android:textAlignment="center"
                             android:textSize="12sp" />
 
                     </RelativeLayout>
@@ -487,11 +490,11 @@
                         card_view:contentPadding="10dp">
 
                         <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:background="?android:attr/selectableItemBackground"
                             android:clickable="true"
-                            android:focusable="true"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:focusable="true">
 
                             <ImageView
                                 android:id="@+id/ivNotification2"

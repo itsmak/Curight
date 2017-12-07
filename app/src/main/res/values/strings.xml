@@ -242,7 +242,7 @@
     <string name="height_inches">Height\n(inches)</string>
     <string name="my_goal_formatted">My Goal is: %1$d</string>
     <string name="date_format">yyyy-MM-dd</string>
-
+    <string name="km_h_formatted">%1$d km/h</string>
     <string-array name="location">
         <item>Bangalore</item>
         <item>Kolkatta</item>

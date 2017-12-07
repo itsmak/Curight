@@ -6,13 +6,13 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,11 +22,11 @@ import android.widget.TextView;
 import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
 import com.innovellent.curight.R;
 import com.innovellent.curight.activities.DiagnosticTestListActivity;
+import com.innovellent.curight.activities.DoctorAppointmentActivity;
 import com.innovellent.curight.activities.HomeActivity;
-import com.innovellent.curight.activities.TrackActivity;
+import com.innovellent.curight.activities.SearchActivity;
 import com.innovellent.curight.adapter.CustomAdapter;
 import com.innovellent.curight.adapter.ViewPagerAdapter;
-import com.innovellent.curight.model.CircularViewPagerHandler;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -35,17 +35,18 @@ import java.util.Date;
 public class HomeFragment extends Fragment  implements View.OnClickListener{
     ImageView ivHealthPackage,imageView1,imageView2,imageView3,imageView4,imageView5,imageView6,imageView7,imageView8,imageView9;
     ViewPager viewPager;
-    TextView tvTitle,titleOne;
+    TextView tvTitle,titleOne,titleThree;
+    public static EditText editMobileNo;
     private int   mScrollState;
-    RelativeLayout rlBookTest,rlFood,rlHealthPackage;
+    RelativeLayout rlBookTest,rlFood,rlHealthPackage,rlDoctorAppoinment;
     LinearLayout llSliderdotpanel;
     private int dotscount;
-    //private EditText searchBar;
+
     private ImageView[] dots;
     private ViewPager vpAutoScrollViewPager;
     private int mCurrentPosition = 1;
    // int[] luckyNumbers = {R.drawable.ic_inst, R.drawable.into_1, R.drawable.into_2,R.drawable.into_3, R.drawable.intro_4,R.drawable.intro_5,R.drawable.into_3,R.drawable.ic_inst};
-    int[] luckyNumbers = {R.drawable.into_1,R.drawable.into_1, R.drawable.into_3, R.drawable.into_2,R.drawable.intro_4, R.drawable.intro_5,R.drawable.intro_4};
+    int[] luckyNumbers = {R.drawable.into_1, R.drawable.into_1, R.drawable.into_3, R.drawable.into_2, R.drawable.intro_4, R.drawable.intro_5, R.drawable.intro_4};
 
     // private int[] luckyNumbers = {333,111,222,333,111}; // 333,111 at the beginning and the end for circular swipe purpose
     private int lastPageIndex = luckyNumbers.length;
@@ -132,6 +133,10 @@ public class HomeFragment extends Fragment  implements View.OnClickListener{
         });
 
         return rootView;
+
+
+
+
     }
 
 
@@ -142,12 +147,15 @@ public class HomeFragment extends Fragment  implements View.OnClickListener{
         rlHealthPackage.setOnClickListener(this);
         imageView1.setImageResource(R.drawable.circular_blue);
         ivHealthPackage.setOnClickListener(this);
+        rlDoctorAppoinment.setOnClickListener(this);
 
 
 
     }
 public void init(View rootView){
     titleOne=(TextView)rootView.findViewById(R.id.titleOne);
+    editMobileNo = (EditText)rootView.findViewById(R.id.editMobileNo);
+    titleThree = (TextView)rootView.findViewById(R.id.titleThree);
     viewPager = (ViewPager)rootView.findViewById(R.id.viewPager);
     imageView1=(ImageView)rootView.findViewById(R.id.iv_image1);
     imageView2=(ImageView)rootView.findViewById(R.id.iv_image2);
@@ -157,9 +165,23 @@ public void init(View rootView){
     imageView6=(ImageView)rootView.findViewById(R.id.iv_image6);
     rlBookTest=(RelativeLayout)rootView.findViewById(R.id.rlBookTest);
     rlFood=(RelativeLayout)rootView.findViewById(R.id.rlFood);
+    rlDoctorAppoinment = (RelativeLayout)rootView.findViewById(R.id.rlDoctorAppointment);
     rlHealthPackage=(RelativeLayout)rootView.findViewById(R.id.rlHealthPackage);
     ivHealthPackage=(ImageView)rootView.findViewById(R.id.ivHealthPackage);
   // llSliderdotpanel=(LinearLayout)rootView.findViewById(R.id.llSliderDots);
+
+
+    editMobileNo.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                Intent i = new Intent(getActivity(), SearchActivity.class);
+                startActivity(i);
+                return true;
+            }
+            return false;
+        }
+    });
 }
 
 
@@ -314,13 +336,19 @@ public void timedatepicker(){
                startActivity(i1);
                 break;
 
-
-
+            case R.id.rlDoctorAppointment:
+                Intent i_doctorappointment = new Intent(getActivity(),DoctorAppointmentActivity.class);
+                startActivity(i_doctorappointment);
+                break;
 
 
             }
 
         }
+
+
+
+
 
     }
 
