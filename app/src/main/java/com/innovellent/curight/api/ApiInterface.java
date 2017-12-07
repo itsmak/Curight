@@ -11,6 +11,7 @@ import com.innovellent.curight.model.DiagnosticCentre;
 import com.innovellent.curight.model.FamilyProfile;
 import com.innovellent.curight.model.FoodCreate;
 import com.innovellent.curight.model.FoodItem;
+import com.innovellent.curight.model.GetTestDetailCenter;
 import com.innovellent.curight.model.Goal;
 import com.innovellent.curight.model.Login;
 import com.innovellent.curight.model.MyProfile_Response;
@@ -32,6 +33,7 @@ import com.innovellent.curight.model.ServerResponseDoctorByDC;
 import com.innovellent.curight.model.ServerResponseExercise;
 import com.innovellent.curight.model.ServerResponseFood;
 import com.innovellent.curight.model.ServerResponseGetFood;
+import com.innovellent.curight.model.ServerResponseGetTestDetail;
 import com.innovellent.curight.model.ServerResponseLogin;
 import com.innovellent.curight.model.ServerResponseOffer;
 import com.innovellent.curight.model.ServerResponseOverviewByDC;
@@ -79,7 +81,7 @@ public interface ApiInterface {
     Call<ServerResponseDiagCenter> getDcTest(@Body DiagnosticCentre centre);
 
     @POST("diagnosticcentre/gettestdetail")
-    Call<ServerResponseDiagCenter> getTestByDc(@Body DiagnosticCentre centre);
+    Call<ServerResponseGetTestDetail> getTestByDc(@Body GetTestDetailCenter centre);
 
     @POST("diagnosticcentre/getdoctorbydc")
     Call<ServerResponseDoctorByDC> getDoctorByDC(@Body DiagnosticCenterDoctorByDC center);
