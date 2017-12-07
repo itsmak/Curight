@@ -15,11 +15,11 @@ public class VaccineList {
 
     @SerializedName("vaccineactivityid")
     @Expose
-    private Long vaccineactivityid;
+    private int vaccineactivityid;
 
     @SerializedName("userid")
     @Expose
-    private Long userid;
+    private int userid;
 
     @SerializedName("vaccinename")
     @Expose
@@ -61,19 +61,19 @@ public class VaccineList {
         this.vaccinechartid = vaccinechartid;
     }
 
-    public Long getVaccineactivityid() {
+    public int getVaccineactivityid() {
         return vaccineactivityid;
     }
 
-    public void setVaccineactivityid(Long vaccineactivityid) {
+    public void setVaccineactivityid(int vaccineactivityid) {
         this.vaccineactivityid = vaccineactivityid;
     }
 
-    public Long getUserid() {
+    public int getUserid() {
         return userid;
     }
 
-    public void setUserid(Long userid) {
+    public void setUserid(int userid) {
         this.userid = userid;
     }
 

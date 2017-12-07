@@ -111,6 +111,7 @@ public class VaccineAdapter  extends RecyclerView.Adapter<VaccineAdapter.MyViewH
                        String.valueOf(arrayList.get(position).getAgeinonth()),
                        String.valueOf(arrayList.get(position).getDuedate()),
                        String.valueOf(arrayList.get(position).getDoctorname()),
+                       arrayList.get(position).getUserid(),arrayList.get(position).getVaccineactivityid(),
                        String.valueOf(arrayList.get(position).getComments()));
            }
        });
@@ -129,8 +130,8 @@ public class VaccineAdapter  extends RecyclerView.Adapter<VaccineAdapter.MyViewH
 
         vaccineadddailog.show();
     }
-    private void modifyVaccine(String vaccine_name,String ageinmonth,String DueDate,String doctorname,String details) {
-        vaccineReminderYearDialog = new VaccineReminderYearDialog(mContext, vaccine_name,ageinmonth,DueDate,doctorname,details,new VaccineReminderYearDialog.VaccineReminderYearDialogClickListener(){
+    private void modifyVaccine(String vaccine_name,String ageinmonth,String DueDate,String doctorname,int userid,int vaccineid ,String details) {
+        vaccineReminderYearDialog = new VaccineReminderYearDialog(mContext, vaccine_name,ageinmonth,DueDate,doctorname,userid,vaccineid,details,new VaccineReminderYearDialog.VaccineReminderYearDialogClickListener(){
 
             @Override
             public void onSubmit() {

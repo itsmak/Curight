@@ -215,7 +215,7 @@ public class VaccineFragment extends Fragment implements View.OnClickListener {
                         Log.d(TAG, "onResponse: age: " + result.get(i).getAgeinonth());
 
                        // arrayList.add(new Vaccine(result.get(i).getAge(),"","",true,""));
-                        arrayList.add(new Vaccine(result.get(i).getAge(),"","","","","","","","",true));
+                        arrayList.add(new Vaccine(result.get(i).getAge(),"","","","","","",0,0,true));
                         ArrayList<VaccineList> vlist = result.get(i).getVaccines();
                         Log.d(TAG, "onResponse: each vaccinelist size " +vlist.size());
                         for(int j=0;j<vlist.size();j++)
@@ -226,9 +226,10 @@ public class VaccineFragment extends Fragment implements View.OnClickListener {
                             Log.d(TAG, "onResponse: each comments " +vlist.get(j).getComments());
                             Log.d(TAG, "onResponse: each vacineid" +vlist.get(j).getVaccineactivityid());
                             Log.d(TAG, "onResponse: each vacineid" +vlist.get(j).getUserid());
+                            vlist.get(j).getUserid();
                             arrayList.add(new Vaccine
                                     ("",vlist.get(j).getVaccinename(),vlist.get(j).getVaccinedate(),vlist.get(j).getVaccineduedate(),vlist.get(j).getDoctorname(),
-                                            vlist.get(j).getComments(),result.get(i).getAge(),"","",false));
+                                            vlist.get(j).getComments(),result.get(i).getAge(),vlist.get(j).getUserid(),vlist.get(j).getVaccineactivityid(),false));
 
                             Log.d(TAG, "onResponse: each vaccinelist" +vlist.get(j).getVaccineactivityid());
 

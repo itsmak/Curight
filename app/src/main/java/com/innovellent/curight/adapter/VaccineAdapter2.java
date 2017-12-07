@@ -69,7 +69,7 @@ public class VaccineAdapter2 extends RecyclerView.Adapter<VaccineAdapter2.MyView
             @Override
             public void onClick(View view) {
                 addVaccine(arrayList.get(position).getDate(),arrayList.get(position).getDate(),arrayList.get(position).getDate(),
-                        arrayList.get(position).getDate(),arrayList.get(position).getDate(),arrayList.get(position).getDate());
+                        arrayList.get(position).getDate(),arrayList.get(position).getDate(),1,1,"");
             }
         });
         holder.ivTaken.setImageResource(R.mipmap.ic_cancel);
@@ -77,8 +77,8 @@ public class VaccineAdapter2 extends RecyclerView.Adapter<VaccineAdapter2.MyView
 
 
     }
-    private void addVaccine(String a,String b,String c,String d,String e,String f) {
-        vaccineReminderYearDialog = new VaccineReminderYearDialog(mContext,a,b,c,d,f, new VaccineReminderYearDialog.VaccineReminderYearDialogClickListener(){
+    private void addVaccine(String a,String b,String c,String d,String e,int f,int g,String h) {
+        vaccineReminderYearDialog = new VaccineReminderYearDialog(mContext,a,b,c,d,f,g,h, new VaccineReminderYearDialog.VaccineReminderYearDialogClickListener(){
 
 
             @Override

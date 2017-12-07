@@ -151,10 +151,9 @@
             android:background="@android:color/white"
             android:textSize="15sp"
             android:layout_width="0dp"
-            android:editable="false"
             android:layout_height="wrap_content"
             android:layout_weight="67"
-            android:text="Not Given" />
+            android:hint="Enter Doctor Name" />
 
 
     </LinearLayout>
@@ -196,7 +195,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="67"
-            android:text="NA" />
+            android:hint="Enter Details" />
 
     </LinearLayout>
        <LinearLayout
@@ -227,7 +226,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="35"
             android:textSize="12sp"
-            android:editable="false"
             android:textAlignment="center"
             android:hint="DD/MM/YYY"/>
 
@@ -239,10 +237,9 @@
             android:layout_marginRight="5dp"
             android:layout_weight="35"
             android:textSize="12sp"
-            android:editable="false"
             android:background="@drawable/border_circle"
             android:padding="8dp"
-            android:text="DD/MM/YYYY"
+            android:hint="DD/MM/YYYY"
             android:textAlignment="center" />
 
     </LinearLayout>

@@ -71,15 +71,16 @@ public class VaccineAdapter1 extends RecyclerView.Adapter<VaccineAdapter1.MyView
             @Override
             public void onClick(View view) {
                 addVaccine(arrayList.get(position).getDate(),arrayList.get(position).getDate(),arrayList.get(position).getDate(),
-                        arrayList.get(position).getDate(),arrayList.get(position).getDate(),arrayList.get(position).getDate());
+                        arrayList.get(position).getDate(),arrayList.get(position).getComments(),1,1,
+                        arrayList.get(position).getDate());
             }
         });
         holder.ivTaken.setImageResource(R.mipmap.ic_right);
 
 
     }
-    private void addVaccine(String a,String b,String c,String d,String e,String f) {
-        vaccineReminderYearDialog = new VaccineReminderYearDialog(mContext,a,b,c,d,f, new VaccineReminderYearDialog.VaccineReminderYearDialogClickListener(){
+    private void addVaccine(String a,String b,String c,String d,String e,int f,int g,String h) {
+        vaccineReminderYearDialog = new VaccineReminderYearDialog(mContext,a,b,c,d,f,g,h, new VaccineReminderYearDialog.VaccineReminderYearDialogClickListener(){
 
 
             @Override

@@ -12,8 +12,8 @@ public class Vaccine {
     private String comments;
     private String duedate;
     private String ageinonth;
-    private String userid;
-    private String vaccineactivityid;
+    private int userid;
+    private int vaccineactivityid;
     private boolean visiblity;
 
     public Vaccine(String vaccinename, String date){
@@ -22,7 +22,7 @@ public class Vaccine {
     }
 
     public Vaccine(String duration_age, String vaccinename, String date, String duedate,
-                   String doctorname, String comments, String ageinonth,String userid,String vaccineactivityid, boolean visiblity) {
+                   String doctorname, String comments, String ageinonth,int userid,int vaccineactivityid, boolean visiblity) {
         this.duration_age = duration_age;
         this.vaccinename = vaccinename;
         this.date = date;
@@ -99,19 +99,19 @@ public class Vaccine {
         this.ageinonth = ageinonth;
     }
 
-    public String getUserid() {
+    public int getUserid() {
         return userid;
     }
 
-    public void setUserid(String userid) {
+    public void setUserid(int userid) {
         this.userid = userid;
     }
 
-    public String getVaccineactivityid() {
+    public int getVaccineactivityid() {
         return vaccineactivityid;
     }
 
-    public void setVaccineactivityid(String vaccineactivityid) {
+    public void setVaccineactivityid(int vaccineactivityid) {
         this.vaccineactivityid = vaccineactivityid;
     }
 }
