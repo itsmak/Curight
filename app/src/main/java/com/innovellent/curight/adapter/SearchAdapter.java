@@ -21,7 +21,7 @@ public class SearchAdapter extends  RecyclerView.Adapter<SearchAdapter.ViewHolde
     private ArrayList<String> arrayList = new ArrayList<>();
     private ArrayList<Search> searchListArrayList;
     Context mContext;
-    String doctorname,categoryname,id;
+    String doctorname,categoryname,id,DOCTORNAME;
     String tvcategory,name;
     public SearchAdapter(Context context, ArrayList<String> arrayList, ArrayList<Search> testObjs, String tvcategory) {
         mContext = context;
@@ -44,9 +44,19 @@ public class SearchAdapter extends  RecyclerView.Adapter<SearchAdapter.ViewHolde
          categoryname = searchListArrayList.get(position).getCategory();
          id = searchListArrayList.get(position).getId();
 
+         if (categoryname.equals("DR"))
+         {
+             DOCTORNAME = "Doctor";
+         }
+         if(categoryname.equals("DC")){
+             DOCTORNAME = "DiagnosticCentre";
+         }
+        if(categoryname.equals("TE")){
+            DOCTORNAME = "Test";
+        }
 
         holder.tv_doctorname.setText(doctorname);
-        holder.tv_categoryname.setText(categoryname);
+        holder.tv_categoryname.setText(DOCTORNAME);
 
 
 

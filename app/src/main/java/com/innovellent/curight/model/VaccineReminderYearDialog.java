@@ -34,7 +34,7 @@ public class VaccineReminderYearDialog extends Dialog {
 
     public VaccineReminderYearDialog.VaccineReminderYearDialogClickListener listener;
     Context context;
-    String vaccine_name,ageinmonth,DueDate,doctorname,details,Remainder1,Remainder2;
+    String vaccine_name,ageinmonth,DueDate,doctorname,details,Remainder1,Remainder2,VACCINEDATE,DOCTORNAME,DETAILS;
     int userid,vaccineid;
 //    NumberPicker npDays;
     private static final String BASE_URL ="http://13.59.209.135:8090/diagnosticAPI/webapi/";
@@ -57,9 +57,7 @@ public class VaccineReminderYearDialog extends Dialog {
     }
 
     public interface VaccineReminderYearDialogClickListener {
-
         void onSubmit();
-
     }
 
     @Override
@@ -109,6 +107,9 @@ public class VaccineReminderYearDialog extends Dialog {
             @Override
             public void onClick(View view) {
                // listener.onSubmit();
+                VACCINEDATE = mofy_tkn_edttxt.getText().toString().trim();
+                DOCTORNAME = mdfy_gvnby_edttxt.getText().toString().trim();
+                DETAILS = mdfy_details_edttxt.getText().toString().trim();
                 if (mdfy_remainder1_edttxt.getText().toString().trim().equals(""))
                 {
                     Remainder1 = "default1";
@@ -122,13 +123,13 @@ public class VaccineReminderYearDialog extends Dialog {
                     Remainder2=mdfy_remainder2_edttxt.getText().toString().trim();
                 }
 
-                apical(Remainder1,Remainder2);
+                apical(VACCINEDATE,DOCTORNAME,DETAILS,Remainder1,Remainder2);
             }
         });
 
     }
 
-    private void apical(String remainder1,String remainder2) {
+    private void apical(String VACCINEDATE,String DOCTORNAME,String DETAILS,String remainder1,String remainder2) {
         listener.onSubmit();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -142,7 +143,7 @@ public class VaccineReminderYearDialog extends Dialog {
         Log.d("dialog","onclick: doctor"+doctorname);
         Log.d("dialog","onclick: remainder1"+remainder1);
         Log.d("dialog","onclick: remainder2"+remainder2);
-        POST_UPDATE_CLASS post_update_class = new POST_UPDATE_CLASS(userid,vaccineid,DueDate,details,doctorname,
+        POST_UPDATE_CLASS post_update_class = new POST_UPDATE_CLASS(userid,vaccineid,VACCINEDATE,DETAILS,DOCTORNAME,
                 mdfy_remainder1_edttxt.getText().toString(),mdfy_remainder2_edttxt.getText().toString());
         Call<VACCINE_UPDATE_RESPONSE> call = reditapi.get_vaccine_update(post_update_class);
         call.enqueue(new Callback<VACCINE_UPDATE_RESPONSE>() {

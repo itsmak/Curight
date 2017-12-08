@@ -77,6 +77,7 @@ public class VaccineAdapter  extends RecyclerView.Adapter<VaccineAdapter.MyViewH
                 holder.llVaccince.setBackgroundColor(Color.parseColor("#D9DADD"));
 
             }else{
+
             }
 
             holder.tvVaccine.setText(arrayList.get(position).getVaccinename());

@@ -2,30 +2,35 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingTop="15dp"
+    android:paddingBottom="15dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:weightSum="100">
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="doctorname"
+        android:layout_weight="50"
         android:textStyle="bold"
-        android:layout_margin="20dp"
-        android:textSize="12sp"
-        android:minLines="2"
-        android:gravity="center_horizontal"
+        android:fontFamily="sans-serif"
+        android:textSize="13sp"
+        android:minLines="1"
+        android:gravity="left"
         android:id="@+id/tv_searchdoctorname"/>
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="20dp"
+        android:layout_weight="50"
         android:gravity="right|end"
         android:fontFamily="sans-serif"
         android:textStyle="normal"
-        android:textSize="12sp"
+        android:textSize="13sp"
         android:id="@+id/tv_categoryname"
         android:text="catgoryname"/>
 
