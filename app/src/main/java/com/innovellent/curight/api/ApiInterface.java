@@ -18,6 +18,7 @@ import com.innovellent.curight.model.MyProfile_Response;
 import com.innovellent.curight.model.MyServer_Response;
 import com.innovellent.curight.model.OverviewCenterByDC;
 import com.innovellent.curight.model.POST_UPDATE_CLASS;
+import com.innovellent.curight.model.ParameterPojo;
 import com.innovellent.curight.model.PhotosCenterByDC;
 import com.innovellent.curight.model.PostBodyClass;
 import com.innovellent.curight.model.PostBodyProfile;
@@ -39,6 +40,7 @@ import com.innovellent.curight.model.ServerResponseOffer;
 import com.innovellent.curight.model.ServerResponseOverviewByDC;
 import com.innovellent.curight.model.ServerResponsePhotosByDC;
 import com.innovellent.curight.model.ServerResponseTest;
+import com.innovellent.curight.model.ServerResponseWHRGet;
 import com.innovellent.curight.model.ServerSearchPage;
 import com.innovellent.curight.model.TestBookingCreate;
 import com.innovellent.curight.model.TestBookingDetail;
@@ -47,6 +49,8 @@ import com.innovellent.curight.model.TestingCenter;
 import com.innovellent.curight.model.UserId;
 import com.innovellent.curight.model.UserIdStr;
 import com.innovellent.curight.model.VACCINE_UPDATE_RESPONSE;
+import com.innovellent.curight.model.WHRGetCenter;
+import com.innovellent.curight.model.WhrList;
 
 import java.util.List;
 
@@ -91,6 +95,13 @@ public interface ApiInterface {
 
     @POST("diagnosticcentre/getallphotos")
     Call<ServerResponsePhotosByDC> getPhotosByDC(@Body PhotosCenterByDC center);
+
+    @POST("whr/get")
+    Call<ServerResponseWHRGet> getwhrlistdata(@Body ParameterPojo value);
+
+    @Headers("Content-Type: application/json")
+    @POST("whr/create")
+    Call<ServerResponse<String>> addWHRRecord(@Header("x-access-token") String accessToken, @Body String requestBody);
 
     @POST("user/authenticate")
     Call<ServerResponseAuth> performAuth(@Body Auth auth);

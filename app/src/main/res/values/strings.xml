@@ -157,8 +157,8 @@
     <string name="Platelet">Platelet</string>
     <string name="cholestrol">Cholestrol</string>
     <string name="whr">WHR</string>
-    <string name="waistcircumference">Waist Circumference</string>
-    <string name="hipcircumference">Hip Circumference</string>
+    <string name="waistcircumference">Waist Circumference\n(inches)</string>
+    <string name="hipcircumference_whr">Hip Circumference\n(inches)</string>
 
 
     <string name="googlefitbit">GoogleFitbit</string>
@@ -240,6 +240,7 @@
     <string name="ldl_mg_dl">LDL\n(mg/dL)</string>
     <string name="weight_kg">Weight\n(kg)</string>
     <string name="height_inches">Height\n(inches)</string>
+
     <string name="my_goal_formatted">My Goal is: %1$d</string>
     <string name="date_format">yyyy-MM-dd</string>
     <string name="km_h_formatted">%1$d km/h</string>

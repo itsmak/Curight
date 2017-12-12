@@ -34,12 +34,20 @@ public class LoginActivity extends Activity {
     private EditText etUsername;
     String user_name;
     private User _user;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor et;
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_login);
         etUsername = (EditText) findViewById(R.id.etMobile);
         btContinue=(Button)findViewById(R.id.etContinue);
+
+
+         sharedPreferences = getSharedPreferences("mypref", Context.MODE_PRIVATE);
+         et = sharedPreferences.edit();
 
         btContinue.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,8 +81,9 @@ public class LoginActivity extends Activity {
 
 
                                // if (_user!=null && _user.getUserid()<=0L) {
-                                SharedPreferences sharedPreferences = getSharedPreferences("mypref", Context.MODE_PRIVATE);
-                                SharedPreferences.Editor et = sharedPreferences.edit();
+                                /*SharedPreferences sharedPreferences = getSharedPreferences("mypref", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor et = sharedPreferences.edit();*/
+                                et.putBoolean("Islogin", true);
                                 et.putLong("user_id", _user.getUserid());
                                 et.putString("mobile",_user.getMobile());
                                 et.putString("user_name",_user.getName());

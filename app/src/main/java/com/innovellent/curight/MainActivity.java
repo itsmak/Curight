@@ -1,10 +1,13 @@
 package com.innovellent.curight;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -22,6 +25,11 @@ public class MainActivity extends AppCompatActivity implements AHBottomNavigatio
     AHBottomNavigation bottomNavigation;
     TextView title;
     FrameLayout frameontainer;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor et;
+    boolean Islogin;
+
+    private static final String IS_LOGIN = "Islogin";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,8 +38,19 @@ public class MainActivity extends AppCompatActivity implements AHBottomNavigatio
         setSupportActionBar(toolbar);
         title=(TextView)findViewById(R.id.title);
         bottomNavigation= (AHBottomNavigation) findViewById(R.id.myBottomNavigation_ID);
+
+        sharedPreferences = getSharedPreferences("mypref", Context.MODE_PRIVATE);
+        //Islogin = sharedPreferences.getBoolean(IS_LOGIN, false);
+       // Log.d("CheckLogin===", ""+Islogin);
+
         bottomNavigation.setOnTabSelectedListener(this);
         this.createNavItems();
+    }
+
+
+    // Get Login State
+    public boolean isLoggedIn(){
+        return sharedPreferences.getBoolean(IS_LOGIN, false);
     }
 
     private void createNavItems()
@@ -77,6 +96,16 @@ public class MainActivity extends AppCompatActivity implements AHBottomNavigatio
         {
             Intent i=new Intent(MainActivity.this,TrackActivity.class);
             startActivity(i);
+            /*if (!this.isLoggedIn()) {
+                Intent i = new Intent(MainActivity.this, LoginActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+            }else{
+                Intent i=new Intent(MainActivity.this,TrackActivity.class);
+                startActivity(i);
+            }*/
+
           //  title.setText("Track");
            // TrackFragment trackFragment=new TrackFragment();
             //getSupportFragmentManager().beginTransaction().replace(R.id.content_id,trackFragment).commit();

@@ -1,6 +1,8 @@
 package com.innovellent.curight.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -31,6 +33,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 
+import com.innovellent.curight.LoginActivity;
 import com.innovellent.curight.R;
 import com.innovellent.curight.adapter.CustomSpinnerAdapter2;
 import com.innovellent.curight.adapter.DiagnosticTestAdapter;
