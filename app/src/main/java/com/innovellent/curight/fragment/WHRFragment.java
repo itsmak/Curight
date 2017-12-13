@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 
 import com.innovellent.curight.R;
+import com.innovellent.curight.adapter.BMIAdapter;
 import com.innovellent.curight.adapter.BloodPressureAdapter;
 import com.innovellent.curight.adapter.WHRAdapter;
 import com.innovellent.curight.api.ApiInterface;
@@ -28,6 +29,7 @@ import com.innovellent.curight.model.BMIDayWise;
 import com.innovellent.curight.model.BMIRecord;
 import com.innovellent.curight.model.BMIReport;
 import com.innovellent.curight.model.BloodPressure;
+import com.innovellent.curight.model.DeleteParameterPojo;
 import com.innovellent.curight.model.ParameterPojo;
 import com.innovellent.curight.model.PhotosCenterByDC;
 import com.innovellent.curight.model.ServerResponse;
@@ -42,11 +44,13 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -74,16 +78,18 @@ public class WHRFragment extends Fragment implements View.OnClickListener{
     Button btnStatus_whr;
     int i;
     RelativeLayout rlGraph;
-    GraphView line_graph;
+    GraphView lineGraph;
     ServerResponseWHRGet serverResponseWHRGet;
-    ArrayList<WHR_LIST_DATE> whr_list_dates = new ArrayList<WHR_LIST_DATE>();
-    ArrayList<WHR_LIST> whr_listArrayList = new ArrayList<WHR_LIST>();
-    ArrayList<WhrList> whrLists = new ArrayList<WhrList>();
+    ArrayList<WHR_LIST_DATE> arraylist_whr_list_dates = new ArrayList<WHR_LIST_DATE>();
+    ArrayList<WHR_LIST> arraylist_whr_list = new ArrayList<WHR_LIST>();
+    ArrayList<WhrList> arraylist_whrLists_final = new ArrayList<WhrList>();
     WHR_LIST_DATE daywise;
     WhrList report;
     WHR_LIST record;
     ProgressDialog progressDialog;
     private long userId;
+    JSONObject jsonObject2;
+    int whrid;
     public WHRFragment() {
 
     }
@@ -151,12 +157,13 @@ public class WHRFragment extends Fragment implements View.OnClickListener{
         tvTrends=(TextView)rootView.findViewById(R.id.tvTrends);
         ivWhr = (ImageView) rootView.findViewById(R.id.ivWhr);
         tvList=(TextView)rootView.findViewById(R.id.tvList);
+        tvBP = (TextView)rootView.findViewById(R.id.tvBP);
         ivAdd=(ImageView)rootView.findViewById(R.id.ivAdd);
         btnStatus_whr = (Button)rootView.findViewById(R.id.btnStatus_whr);
         rlGraph=(RelativeLayout) rootView.findViewById(R.id.rlGraph);
         cvCard=(CardView)rootView.findViewById(R.id.cvCard);
         recyclerView=(RecyclerView)rootView.findViewById(R.id.recycler_view);
-        line_graph = (GraphView)rootView.findViewById(R.id.graphLine);
+        lineGraph = (GraphView)rootView.findViewById(R.id.graphLine);
     }
 
 
@@ -269,7 +276,8 @@ public class WHRFragment extends Fragment implements View.OnClickListener{
                             if (serverResponse.getResults().equals("Success")) {
                                 Toast.makeText(getActivity(), "Successfully Added", Toast.LENGTH_SHORT).show();
                                 showProgressDialog("Loading");
-                               // getwhrlistData();
+                                getwhrlistData();
+                                progressDialog.dismiss();
                             }else {
                                 Toast.makeText(getActivity(), "please try again", Toast.LENGTH_SHORT).show();
                             }
@@ -309,13 +317,129 @@ public class WHRFragment extends Fragment implements View.OnClickListener{
                 .build();
 
         ApiInterface apiInterface = retrofit.create(ApiInterface.class);
+        ParameterPojo parameterPojo = new ParameterPojo(7);
+        final Call<ResponseBody> call = apiInterface.getwhrlistdata("abc", parameterPojo);
+
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(response.isSuccessful()){
+                    try {
+
+                        String res_data = response.body().string();
+                        Log.e("res_data", res_data);
+                        List<DataPoint> points = new ArrayList<>();
+                        JSONObject jsonObject = new JSONObject(res_data);
+
+                        String code = jsonObject.getString("Code");
+                        Log.d("code==", code);
+
+                        JSONObject jsonObject1 = jsonObject.getJSONObject("Results");
+                        String whrflag_mystring = jsonObject1.getString("whrFlag");
+                        Log.d("whrflag", whrflag_mystring);
+
+                        tvBP.setText(jsonObject1.getString("whr"));
+                        if (jsonObject1.getString("whrFlag") != null){
+                            switch (jsonObject1.getString("whrFlag")) {
+                                case "U":
+                                    setBlue();
+                                    break;
+                                case "low risk":
+                                    setGreen();
+                                    break;
+                                case "medium risk":
+                                    setYellow();
+                                    break;
+                                case "high risk":
+                                    setRed();
+                                    break;
+                                default:
+                                    setYellow();
+                                    break;
+                            }
+                        }
+
+                        JSONArray jsonArray_parent = jsonObject1.getJSONArray("whrdtoList");
+
+                        for(int i=0; i<jsonArray_parent.length(); i++){
+
+
+                           // String date = jsonObject1.getString("date");
+                           // Log.d("date", date);
+
+                            daywise = new WHR_LIST_DATE();
+                            jsonObject1=jsonArray_parent.getJSONObject(i);
+
+                            daywise.setDate(jsonObject1.getString("date"));
+
+                            arraylist_whr_list_dates.add(daywise);
+
+
+                            JSONArray jsonArray_child = jsonObject1.getJSONArray("whrList");
+                            for(int j=0; j<jsonArray_child.length(); j++){
+
+                                //jsonArray_child = jsonObject1.getJSONArray("whrList");
+                                record = new WHR_LIST();
+                                jsonObject2 = jsonArray_child.getJSONObject(j);
+
+                               // String waist = jsonObject2.getString("waistcircumference");
+                               // Log.d("waist", waist);
+                                whrid= Integer.parseInt(jsonObject2.getString("whrid"));
+                                record.setWhr(jsonObject2.getString("whr"));
+                                record.setGraphflag(jsonObject2.getString("graphflag"));
+                                record.setWaistcircumference(jsonObject2.getString("waistcircumference"));
+                                record.setHipcircumference(jsonObject2.getString("hipcircumference"));
+
+                                arraylist_whr_list.add(record);
+                                points.add(new DataPoint(i, Double.parseDouble(record.getWhr())));
+
+                            }
+
+                        }
+
+                        DataPoint[] pointArray = new DataPoint[arraylist_whr_list.size()];
+                        lineGraph.removeAllSeries();
+                        lineGraph.addSeries(new LineGraphSeries<>(points.toArray(pointArray)));
+                        lineGraph.getViewport().setMinX(0);
+                        lineGraph.getViewport().setMinY(0);
+                        lineGraph.getViewport().setScrollable(false);
+
+
+                        mAdapter = new WHRAdapter(getActivity(), arraylist_whr_list_dates,arraylist_whr_list, new WHRAdapter.OnWHRListener() {
+                            @Override
+                            public void onDelete(int record) {
+                                showProgressDialog("Deleting");
+                                Log.d("whrid", ""+whrid);
+                                DeleteWhrData(whrid);
+                            }
+                        });
+
+                            if(getActivity()!=null){
+
+                               // mAdapter=new WHRAdapter(getActivity(),arraylist_whr_list_dates,arraylist_whr_list);
+                                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+                                recyclerView.setAdapter(mAdapter);
+                            }
+
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
 
 
         //final WHRGetCenter centre = new WHRGetCenter(7);
 
-            try{
-               /* JSONObject paramObject = new JSONObject();
-                paramObject.put("userid", 7);*/
+           /* try{
+               *//* JSONObject paramObject = new JSONObject();
+                paramObject.put("userid", 7);*//*
 
                 ParameterPojo parameterPojo = new ParameterPojo(7);
 
@@ -324,16 +448,18 @@ public class WHRFragment extends Fragment implements View.OnClickListener{
                 call.enqueue(new Callback<ServerResponseWHRGet>() {
                     @Override
                     public void onResponse(Call<ServerResponseWHRGet> call, Response<ServerResponseWHRGet> response) {
-                        ServerResponseWHRGet serverResponse = response.body();
-                         report = serverResponse.getResults();
-                         whr_list_dates = report.getWhrdtoList();
+
                         if(response.body()!=null){
 
-                            String whrflag = report.getWhrFlag();
-                            Log.d("whrflag", whrflag);
+                            ServerResponseWHRGet serverResponse = response.body();
+                            WhrList whrList = serverResponse.getResults();
+                            arraylist_whr_list_dates = whrList.getWhrdtoList();
 
-                            if (report.getWhrFlag() != null){
-                                switch (report.getWhrFlag()) {
+//                            String whrflag = report.getWhrFlag();
+                           // Log.d("whrflag", whrflag);
+
+                            if (whrList.getWhrFlag() != null){
+                                switch (whrList.getWhrFlag()) {
                                     case "U":
                                         setBlue();
                                         break;
@@ -352,7 +478,20 @@ public class WHRFragment extends Fragment implements View.OnClickListener{
                                 }
                             }
 
-                            for(int i=0; i<whr_list_dates.size(); i++){
+                            for(int i =0; i<arraylist_whr_list_dates.size(); i++){
+                                arraylist_whr_list = arraylist_whr_list_dates.get(i).getWhrList();
+                                long L = arraylist_whr_list.size();
+
+
+                                for(int j =0; j<L; j++){
+                                    arraylist_whr_list.add(arraylist_whr_list_dates.get(i).getWhrList().get(j));
+                                }
+
+                            }
+
+
+
+                       *//*     for(int i=0; i<whr_list_dates.size(); i++){
 
                                 whr_listArrayList=whr_list_dates.get(i).getWhrList();
                                 long long1 = whr_listArrayList.size();
@@ -382,9 +521,9 @@ public class WHRFragment extends Fragment implements View.OnClickListener{
                                 }
 
 
-                            }
+                            }*//*
 
-                            /*for(int i=0; i<report.getWhrdtoList().size(); i++){
+                            *//*for(int i=0; i<report.getWhrdtoList().size(); i++){
 
                                 report.getWhrdtoList().get(i);
                                 String date = report.getWhrdtoList().get(i).getDate();
@@ -409,10 +548,11 @@ public class WHRFragment extends Fragment implements View.OnClickListener{
                                 }
 
                                 whr_listArrayList.add(record);
-                            }*/
-                            mAdapter=new WHRAdapter(getActivity(),whr_list_dates,whr_listArrayList);
+                            }*//*
+                            mAdapter=new WHRAdapter(getActivity(),arraylist_whr_list_dates,arraylist_whr_list);
                             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
                             recyclerView.setAdapter(mAdapter);
+
 
                         }
 
@@ -429,7 +569,55 @@ public class WHRFragment extends Fragment implements View.OnClickListener{
             }catch (Exception e){
                 e.printStackTrace();
             }
+*/
 
+
+    }
+
+
+    private void DeleteWhrData(int whr_list){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(new Config().SERVER_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ApiInterface apiInterface = retrofit.create(ApiInterface.class);
+
+        try{
+            DeleteParameterPojo deleteParameterPojo = new DeleteParameterPojo(Integer.parseInt(jsonObject2.getString("whrid")));
+            final Call<ResponseBody> call = apiInterface.deleteWhrdata("abc", deleteParameterPojo);
+
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if(response.isSuccessful()){
+                        progressDialog.dismiss();
+                        try {
+                            String res_delete = response.body().string();
+
+                            JSONObject jsonObject = new JSONObject(res_delete);
+
+                            String results = jsonObject.getString("Results");
+
+                            if(results.equals("Success")){
+                                Toast.makeText(getActivity(), "Successfully Deleted", Toast.LENGTH_SHORT).show();
+                                showProgressDialog("Loading");
+                                progressDialog.dismiss();
+                            }
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                }
+            });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
 
     }

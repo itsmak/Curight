@@ -8,19 +8,24 @@ import com.google.gson.annotations.SerializedName;
 
 public class WHR_LIST {
 
-        @SerializedName("whrid")
         private int whrid;
 
-        @SerializedName("whr")
         private String whr;
 
-        @SerializedName("waistcircumference")
+    public String getGraphflag() {
+        return graphflag;
+    }
+
+    public void setGraphflag(String graphflag) {
+        this.graphflag = graphflag;
+    }
+
+    private String graphflag;
+
         private String waistcircumference;
 
-        @SerializedName("hipcircumference")
         private String hipcircumference;
 
-        @SerializedName("whrFlag")
         private String whrFlag;
 
 

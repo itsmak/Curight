@@ -34,9 +34,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.innovellent.curight.LoginActivity;
 import com.innovellent.curight.R;
 import com.innovellent.curight.adapter.CustomSpinnerAdapter2;
 import com.innovellent.curight.adapter.DiagnosticTestAdapter;
+import com.innovellent.curight.adapter.PROFILE_SPINNER_ADAPTER;
+import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.fragment.ArticleFragment;
 import com.innovellent.curight.fragment.BMIFragment;
 import com.innovellent.curight.fragment.BPFragment;
@@ -56,11 +59,22 @@ import com.innovellent.curight.fragment.WishListFragment;
 import com.innovellent.curight.model.AddBMIRecordsDialog;
 import com.innovellent.curight.model.AddBPRecordsDialog;
 import com.innovellent.curight.model.AddBloodSugarDialog;
+import com.innovellent.curight.model.MyProfile_Response;
+import com.innovellent.curight.model.PROFILE;
+import com.innovellent.curight.model.PROFILE_FEED;
+import com.innovellent.curight.model.PostBodyProfile;
 import com.innovellent.curight.model.ReminderDialog;
 import com.innovellent.curight.utility.BottomNavigationViewHelper;
+import com.innovellent.curight.utility.Config;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class HomeActivity extends AppCompatActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks, View.OnClickListener {
@@ -98,14 +112,22 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
     NumberPicker numberpicker;
     SearchView searchView;
     public boolean activityStartup = true;
-
+    BPFragment bp;
+    PROFILE_SPINNER_ADAPTER customSpinnerAdapter3;
+    ArrayList<PROFILE> spinnerList=new ArrayList<PROFILE>();
+    public static String USER_ID;
+    SharedPreferences sharedPreferences;
+    private static final String IS_LOGIN = "Islogin";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        sharedPreferences = getSharedPreferences("mypref", Context.MODE_PRIVATE);
         init();
-        getData();
+       getSpinnerData();
         onclick();
+        bp = new BPFragment();
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
@@ -142,6 +164,84 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
 
 
     }
+
+
+    public void getData2() {
+
+
+        customSpinnerAdapter3 = new PROFILE_SPINNER_ADAPTER(HomeActivity.this, spinnerList);
+        spUser.setAdapter(customSpinnerAdapter3);
+        spUser.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                //   Toast.makeText(PasswordRecoveryQuestionsActivity.this, spinner3[i], Toast.LENGTH_SHORT).show();
+                //spAge.setText(spinnerList.get(i).getUser_age());
+                Log.e("Userid", spinnerList.get(i).getUser_id());
+                bp.getBloodPressureRecords(spinnerList.get(i).getUser_id());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+    }
+
+
+    private void getSpinnerData() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(new Config().SERVER_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ApiInterface reditapi = retrofit.create(ApiInterface.class);
+
+        PostBodyProfile postBodyprofile = new PostBodyProfile(1, "family");
+        Call<MyProfile_Response> call = reditapi.getProfile(postBodyprofile);
+
+        call.enqueue(new Callback<MyProfile_Response>() {
+            @Override
+            public void onResponse(Call<MyProfile_Response> call, Response<MyProfile_Response> response) {
+
+
+                if (response.body() != null) {
+
+
+                    Log.e("", "profileResponse: code: " + response.body().getCode());
+
+                    ArrayList<PROFILE_FEED> result = response.body().getResults();
+
+                    Log.e("", "profileResponse: listsize: " + result.size());
+                    for (int i = 0; i < result.size(); i++) {
+
+                         USER_ID = result.get(i).getUserid();
+                        //spinnerList.add(new PROFILE("","","",""));
+                        spinnerList.add(new PROFILE(result.get(i).getUserid(), result.get(i).getName(), result.get(i).getAge(), result.get(i).getRelationship()));
+                    }
+                    getData2();
+                   // GetData(result.get(1).getUserid());
+                } else {
+
+                    Toast.makeText(HomeActivity.this, response.message(), Toast.LENGTH_SHORT).show();
+
+                }
+
+                //remainder_rclrvw.setAdapter(mAdapter);
+
+            }
+
+            @Override
+            public void onFailure(Call<MyProfile_Response> call, Throwable t) {
+
+                Log.e("", "onFailure: Somethings went wrong" + t.getMessage());
+                Toast.makeText(HomeActivity.this, "Somethings went wrong", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
+
 
 
     private void fragmentChange(String name) {
@@ -265,57 +365,88 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
 
                         return true;
                     case R.id.action_reminder:
-
-                        tvTitle.setText("Reminder");
-                        ivAdd.setVisibility(View.INVISIBLE);
-                        viewPager.setVisibility(View.VISIBLE);
-                        frameLayout.setVisibility(View.GONE);
-                        tabLayout.setVisibility(View.VISIBLE);
-                        spUser.setVisibility(View.GONE);
-                        adapter.notifyDataSetChanged();
-                        setupViewPagerMedicineReminder(viewPager);
-                        tabLayout.setupWithViewPager(viewPager);
-                        tabLayout.setTabMode(TabLayout.MODE_FIXED);
+                        if (!HomeActivity.this.isLoggedIn()) {
+                            Intent i = new Intent(HomeActivity.this, LoginActivity.class);
+                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(i);
+                        }else {
+                            tvTitle.setText("Reminder");
+                            ivAdd.setVisibility(View.INVISIBLE);
+                            viewPager.setVisibility(View.VISIBLE);
+                            frameLayout.setVisibility(View.GONE);
+                            tabLayout.setVisibility(View.VISIBLE);
+                            spUser.setVisibility(View.GONE);
+                            adapter.notifyDataSetChanged();
+                            setupViewPagerMedicineReminder(viewPager);
+                            tabLayout.setupWithViewPager(viewPager);
+                            tabLayout.setTabMode(TabLayout.MODE_FIXED);
+                        }
 
                         return true;
                     case R.id.action_article:
-                        tvTitle.setText("Article");
-                        ivAdd.setVisibility(View.INVISIBLE);
-                        viewPager.setVisibility(View.VISIBLE);
-                        frameLayout.setVisibility(View.GONE);
-                        tabLayout.setVisibility(View.VISIBLE);
-                        spUser.setVisibility(View.GONE);
-                        adapter.notifyDataSetChanged();
-                        setupViewPagerArticle(viewPager);
-                        tabLayout.setupWithViewPager(viewPager);
-                        tabLayout.setTabMode(TabLayout.MODE_FIXED);
+                        if (!HomeActivity.this.isLoggedIn()) {
+                            Intent i = new Intent(HomeActivity.this, LoginActivity.class);
+                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(i);
+                        }else {
+                            tvTitle.setText("Article");
+                            ivAdd.setVisibility(View.INVISIBLE);
+                            viewPager.setVisibility(View.VISIBLE);
+                            frameLayout.setVisibility(View.GONE);
+                            tabLayout.setVisibility(View.VISIBLE);
+                            spUser.setVisibility(View.GONE);
+                            adapter.notifyDataSetChanged();
+                            setupViewPagerArticle(viewPager);
+                            tabLayout.setupWithViewPager(viewPager);
+                            tabLayout.setTabMode(TabLayout.MODE_FIXED);
+                        }
 
                         return true;
                     case R.id.action_track:
-                        tvTitle.setText("Track");
-                        ivAdd.setVisibility(View.INVISIBLE);
-                        viewPager.setVisibility(View.VISIBLE);
-                        frameLayout.setVisibility(View.GONE);
-                        spUser.setVisibility(View.VISIBLE);
-                        tabLayout.setVisibility(View.VISIBLE);
-                        adapter.notifyDataSetChanged();
-                        setupViewPagerTrack(viewPager);
-                        tabLayout.setupWithViewPager(viewPager);
-                        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-                        tabLayout.setVisibility(View.VISIBLE);
+
+                        /*if (!HomeActivity.this.isLoggedIn()) {
+                            Intent i = new Intent(HomeActivity.this, LoginActivity.class);
+                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(i);
+                        }else {*/
+
+
+                            tvTitle.setText("Track");
+                            ivAdd.setVisibility(View.INVISIBLE);
+                            viewPager.setVisibility(View.VISIBLE);
+                            frameLayout.setVisibility(View.GONE);
+                            spUser.setVisibility(View.VISIBLE);
+                            tabLayout.setVisibility(View.VISIBLE);
+                            adapter.notifyDataSetChanged();
+                            setupViewPagerTrack(viewPager);
+                            tabLayout.setupWithViewPager(viewPager);
+                            tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+                            tabLayout.setVisibility(View.VISIBLE);
+                        //}
 
                         return true;
 
                     case R.id.action_profile:
-                        ivAdd.setVisibility(View.INVISIBLE);
-                        tvTitle.setText("Profile");
-                        viewPager.setVisibility(View.VISIBLE);
-                        frameLayout.setVisibility(View.GONE);
-                        spUser.setVisibility(View.GONE);
-                        tabLayout.setVisibility(View.GONE);
-                        adapter.notifyDataSetChanged();
-                        setupViewPagerProfile(viewPager);
-                        tabLayout.setupWithViewPager(viewPager);
+                        if (!HomeActivity.this.isLoggedIn()) {
+                            Intent i = new Intent(HomeActivity.this, LoginActivity.class);
+                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(i);
+                        }else {
+                            ivAdd.setVisibility(View.INVISIBLE);
+                            tvTitle.setText("Profile");
+                            viewPager.setVisibility(View.VISIBLE);
+                            frameLayout.setVisibility(View.GONE);
+                            spUser.setVisibility(View.GONE);
+                            tabLayout.setVisibility(View.GONE);
+                            adapter.notifyDataSetChanged();
+                            setupViewPagerProfile(viewPager);
+                            tabLayout.setupWithViewPager(viewPager);
+
+                        }
                         return true;
                 }
                 return false;
@@ -324,7 +455,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
 
     }
 
-    public void getData() {
+
+    // Get Login State
+    public boolean isLoggedIn(){
+        Log.d("SPVALUE", ""+sharedPreferences.getBoolean(IS_LOGIN, false));
+        return sharedPreferences.getBoolean(IS_LOGIN, false);
+    }
+
+   /* public void getData() {
 
         CustomSpinnerAdapter2 customSpinnerAdapter3 = new CustomSpinnerAdapter2(HomeActivity.this, spinner1);
         spUser.setAdapter(customSpinnerAdapter3);
@@ -340,7 +478,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
             }
         });
 
-    }
+    }*/
 
     private void setupViewPagerArticle(ViewPager viewPager) {
         adapter = new HomeActivity.ViewPagerAdapter(getSupportFragmentManager());

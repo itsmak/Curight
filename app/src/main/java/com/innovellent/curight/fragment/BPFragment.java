@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,12 +23,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.innovellent.curight.R;
+import com.innovellent.curight.activities.HomeActivity;
 import com.innovellent.curight.adapter.BPAdapter;
+import com.innovellent.curight.adapter.PROFILE_SPINNER_ADAPTER;
 import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.AddBPRecordsDialog;
 import com.innovellent.curight.model.BloodPressureDayWise;
 import com.innovellent.curight.model.BloodPressureRecord;
 import com.innovellent.curight.model.BloodPressureReport;
+import com.innovellent.curight.model.MyProfile_Response;
+import com.innovellent.curight.model.PROFILE;
+import com.innovellent.curight.model.PROFILE_FEED;
+import com.innovellent.curight.model.PostBodyProfile;
 import com.innovellent.curight.model.ServerResponse;
 import com.innovellent.curight.utility.Config;
 import com.jjoe64.graphview.GraphView;
@@ -68,7 +75,7 @@ public class BPFragment extends Fragment implements View.OnClickListener {
     private TextView systolicDiastolic, pulse;
     private Long userId;
     private String accessToken;
-
+    private static final String TAG = ".Retro_MainActivity";
     private ProgressDialog progressDialog;
 
     @Override
@@ -82,10 +89,14 @@ public class BPFragment extends Fragment implements View.OnClickListener {
         userId = sharedPreferences.getLong("user_id", 2L);
 
         showProgressDialog("Loading");
-        getBloodPressureRecords();
+        getBloodPressureRecords(HomeActivity.USER_ID);
 
         return rootView;
     }
+
+
+
+
 
     public void setGreen() {
         ivBmi.setBackgroundResource(R.mipmap.ic_statscopegreen);
@@ -195,7 +206,7 @@ public class BPFragment extends Fragment implements View.OnClickListener {
                             if (serverResponse.getResults().equals("Success")) {
                                 Toast.makeText(getActivity(), "Successfully Added", Toast.LENGTH_SHORT).show();
                                 showProgressDialog("Loading");
-                                getBloodPressureRecords();
+                                getBloodPressureRecords(HomeActivity.USER_ID);
                             } else
                                 Toast.makeText(getActivity(), "Please try again", Toast.LENGTH_SHORT).show();
                         }
@@ -213,7 +224,7 @@ public class BPFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    public void getBloodPressureRecords() {
+    public void getBloodPressureRecords(String user_id) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(new Config().SERVER_URL)
                 .addConverterFactory(ScalarsConverterFactory.create())
@@ -326,13 +337,15 @@ public class BPFragment extends Fragment implements View.OnClickListener {
                 @Override
                 public void onResponse(Call<ServerResponse<String>> call, Response<ServerResponse<String>> response) {
                     if (getActivity() != null) {
+
                         progressDialog.dismiss();
                         if (response.isSuccessful()) {
+
                             ServerResponse<String> serverResponse = response.body();
                             if (serverResponse.getResults().equals("Success")) {
                                 Toast.makeText(getActivity(), "Successfully Deleted", Toast.LENGTH_SHORT).show();
                                 showProgressDialog("Loading");
-                                getBloodPressureRecords();
+                                getBloodPressureRecords(HomeActivity.USER_ID);
                             } else {
                                 Toast.makeText(getActivity(), "please try again", Toast.LENGTH_SHORT).show();
                             }

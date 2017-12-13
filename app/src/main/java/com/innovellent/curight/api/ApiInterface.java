@@ -6,6 +6,7 @@ import com.innovellent.curight.model.BloodPressureReport;
 import com.innovellent.curight.model.Calorie;
 import com.innovellent.curight.model.CholesterolReport;
 import com.innovellent.curight.model.CreateExercise;
+import com.innovellent.curight.model.DeleteParameterPojo;
 import com.innovellent.curight.model.DiagnosticCenterDoctorByDC;
 import com.innovellent.curight.model.DiagnosticCentre;
 import com.innovellent.curight.model.FamilyProfile;
@@ -54,6 +55,7 @@ import com.innovellent.curight.model.WhrList;
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -96,8 +98,13 @@ public interface ApiInterface {
     @POST("diagnosticcentre/getallphotos")
     Call<ServerResponsePhotosByDC> getPhotosByDC(@Body PhotosCenterByDC center);
 
+    @Headers("Content-Type: application/json")
     @POST("whr/get")
-    Call<ServerResponseWHRGet> getwhrlistdata(@Body ParameterPojo value);
+    Call<ResponseBody> getwhrlistdata(@Header("x-access-token") String accessToken, @Body ParameterPojo value);
+
+    @Headers("Content-Type: application/json")
+    @POST("whr/delete")
+    Call<ResponseBody> deleteWhrdata(@Header("x-access-token") String accessToken, @Body DeleteParameterPojo value);
 
     @Headers("Content-Type: application/json")
     @POST("whr/create")

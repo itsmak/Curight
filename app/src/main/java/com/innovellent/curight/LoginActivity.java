@@ -83,7 +83,7 @@ public class LoginActivity extends Activity {
                                // if (_user!=null && _user.getUserid()<=0L) {
                                 /*SharedPreferences sharedPreferences = getSharedPreferences("mypref", Context.MODE_PRIVATE);
                                 SharedPreferences.Editor et = sharedPreferences.edit();*/
-                                et.putBoolean("Islogin", true);
+                                et.putBoolean("Islogin", false);
                                 et.putLong("user_id", _user.getUserid());
                                 et.putString("mobile",_user.getMobile());
                                 et.putString("user_name",_user.getName());

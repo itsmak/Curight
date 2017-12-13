@@ -14,6 +14,7 @@ public class ServerResponseWHRGet<T> {
     @SerializedName("Code")
     private Integer code;
 
+    @SerializedName("Results")
      WhrList Results;
 
 
