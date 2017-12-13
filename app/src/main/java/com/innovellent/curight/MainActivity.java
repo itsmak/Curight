@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements AHBottomNavigatio
             getSupportFragmentManager().beginTransaction().replace(R.id.content_id,homeFragment).commit();
         }else  if (position==1)
         {      title.setText("Reminder");
+
             MedicineReminderFragment reminderFragment=new MedicineReminderFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.content_id,reminderFragment).commit();
         }else  if (position==2)
@@ -75,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements AHBottomNavigatio
         }
         else  if (position==3)
         {
+
             Intent i=new Intent(MainActivity.this,TrackActivity.class);
             startActivity(i);
           //  title.setText("Track");

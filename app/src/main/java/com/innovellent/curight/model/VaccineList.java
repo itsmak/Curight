@@ -11,7 +11,7 @@ public class VaccineList {
 
     @SerializedName("vaccinechartid")
     @Expose
-    private Long vaccinechartid;
+    private int vaccinechartid;
 
     @SerializedName("vaccineactivityid")
     @Expose
@@ -53,11 +53,11 @@ public class VaccineList {
     @Expose
     private String status;
 
-    public Long getVaccinechartid() {
+    public int getVaccinechartid() {
         return vaccinechartid;
     }
 
-    public void setVaccinechartid(Long vaccinechartid) {
+    public void setVaccinechartid(int vaccinechartid) {
         this.vaccinechartid = vaccinechartid;
     }
 

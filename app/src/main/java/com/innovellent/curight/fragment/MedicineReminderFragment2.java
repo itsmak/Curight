@@ -42,7 +42,7 @@ public class MedicineReminderFragment2 extends Fragment implements
         View rootView=inflater.inflate(R.layout.fragment_medicine_reminder2,container,false);
         init(rootView);
         initRegister();
-        addData();
+    //    addData();
         CustomSpinnerAdapter2 customSpinnerAdapter3=new CustomSpinnerAdapter2(getActivity(),spinner1);
         spItem.setAdapter(customSpinnerAdapter3);
         spItem.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -60,15 +60,15 @@ public class MedicineReminderFragment2 extends Fragment implements
         return rootView;
     }
 
-    public void addData(){
-        arrayList.add(new Medicine("DEDEP 20MG tablet","20gm"));
-        arrayList.add(new Medicine("FLUTIVATE 0.05% W/W  OINTMENT","100gm"));
-        arrayList.add(new Medicine("ENTOFOAM 2GM Inhaler","3ml"));
-        mAdapter=new MedicineReminderAdapter(getActivity(),arrayList);
-        recyclerView.setAdapter(mAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-    }
+//    public void addData(){
+//        arrayList.add(new Medicine("DEDEP 20MG tablet","20gm"));
+//        arrayList.add(new Medicine("FLUTIVATE 0.05% W/W  OINTMENT","100gm"));
+//        arrayList.add(new Medicine("ENTOFOAM 2GM Inhaler","3ml"));
+//        mAdapter=new MedicineReminderAdapter(getActivity(),arrayList);
+//        recyclerView.setAdapter(mAdapter);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//
+//    }
     public void init(View rootView){
         spItem=(Spinner)rootView.findViewById(R.id.spItem);
        // ivReminder=(ImageView)rootView.findViewById(R.id.ivReminder);

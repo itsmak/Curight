@@ -11,15 +11,12 @@ import android.view.View;
 import android.view.Window;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.NumberPicker;
 import android.widget.TextView;
-
+import android.widget.Toast;
 import com.innovellent.curight.R;
 import com.innovellent.curight.api.ApiInterface;
-
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -32,32 +29,26 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class VaccineReminderYearDialog extends Dialog {
 
+    private Vaccine item;
     public VaccineReminderYearDialog.VaccineReminderYearDialogClickListener listener;
     Context context;
     String vaccine_name,ageinmonth,DueDate,doctorname,details,Remainder1,Remainder2,VACCINEDATE,DOCTORNAME,DETAILS;
-    int userid,vaccineid;
+    int userid,vaccineid,vaccinechartid;
 //    NumberPicker npDays;
     private static final String BASE_URL ="http://13.59.209.135:8090/diagnosticAPI/webapi/";
     private int mYear, mMonth, mDay;
     TextView mdfy_header_txtvw;
     EditText modify_due_edttxt,mofy_tkn_edttxt,mdfy_gvnby_edttxt,mdfy_details_edttxt,mdfy_remainder1_edttxt,mdfy_remainder2_edttxt;
-    public VaccineReminderYearDialog(Context context, String vaccine_name,
-     String ageinmonth,String DueDate,String doctorname,int userid,int vaccineid,String details,VaccineReminderYearDialog.VaccineReminderYearDialogClickListener listener) {
+    public VaccineReminderYearDialog(Context context, Vaccine item,VaccineReminderYearDialog.VaccineReminderYearDialogClickListener listener) {
         super(context);
         this.context = context;
-        this.vaccine_name = vaccine_name;
-        this.ageinmonth = ageinmonth;
-        this.DueDate = DueDate;
-        this.doctorname = doctorname;
-        this.userid = userid;
-        this.vaccineid = vaccineid;
-        this.details = details;
+        this.item = item;
         this.listener = listener;
-
-    }
+}
 
     public interface VaccineReminderYearDialogClickListener {
-        void onSubmit();
+        void onSubmit(Vaccine myupdatedItem, String remainder1, String remainder2);
+
     }
 
     @Override
@@ -73,11 +64,11 @@ public class VaccineReminderYearDialog extends Dialog {
         mdfy_remainder2_edttxt = (EditText) findViewById(R.id.mdfy_remainder2_edttxt);
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        mdfy_header_txtvw.setText(vaccine_name+" at "+ageinmonth);
-        modify_due_edttxt.setText(DueDate);
-        mofy_tkn_edttxt.setText(DueDate);
-        mdfy_gvnby_edttxt.setText(doctorname);
-        mdfy_details_edttxt.setText(doctorname);
+        mdfy_header_txtvw.setText(item.getVaccinename()+" at "+item.getAgeinonth());
+        modify_due_edttxt.setText(item.getDuedate());
+        mofy_tkn_edttxt.setText(item.getDate());
+        mdfy_gvnby_edttxt.setText(item.getDoctorname());
+        mdfy_details_edttxt.setText(item.getComments());
         mofy_tkn_edttxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,7 +90,7 @@ public class VaccineReminderYearDialog extends Dialog {
         findViewById(R.id.btnCancel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onSubmit();
+              dismiss();
 
             }
         });
@@ -110,56 +101,57 @@ public class VaccineReminderYearDialog extends Dialog {
                 VACCINEDATE = mofy_tkn_edttxt.getText().toString().trim();
                 DOCTORNAME = mdfy_gvnby_edttxt.getText().toString().trim();
                 DETAILS = mdfy_details_edttxt.getText().toString().trim();
-                if (mdfy_remainder1_edttxt.getText().toString().trim().equals(""))
-                {
-                    Remainder1 = "default1";
-                }else {
-                    Remainder1 = mdfy_remainder1_edttxt.getText().toString().trim();
-                }
-                if (mdfy_remainder2_edttxt.getText().toString().trim().equals(""))
-                {
-                    Remainder2 = "default2";
-                }else {
-                    Remainder2=mdfy_remainder2_edttxt.getText().toString().trim();
-                }
+                Remainder1 = mdfy_remainder1_edttxt.getText().toString().trim();
+                Remainder2=mdfy_remainder2_edttxt.getText().toString().trim();
 
-                apical(VACCINEDATE,DOCTORNAME,DETAILS,Remainder1,Remainder2);
+                listener.onSubmit(new Vaccine(item.getDuration_age(),item.getVaccinename(),VACCINEDATE,item.getDuedate(),DOCTORNAME,DETAILS,item.getAgeinonth(),item.getUserid(),
+                        item.getVaccineactivityid(),item.getVaccinechartid(),true),Remainder1,Remainder2);
+        //        apical(VACCINEDATE,DOCTORNAME,DETAILS,Remainder1,Remainder2);
             }
         });
 
     }
 
-    private void apical(String VACCINEDATE,String DOCTORNAME,String DETAILS,String remainder1,String remainder2) {
-        listener.onSubmit();
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        ApiInterface reditapi = retrofit.create(ApiInterface.class);
-        Log.d("dialog","onclick: userid"+userid);
-        Log.d("dialog","onclick: vaccineid"+vaccineid);
-        Log.d("dialog","onclick: duedate"+DueDate);
-        Log.d("dialog","onclick: details"+details);
-        Log.d("dialog","onclick: doctor"+doctorname);
-        Log.d("dialog","onclick: remainder1"+remainder1);
-        Log.d("dialog","onclick: remainder2"+remainder2);
-        POST_UPDATE_CLASS post_update_class = new POST_UPDATE_CLASS(userid,vaccineid,VACCINEDATE,DETAILS,DOCTORNAME,
-                mdfy_remainder1_edttxt.getText().toString(),mdfy_remainder2_edttxt.getText().toString());
-        Call<VACCINE_UPDATE_RESPONSE> call = reditapi.get_vaccine_update(post_update_class);
-        call.enqueue(new Callback<VACCINE_UPDATE_RESPONSE>() {
-
-            @Override
-            public void onResponse(Call<VACCINE_UPDATE_RESPONSE> call, Response<VACCINE_UPDATE_RESPONSE> response) {
-                Log.d("Dialog", "remainderResponse: code: " +response.body().getCode());
-                Log.d("Dialog", "remainderResponse: code: " +response.body().getCode());
-            }
-
-            @Override
-            public void onFailure(Call<VACCINE_UPDATE_RESPONSE> call, Throwable t) {
-
-            }
-        });
-    }
+//    private void apical_modify(String VACCINEDATE,String DOCTORNAME,String DETAILS,String remainder1,String remainder2) {
+//        listener.onSubmit();
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl(BASE_URL)
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build();
+//        ApiInterface reditapi = retrofit.create(ApiInterface.class);
+//        Log.d("dialog","onclick: userid"+userid);
+//        Log.d("dialog","onclick: vaccineactivityid"+vaccineid);
+//        Log.d("dialog","onclick: vaccinechart"+vaccinechartid);
+//        Log.d("dialog","onclick: vaccinedate"+VACCINEDATE);
+//        Log.d("dialog","onclick: comments"+DETAILS);
+//        Log.d("dialog","onclick: doctorname"+DOCTORNAME);
+//        Log.d("dialog","onclick: remainder1"+remainder1);
+//        Log.d("dialog","onclick: remainder2"+remainder2);
+//        POST_UPDATE_CLASS post_update_class = new POST_UPDATE_CLASS(userid,vaccineid,vaccinechartid,VACCINEDATE,DETAILS,DOCTORNAME,
+//                mdfy_remainder1_edttxt.getText().toString(),mdfy_remainder2_edttxt.getText().toString());
+//        Call<VACCINE_UPDATE_RESPONSE> call = reditapi.get_vaccine_update(post_update_class);
+//        call.enqueue(new Callback<VACCINE_UPDATE_RESPONSE>() {
+//
+//            @Override
+//            public void onResponse(Call<VACCINE_UPDATE_RESPONSE> call, Response<VACCINE_UPDATE_RESPONSE> response) {
+//
+//                if (response.isSuccessful()){
+//                    Toast.makeText(context,"Successfully Updated!",Toast.LENGTH_SHORT).show();
+//
+//                    Log.d("Dialog", "remainderResponse: code: " +response.body());
+//                    Log.d("Dialog", "remainderReseponse: code: " +response.body().getCode());
+//                    Log.d("Dialog", "remainderResponse: result: " +response.body().getResults());
+////                    VaccineFragment vf = new VaccineFragment();
+////                    vf.GetData(String.valueOf(userid));
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<VACCINE_UPDATE_RESPONSE> call, Throwable t) {
+//                Toast.makeText(context,"Somethings went wrong",Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
 
 
     public void selectDate(final EditText setedttxt) {

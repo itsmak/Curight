@@ -96,9 +96,9 @@ public class VaccineActivity extends AppCompatActivity implements View.OnClickLi
 
     public void getData(){
 
-        mAdapter=new VaccineAdapter(VaccineActivity.this,arrayList);
-        recycler_view.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-        recycler_view.setAdapter(mAdapter);
+//        mAdapter=new VaccineAdapter(VaccineActivity.this,arrayList);
+//        recycler_view.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+//        recycler_view.setAdapter(mAdapter);
 
         mAdapter1=new VaccineAdapter1(VaccineActivity.this,arrayList1);
         recycler_view1.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));

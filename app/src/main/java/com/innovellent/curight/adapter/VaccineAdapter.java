@@ -2,6 +2,7 @@ package com.innovellent.curight.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,14 +11,27 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.innovellent.curight.R;
+import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.fragment.AddRemainder_FRAGMENT_DAILOG;
+import com.innovellent.curight.fragment.VaccineFragment;
+import com.innovellent.curight.model.JSON_FEED;
+import com.innovellent.curight.model.MyServer_Response;
+import com.innovellent.curight.model.PostBodyClass;
 import com.innovellent.curight.model.Vaccine;
+import com.innovellent.curight.model.VaccineList;
 import com.innovellent.curight.model.VaccineReminderYearDialog;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by sagar on 9/13/2017.
@@ -28,8 +42,20 @@ public class VaccineAdapter  extends RecyclerView.Adapter<VaccineAdapter.MyViewH
     private ArrayList<Vaccine> arrayList = new ArrayList<>();
     private Context mContext;
     private String state;
+    private final OnItemClickListener listener;
+    private final int position;
+
+    RecyclerView remainder_rclrvw;
     VaccineReminderYearDialog vaccineReminderYearDialog;
+    private static final String BASE_URL ="http://13.59.209.135:8090/diagnosticAPI/webapi/";
     AddRemainder_FRAGMENT_DAILOG vaccineadddailog;
+    public interface OnItemClickListener {
+
+        void onItemClick(Vaccine item,int position);
+        void onItemClick_modify(Vaccine myitem, int position);
+    }
+
+    // VaccineAdapter mAdapter;
     class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvVaccine;
@@ -38,6 +64,7 @@ public class VaccineAdapter  extends RecyclerView.Adapter<VaccineAdapter.MyViewH
         LinearLayout   llVaccince,duration_layout;
         MyViewHolder(View view) {
             super(view);
+        //    remainder_rclrvw = (RecyclerView) view.findViewById(R.id.remainder_rclrvw);
             duration_layout = (LinearLayout) view.findViewById(R.id.duration_layout);
             tvVaccine = (TextView) view.findViewById(R.id.tvVaccine);
             tvDate = (TextView) view.findViewById(R.id.tv_date);
@@ -49,10 +76,11 @@ public class VaccineAdapter  extends RecyclerView.Adapter<VaccineAdapter.MyViewH
         }
     }
 
-    public VaccineAdapter(Context context,ArrayList<Vaccine> arrayList) {
+    public VaccineAdapter(Context context,ArrayList<Vaccine> arrayList,int position,OnItemClickListener listener) {
         mContext = context;
         this.arrayList = arrayList;
-
+        this.listener = listener;
+        this.position = position;
     }
 
     @Override
@@ -79,7 +107,6 @@ public class VaccineAdapter  extends RecyclerView.Adapter<VaccineAdapter.MyViewH
             }else{
 
             }
-
             holder.tvVaccine.setText(arrayList.get(position).getVaccinename());
             holder.tvDate.setText(arrayList.get(position).getDuedate());
             Log.d("duedate", String.valueOf(arrayList.get(position).getDate()));
@@ -90,9 +117,13 @@ public class VaccineAdapter  extends RecyclerView.Adapter<VaccineAdapter.MyViewH
             }
         }
 
-        Log.d("adapter visiblity", String.valueOf(arrayList.get(position).isVisiblity()));
-        Log.d("adapter doctor", String.valueOf(arrayList.get(position).getDoctorname()));
-        Log.d("adapter details", String.valueOf(arrayList.get(position).getComments()));
+        Log.d("adapter visiblity", "adapter"+String.valueOf(arrayList.get(position).isVisiblity()));
+        Log.d("adapter doctor", "adapter doctorname"+String.valueOf(arrayList.get(position).getDoctorname()));
+        Log.d("adapter details", "adapter comments"+String.valueOf(arrayList.get(position).getComments()));
+        Log.d("adapter userid", "adapter userid"+String.valueOf(arrayList.get(position).getUserid()));
+        Log.d("adapter vaccineid", "adapter userid"+String.valueOf(arrayList.get(position).getVaccineactivityid()));
+        Log.d("adapter vaccineid", "adapter vaccinename"+String.valueOf(arrayList.get(position).getVaccinename()));
+      //  Log.d("adapter vaccineid", "adapter vaccinechartid"+String.valueOf(arrayList.get(position).));
         if(position%2==0){
           holder.llVaccince.setBackgroundColor(Color.parseColor("#D9DADD"));
 
@@ -102,50 +133,23 @@ public class VaccineAdapter  extends RecyclerView.Adapter<VaccineAdapter.MyViewH
       holder.add_medcn_imgvw.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View view) {
-              addVaccine();
+//
+              listener.onItemClick(arrayList.get(position),position);
           }
       });
       holder.llVaccince.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
-               modifyVaccine(String.valueOf(arrayList.get(position).getVaccinename()),
-                       String.valueOf(arrayList.get(position).getAgeinonth()),
-                       String.valueOf(arrayList.get(position).getDuedate()),
-                       String.valueOf(arrayList.get(position).getDoctorname()),
-                       arrayList.get(position).getUserid(),arrayList.get(position).getVaccineactivityid(),
-                       String.valueOf(arrayList.get(position).getComments()));
+
+               listener.onItemClick_modify(arrayList.get(position),position);
            }
        });
-      //  holder.ivTaken.setImageResource(R.mipmap.ic_right);
     }
 
-    private void addVaccine() {
-        vaccineadddailog = new AddRemainder_FRAGMENT_DAILOG(mContext, new AddRemainder_FRAGMENT_DAILOG.AddRemainder_FRAGMENT_DAILOGClickListener(){
 
-
-            @Override
-            public void onSubmit() {
-                vaccineadddailog.dismiss();
-            }
-        });
-
-        vaccineadddailog.show();
-    }
-    private void modifyVaccine(String vaccine_name,String ageinmonth,String DueDate,String doctorname,int userid,int vaccineid ,String details) {
-        vaccineReminderYearDialog = new VaccineReminderYearDialog(mContext, vaccine_name,ageinmonth,DueDate,doctorname,userid,vaccineid,details,new VaccineReminderYearDialog.VaccineReminderYearDialogClickListener(){
-
-            @Override
-            public void onSubmit() {
-                vaccineReminderYearDialog.dismiss();
-            }
-        });
-
-        vaccineReminderYearDialog.show();
-
-
-    }
     @Override
     public int getItemCount() {
         return arrayList.size();
     }
+
 }

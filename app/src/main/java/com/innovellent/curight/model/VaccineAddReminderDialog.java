@@ -21,7 +21,7 @@ public class VaccineAddReminderDialog extends Dialog {
     public VaccineAddReminderDialog.VaccineAddReminderDialogClickListener listener;
     Context context;
     NumberPicker npDays;
-    public VaccineAddReminderDialog(Context context, VaccineAddReminderDialog.VaccineAddReminderDialogClickListener listener) {
+    public VaccineAddReminderDialog(Context context,VaccineAddReminderDialog.VaccineAddReminderDialogClickListener listener) {
         super(context);
         this.context = context;
         this.listener = listener;

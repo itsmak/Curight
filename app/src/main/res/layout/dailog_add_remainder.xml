@@ -9,24 +9,62 @@
 
     <LinearLayout
         android:id="@+id/l1Name"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:padding="5dp"
         android:layout_below="@+id/tvVaccinceTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:background="@color/colorPrimary"
         android:weightSum="100">
 
         <TextView
             android:id="@+id/tvnamelabel"
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Tdap/Td at 5yrs"
             android:textAlignment="center"
             android:textStyle="bold"
-            android:textColor="@color/darkgray" />
+            android:textColor="@color/white" />
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/l0"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_below="@+id/l1Name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        android:weightSum="100">
+
+        <TextView
+            android:id="@+id/vaccinename_txtvw"
+            android:layout_width="0dp"
+            android:textColor="@color/darkgray"
+            android:layout_height="wrap_content"
+            android:layout_weight="30"
+            android:text="Name" />
+
+        <TextView
+            android:textColor="@color/darkgray"
+            android:id="@+id/nameOnlabelcoumn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text=":" />
+
+        <EditText
+            android:textColor="@color/darkgray"
+            android:background="@android:color/white"
+            android:id="@+id/vcname_edttxt"
+            android:layout_width="0dp"
+            android:textSize="15sp"
+            android:layout_height="wrap_content"
+            android:layout_weight="67"
+            android:hint="Enter vaccine Name" />
 
 
     </LinearLayout>
@@ -35,11 +73,12 @@
         android:id="@+id/l1"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:layout_below="@+id/l1Name"
+        android:layout_below="@+id/l0"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
+        android:visibility="gone"
         android:weightSum="100">
 
         <TextView
@@ -66,7 +105,7 @@
             android:textSize="15sp"
             android:layout_height="wrap_content"
             android:layout_weight="67"
-            android:text="12-08-2017" />
+            android:hint="Enter Due On Date" />
 
 
     </LinearLayout>
@@ -103,10 +142,11 @@
             android:id="@+id/addTakeOn_edtxt"
             android:background="@android:color/white"
             android:layout_width="0dp"
+            android:editable="false"
             android:textSize="15sp"
             android:layout_height="wrap_content"
             android:layout_weight="67"
-            android:text="12-08-2017" />
+            android:hint="Enter Date Taken On" />
 
 
     </LinearLayout>
@@ -148,7 +188,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="67"
-            android:text="Not Given" />
+            android:hint="Enter Doctor Name" />
 
 
     </LinearLayout>
@@ -187,7 +227,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="67"
-            android:text="NA" />
+            android:hint="Enter you detals" />
 
     </LinearLayout>
     <LinearLayout
@@ -217,6 +257,7 @@
             android:background="@drawable/border_circle"
             android:layout_height="wrap_content"
             android:layout_weight="35"
+            android:editable="false"
             android:textSize="12sp"
             android:textAlignment="center"
             android:hint="DD/MM/YYY"/>
@@ -228,12 +269,12 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="5dp"
             android:layout_weight="35"
+            android:editable="false"
             android:textSize="12sp"
             android:background="@drawable/border_circle"
             android:padding="8dp"
-            android:text="DD/MM/YYYY"
+            android:hint="DD/MM/YYYY"
             android:textAlignment="center" />
-
 
     </LinearLayout>
 
