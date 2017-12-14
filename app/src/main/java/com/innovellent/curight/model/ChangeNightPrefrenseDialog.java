@@ -14,31 +14,30 @@ import android.widget.TextView;
 import com.innovellent.curight.R;
 
 /**
- * Created by sagar on 9/19/2017.
+ * Created by Mak on 12/14/2017.
  */
 
-public class ChangeReminderPreferenceDialog extends Dialog {
-
-    public ChangeReminderPreferenceDialog.ChangeReminderPreferenceDialogClickListener listener;
+public class ChangeNightPrefrenseDialog extends Dialog {
+    private Medicine item;
+    public ChangeNightPrefrenseDialog.ChangeNightPrefrenseDialogClickListener listener;
     Context context;
     public ImageView ivCancel;
     EditText etComments;
     TextView tv_AboutDetails;
     String about;
 
-    public ChangeReminderPreferenceDialog(Context context, ChangeReminderPreferenceDialog.ChangeReminderPreferenceDialogClickListener listener) {
+    public ChangeNightPrefrenseDialog(Context context, Medicine item, ChangeNightPrefrenseDialog.ChangeNightPrefrenseDialogClickListener listener) {
         super(context);
         this.context = context;
+        this.item = item;
         this.listener = listener;
-
     }
 
-    public interface ChangeReminderPreferenceDialogClickListener {
+    public interface ChangeNightPrefrenseDialogClickListener {
+        void onTake(Medicine updateditems);
 
-        void onSubmit(String change);
-
+        void onSkip(Medicine updateditems);
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,23 +48,22 @@ public class ChangeReminderPreferenceDialog extends Dialog {
         findViewById(R.id.btnClose).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onSubmit("close");
+                dismiss();
             }
         });
         findViewById(R.id.btnTake).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onSubmit("take");
+                listener.onTake(new Medicine(item.getMedreminderparentid(), item.getMedreminderchildid(), item.getDate(), item.getMedicinename(), item.getMedicinemeasure(), item.getMorningtime(), item.getMorningmedstatus(), item.getNoontime(), "T",
+                        item.getEveningtime(), item.getEveninmedstatus(), item.getNighttime(), item.getNightmedstatus()));
             }
         });
         findViewById(R.id.btnSkip).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onSubmit("skip");
+                listener.onSkip(new Medicine(item.getMedreminderparentid(), item.getMedreminderchildid(), item.getDate(), item.getMedicinename(), item.getMedicinemeasure(), item.getMorningtime(), item.getMorningmedstatus(), item.getNoontime(), "S",
+                        item.getEveningtime(), item.getEveninmedstatus(), item.getNighttime(), item.getNightmedstatus()));
             }
         });
-
-
-
     }
 }

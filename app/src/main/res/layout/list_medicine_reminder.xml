@@ -52,6 +52,7 @@ android:orientation="vertical" android:layout_width="match_parent"
         android:orientation="horizontal">
 
         <RelativeLayout
+            android:id="@+id/morning_rl"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="25"
@@ -105,6 +106,7 @@ android:orientation="vertical" android:layout_width="match_parent"
             android:background="@color/gray" />
 
         <RelativeLayout
+            android:id="@+id/noon_rl"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="25"
@@ -155,6 +157,7 @@ android:orientation="vertical" android:layout_width="match_parent"
             android:background="@color/gray" />
 
         <RelativeLayout
+            android:id="@+id/evening_rl"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="25"
@@ -207,6 +210,7 @@ android:orientation="vertical" android:layout_width="match_parent"
             android:background="@color/gray" />
 
         <RelativeLayout
+            android:id="@+id/night_rl"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="24.7"

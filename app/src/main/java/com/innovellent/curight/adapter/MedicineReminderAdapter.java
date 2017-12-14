@@ -8,9 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.innovellent.curight.R;
-import com.innovellent.curight.model.ChangeReminderPreferenceDialog;
+import com.innovellent.curight.model.ChangeMorningPreferenceDialog;
 import com.innovellent.curight.model.Medicine;
 import java.util.ArrayList;
 
@@ -22,16 +23,30 @@ public class MedicineReminderAdapter extends RecyclerView.Adapter<MedicineRemind
     private String state;
     private TextView tvTime;
     private ImageView ivmorningtimeChange;
+    private final OnTimeClickListener listener;
+    private final int position;
     private static final String TAG = ".Retro_MainActivity";
-    private ChangeReminderPreferenceDialog changeReminderPreferenceDialog;
+    private ChangeMorningPreferenceDialog changeMorningPreferenceDialog;
+
+    public interface OnTimeClickListener {
+
+        void onMorningClick(Medicine item_m,int position);
+        void onNoonClick(Medicine item_n, int position);
+        void onEveningClick(Medicine item_e, int position);
+        void onNightClick(Medicine item_ngt, int position);
+    }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvMedicineName1,tvMedicineMeasure,tv_time,tvMorninglabel,tvTimeNoon,tvNoonlabel,tvTimeEvening,tvEveninglabel,tvTimetNight,tvNightlabel;
         ImageView ivmorningtimeChange,ivnoonChange,tvEveningChange,tvNightLabel,deleteBtn,ivMorning,tvNoon,tvEvening,tvNight;
-
+        RelativeLayout morning_rl,noon_rl,evening_rl,night_rl;
         MyViewHolder(View view) {
             super(view);
+            morning_rl = (RelativeLayout) view.findViewById(R.id.morning_rl);
+            noon_rl = (RelativeLayout) view.findViewById(R.id.noon_rl);
+            evening_rl = (RelativeLayout) view.findViewById(R.id.evening_rl);
+            night_rl = (RelativeLayout) view.findViewById(R.id.night_rl);
             tvMedicineName1 = (TextView) view.findViewById(R.id.tvMedicineName1);
             tvMedicineMeasure = (TextView) view.findViewById(R.id.tvMedicineMeasure);
             tv_time = (TextView) view.findViewById(R.id.tv_time);
@@ -54,10 +69,11 @@ public class MedicineReminderAdapter extends RecyclerView.Adapter<MedicineRemind
         }
     }
 
-    public MedicineReminderAdapter(Context context,ArrayList<Medicine> arrayList) {
+    public MedicineReminderAdapter(Context context,ArrayList<Medicine> arrayList,int position,OnTimeClickListener listener) {
         mContext = context;
         this.arrayList = arrayList;
-
+        this.position = position;
+        this.listener =listener;
     }
 
     @Override
@@ -86,9 +102,13 @@ public class MedicineReminderAdapter extends RecyclerView.Adapter<MedicineRemind
             holder.tv_time.setTextColor(Color.parseColor("#0075b2"));
             holder.tvMorninglabel.setTextColor(Color.parseColor("#0075b2"));
             holder.ivmorningtimeChange.setVisibility(View.VISIBLE);
-            if(arrayList.get(position).getMorningmedstatus().equals(""))
+            if(arrayList.get(position).getMorningmedstatus().equals("S"))
             {
-                //holder.ivmorningtimeChange.setImageResource(R.drawable.);
+                holder.ivmorningtimeChange.setImageResource(R.drawable.ic_skip);
+            }else if(arrayList.get(position).getMorningmedstatus().equals("T")){
+                holder.ivmorningtimeChange.setImageResource(R.drawable.ic_right);
+            }else {
+                holder.ivmorningtimeChange.setImageResource(R.drawable.ic_warning);
             }
         }
         if(arrayList.get(position).getNoontime().equals(""))
@@ -103,6 +123,14 @@ public class MedicineReminderAdapter extends RecyclerView.Adapter<MedicineRemind
             holder.tvTimeNoon.setTextColor(Color.parseColor("#0075b2"));
             holder.tvNoonlabel.setTextColor(Color.parseColor("#0075b2"));
             holder.ivnoonChange.setVisibility(View.VISIBLE);
+            if(arrayList.get(position).getNoonmedstatus().equals("S"))
+            {
+                holder.ivnoonChange.setImageResource(R.drawable.ic_skip);
+            }else if(arrayList.get(position).getNoonmedstatus().equals("T")){
+                holder.ivnoonChange.setImageResource(R.drawable.ic_right);
+            }else {
+                holder.ivnoonChange.setImageResource(R.drawable.ic_warning);
+            }
         }
         if(arrayList.get(position).getEveningtime().equals(""))
         {
@@ -116,9 +144,13 @@ public class MedicineReminderAdapter extends RecyclerView.Adapter<MedicineRemind
             holder.tvTimeEvening.setTextColor(Color.parseColor("#0075b2"));
             holder.tvEveninglabel.setTextColor(Color.parseColor("#0075b2"));
             holder.tvEveningChange.setVisibility(View.VISIBLE);
-            if(arrayList.get(position).getMorningmedstatus().equals(""))
+            if(arrayList.get(position).getEveninmedstatus().equals("S"))
             {
-
+                holder.tvEveningChange.setImageResource(R.drawable.ic_skip);
+            }else if(arrayList.get(position).getEveninmedstatus().equals("T")){
+                holder.tvEveningChange.setImageResource(R.drawable.ic_right);
+            }else {
+                holder.tvEveningChange.setImageResource(R.drawable.ic_warning);
             }
         }
         if(arrayList.get(position).getNighttime().equals(""))
@@ -133,6 +165,14 @@ public class MedicineReminderAdapter extends RecyclerView.Adapter<MedicineRemind
             holder.tvTimetNight.setTextColor(Color.parseColor("#0075b2"));
             holder.tvNightlabel.setTextColor(Color.parseColor("#0075b2"));
             holder.tvNightLabel.setVisibility(View.VISIBLE);
+            if(arrayList.get(position).getNightmedstatus().equals("S"))
+            {
+                holder.tvNightLabel.setImageResource(R.drawable.ic_skip);
+            }else if(arrayList.get(position).getNightmedstatus().equals("T")){
+                holder.tvNightLabel.setImageResource(R.drawable.ic_right);
+            }else {
+                holder.tvNightLabel.setImageResource(R.drawable.ic_warning);
+            }
         }
 
 //        holder.ivmorningtimeChange.setImageResource(R.drawable.ic_skip);
@@ -157,55 +197,63 @@ public class MedicineReminderAdapter extends RecyclerView.Adapter<MedicineRemind
                 removeAt(position);
             }
         });
-
-    }
-    private void changePreference(final MedicineReminderAdapter.MyViewHolder holder,final String type) {
-        changeReminderPreferenceDialog = new ChangeReminderPreferenceDialog(mContext, new ChangeReminderPreferenceDialog.ChangeReminderPreferenceDialogClickListener(){
-
-
+    holder.morning_rl.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            listener.onMorningClick(arrayList.get(position),position);
+        }
+    });
+        holder.noon_rl.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onSubmit(String change) {
-                changeReminderPreferenceDialog.dismiss();
-
-                if(type.equals("morning")) {
-                    if (change.equals("take")) {
-                        holder.ivmorningtimeChange.setImageResource(R.drawable.ic_right);
-
-
-                    } else if (change.equals("close")) {
-                        holder.ivmorningtimeChange.setVisibility(View.GONE);
-
-                    } else if (change.equals("skip")) {
-
-                        holder.ivmorningtimeChange.setImageResource(R.drawable.ic_skip);
-
-
-                    }
-
-
-                }else if(type.equals("evening")){
-                    if (change.equals("take")) {
-                        holder.tvEveningChange.setImageResource(R.drawable.ic_right);
-
-
-                    } else if (change.equals("close")) {
-                        holder.tvEveningChange.setVisibility(View.GONE);
-
-                    } else if (change.equals("skip")) {
-
-                        holder.tvEveningChange.setImageResource(R.drawable.ic_skip);
-
-                    }
-
-                }
-
+            public void onClick(View view) {
+                listener.onNoonClick(arrayList.get(position),position);
             }
         });
-
-        changeReminderPreferenceDialog.show();
-
-
+        holder.evening_rl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.onEveningClick(arrayList.get(position),position);
+            }
+        });
+        holder.night_rl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.onNightClick(arrayList.get(position),position);
+            }
+        });
     }
+//    private void changePreference(final MedicineReminderAdapter.MyViewHolder holder,final String type) {
+//        changeMorningPreferenceDialog = new ChangeMorningPreferenceDialog(mContext, new ChangeMorningPreferenceDialog.ChangeReminderPreferenceDialogClickListener(){
+//
+//
+//            @Override
+//            public void onSubmit(String change) {
+//                changeMorningPreferenceDialog.dismiss();
+//
+//                if(type.equals("morning")) {
+//                    if (change.equals("take")) {
+//                        holder.ivmorningtimeChange.setImageResource(R.drawable.ic_right);
+//                    } else if (change.equals("close")) {
+//                        holder.ivmorningtimeChange.setVisibility(View.GONE);
+//                    } else if (change.equals("skip")) {
+//                        holder.ivmorningtimeChange.setImageResource(R.drawable.ic_skip);
+//                    }
+//                }else if(type.equals("evening")){
+//                    if (change.equals("take")) {
+//                        holder.tvEveningChange.setImageResource(R.drawable.ic_right);
+//                    } else if (change.equals("close")) {
+//                        holder.tvEveningChange.setVisibility(View.GONE);
+//
+//                    } else if (change.equals("skip")) {
+//                        holder.tvEveningChange.setImageResource(R.drawable.ic_skip);
+//                    }
+//                }
+//            }
+//        });
+//        changeMorningPreferenceDialog.show();
+//
+//
+//    }
 
     private void removeAt(int position) {
         arrayList.remove(position);

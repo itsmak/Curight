@@ -20,15 +20,22 @@ import com.innovellent.curight.activities.ProfileActivity;
 import com.innovellent.curight.adapter.MedicineReminderAdapter;
 import com.innovellent.curight.adapter.PROFILE_SPINNER_ADAPTER;
 import com.innovellent.curight.api.ApiInterface;
-import com.innovellent.curight.model.ChangeReminderPreferenceDialog;
+import com.innovellent.curight.model.ChangeEvngPrefrenseDialog;
+import com.innovellent.curight.model.ChangeMorningPreferenceDialog;
+import com.innovellent.curight.model.ChangeNightPrefrenseDialog;
+import com.innovellent.curight.model.ChangeNoonPreferenceDialog;
 import com.innovellent.curight.model.MEDCN_FEED;
 import com.innovellent.curight.model.MED_REMAINDER_RESPONSE;
 import com.innovellent.curight.model.Medicine;
 import com.innovellent.curight.model.MyProfile_Response;
 import com.innovellent.curight.model.POST_MED_CLASS;
+import com.innovellent.curight.model.POST_TIME_UPDATE_CLASS;
 import com.innovellent.curight.model.PROFILE;
 import com.innovellent.curight.model.PROFILE_FEED;
+import com.innovellent.curight.model.PostBodyClass;
 import com.innovellent.curight.model.PostBodyProfile;
+import com.innovellent.curight.model.VACCINE_UPDATE_RESPONSE;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -45,7 +52,10 @@ public class MedicineReminderFragment extends Fragment implements View.OnClickLi
 
     RecyclerView recyclerView;
     HorizontalCalendar horizontalCalendar;
-    ChangeReminderPreferenceDialog reminderPreferenceDialog;
+    ChangeMorningPreferenceDialog morningPreferenceDialog;
+    ChangeNoonPreferenceDialog noonPreferenceDialog;
+    ChangeEvngPrefrenseDialog eveningPreferenceDialog;
+    ChangeNightPrefrenseDialog nightPreferenceDialog;
     ArrayList<Medicine> arrayList=new ArrayList<Medicine>();
     Spinner spItem;
     ImageView ivReminder;
@@ -56,6 +66,7 @@ public class MedicineReminderFragment extends Fragment implements View.OnClickLi
     PROFILE_SPINNER_ADAPTER customSpinnerAdapter3;
     static String USER_ID,M_YEAR,M_MONTH,M_DAY,FINAL_DATE;
     int counter= 0;
+    int position;
     MedicineReminderAdapter mAdapter;
 
     @Override
@@ -73,7 +84,6 @@ public class MedicineReminderFragment extends Fragment implements View.OnClickLi
         getSpinnerData();
         return rootView;
     }
-
 
     public String addCalendar(View rootView){
       Calendar endDate = Calendar.getInstance();
@@ -196,7 +206,6 @@ public class MedicineReminderFragment extends Fragment implements View.OnClickLi
                 }
 
             }
-
             @Override
             public void onFailure(Call<MyProfile_Response> call, Throwable t) {
 
@@ -272,12 +281,93 @@ public class MedicineReminderFragment extends Fragment implements View.OnClickLi
                     for(int i=0;i<result.size();i++)
                     {
                         Log.d(TAG, "medResponse: medcn name: " + result.get(i).getMedicinename());
-                        arrayList.add(new Medicine(result.get(i).getMedicinename(),result.get(i).getStrength(),result.get(i).getMorningtime(),
+                        arrayList.add(new Medicine(result.get(i).getMedreminderparentid(),result.get(i).getMedreminderchildid(),"2017-12-14",result.get(i).getMedicinename(),result.get(i).getStrength(),result.get(i).getMorningtime(),
                         result.get(i).getMorningmedstatus(),result.get(i).getNoontime(),result.get(i).getNoonmedstatus(),result.get(i).getEveningtime(),
                         result.get(i).getEveninmedstatus(),result.get(i).getNighttime(),result.get(i).getNightmedstatus()));
                     }
                 }
-                mAdapter=new MedicineReminderAdapter (getActivity(),arrayList);
+              //  ChangeNoonPreferenceDialog noonPreferenceDialog;
+              //  ChangeEvngPrefrenseDialog eveningPreferenceDialog;
+              //  ChangeNightPrefrenseDialog nightPreferenceDialog;
+                mAdapter=new MedicineReminderAdapter (getActivity(),arrayList,position, new MedicineReminderAdapter.OnTimeClickListener() {
+                    @Override
+                    public void onMorningClick(Medicine item_m, int position) {
+                        morningPreferenceDialog = new ChangeMorningPreferenceDialog(getContext(), item_m, new ChangeMorningPreferenceDialog.ChangeReminderPreferenceDialogClickListener() {
+                            @Override
+                            public void onTake(Medicine updateditems) {
+                                morningPreferenceDialog.dismiss();
+                                timeapical(updateditems);
+                            }
+
+                            @Override
+                            public void onSkip(Medicine updateditems) {
+                                morningPreferenceDialog.dismiss();
+                                timeapical(updateditems);
+                            }
+                        });
+                        morningPreferenceDialog.show();
+
+                    }
+
+                    @Override
+                    public void onNoonClick(Medicine item_n, int position) {
+
+                        noonPreferenceDialog = new ChangeNoonPreferenceDialog(getContext(), item_n, new ChangeNoonPreferenceDialog.ChangeNoonPreferenceDialogClickListener() {
+                            @Override
+                            public void onTake(Medicine updateditems) {
+                                noonPreferenceDialog.dismiss();
+                                timeapical(updateditems);
+                            }
+
+                            @Override
+                            public void onSkip(Medicine updateditems) {
+                                noonPreferenceDialog.dismiss();
+                                timeapical(updateditems);
+                            }
+                        });
+                        noonPreferenceDialog.show();
+
+                    }
+
+                    @Override
+                    public void onEveningClick(Medicine item_e, int position) {
+
+                        eveningPreferenceDialog = new ChangeEvngPrefrenseDialog(getContext(), item_e, new ChangeEvngPrefrenseDialog.ChangeEvngPrefrenseDialogClickListener() {
+                            @Override
+                            public void onTake(Medicine updateditems) {
+                                eveningPreferenceDialog.dismiss();
+                                timeapical(updateditems);
+                            }
+
+                            @Override
+                            public void onSkip(Medicine updateditems) {
+                                eveningPreferenceDialog.dismiss();
+                                timeapical(updateditems);
+                            }
+                        });
+                        eveningPreferenceDialog.show();
+
+                    }
+
+                    @Override
+                    public void onNightClick(Medicine item_ngt, int position) {
+
+                        nightPreferenceDialog = new ChangeNightPrefrenseDialog(getContext(), item_ngt, new ChangeNightPrefrenseDialog.ChangeNightPrefrenseDialogClickListener() {
+                            @Override
+                            public void onTake(Medicine updateditems) {
+                                nightPreferenceDialog.dismiss();
+                                timeapical(updateditems);
+                            }
+
+                            @Override
+                            public void onSkip(Medicine updateditems) {
+                                nightPreferenceDialog.dismiss();
+                                timeapical(updateditems);
+                            }
+                        });
+                        nightPreferenceDialog.show();
+                    }
+                });
                 recyclerView.setAdapter(mAdapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             }
@@ -290,8 +380,62 @@ public class MedicineReminderFragment extends Fragment implements View.OnClickLi
             }
         });
     }
+
+    private void timeapical(final Medicine updateditems) {
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        ApiInterface reditapi = retrofit.create(ApiInterface.class);
+        POST_TIME_UPDATE_CLASS postTimeUpdateClass = new POST_TIME_UPDATE_CLASS(updateditems.getMedreminderparentid(),updateditems.getMedreminderchildid(),updateditems.getDate(),updateditems.getMorningmedstatus(),updateditems.getNoonmedstatus(),
+                updateditems.getEveninmedstatus(),updateditems.getNightmedstatus());
+        Call<VACCINE_UPDATE_RESPONSE> call = reditapi.get_med_update(postTimeUpdateClass);
+        call.enqueue(new Callback<VACCINE_UPDATE_RESPONSE>() {
+            @Override
+            public void onResponse(Call<VACCINE_UPDATE_RESPONSE> call, Response<VACCINE_UPDATE_RESPONSE> response) {
+
+                if (response.isSuccessful()){
+                    Toast.makeText(getActivity(),"Successfully Updated!",Toast.LENGTH_SHORT).show();
+
+                    Log.d("Dialog", "remainderResponse: code: " +response.body());
+                    Log.d("Dialog", "remainderReseponse: code: " +response.body().getCode());
+                    Log.d("Dialog", "remainderResponse: result: " +response.body().getResults());
+                    Get_MED_Data(USER_ID,updateditems.getDate());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<VACCINE_UPDATE_RESPONSE> call, Throwable t) {
+
+                Toast.makeText(getActivity(),"Somethings went wrong",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
     public void clearData() {
-        mAdapter = new MedicineReminderAdapter(getActivity(),arrayList);
+        mAdapter = new MedicineReminderAdapter(getActivity(),arrayList,position, new MedicineReminderAdapter.OnTimeClickListener() {
+            @Override
+            public void onMorningClick(Medicine item_m, int position) {
+
+            }
+
+            @Override
+            public void onNoonClick(Medicine item_n, int position) {
+
+            }
+
+            @Override
+            public void onEveningClick(Medicine item_e, int position) {
+
+            }
+
+            @Override
+            public void onNightClick(Medicine item_ngt, int position) {
+
+            }
+        });
         arrayList.clear(); //clear list
         //mAdapter.notifyDataSetChanged(); //let your adapter know about the changes and reload view.
 

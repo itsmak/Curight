@@ -20,6 +20,7 @@ import com.innovellent.curight.model.MyServer_Response;
 import com.innovellent.curight.model.OverviewCenterByDC;
 import com.innovellent.curight.model.POST_CREATE_CLASS;
 import com.innovellent.curight.model.POST_MED_CLASS;
+import com.innovellent.curight.model.POST_TIME_UPDATE_CLASS;
 import com.innovellent.curight.model.POST_UPDATE_CLASS;
 import com.innovellent.curight.model.PhotosCenterByDC;
 import com.innovellent.curight.model.PostBodyClass;
@@ -208,5 +209,9 @@ public interface ApiInterface {
     @POST("medreminder/get")
     Call<MED_REMAINDER_RESPONSE> get_med_remainder(@Body POST_MED_CLASS userid);;
 
+    //get vaccine create
+    @Headers("x-access-token: hjjgkuykg")
+    @POST("medreminder/update")
+    Call<VACCINE_UPDATE_RESPONSE> get_med_update(@Body POST_TIME_UPDATE_CLASS userid);;
 
 }

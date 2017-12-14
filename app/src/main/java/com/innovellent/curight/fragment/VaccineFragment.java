@@ -67,12 +67,12 @@ public class VaccineFragment extends Fragment implements View.OnClickListener {
     LinearLayoutManager layoutManager;
     VaccineReminderYearDialog vaccineReminderYearDialog;
     AddRemainder_FRAGMENT_DAILOG vaccineadddailog;
-    //    ImageView ivAdd1,ivAdd2,ivAdd3,ivBack;
+    //ImageView ivAdd1,ivAdd2,ivAdd3,ivBack;
     private static final String TAG = ".Retro_MainActivity";
     private static final String BASE_URL = "http://13.59.209.135:8090/diagnosticAPI/webapi/";
     String USER_ID;
     PROFILE_SPINNER_ADAPTER customSpinnerAdapter3;
-   // VaccineAddReminderDialog vaccineAddReminderDialog;
+   //VaccineAddReminderDialog vaccineAddReminderDialog;
     ArrayList<Vaccine> arrayList = new ArrayList<Vaccine>();
     int position;
     ArrayList<PROFILE> spinnerList = new ArrayList<PROFILE>();
@@ -87,31 +87,6 @@ public class VaccineFragment extends Fragment implements View.OnClickListener {
 
         getSpinnerData();
         return rootView;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.d(TAG, "Lifecycle: onResume");
-        //  Toast.makeText(getActivity(), "OnResume Called",Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        Log.d(TAG, "Lifecycle: onPause");
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        Log.d(TAG, "Lifecycle: onSavedInstanceState");
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        Log.d(TAG, "Lifecycle: onStop");
     }
 
     @Override

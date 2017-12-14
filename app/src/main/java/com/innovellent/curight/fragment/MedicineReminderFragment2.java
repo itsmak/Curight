@@ -3,7 +3,6 @@ package com.innovellent.curight.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +17,7 @@ import com.innovellent.curight.R;
 import com.innovellent.curight.activities.ProfileActivity;
 import com.innovellent.curight.adapter.CustomSpinnerAdapter2;
 import com.innovellent.curight.adapter.MedicineReminderAdapter;
-import com.innovellent.curight.model.ChangeReminderPreferenceDialog;
+import com.innovellent.curight.model.ChangeMorningPreferenceDialog;
 import com.innovellent.curight.model.Medicine;
 
 import java.util.ArrayList;
@@ -29,7 +28,7 @@ public class MedicineReminderFragment2 extends Fragment implements
 
 
     RecyclerView recyclerView;
-    ChangeReminderPreferenceDialog reminderPreferenceDialog;
+    ChangeMorningPreferenceDialog reminderPreferenceDialog;
     ArrayList<Medicine> arrayList=new ArrayList<Medicine>();
     Spinner spItem;
     TextView tvTime;

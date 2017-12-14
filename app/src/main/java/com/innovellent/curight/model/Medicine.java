@@ -5,6 +5,9 @@ package com.innovellent.curight.model;
  */
 
 public class Medicine {
+    private int medreminderparentid;
+    private int medreminderchildid;
+    private String date;
     private String medicinename;
     private String medicinemeasure;
     private String morningtime;
@@ -16,8 +19,11 @@ public class Medicine {
     private String nighttime;
     private String nightmedstatus;
 
-    public Medicine(String medicinename,String medicinemeasure,String morningtime,String morningmedstatus,String noontime,String noonmedstatus,
+    public Medicine(int medreminderparentid,int medreminderchildid,String date,String medicinename,String medicinemeasure,String morningtime,String morningmedstatus,String noontime,String noonmedstatus,
             String eveningtime,String eveninmedstatus,String nighttime,String nightmedstatus){
+        this.medreminderparentid=medreminderparentid;
+        this.medreminderchildid=medreminderchildid;
+        this.date=date;
         this.medicinemeasure=medicinemeasure;
         this.medicinename=medicinename;
         this.morningtime=morningtime;
@@ -29,6 +35,31 @@ public class Medicine {
         this.nighttime=nighttime;
         this.nightmedstatus=nightmedstatus;
     }
+
+    public int getMedreminderparentid() {
+        return medreminderparentid;
+    }
+
+    public void setMedreminderparentid(int medreminderparentid) {
+        this.medreminderparentid = medreminderparentid;
+    }
+
+    public int getMedreminderchildid() {
+        return medreminderchildid;
+    }
+
+    public void setMedreminderchildid(int medreminderchildid) {
+        this.medreminderchildid = medreminderchildid;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
     public String getMedicinename() {
         return medicinename;
     }
@@ -108,4 +139,5 @@ public class Medicine {
     public void setNightmedstatus(String nightmedstatus) {
         this.nightmedstatus = nightmedstatus;
     }
+
 }
