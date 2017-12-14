@@ -15,9 +15,13 @@ import com.innovellent.curight.model.FoodItem;
 import com.innovellent.curight.model.GetTestDetailCenter;
 import com.innovellent.curight.model.Goal;
 import com.innovellent.curight.model.Login;
+import com.innovellent.curight.model.MED_REMAINDER_RESPONSE;
 import com.innovellent.curight.model.MyProfile_Response;
 import com.innovellent.curight.model.MyServer_Response;
 import com.innovellent.curight.model.OverviewCenterByDC;
+import com.innovellent.curight.model.POST_CREATE_CLASS;
+import com.innovellent.curight.model.POST_MED_CLASS;
+import com.innovellent.curight.model.POST_TIME_UPDATE_CLASS;
 import com.innovellent.curight.model.POST_UPDATE_CLASS;
 import com.innovellent.curight.model.ParameterPojo;
 import com.innovellent.curight.model.PhotosCenterByDC;
@@ -212,5 +216,20 @@ public interface ApiInterface {
     @Headers("x-access-token: hjjgkuykg")
     @POST("vaccine/update")
     Call<VACCINE_UPDATE_RESPONSE> get_vaccine_update(@Body POST_UPDATE_CLASS userId);;
+
+    //get vaccine create
+    @Headers("x-access-token: hjjgkuykg")
+    @POST("vaccine/create")
+    Call<VACCINE_UPDATE_RESPONSE> get_vaccine_create(@Body POST_CREATE_CLASS userid);;
+
+    //get med remainder
+    @Headers("x-access-token: hjjgkuykg")
+    @POST("medreminder/get")
+    Call<MED_REMAINDER_RESPONSE> get_med_remainder(@Body POST_MED_CLASS userid);;
+
+    //get vaccine create
+    @Headers("x-access-token: hjjgkuykg")
+    @POST("medreminder/update")
+    Call<VACCINE_UPDATE_RESPONSE> get_med_update(@Body POST_TIME_UPDATE_CLASS userid);;
 
 }

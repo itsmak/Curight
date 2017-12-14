@@ -1,40 +1,60 @@
 package com.innovellent.curight.model;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
- * Created by sagar on 9/19/2017.
+ * Created by Mak on 12/12/2017.
  */
 
-public class Medicine {
-    private int medreminderparentid;
-    private int medreminderchildid;
-    private String date;
-    private String medicinename;
-    private String medicinemeasure;
-    private String morningtime;
-    private String morningmedstatus;
-    private String noontime;
-    private String noonmedstatus;
-    private String eveningtime;
-    private String eveninmedstatus;
-    private String nighttime;
-    private String nightmedstatus;
+public class MEDCN_FEED {
 
-    public Medicine(int medreminderparentid,int medreminderchildid,String date,String medicinename,String medicinemeasure,String morningtime,String morningmedstatus,String noontime,String noonmedstatus,
-            String eveningtime,String eveninmedstatus,String nighttime,String nightmedstatus){
-        this.medreminderparentid=medreminderparentid;
-        this.medreminderchildid=medreminderchildid;
-        this.date=date;
-        this.medicinemeasure=medicinemeasure;
-        this.medicinename=medicinename;
-        this.morningtime=morningtime;
-        this.morningmedstatus=morningmedstatus;
-        this.noontime=noontime;
-        this.noonmedstatus=noonmedstatus;
-        this.eveningtime=eveningtime;
-        this.eveninmedstatus=eveninmedstatus;
-        this.nighttime=nighttime;
-        this.nightmedstatus=nightmedstatus;
-    }
+    @SerializedName("medreminderparentid")
+    private int medreminderparentid;
+
+    @SerializedName("medreminderchildid")
+    private int medreminderchildid;
+
+    @SerializedName("userid")
+    private int userid;
+
+    @SerializedName("medicineid")
+    private int medicineid;
+
+    @SerializedName("medicinename")
+    private String medicinename;
+
+    @SerializedName("strength")
+    private String strength;
+
+    @SerializedName("dose")
+    private String dose;
+
+    @SerializedName("durationday")
+    private int durationday;
+
+    @SerializedName("morningtime")
+    private String morningtime;
+
+    @SerializedName("morningmedstatus")
+    private String morningmedstatus;
+
+    @SerializedName("noontime")
+    private String noontime;
+
+    @SerializedName("noonmedstatus")
+    private String noonmedstatus;
+
+    @SerializedName("eveningtime")
+    private String eveningtime;
+
+    @SerializedName("eveninmedstatus")
+    private String eveninmedstatus;
+
+    @SerializedName("nighttime")
+    private String nighttime;
+
+    @SerializedName("nightmedstatus")
+    private String nightmedstatus;
 
     public int getMedreminderparentid() {
         return medreminderparentid;
@@ -52,12 +72,20 @@ public class Medicine {
         this.medreminderchildid = medreminderchildid;
     }
 
-    public String getDate() {
-        return date;
+    public int getUserid() {
+        return userid;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setUserid(int userid) {
+        this.userid = userid;
+    }
+
+    public int getMedicineid() {
+        return medicineid;
+    }
+
+    public void setMedicineid(int medicineid) {
+        this.medicineid = medicineid;
     }
 
     public String getMedicinename() {
@@ -68,12 +96,28 @@ public class Medicine {
         this.medicinename = medicinename;
     }
 
-    public String getMedicinemeasure() {
-        return medicinemeasure;
+    public String getStrength() {
+        return strength;
     }
 
-    public void setMedicinemeasure(String medicinemeasure) {
-        this.medicinemeasure = medicinemeasure;
+    public void setStrength(String strength) {
+        this.strength = strength;
+    }
+
+    public String getDose() {
+        return dose;
+    }
+
+    public void setDose(String dose) {
+        this.dose = dose;
+    }
+
+    public int getDurationday() {
+        return durationday;
+    }
+
+    public void setDurationday(int durationday) {
+        this.durationday = durationday;
     }
 
     public String getMorningtime() {
@@ -139,5 +183,4 @@ public class Medicine {
     public void setNightmedstatus(String nightmedstatus) {
         this.nightmedstatus = nightmedstatus;
     }
-
 }

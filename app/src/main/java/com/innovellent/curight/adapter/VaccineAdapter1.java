@@ -70,29 +70,29 @@ public class VaccineAdapter1 extends RecyclerView.Adapter<VaccineAdapter1.MyView
         holder.llVaccince.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addVaccine(arrayList.get(position).getDate(),arrayList.get(position).getDate(),arrayList.get(position).getDate(),
-                        arrayList.get(position).getDate(),arrayList.get(position).getComments(),1,1,
-                        arrayList.get(position).getDate());
+            //    addVaccine(arrayList.get(position).getDate(),arrayList.get(position).getDate(),arrayList.get(position).getDate(),
+                     //   arrayList.get(position).getDate(),arrayList.get(position).getComments(),1,1,1,
+                      //  arrayList.get(position).getDate());
             }
         });
         holder.ivTaken.setImageResource(R.mipmap.ic_right);
 
 
     }
-    private void addVaccine(String a,String b,String c,String d,String e,int f,int g,String h) {
-        vaccineReminderYearDialog = new VaccineReminderYearDialog(mContext,a,b,c,d,f,g,h, new VaccineReminderYearDialog.VaccineReminderYearDialogClickListener(){
-
-
-            @Override
-            public void onSubmit() {
-                vaccineReminderYearDialog.dismiss();
-            }
-        });
-
-        vaccineReminderYearDialog.show();
-
-
-    }
+//    private void addVaccine(String a,String b,String c,String d,String e,int f,int g,int h,String i) {
+//        vaccineReminderYearDialog = new VaccineReminderYearDialog(mContext,a,b,c,d,f,g,h,i, new VaccineReminderYearDialog.VaccineReminderYearDialogClickListener(){
+//
+//
+//            @Override
+//            public void onSubmit() {
+//                vaccineReminderYearDialog.dismiss();
+//            }
+//        });
+//
+//        vaccineReminderYearDialog.show();
+//
+//
+//    }
     @Override
     public int getItemCount() {
         return arrayList.size();

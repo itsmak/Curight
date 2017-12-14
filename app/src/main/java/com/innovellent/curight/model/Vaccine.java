@@ -12,8 +12,9 @@ public class Vaccine {
     private String comments;
     private String duedate;
     private String ageinonth;
-    private int userid;
+    private String userid;
     private int vaccineactivityid;
+    private int vaccinechartid;
     private boolean visiblity;
 
     public Vaccine(String vaccinename, String date){
@@ -22,7 +23,7 @@ public class Vaccine {
     }
 
     public Vaccine(String duration_age, String vaccinename, String date, String duedate,
-                   String doctorname, String comments, String ageinonth,int userid,int vaccineactivityid, boolean visiblity) {
+                   String doctorname, String comments, String ageinonth,String userid,int vaccineactivityid,int vaccinechartid, boolean visiblity) {
         this.duration_age = duration_age;
         this.vaccinename = vaccinename;
         this.date = date;
@@ -32,6 +33,7 @@ public class Vaccine {
         this.ageinonth = ageinonth;
         this.userid = userid;
         this.vaccineactivityid = vaccineactivityid;
+        this.vaccinechartid = vaccinechartid;
         this.visiblity = visiblity;
     }
 
@@ -99,11 +101,11 @@ public class Vaccine {
         this.ageinonth = ageinonth;
     }
 
-    public int getUserid() {
+    public String getUserid() {
         return userid;
     }
 
-    public void setUserid(int userid) {
+    public void setUserid(String userid) {
         this.userid = userid;
     }
 
@@ -113,5 +115,13 @@ public class Vaccine {
 
     public void setVaccineactivityid(int vaccineactivityid) {
         this.vaccineactivityid = vaccineactivityid;
+    }
+
+    public int getVaccinechartid() {
+        return vaccinechartid;
+    }
+
+    public void setVaccinechartid(int vaccinechartid) {
+        this.vaccinechartid = vaccinechartid;
     }
 }

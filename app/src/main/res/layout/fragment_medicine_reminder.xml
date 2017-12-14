@@ -1,49 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:background="@android:color/white"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-   <LinearLayout
-        android:id="@+id/llName"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:weightSum="100"
-        android:layout_marginBottom="5dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:weightSum="100">
 
         <Spinner
-            android:id="@+id/spItem"
+            android:id="@+id/spYear"
+            style="@style/Widget.AppCompat.Spinner.Underlined"
             android:layout_width="0dp"
-            android:padding="5dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginTop="10dp"
-            android:layout_weight="75"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="60"
             android:backgroundTint="@color/graylight" />
 
-        <TextView
+        <RelativeLayout
+            android:id="@+id/date_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="18" />
+            android:layout_marginLeft="0dp"
+            android:layout_weight="30">
+        </RelativeLayout>
 
+        <!--<EditText-->
+            <!--android:id="@+id/spAge"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="30"-->
+            <!--android:clickable="false"-->
+
+            <!--/>-->
         <ImageView
             android:id="@+id/ivReminder"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginStart="50dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="7dp"
             android:padding="5dp"
-            android:layout_weight="7"
+            android:layout_weight="10"
             android:src="@drawable/plus_circle" />
 
     </LinearLayout>
@@ -68,4 +68,4 @@
       android:layout_height="wrap_content">
         </android.support.v7.widget.RecyclerView>
 
-</RelativeLayout>
+</LinearLayout>

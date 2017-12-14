@@ -73,15 +73,12 @@ public class SearchActivity extends AppCompatActivity {
                 if(searchAdapter.getcatgory(position).equals("DR")) {
                     Intent intent = new Intent(SearchActivity.this, DoctorAppointmentActivity.class);
                     startActivity(intent);
-                    finish();
                 }else if(searchAdapter.getcatgory(position).equals("DC")){
                     Intent intent = new Intent(SearchActivity.this, DiagnosticCentersActivity.class);
                     startActivity(intent);
-                    finish();
                 }else if(searchAdapter.getcatgory(position).equals("TE")){
                     Intent intent = new Intent(SearchActivity.this, DiagnosticTestListActivity.class);
                     startActivity(intent);
-                    finish();
                 }
             }
 

@@ -9,23 +9,23 @@
 
     <LinearLayout
         android:id="@+id/l1Name"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:padding="5dp"
         android:layout_below="@+id/tvVaccinceTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
         android:orientation="horizontal"
         android:weightSum="100">
 
         <TextView
             android:id="@+id/mdfy_header_txtvw"
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Tdap/Td at 5yrs"
+            android:layout_gravity="center"
             android:textAlignment="center"
             android:textStyle="bold"
-            android:textColor="@color/darkgray" />
+            android:textColor="@color/white" />
 
 
 
@@ -188,7 +188,6 @@
         <EditText
             android:textColor="@color/darkgray"
             android:id="@+id/mdfy_details_edttxt"
-            android:editable="false"
             android:background="@android:color/white"
             android:textSize="15sp"
             android:inputType="none"
@@ -227,6 +226,7 @@
             android:layout_weight="35"
             android:textSize="12sp"
             android:textAlignment="center"
+            android:editable="false"
             android:hint="DD/MM/YYY"/>
 
         <EditText
@@ -237,6 +237,7 @@
             android:layout_marginRight="5dp"
             android:layout_weight="35"
             android:textSize="12sp"
+            android:editable="false"
             android:background="@drawable/border_circle"
             android:padding="8dp"
             android:hint="DD/MM/YYYY"

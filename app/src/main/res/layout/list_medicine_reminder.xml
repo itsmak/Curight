@@ -52,6 +52,7 @@ android:orientation="vertical" android:layout_width="match_parent"
         android:orientation="horizontal">
 
         <RelativeLayout
+            android:id="@+id/morning_rl"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="25"
@@ -61,7 +62,7 @@ android:orientation="vertical" android:layout_width="match_parent"
                 android:id="@+id/tv_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="6:00AM"
+                android:text=""
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="10sp" />
@@ -73,7 +74,6 @@ android:orientation="vertical" android:layout_width="match_parent"
                 android:layout_below="@+id/tv_time"
                 android:layout_marginLeft="25dp"
                 android:layout_marginTop="10dp"
-                android:background="@mipmap/ic_morning_blue"
                 android:textSize="10sp" />
 
             <TextView
@@ -106,6 +106,7 @@ android:orientation="vertical" android:layout_width="match_parent"
             android:background="@color/gray" />
 
         <RelativeLayout
+            android:id="@+id/noon_rl"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="25"
@@ -126,7 +127,7 @@ android:orientation="vertical" android:layout_width="match_parent"
                 android:layout_below="@+id/tvTimeNoon"
                 android:layout_marginLeft="25dp"
                 android:layout_marginTop="10dp"
-                android:background="@mipmap/ic_noon_gray" />
+                />
 
             <TextView
                 android:id="@+id/tvNoonlabel"
@@ -145,7 +146,6 @@ android:orientation="vertical" android:layout_width="match_parent"
                 android:layout_below="@+id/tvNoonlabel"
                 android:layout_marginLeft="32dp"
                 android:layout_marginTop="10dp"
-
                 android:visibility="gone" />
 
         </RelativeLayout>
@@ -157,6 +157,7 @@ android:orientation="vertical" android:layout_width="match_parent"
             android:background="@color/gray" />
 
         <RelativeLayout
+            android:id="@+id/evening_rl"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="25"
@@ -168,7 +169,7 @@ android:orientation="vertical" android:layout_width="match_parent"
                 android:layout_width="match_parent"
                 android:textAlignment="center"
                 android:layout_height="wrap_content"
-                android:text="6:00PM"
+                android:text=""
                 android:textColor="@color/colorPrimaryDark" />
 
             <ImageView
@@ -178,7 +179,7 @@ android:orientation="vertical" android:layout_width="match_parent"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@+id/tvTimeEvening"
                 android:layout_marginTop="10dp"
-                android:background="@mipmap/ic_evening_blue" />
+                />
 
             <TextView
                 android:id="@+id/tvEveninglabel"
@@ -209,6 +210,7 @@ android:orientation="vertical" android:layout_width="match_parent"
             android:background="@color/gray" />
 
         <RelativeLayout
+            android:id="@+id/night_rl"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="24.7"
@@ -229,7 +231,7 @@ android:orientation="vertical" android:layout_width="match_parent"
                 android:layout_below="@+id/tvTimetNight"
                 android:layout_marginLeft="24dp"
                 android:layout_marginTop="10dp"
-                android:background="@mipmap/ic_night_gray" />
+                 />
 
             <TextView
                 android:id="@+id/tvNightlabel"

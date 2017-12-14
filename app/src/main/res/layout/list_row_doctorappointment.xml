@@ -1,81 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/card_view2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
-
-
-
-
-
-            <LinearLayout
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-
-
+                android:orientation="horizontal"
+                android:padding="10dp">
 
             <ImageView
+                android:id="@+id/acount_imgvw"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/person"/>
+                android:background="@drawable/person"
+                android:layout_marginLeft="10dp"/>
 
-
-                <LinearLayout
+                <TextView
+                    android:id="@+id/tv_doctorname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-
-
-
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:text="doctotname"
-                    android:elevation="5dp"
-                    android:textSize="18sp"
+                    android:layout_alignTop="@+id/acount_imgvw"
+                    android:layout_margin="5dp"
+                    android:layout_toRightOf="@+id/acount_imgvw"
                     android:textStyle="bold"
-                    android:id="@+id/tv_doctorname"/>
-
+                    />
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="specialization"
-                    android:elevation="5dp"
+                    android:layout_below="@+id/tv_doctorname"
+                    android:layout_alignLeft="@+id/tv_doctorname"
                     android:textSize="14sp"
                     android:id="@+id/tv_specialization"/>
-
-
-
-
-                </LinearLayout>
 
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="190dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
                     android:id="@+id/img_calldoctor"
                     android:background="@drawable/callimage"/>
 
-            </LinearLayout>
 
-
-
-
-
-    </android.support.v7.widget.CardView>
-
-</LinearLayout>
+</RelativeLayout>
