@@ -9,7 +9,6 @@ public class Login {
     private String password;
     private String loginfrom;
 
-
     public Login(String userid, String password,String loginfrom){
         this.userid = userid;
         this.password = password;

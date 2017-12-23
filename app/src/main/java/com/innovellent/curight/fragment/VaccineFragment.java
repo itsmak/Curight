@@ -68,7 +68,7 @@ public class VaccineFragment extends Fragment implements View.OnClickListener {
     VaccineReminderYearDialog vaccineReminderYearDialog;
     AddRemainder_FRAGMENT_DAILOG vaccineadddailog;
     //ImageView ivAdd1,ivAdd2,ivAdd3,ivBack;
-    private static final String TAG = ".Retro_MainActivity";
+    private static final String TAG = "CuRight";
     private static final String BASE_URL = "http://13.59.209.135:8090/diagnosticAPI/webapi/";
     String USER_ID;
     PROFILE_SPINNER_ADAPTER customSpinnerAdapter3;
@@ -84,7 +84,6 @@ public class VaccineFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_vaccine, container, false);
         init(rootView);
-
         getSpinnerData();
         return rootView;
     }
@@ -161,11 +160,12 @@ public class VaccineFragment extends Fragment implements View.OnClickListener {
                     Log.e(TAG, "profileResponse: code: " + response.body().getCode());
                     ArrayList<PROFILE_FEED> result = response.body().getResults();
                     Log.e(TAG, "profileResponse: listsize: " + result.size());
-                    for (int i = 0; i < result.size(); i++) {
+                    for (int i = 0; i < result.size(); i++)
+                    {
 
                         USER_ID = result.get(i).getUserid();
                         //spinnerList.add(new PROFILE("","","",""));
-                        spinnerList.add(new PROFILE(result.get(i).getUserid(), result.get(i).getName(), result.get(i).getAge(), result.get(i).getRelationship()));
+                        spinnerList.add(new PROFILE(result.get(i).getUserid(),result.get(i).getId(), result.get(i).getName(), result.get(i).getAge(), result.get(i).getRelationship()));
                     }
                     getData2();
                     USER_ID = result.get(0).getUserid();

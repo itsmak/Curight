@@ -48,6 +48,7 @@
             android:textColor="#717171"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textPersonName"
             android:hint="Name"
             android:textSize="15sp" />
 
@@ -68,6 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/email"
+            android:inputType="textPersonName"
             android:textSize="15sp" />
 
     </android.support.design.widget.TextInputLayout>
@@ -88,6 +90,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/mobilenumber"
+            android:inputType="textEmailAddress"
             android:textSize="15sp" />
 
     </android.support.design.widget.TextInputLayout>
@@ -108,6 +111,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/password"
+            android:inputType="textPassword"
             android:textSize="15sp" />
 
     </android.support.design.widget.TextInputLayout>
@@ -124,6 +128,7 @@
         <EditText
             android:id="@+id/etConfirmedPassword"
             android:layout_marginRight="10dp"
+            android:inputType="textPassword"
             android:textColor="#717171"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

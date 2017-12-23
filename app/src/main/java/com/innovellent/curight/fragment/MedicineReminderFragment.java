@@ -35,6 +35,7 @@ import com.innovellent.curight.model.PROFILE_FEED;
 import com.innovellent.curight.model.PostBodyClass;
 import com.innovellent.curight.model.PostBodyProfile;
 import com.innovellent.curight.model.VACCINE_UPDATE_RESPONSE;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -169,9 +170,11 @@ public class MedicineReminderFragment extends Fragment implements View.OnClickLi
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+        int uid = (int) Prefs.getLong("user_id",0);
+        Log.d(TAG,"Shared_profile_uid"+uid);
         ApiInterface reditapi = retrofit.create(ApiInterface.class);
 
-        PostBodyProfile postBodyprofile = new PostBodyProfile(1,"family");
+        PostBodyProfile postBodyprofile = new PostBodyProfile(uid,"family");
         Call<MyProfile_Response> call = reditapi.getProfile(postBodyprofile);
 
         call.enqueue(new Callback<MyProfile_Response>() {
@@ -180,8 +183,6 @@ public class MedicineReminderFragment extends Fragment implements View.OnClickLi
 
 
                 if(response.body()!=null) {
-
-
                     Log.e(TAG, "profileResponse: code: " + response.body().getCode());
                     ArrayList<PROFILE_FEED> result = response.body().getResults();
                     Log.e(TAG, "profileResponse: listsize: " +result.size());
@@ -190,7 +191,7 @@ public class MedicineReminderFragment extends Fragment implements View.OnClickLi
 
                         USER_ID = result.get(i).getUserid();
                         //spinnerList.add(new PROFILE("","","",""));
-                        spinnerList.add(new PROFILE(result.get(i).getUserid(),result.get(i).getName(),result.get(i).getAge(),result.get(i).getRelationship()));
+                        spinnerList.add(new PROFILE(result.get(i).getUserid(),result.get(i).getId(),result.get(i).getName(),result.get(i).getAge(),result.get(i).getRelationship()));
                     }
                     getData2();
                     USER_ID = result.get(0).getUserid();
@@ -238,9 +239,11 @@ public class MedicineReminderFragment extends Fragment implements View.OnClickLi
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
                 USER_ID = spinnerList.get(i).getUser_id();
-                Log.d(TAG, "inspiner userid" + USER_ID);
+                Prefs.putLong("spinner_id", Long.parseLong(spinnerList.get(i).getUser_id()));
+                int uid = (int) Prefs.getLong("spinner_id",0);
+                Log.d(TAG,"Shared_profile_spinnerid"+uid);
                 Log.d(TAG, "inspiner date" + FINAL_DATE);
-                Get_MED_Data(USER_ID,FINAL_DATE);
+                Get_MED_Data(uid,FINAL_DATE);
 
             }
 
@@ -252,7 +255,7 @@ public class MedicineReminderFragment extends Fragment implements View.OnClickLi
 
     }
 
-    public void Get_MED_Data(String user_id,String finaldate) {
+    public void Get_MED_Data(int user_id,String finaldate) {
         Log.d(TAG,"getmedcalled");
         clearData();
         Retrofit retrofit = new Retrofit.Builder()
@@ -263,7 +266,7 @@ public class MedicineReminderFragment extends Fragment implements View.OnClickLi
         ApiInterface reditapi = retrofit.create(ApiInterface.class);
         Log.d(TAG, "onResponse: userid" + user_id);
         Log.d(TAG, "onResponse: finaldate" + finaldate);
-        POST_MED_CLASS post_med_class = new POST_MED_CLASS(Integer.parseInt(user_id),finaldate);
+        POST_MED_CLASS post_med_class = new POST_MED_CLASS(user_id,finaldate);
 
         Call<MED_REMAINDER_RESPONSE> call = reditapi.get_med_remainder(post_med_class);
         call.enqueue(new Callback<MED_REMAINDER_RESPONSE>() {
@@ -275,13 +278,17 @@ public class MedicineReminderFragment extends Fragment implements View.OnClickLi
                     Log.d(TAG, "medResponse: Server Response: " + response);
                     Log.d(TAG, "medResponse: Server Response: " + response.body());
                     Log.d(TAG, "medResponse: code " + response.body().getCode());
+                    if(response.body().getCode()==403)
+                    {
+                        Toast.makeText(getActivity(),"No data for the User",Toast.LENGTH_SHORT).show();
+                    }
                     Log.d(TAG, "medResponse: Result: " + response.body().getResults());
                     ArrayList<MEDCN_FEED> result = response.body().getResults();
                     Log.d(TAG, "medResponse: code: " +result.size());
                     for(int i=0;i<result.size();i++)
                     {
                         Log.d(TAG, "medResponse: medcn name: " + result.get(i).getMedicinename());
-                        arrayList.add(new Medicine(result.get(i).getMedreminderparentid(),result.get(i).getMedreminderchildid(),"2017-12-14",result.get(i).getMedicinename(),result.get(i).getStrength(),result.get(i).getMorningtime(),
+                        arrayList.add(new Medicine(result.get(i).getMedreminderparentid(),result.get(i).getMedreminderchildid(),result.get(i).getMedicinetakendate(),result.get(i).getMedicinename(),result.get(i).getStrength(),result.get(i).getMorningtime(),
                         result.get(i).getMorningmedstatus(),result.get(i).getNoontime(),result.get(i).getNoonmedstatus(),result.get(i).getEveningtime(),
                         result.get(i).getEveninmedstatus(),result.get(i).getNighttime(),result.get(i).getNightmedstatus()));
                     }
@@ -388,6 +395,14 @@ public class MedicineReminderFragment extends Fragment implements View.OnClickLi
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         ApiInterface reditapi = retrofit.create(ApiInterface.class);
+        Log.d("Dialog", "timecall: parentid " +updateditems.getMedreminderparentid());
+        Log.d("Dialog", "timecall: childid" +updateditems.getMedreminderchildid());
+        Log.d("Dialog", "timecall: date " +updateditems.getDate());
+        Log.d("Dialog", "timecall: childid" +updateditems.getMorningmedstatus());
+        Log.d("Dialog", "timecall: date " +updateditems.getNoonmedstatus());
+        Log.d("Dialog", "timecall: date " +updateditems.getEveninmedstatus());
+        Log.d("Dialog", "timecall: date " +updateditems.getNightmedstatus());
+
         POST_TIME_UPDATE_CLASS postTimeUpdateClass = new POST_TIME_UPDATE_CLASS(updateditems.getMedreminderparentid(),updateditems.getMedreminderchildid(),updateditems.getDate(),updateditems.getMorningmedstatus(),updateditems.getNoonmedstatus(),
                 updateditems.getEveninmedstatus(),updateditems.getNightmedstatus());
         Call<VACCINE_UPDATE_RESPONSE> call = reditapi.get_med_update(postTimeUpdateClass);
@@ -401,7 +416,10 @@ public class MedicineReminderFragment extends Fragment implements View.OnClickLi
                     Log.d("Dialog", "remainderResponse: code: " +response.body());
                     Log.d("Dialog", "remainderReseponse: code: " +response.body().getCode());
                     Log.d("Dialog", "remainderResponse: result: " +response.body().getResults());
-                    Get_MED_Data(USER_ID,updateditems.getDate());
+                    int uid = (int) Prefs.getLong("spinner_id",0);
+                    Log.d(TAG,"Shared_profile_spinnerid"+uid);
+                    Log.d(TAG, "inspiner date" + FINAL_DATE);
+                    Get_MED_Data(uid,updateditems.getDate());
                 }
             }
 

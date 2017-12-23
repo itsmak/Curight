@@ -63,14 +63,14 @@ public class WHRAdapter extends RecyclerView.Adapter<WHRAdapter.MyViewHolder> {
         holder.tvDate.setText(arraylist_whr_list_dates.get(position).getDate());
         holder.tvPulse.setText(String.valueOf(arraylist_whr_list.get(position).getWhr()));
 
-        holder.delete_whr.setOnClickListener(new View.OnClickListener() {
+      /*  holder.delete_whr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 listener.onDelete(arraylist_whr_list.get(position).getWhrid());
 
 
             }
-        });
+        });*/
     }
 
 

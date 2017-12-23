@@ -64,6 +64,18 @@
                 android:layout_height="35dp"
                 android:paddingBottom="8dp"
                 android:layout_gravity="center" />
+
+            <ImageView
+                android:id="@+id/ivAddprofile"
+                android:padding="5dp"
+                android:layout_toRightOf="@id/tvTitle"
+                android:layout_width="0dp"
+                android:layout_weight="20"
+                android:layout_gravity="end"
+                android:layout_height="35dp"
+                android:visibility="gone"
+                android:src="@drawable/pluse2" />
+
             <ImageView
                 android:id="@+id/ivAdd"
                 android:padding="5dp"

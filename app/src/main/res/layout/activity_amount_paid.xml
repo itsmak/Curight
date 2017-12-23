@@ -38,12 +38,12 @@
 
     <android.support.v7.widget.CardView
         android:id="@+id/card_view2"
-        android:background="@drawable/border_rectangle"
         android:layout_width="match_parent"
-        android:layout_below="@+id/toolbar"
         android:layout_height="80dp"
+        android:layout_below="@+id/toolbar"
+        android:layout_centerHorizontal="true"
         android:layout_gravity="center"
-        android:layout_margin="5dp"
+        android:background="@drawable/border_rectangle"
         card_view:contentPadding="10dp">
 
         <RelativeLayout
@@ -51,27 +51,27 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerHorizontal="true">
+
             <TextView
-                android:layout_centerVertical="true"
                 android:id="@+id/tvTransactionIDlabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/transactionid"
-                android:textSize="15sp"
-                android:layout_marginLeft="20dp"
-                android:textColor="@color/darkgray"
-                />
-            <TextView
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="@string/transactionid"
+                android:textColor="@color/darkgray"
+                android:textSize="15sp" />
+
+            <TextView
                 android:id="@+id/tvTransactionID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="T12"
-                android:layout_toRightOf="@+id/tvTransactionIDlabel"
-                android:textSize="15sp"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/tvTransactionIDlabel"
+                android:text="T12"
                 android:textColor="@color/colorPrimary"
-                />
+                android:textSize="15sp" />
 
 
         </RelativeLayout>

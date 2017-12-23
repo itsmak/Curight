@@ -21,9 +21,14 @@
     <string name="referaldoctors">Referal Doctor:</string>
     <string name="doctorcontactno">Doctor Contact No:</string>
     <string name="address">Address:</string>
+    <string name="pincd">Enter Pin code:</string>
     <string name="addtext">Add</string>
     <string name="add">Add</string>
     <string name="or">OR</string>
+    <string name="nameerror">Enter a valid name</string>
+    <string name="emailerror">Enter a valid email</string>
+    <string name="mobileerror">Enter a valid mobile</string>
+    <string name="dateerror">Enter a valid date</string>
     <string name="emailid">Email ID:</string>
     <string name="testname">Test Name</string>
     <string name="amount">Amount</string>
@@ -69,11 +74,14 @@
     <string name="enterdiscount"> Enter Code</string>
     <string name="mygoal">My Goal is</string>
     <string name="calconsumed">Calories Consumed</string>
+    <string name="submit">Submit</string>
     <string name="calburned">Calories Burned</string>
     <string name="firstname">First Name</string>
+    <string name="fullname">Full Name</string>
     <string name="lastname">Last Name</string>
     <string name="medicinereminder1">Medicine Reminder</string>
     <string name="search_hint">Select City</string>
+    <string name="dob_hint">Date of Birth</string>
 
 
     <string name="vaccine">Vaccine</string>
@@ -203,6 +211,7 @@
 
     <string name="interest">Select Interest :</string>
     <string name="martial">MartialStatus</string>
+    <string name="relation">Relationship</string>
     <string name="bloodgroup">Blood Group</string>
     <string name="city">City</string>
     <string name="state">State</string>
@@ -244,7 +253,46 @@
     <string name="my_goal_formatted">My Goal is: %1$d</string>
     <string name="date_format">yyyy-MM-dd</string>
     <string name="km_h_formatted">%1$d km/h</string>
+    <string-array name="array_gender">
+        <item> </item>
+        <item>Male</item>
+        <item>Female</item>
+        </string-array>
+    <string-array name="array_relationship">
+        <item> </item>
+        <item>Friend</item>
+        <item>Son</item>
+        <item>Wife</item>
+        <item>Father</item>
+        <item>Mother</item>
+        <item>Sister</item>
+        <item>Daughter</item>
+    </string-array>
+    <string-array name="array_bloodgroup">
+        <item> </item>
+        <item>A+</item>
+        <item>A-</item>
+        <item>B+</item>
+        <item>B-</item>
+        <item>O+</item>
+        <item>O-</item>
+        <item>AB+</item>
+        <item>AB-</item>
+    </string-array>
+    <string-array name="array_state">
+        <item> </item>
+        <item>Karnataka</item>
+        <item>Tamil Nadu</item>
+        <item>Andra Paradesh</item>
+        <item>Bihar</item>
+        <item>West Bengal</item>
+        <item>Assam</item>
+        <item>Jharkhand</item>
+        <item>Uttar Pradesh</item>
+        <item>Kerala</item>
+    </string-array>
     <string-array name="location">
+        <item> </item>
         <item>Bangalore</item>
         <item>Kolkatta</item>
         <item>Hyderabad</item>

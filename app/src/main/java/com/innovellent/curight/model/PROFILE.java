@@ -7,9 +7,18 @@ package com.innovellent.curight.model;
 public class PROFILE {
 
     private String user_id;
+    private int id;
     private String user_name;
     private String user_age;
     private String user_relation;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getUser_id() {
         return user_id;
@@ -43,8 +52,9 @@ public class PROFILE {
         this.user_relation = user_relation;
     }
 
-    public PROFILE(String user_id, String user_name, String user_age, String user_relation) {
+    public PROFILE(String user_id, int id, String user_name, String user_age, String user_relation) {
         this.user_id = user_id;
+        this.id=id;
         this.user_name = user_name;
         this.user_age = user_age;
         this.user_relation = user_relation;

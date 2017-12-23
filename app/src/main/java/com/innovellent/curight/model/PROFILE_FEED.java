@@ -13,6 +13,10 @@ public class PROFILE_FEED {
     @Expose
     String userid;
 
+    @SerializedName("id")
+    @Expose
+    int id;
+
     @SerializedName("name")
     @Expose
     String name;
@@ -24,6 +28,14 @@ public class PROFILE_FEED {
     @SerializedName("relationship")
     @Expose
     String relationship;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getRelationship() {
         return relationship;

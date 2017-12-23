@@ -54,15 +54,15 @@ public class ChangeNightPrefrenseDialog extends Dialog {
         findViewById(R.id.btnTake).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onTake(new Medicine(item.getMedreminderparentid(), item.getMedreminderchildid(), item.getDate(), item.getMedicinename(), item.getMedicinemeasure(), item.getMorningtime(), item.getMorningmedstatus(), item.getNoontime(), "T",
-                        item.getEveningtime(), item.getEveninmedstatus(), item.getNighttime(), item.getNightmedstatus()));
+                listener.onTake(new Medicine(item.getMedreminderparentid(), item.getMedreminderchildid(), item.getDate(), item.getMedicinename(), item.getMedicinemeasure(), item.getMorningtime(), item.getMorningmedstatus(), item.getNoontime(), item.getNoonmedstatus(),
+                        item.getEveningtime(), item.getEveninmedstatus(), item.getNighttime(), "T"));
             }
         });
         findViewById(R.id.btnSkip).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onSkip(new Medicine(item.getMedreminderparentid(), item.getMedreminderchildid(), item.getDate(), item.getMedicinename(), item.getMedicinemeasure(), item.getMorningtime(), item.getMorningmedstatus(), item.getNoontime(), "S",
-                        item.getEveningtime(), item.getEveninmedstatus(), item.getNighttime(), item.getNightmedstatus()));
+                listener.onSkip(new Medicine(item.getMedreminderparentid(), item.getMedreminderchildid(), item.getDate(), item.getMedicinename(), item.getMedicinemeasure(), item.getMorningtime(), item.getMorningmedstatus(), item.getNoontime(), item.getNoonmedstatus(),
+                        item.getEveningtime(), item.getEveninmedstatus(), item.getNighttime(), "S"));
             }
         });
     }
