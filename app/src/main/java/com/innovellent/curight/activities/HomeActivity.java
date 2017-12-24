@@ -125,7 +125,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
+        Log.d(TAG,"Homeactivity: oncreate");
         sharedPreferences = getSharedPreferences("mypref", Context.MODE_PRIVATE);
         init();
         getSpinnerData();
@@ -177,11 +177,17 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG,"Homeactivity: onstart");
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
-
+        Log.d(TAG,"Homeactivity: onresume");
         String destination =Prefs.getString("destination","");
-        if(destination.equals("Remainder")){
+        if(destination.equalsIgnoreCase("Remainder")){
 
             ivAddprofile.setVisibility(View.GONE);
             tvTitle.setText("Reminder");
@@ -195,7 +201,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
             tabLayout.setupWithViewPager(viewPager);
             tabLayout.setTabMode(TabLayout.MODE_FIXED);
 
-        }else if(destination.equals("Profile"))
+        }else if(destination.equalsIgnoreCase("Profile"))
         {
             ivAddprofile.setVisibility(View.VISIBLE);
             ivAdd.setVisibility(View.INVISIBLE);
@@ -207,7 +213,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
             adapter.notifyDataSetChanged();
             setupViewPagerProfile(viewPager);
             tabLayout.setupWithViewPager(viewPager);
-        }else if(destination.equals("Track"))
+        }else if(destination.equalsIgnoreCase("Track"))
         {
             ivAddprofile.setVisibility(View.GONE);
             tvTitle.setText("Track");
@@ -222,12 +228,43 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
             tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
             tabLayout.setVisibility(View.VISIBLE);
         }
+        else {
+            ivAddprofile.setVisibility(View.GONE);
+            ivAdd.setVisibility(View.VISIBLE);
+            //tvTitle.setText("Home");
+            tvTitle.setVisibility(View.GONE);
+            viewPager.setVisibility(View.VISIBLE);
+            frameLayout.setVisibility(View.GONE);
+            spUser.setVisibility(View.GONE);
+            tabLayout.setVisibility(View.GONE);
+            adapter.notifyDataSetChanged();
+            setupViewPagerHome(viewPager);
+            tabLayout.setupWithViewPager(viewPager);
+        }
         Log.d(TAG,"shared-destination"+destination);
         onclick();
     }
 
-    public void getData2() {
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG,"Homeactivity: onPause");
+    }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG,"Homeactivity: onStop");
+        Prefs.putString("destination","");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG,"Homeactivity: onDestroy");
+    }
+
+    public void getData2() {
 
         customSpinnerAdapter3 = new PROFILE_SPINNER_ADAPTER(HomeActivity.this, spinnerList);
         spUser.setAdapter(customSpinnerAdapter3);

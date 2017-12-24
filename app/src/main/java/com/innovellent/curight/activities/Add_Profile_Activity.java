@@ -94,6 +94,7 @@ public class Add_Profile_Activity extends AppCompatActivity implements View.OnCl
             case R.id.ivBack:
                 Intent i = new Intent(Add_Profile_Activity.this, HomeActivity.class);
                 i.putExtra("flag", "profile");
+                Prefs.putString("destination","Profile");
                 startActivity(i);
                 break;
 
@@ -178,6 +179,7 @@ public class Add_Profile_Activity extends AppCompatActivity implements View.OnCl
                             if(response.body().getCode()==200){
                                 Toast.makeText(getApplicationContext(),"Profile Sussessfully Created",Toast.LENGTH_SHORT).show();
                                 Intent homeint = new Intent(getApplicationContext(), HomeActivity.class);
+                                Prefs.putString("destination","Profile");
                                 startActivity(homeint);
                                 finish();
                             }else {

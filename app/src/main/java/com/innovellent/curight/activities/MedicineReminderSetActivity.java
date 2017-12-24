@@ -437,6 +437,7 @@ public class MedicineReminderSetActivity extends AppCompatActivity implements Vi
             case R.id.ivBack:
                 Intent i2 = new Intent(MedicineReminderSetActivity.this, HomeActivity.class);
                 i2.putExtra("flag","medicine");
+                Prefs.putString("destination","Remainder");
                 startActivity(i2);
                 break;
 
