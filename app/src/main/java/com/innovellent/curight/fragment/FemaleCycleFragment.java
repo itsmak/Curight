@@ -40,6 +40,7 @@ import com.innovellent.curight.model.FctPojo;
 import com.innovellent.curight.model.ServerResponseBloodCount;
 import com.innovellent.curight.model.ServerResponseFct;
 import com.innovellent.curight.utility.Config;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -307,8 +308,9 @@ public class FemaleCycleFragment extends Fragment implements View.OnClickListene
                 .build();
 
         ApiInterface apiInterface = retrofit.create(ApiInterface.class);
+        int uid = (int) Prefs.getLong("user_id",0);
 
-        FctPojo fctPojo = new FctPojo(1);
+        FctPojo fctPojo = new FctPojo(uid);
 
         final Call<ResponseBody> call = apiInterface.getfctdata("abc", fctPojo);
 

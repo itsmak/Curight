@@ -50,6 +50,7 @@ import com.innovellent.curight.utility.Config;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -363,9 +364,9 @@ public class WHRFragment extends Fragment implements View.OnClickListener{
 
 
         try{
-
+            int uid = (int) Prefs.getLong("user_id",0);
             JSONObject paramObject = new JSONObject();
-            paramObject.put("userid", 7);
+            paramObject.put("userid", uid);
             paramObject.put("date", date);
             paramObject.put("hips", weight);
             paramObject.put("waist", height);

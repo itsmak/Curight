@@ -34,6 +34,7 @@ import com.innovellent.curight.model.BloodcountPojo;
 import com.innovellent.curight.model.ServerResponse;
 import com.innovellent.curight.model.ServerResponseBloodCount;
 import com.innovellent.curight.utility.Config;
+import com.pixplicity.easyprefs.library.Prefs;
 
 
 import org.json.JSONArray;
@@ -284,9 +285,9 @@ public class BloodCountListFragment extends Fragment implements View.OnClickList
                 .baseUrl(new Config().SERVER_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
+        int uid = (int) Prefs.getLong("user_id",0);
         ApiInterface apiInterface = retrofit.create(ApiInterface.class);
-        BloodcountPojo bloodcountPojo = new BloodcountPojo(1);
+        BloodcountPojo bloodcountPojo = new BloodcountPojo(uid);
 
         final Call<ResponseBody> call = apiInterface.getbloodcountdata("abc", bloodcountPojo);
 

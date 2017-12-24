@@ -293,8 +293,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
                 .build();
 
         ApiInterface reditapi = retrofit.create(ApiInterface.class);
-
-        PostBodyProfile postBodyprofile = new PostBodyProfile(1, "family");
+        int uid = (int) Prefs.getLong("user_id",0);
+        PostBodyProfile postBodyprofile = new PostBodyProfile(uid, "family");
         Call<MyProfile_Response> call = reditapi.getProfile(postBodyprofile);
 
         call.enqueue(new Callback<MyProfile_Response>() {
