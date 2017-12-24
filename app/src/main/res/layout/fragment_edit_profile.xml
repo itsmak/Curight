@@ -5,394 +5,332 @@
     android:orientation="vertical">
 
     <ScrollView
-        android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
         android:paddingBottom="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:orientation="vertical">
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/FirstName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="2dp">
-
-                <EditText
-                    android:id="@+id/etFirstName"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:backgroundTint="@color/gray"
-                    android:hint="@string/firstname"
-                    android:textColor="#717171"
-                    android:textSize="12sp" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/LastName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp">
-
-                <EditText
-                    android:id="@+id/etLastName"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:backgroundTint="@color/gray"
-                    android:hint="@string/lastname"
-                    android:textColor="@color/darkgray"
-                    android:textSize="12sp" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/Email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp">
-
-                <EditText
-                    android:id="@+id/etEmail"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:backgroundTint="@color/gray"
-                    android:hint="@string/emailid"
-                    android:textColor="@color/darkgray"
-                    android:textSize="12sp" />
-
-            </android.support.design.widget.TextInputLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:weightSum="100"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="50"
-                    android:layout_marginTop="1dp"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:id="@+id/tvGender"
-                        android:layout_width="wrap_content"
-                        android:text="Gender"
-                        android:visibility="gone"
-                        android:textSize="12sp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginLeft="12dp"
-                        android:textColor="#717171"
-                        android:layout_height="wrap_content" />
-
-                    <Spinner
-                        android:id="@+id/spGender"
-                        android:layout_width="fill_parent"
-                        style="@style/Widget.AppCompat.Spinner.Underlined"
-                        android:backgroundTint="@color/gray"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginTop="5dp"
-                       />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="50"
-                    android:layout_marginRight="10dp"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:id="@+id/tvMartialStatus"
-                        android:layout_width="wrap_content"
-                        android:text="@string/martial"
-                        android:visibility="gone"
-                        android:textSize="12sp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginLeft="12dp"
-                        android:textColor="#717171"
-                        android:layout_height="wrap_content" />
-
-                    <Spinner
-                        android:id="@+id/spMartialStatus"
-                        android:layout_width="fill_parent"
-                        style="@style/Widget.AppCompat.Spinner.Underlined"
-                        android:backgroundTint="@color/gray"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginTop="5dp"
-                        />
-                </RelativeLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/MobileNo"
-                    android:layout_width="0dp"
-                    android:layout_weight="50"
+                    android:id="@+id/FirstName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="2dp">
+
+                    <EditText
+                        android:id="@+id/etFullName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:backgroundTint="@color/gray"
+                        android:hint="@string/fullname"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:textColor="#717171"
+                        android:textSize="12sp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/Email"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp">
 
                     <EditText
-                        android:id="@+id/etMobileNo"
-                        android:inputType="text"
-                        android:maxLines="1"
+                        android:id="@+id/etEmail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="10dp"
                         android:backgroundTint="@color/gray"
-                        android:hint="@string/mobileno"
+                        android:hint="@string/emailid"
+                        android:inputType="text"
+                        android:maxLines="1"
                         android:textColor="@color/darkgray"
                         android:textSize="12sp" />
 
                 </android.support.design.widget.TextInputLayout>
 
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="50"
-                    android:layout_marginRight="10dp"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:id="@+id/tvBloodGroup"
-                        android:layout_width="wrap_content"
-                        android:text="@string/bloodgroup"
-                        android:visibility="gone"
-                        android:textSize="12sp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginLeft="12dp"
-                        android:textColor="#717171"
-                        android:layout_height="wrap_content" />
-
-                    <Spinner
-                        android:id="@+id/spBloodGroup"
-                        android:layout_width="fill_parent"
-                        style="@style/Widget.AppCompat.Spinner.Underlined"
-                        android:backgroundTint="@color/gray"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginTop="5dp"
-                        />
-                </RelativeLayout>
-
-             >
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal"
-                android:weightSum="100">
-
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="50">
-
-                    <TextView
-                        android:id="@+id/tvDateOfBirth"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="5dp"
-                        android:hint="Date Of Birth"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_below="@+id/tvDateOfBirth"
-                        android:background="@color/gray" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="50"
-                    android:layout_marginRight="10dp"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:id="@+id/tvCity"
-                        android:layout_width="wrap_content"
-                        android:text="@string/city"
-                        android:visibility="gone"
-                        android:textSize="12sp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginLeft="12dp"
-                        android:textColor="#717171"
-                        android:layout_height="wrap_content" />
-
-                    <Spinner
-                        android:id="@+id/spCity"
-                        android:layout_width="fill_parent"
-                        style="@style/Widget.AppCompat.Spinner.Underlined"
-                        android:backgroundTint="@color/gray"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginTop="5dp"
-                        />
-                </RelativeLayout>
-
-            </LinearLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/Address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp">
-
-                <EditText
-                    android:id="@+id/etAddress"
-                    android:inputType="text"
-                    android:maxLines="1"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:backgroundTint="@color/gray"
-                    android:hint="@string/address"
-                    android:textColor="@color/darkgray"
-                    android:textSize="12sp" />
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    android:weightSum="100">
 
-            </android.support.design.widget.TextInputLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="50"
-                    android:layout_marginLeft="5dp"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:id="@+id/tvState"
-                        android:layout_width="wrap_content"
-                        android:text="@string/state"
-                        android:visibility="gone"
-                        android:textSize="12sp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginLeft="12dp"
-                        android:textColor="#717171"
-                        android:layout_height="wrap_content" />
-
-                    <Spinner
-                        android:id="@+id/spState"
-                        android:layout_width="fill_parent"
-                        style="@style/Widget.AppCompat.Spinner.Underlined"
-                        android:backgroundTint="@color/gray"
+                    <RelativeLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginTop="5dp"
-                        />
-                </RelativeLayout>
+                        android:layout_weight="50">
 
+                        <TextView
+                            android:id="@+id/tvGender"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginLeft="12dp"
+                            android:text="Gender"
+                            android:textColor="#717171"
+                            android:textSize="12sp"
+                            android:visibility="visible" />
 
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="50"
-                    android:layout_marginRight="10dp"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:id="@+id/tvPin"
-                        android:layout_width="wrap_content"
-                        android:text="@string/pin"
-                        android:visibility="gone"
-                        android:textSize="12sp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginLeft="12dp"
-                        android:textColor="#717171"
-                        android:layout_height="wrap_content" />
+                        <Spinner
+                            android:id="@+id/spGender"
+                            style="@style/Widget.AppCompat.Spinner.Underlined"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:backgroundTint="@color/gray"
+                            android:drawSelectorOnTop="true"
+                            android:entries="@array/array_gender" />
+                    </RelativeLayout>
 
-                    <Spinner
-                        android:id="@+id/spPin"
-                        android:layout_width="fill_parent"
-                        style="@style/Widget.AppCompat.Spinner.Underlined"
-                        android:backgroundTint="@color/gray"
+                    <RelativeLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginTop="5dp"
-                        />
-                </RelativeLayout>
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="50">
 
+                        <TextView
+                            android:id="@+id/tvMartialStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginLeft="12dp"
+                            android:text="@string/relation"
+                            android:textColor="#717171"
+                            android:textSize="12sp"
+                            android:visibility="visible" />
 
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
+                        <Spinner
+                            android:id="@+id/sprelationship"
+                            style="@style/Widget.AppCompat.Spinner.Underlined"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:backgroundTint="@color/gray"
+                            android:drawSelectorOnTop="true"
+                            android:entries="@array/array_relationship" />
+                    </RelativeLayout>
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tvInterestlabel"
-                    android:layout_marginLeft="20dp"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="40"
-                    android:text="@string/interest"
-                    android:backgroundTint="@color/gray" />
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="50"
-                    android:layout_marginRight="10dp"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:id="@+id/tvInterest"
-                        android:layout_width="wrap_content"
-                        android:text="@string/interest1"
-                        android:visibility="gone"
-                        android:textSize="12sp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginLeft="12dp"
-                        android:textColor="#717171"
-                        android:layout_height="wrap_content" />
+                    android:orientation="horizontal">
 
-                    <Spinner
-                        android:id="@+id/spIntetest"
-                        android:layout_width="fill_parent"
-                        style="@style/Widget.AppCompat.Spinner.Underlined"
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/MobileNo"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="50">
+
+                        <EditText
+                            android:id="@+id/etMobileNo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:backgroundTint="@color/gray"
+                            android:editable="false"
+                            android:hint="@string/mobileno"
+                            android:maxLines="1"
+                            android:textColor="@color/darkgray"
+                            android:textSize="12sp" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_weight="50">
+
+                        <TextView
+                            android:id="@+id/tvBloodGroup"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginLeft="12dp"
+                            android:text="@string/bloodgroup"
+                            android:textColor="#717171"
+                            android:textSize="12sp"
+                            android:visibility="visible" />
+
+                        <Spinner
+                            android:id="@+id/spBloodGroup"
+                            style="@style/Widget.AppCompat.Spinner.Underlined"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="5dp"
+                            android:backgroundTint="@color/gray"
+                            android:drawSelectorOnTop="true"
+                            android:entries="@array/array_bloodgroup" />
+                    </RelativeLayout>
+
+                    >
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    android:weightSum="100">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_weight="50">
+
+                        <EditText
+                            android:id="@+id/etdateOfBirth"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/gray"
+                            android:editable="false"
+                            android:hint="@string/dob_hint"
+                            android:maxLines="1"
+                            android:textColor="@color/darkgray"
+                            android:textSize="12sp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="50">
+
+                        <TextView
+                            android:id="@+id/tvCity"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginLeft="12dp"
+                            android:text="@string/city"
+                            android:textColor="#717171"
+                            android:textSize="12sp"
+                            android:visibility="visible" />
+
+                        <Spinner
+                            android:id="@+id/spCity"
+                            style="@style/Widget.AppCompat.Spinner.Underlined"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:backgroundTint="@color/gray"
+                            android:drawSelectorOnTop="true"
+                            android:entries="@array/location" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/Address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="5dp">
+
+                    <EditText
+                        android:id="@+id/etAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
                         android:backgroundTint="@color/gray"
+                        android:hint="@string/address"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:textColor="@color/darkgray"
+                        android:textSize="12sp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginTop="5dp"
-                        />
-                </RelativeLayout>
+                        android:layout_weight="50">
 
+                        <TextView
+                            android:id="@+id/tvState"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="12dp"
+                            android:text="@string/state"
+                            android:textColor="#717171"
+                            android:textSize="12sp"
+                            android:visibility="visible" />
+
+                        <Spinner
+                            android:id="@+id/spState"
+                            style="@style/Widget.AppCompat.Spinner.Underlined"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:backgroundTint="@color/gray"
+                            android:drawSelectorOnTop="true"
+                            android:entries="@array/array_state" />
+                    </RelativeLayout>
+
+
+                    <EditText
+                        android:id="@+id/etpincd"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="50"
+                        android:backgroundTint="@color/gray"
+                        android:hint="@string/pincd"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:textColor="@color/darkgray"
+                        android:textSize="12sp">
+
+                    </EditText>
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btn_submit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/colorPrimary"
+                    android:paddingBottom="7dp"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="30dp"
+                    android:paddingTop="7dp"
+                    android:text="@string/submit"
+                    android:textColor="@color/white" />
 
             </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

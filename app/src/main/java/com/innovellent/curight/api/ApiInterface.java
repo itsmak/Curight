@@ -30,8 +30,15 @@ import com.innovellent.curight.model.POST_UPDATE_CLASS;
 import com.innovellent.curight.model.ParameterPojo;
 import com.innovellent.curight.model.PatientReportsPojo;
 import com.innovellent.curight.model.PhotosCenterByDC;
+import com.innovellent.curight.model.PostAddProfile;
 import com.innovellent.curight.model.PostBodyClass;
 import com.innovellent.curight.model.PostBodyProfile;
+import com.innovellent.curight.model.PostBodyRegister;
+import com.innovellent.curight.model.Post_Family_Update;
+import com.innovellent.curight.model.Post_MedReminderAdd;
+import com.innovellent.curight.model.Post_Profile_Update;
+import com.innovellent.curight.model.Profile_Response;
+import com.innovellent.curight.model.Registration_Response;
 import com.innovellent.curight.model.SearchingCenter;
 import com.innovellent.curight.model.ServerResponse;
 import com.innovellent.curight.model.ServerResponseAuth;
@@ -53,6 +60,7 @@ import com.innovellent.curight.model.ServerResponseOverviewByDC;
 import com.innovellent.curight.model.ServerResponsePhotosByDC;
 import com.innovellent.curight.model.ServerResponseTest;
 import com.innovellent.curight.model.ServerResponseWHRGet;
+import com.innovellent.curight.model.ServerResponsemedicine;
 import com.innovellent.curight.model.ServerSearchPage;
 import com.innovellent.curight.model.TestBookingCreate;
 import com.innovellent.curight.model.TestBookingDetail;
@@ -247,6 +255,11 @@ public interface ApiInterface {
     @POST("patientprofile/getprofile")
     Call<MyProfile_Response> getProfile(@Body PostBodyProfile userId);;
 
+    //get profile
+    @Headers("x-access-token: hjjgkuykg")
+    @POST("patientprofile/getprofile")
+    Call<Profile_Response> getProfileIndividual(@Body PostBodyProfile userId);;
+
     //get vaccine update
     @Headers("x-access-token: hjjgkuykg")
     @POST("vaccine/update")
@@ -262,9 +275,38 @@ public interface ApiInterface {
     @POST("medreminder/get")
     Call<MED_REMAINDER_RESPONSE> get_med_remainder(@Body POST_MED_CLASS userid);;
 
+    //create user
+    @Headers("x-access-token: hjjgkuykg")
+    @POST("medreminder/create")
+    Call<Registration_Response> createmedremainder(@Body Post_MedReminderAdd userId);;
+
     //get vaccine create
     @Headers("x-access-token: hjjgkuykg")
     @POST("medreminder/update")
     Call<VACCINE_UPDATE_RESPONSE> get_med_update(@Body POST_TIME_UPDATE_CLASS userid);;
+
+    //create user
+    @Headers("x-access-token: hjjgkuykg")
+    @POST("user/create")
+    Call<Registration_Response> createUser(@Body PostBodyRegister userId);;
+
+    //create profile
+    @Headers("x-access-token: hjjgkuykg")
+    @POST("family/create")
+    Call<Registration_Response> createprofile(@Body PostAddProfile userId);;
+
+    //get all medicine
+    @GET("medreminder/medicine/get")
+    Call<ServerResponsemedicine> getAllMedicine();
+
+    //create user
+    @Headers("x-access-token: hjjgkuykg")
+    @POST("patientprofile/update")
+    Call<Registration_Response> updatepatientprofile(@Body Post_Profile_Update userId);;
+
+    @Headers("x-access-token: hjjgkuykg")
+    @POST("patientprofile/update")
+    Call<Registration_Response> updatefamilyprofile(@Body Post_Family_Update userId);;
+
 
 }

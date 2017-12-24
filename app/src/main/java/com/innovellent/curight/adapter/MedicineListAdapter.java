@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 
 import com.innovellent.curight.R;
+import com.innovellent.curight.fragment.Medicine_list;
 
 import java.util.ArrayList;
 
@@ -19,10 +20,13 @@ import java.util.ArrayList;
 
 public class MedicineListAdapter  extends RecyclerView.Adapter<MedicineListAdapter.MyViewHolder> {
 
-    private ArrayList<String> arrayList = new ArrayList<>();
+    private ArrayList<Medicine_list> arrayList = new ArrayList<>();
     private Context mContext;
     private String state;
     RadioButton selected=null;
+
+
+
     class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvMedicineName;
@@ -38,7 +42,7 @@ public class MedicineListAdapter  extends RecyclerView.Adapter<MedicineListAdapt
         }
     }
 
-    public MedicineListAdapter(Context context,ArrayList<String> arrayList) {
+    public MedicineListAdapter(Context context,ArrayList<Medicine_list> arrayList) {
         mContext = context;
         this.arrayList = arrayList;
 
@@ -53,14 +57,14 @@ public class MedicineListAdapter  extends RecyclerView.Adapter<MedicineListAdapt
     @Override
     public void onBindViewHolder(final MedicineListAdapter.MyViewHolder holder, final int position) {
 
-        holder.tvMedicineName.setText(arrayList.get(position).toString());
+        holder.tvMedicineName.setText(arrayList.get(position).getMedicinename());
 
         holder.cbDiagnosticTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 SharedPreferences sharedPreferences = mContext.getSharedPreferences("mypref", Context.MODE_PRIVATE);
                 SharedPreferences.Editor et = sharedPreferences.edit();
-                et.putString("medicinename",arrayList.get(position).toString());
+                et.putString("medicinename",arrayList.get(position).getMedicinename().toString());
                 et.commit();
                 if(selected != null)
                 {
@@ -79,6 +83,11 @@ public class MedicineListAdapter  extends RecyclerView.Adapter<MedicineListAdapt
     @Override
     public int getItemCount() {
         return arrayList.size();
+    }
+
+    public void filterlist(ArrayList<Medicine_list> filteredlist) {
+        arrayList=filteredlist;
+        notifyDataSetChanged();
     }
 }
 

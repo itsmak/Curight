@@ -64,7 +64,7 @@
                 android:textColor="#0075b2" />-->
 
             <TextView
-                android:id="@+id/register"
+                android:id="@+id/register_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/etMobile"
@@ -78,7 +78,7 @@
                 android:id="@+id/llSubmit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/register"
+                android:layout_below="@+id/register_tv"
                 android:layout_marginBottom="40dp"
                 android:layout_marginTop="40dp"
                 android:orientation="horizontal"

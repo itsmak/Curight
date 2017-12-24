@@ -94,10 +94,6 @@ public class BPFragment extends Fragment implements View.OnClickListener {
         return rootView;
     }
 
-
-
-
-
     public void setGreen() {
         ivBmi.setBackgroundResource(R.mipmap.ic_statscopegreen);
         //  llStatus.setBackgroundColor(Color.parseColor("#C0F3AD"));
@@ -237,7 +233,7 @@ public class BPFragment extends Fragment implements View.OnClickListener {
             JSONObject paramObject = new JSONObject();
             paramObject.put("userid", userId);
 
-            Call<ServerResponse<BloodPressureReport>> call = apiInterface.getBloodPressureRecords(accessToken, paramObject.toString());
+            Call<ServerResponse<BloodPressureReport>> call = apiInterface.getBloodPressureRecords("bgvvgjhhjv", paramObject.toString());
             call.enqueue(new Callback<ServerResponse<BloodPressureReport>>() {
                 @Override
                 public void onResponse(Call<ServerResponse<BloodPressureReport>> call, Response<ServerResponse<BloodPressureReport>> response) {
@@ -246,7 +242,7 @@ public class BPFragment extends Fragment implements View.OnClickListener {
                         if (response.isSuccessful()) {
                             ServerResponse<BloodPressureReport> serverResponse = response.body();
                             BloodPressureReport report = serverResponse.getResults();
-
+                            Log.d("BP", report.toString());
                             systolicDiastolic.setText(getActivity().getString(R.string.systolic_diastolic_formatted, report.getSystolic(), report.getDiastolic()));
                             pulse.setText(String.valueOf(report.getPulse()));
                             switch (report.getBpFlag()) {

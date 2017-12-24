@@ -23,6 +23,9 @@ public class MEDCN_FEED {
     @SerializedName("medicinename")
     private String medicinename;
 
+    @SerializedName("medicinetakendate")
+    private String medicinetakendate;
+
     @SerializedName("strength")
     private String strength;
 
@@ -182,5 +185,13 @@ public class MEDCN_FEED {
 
     public void setNightmedstatus(String nightmedstatus) {
         this.nightmedstatus = nightmedstatus;
+    }
+
+    public String getMedicinetakendate() {
+        return medicinetakendate;
+    }
+
+    public void setMedicinetakendate(String medicinetakendate) {
+        this.medicinetakendate = medicinetakendate;
     }
 }

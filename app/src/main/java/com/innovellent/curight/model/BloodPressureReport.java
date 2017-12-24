@@ -19,7 +19,7 @@ public class BloodPressureReport {
     private String bpFlag;
 
     @SerializedName("bpList")
-    private List<BloodPressureDayWise> bpList = null;
+    private List<BloodPressureDayWise> bpList;
 
     public BloodPressureReport(Integer pulse, Integer systolic, Integer diastolic, String bpFlag, List<BloodPressureDayWise> bpList) {
         this.pulse = pulse;

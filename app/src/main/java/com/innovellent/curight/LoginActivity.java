@@ -10,17 +10,20 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.innovellent.curight.activities.DiagnosticCentersActivity;
 import com.innovellent.curight.activities.DiagnosticTestListActivity;
+import com.innovellent.curight.activities.RegistrationActivity;
 import com.innovellent.curight.api.ApiInterface;
-import com.innovellent.curight.model.AccessToken;
+
 import com.innovellent.curight.model.Login;
 import com.innovellent.curight.model.ServerResponseLogin;
 import com.innovellent.curight.model.User;
 import com.innovellent.curight.utility.Config;
 import com.innovellent.curight.utility.Util;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,8 +33,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class LoginActivity extends Activity {
-    private Button btContinue;
+    private Button btContinue,etContinue1;
     private EditText etUsername;
+    private TextView register_tv;
     String user_name;
     private User _user;
     SharedPreferences sharedPreferences;
@@ -44,10 +48,25 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.layout_login);
         etUsername = (EditText) findViewById(R.id.etMobile);
         btContinue=(Button)findViewById(R.id.etContinue);
-
+        etContinue1 = (Button) findViewById(R.id.etContinue1);
+        register_tv = (TextView) findViewById(R.id.register_tv);
 
          sharedPreferences = getSharedPreferences("mypref", Context.MODE_PRIVATE);
          et = sharedPreferences.edit();
+        register_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent reg = new Intent(getApplicationContext(), RegistrationActivity.class);
+                startActivity(reg);
+            }
+        });
+         etContinue1.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+                 Prefs.putString("destination", "");
+                 LoginActivity.super.onBackPressed();
+             }
+         });
 
         btContinue.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,7 +80,6 @@ public class LoginActivity extends Activity {
 
 
                     ApiInterface apiInterface = retrofit.create(ApiInterface.class);
-
 
                     Login login = new Login(user_name,"123","M");
 
@@ -77,8 +95,8 @@ public class LoginActivity extends Activity {
                             if ("200".equals(code)) {
                                 _user = responseLogin.getResults().get(0);
 
-                                Log.e("LOGIN","User  :: "+_user.getName()+" Mobile :: "+_user.getMobile()+" OTP :: "+_user.getOtp());
 
+                                Log.e("LOGIN","User  :: "+_user.getName()+" Mobile :: "+_user.getMobile()+" OTP :: "+_user.getOtp());
 
                                // if (_user!=null && _user.getUserid()<=0L) {
                                 /*SharedPreferences sharedPreferences = getSharedPreferences("mypref", Context.MODE_PRIVATE);
@@ -90,6 +108,8 @@ public class LoginActivity extends Activity {
                                 et.putString("email",_user.getEmail());
                                 et.apply();
                                 et.commit();
+//
+
 
                                 Intent intent = new Intent(LoginActivity.this, OtpVerifyActivity.class);
                                 Bundle bundle = new Bundle();
@@ -100,6 +120,7 @@ public class LoginActivity extends Activity {
                                 bundle.putLong("otp", _user.getOtp());
                                 intent.putExtras(bundle);
                                 startActivity(intent);
+                                finish();
 
                             } /*else {
                                 //Toast.makeText(LoginActivity.this,"Login",Toast.LENGTH_LONG).show();
@@ -117,7 +138,6 @@ public class LoginActivity extends Activity {
             }
         });
     }
-
 
     public boolean validateInput() {
         user_name = etUsername.getText().toString();

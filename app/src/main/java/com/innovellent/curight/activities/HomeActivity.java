@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.multidex.MultiDex;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
@@ -66,6 +67,7 @@ import com.innovellent.curight.model.PostBodyProfile;
 import com.innovellent.curight.model.ReminderDialog;
 import com.innovellent.curight.utility.BottomNavigationViewHelper;
 import com.innovellent.curight.utility.Config;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,7 +103,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
     String[] spinner1 = {"John", "Jobby", "Suresh", "Mahesh"};
     ArrayList<String> arrayList = new ArrayList<String>();
     FrameLayout frameLayout;
-    ImageView ivBack, ivBack1, ivAdd;
+    ImageView ivBack, ivBack1, ivAdd,ivAddprofile;
     Fragment currentFragment;
     TabLayout tabLayout;
     private NavigationDrawerFragment mNavigationDrawerFragment;
@@ -114,6 +116,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
     public boolean activityStartup = true;
     BPFragment bp;
     PROFILE_SPINNER_ADAPTER customSpinnerAdapter3;
+    private static final String TAG = "CuRight";
     ArrayList<PROFILE> spinnerList=new ArrayList<PROFILE>();
     public static String USER_ID;
     SharedPreferences sharedPreferences;
@@ -125,8 +128,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
 
         sharedPreferences = getSharedPreferences("mypref", Context.MODE_PRIVATE);
         init();
-       getSpinnerData();
-        onclick();
+        getSpinnerData();
+        //onclick();
         bp = new BPFragment();
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -138,6 +141,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
         }
 
         ivAdd = (ImageView) findViewById(R.id.ivAdd);
+
         ivAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -147,7 +151,16 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
 
 
         ivBack = (ImageView) findViewById(R.id.ivback);
+        ivAddprofile = (ImageView) findViewById(R.id.ivAddprofile);
         ivBack1 = (ImageView) findViewById(R.id.ivback1);
+
+        ivAddprofile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent add = new Intent(getApplicationContext(),Add_Profile_Activity.class);
+                startActivity(add);
+            }
+        });
 
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,10 +174,57 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
                 }
             }
         });
-
-
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        String destination =Prefs.getString("destination","");
+        if(destination.equals("Remainder")){
+
+            ivAddprofile.setVisibility(View.GONE);
+            tvTitle.setText("Reminder");
+            ivAdd.setVisibility(View.INVISIBLE);
+            viewPager.setVisibility(View.VISIBLE);
+            frameLayout.setVisibility(View.GONE);
+            tabLayout.setVisibility(View.VISIBLE);
+            spUser.setVisibility(View.GONE);
+            adapter.notifyDataSetChanged();
+            setupViewPagerMedicineReminder(viewPager);
+            tabLayout.setupWithViewPager(viewPager);
+            tabLayout.setTabMode(TabLayout.MODE_FIXED);
+
+        }else if(destination.equals("Profile"))
+        {
+            ivAddprofile.setVisibility(View.VISIBLE);
+            ivAdd.setVisibility(View.INVISIBLE);
+            tvTitle.setText("Profile");
+            viewPager.setVisibility(View.VISIBLE);
+            frameLayout.setVisibility(View.GONE);
+            spUser.setVisibility(View.GONE);
+            tabLayout.setVisibility(View.GONE);
+            adapter.notifyDataSetChanged();
+            setupViewPagerProfile(viewPager);
+            tabLayout.setupWithViewPager(viewPager);
+        }else if(destination.equals("Track"))
+        {
+            ivAddprofile.setVisibility(View.GONE);
+            tvTitle.setText("Track");
+            ivAdd.setVisibility(View.INVISIBLE);
+            viewPager.setVisibility(View.VISIBLE);
+            frameLayout.setVisibility(View.GONE);
+            spUser.setVisibility(View.VISIBLE);
+            tabLayout.setVisibility(View.VISIBLE);
+            adapter.notifyDataSetChanged();
+            setupViewPagerTrack(viewPager);
+            tabLayout.setupWithViewPager(viewPager);
+            tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+            tabLayout.setVisibility(View.VISIBLE);
+        }
+        Log.d(TAG,"shared-destination"+destination);
+        onclick();
+    }
 
     public void getData2() {
 
@@ -217,7 +277,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
 
                          USER_ID = result.get(i).getUserid();
                         //spinnerList.add(new PROFILE("","","",""));
-                        spinnerList.add(new PROFILE(result.get(i).getUserid(), result.get(i).getName(), result.get(i).getAge(), result.get(i).getRelationship()));
+                        spinnerList.add(new PROFILE(result.get(i).getUserid(),result.get(i).getId(), result.get(i).getName(), result.get(i).getAge(), result.get(i).getRelationship()));
                     }
                     getData2();
                    // GetData(result.get(1).getUserid());
@@ -261,12 +321,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
                 break;
             case "myoffering":
 
-
         }
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.frame_container, currentFragment).commit();
-
     }
 
 
@@ -279,11 +337,16 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
         Fragment fragment = null;
         switch (position) {
 
-
+            case 0:
+                //Toast.makeText(getApplicationContext(),"About us Clicked",Toast.LENGTH_SHORT).show();
+                break;
+            case 5:
+                Prefs.putLong("user_id",0);
+                init();
+                Toast.makeText(getApplicationContext(),"You are Sussessfully Logged out",Toast.LENGTH_SHORT).show();
             case 7:
 
                 break;
-
 
             default:
                 break;
@@ -330,7 +393,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
                 }
             }
         });*/
-            tvSave=(TextView)findViewById(R.id.tvSave);
+        tvSave=(TextView)findViewById(R.id.tvSave);
         frameLayout = (FrameLayout) findViewById(R.id.rlMainFragment);
         tabLayout.setTabTextColors(
                 ContextCompat.getColor(this, R.color.graylight),
@@ -349,9 +412,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
+                Long uid = Prefs.getLong("user_id",0);
                 switch (item.getItemId()) {
                     case R.id.action_home:
+                        ivAddprofile.setVisibility(View.GONE);
                         ivAdd.setVisibility(View.VISIBLE);
                         //tvTitle.setText("Home");
                         tvTitle.setVisibility(View.GONE);
@@ -365,12 +429,16 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
 
                         return true;
                     case R.id.action_reminder:
-                        if (!HomeActivity.this.isLoggedIn()) {
+
+                       Log.d("TAG","Shared userid"+uid);
+                        if (uid==0) {
                             Intent i = new Intent(HomeActivity.this, LoginActivity.class);
+                           Prefs.putString("destination", "Remainder");
                             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(i);
                         }else {
+                            ivAddprofile.setVisibility(View.GONE);
                             tvTitle.setText("Reminder");
                             ivAdd.setVisibility(View.INVISIBLE);
                             viewPager.setVisibility(View.VISIBLE);
@@ -385,12 +453,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
 
                         return true;
                     case R.id.action_article:
-                        if (!HomeActivity.this.isLoggedIn()) {
-                            Intent i = new Intent(HomeActivity.this, LoginActivity.class);
-                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(i);
-                        }else {
+//                        if (!HomeActivity.this.isLoggedIn()) {
+//                            Intent i = new Intent(HomeActivity.this, LoginActivity.class);
+//                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                            startActivity(i);
+//                        }else {
+                        ivAddprofile.setVisibility(View.GONE);
                             tvTitle.setText("Article");
                             ivAdd.setVisibility(View.INVISIBLE);
                             viewPager.setVisibility(View.VISIBLE);
@@ -401,19 +470,19 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
                             setupViewPagerArticle(viewPager);
                             tabLayout.setupWithViewPager(viewPager);
                             tabLayout.setTabMode(TabLayout.MODE_FIXED);
-                        }
+                       // }
 
                         return true;
                     case R.id.action_track:
 
-                        /*if (!HomeActivity.this.isLoggedIn()) {
+                        if (uid==0) {
                             Intent i = new Intent(HomeActivity.this, LoginActivity.class);
+                            Prefs.putString("destination", "Track");
                             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(i);
-                        }else {*/
-
-
+                        }else {
+                            ivAddprofile.setVisibility(View.GONE);
                             tvTitle.setText("Track");
                             ivAdd.setVisibility(View.INVISIBLE);
                             viewPager.setVisibility(View.VISIBLE);
@@ -425,17 +494,20 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
                             tabLayout.setupWithViewPager(viewPager);
                             tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
                             tabLayout.setVisibility(View.VISIBLE);
-                        //}
+                        }
 
                         return true;
 
                     case R.id.action_profile:
-                        if (!HomeActivity.this.isLoggedIn()) {
+                       // Long uid = Prefs.getLong("user_id",0);
+                        if (uid==0) {
                             Intent i = new Intent(HomeActivity.this, LoginActivity.class);
+                            Prefs.putString("destination", "Profile");
                             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(i);
                         }else {
+                            ivAddprofile.setVisibility(View.VISIBLE);
                             ivAdd.setVisibility(View.INVISIBLE);
                             tvTitle.setText("Profile");
                             viewPager.setVisibility(View.VISIBLE);
