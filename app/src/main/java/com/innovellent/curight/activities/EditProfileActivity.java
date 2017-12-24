@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import com.innovellent.curight.R;
 import com.innovellent.curight.fragment.EditProfileFragment;
 import com.innovellent.curight.fragment.EmergencyContactFragment;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,10 +62,9 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
             case R.id.ivBack:
                 Intent i = new Intent(EditProfileActivity.this, HomeActivity.class);
                 i.putExtra("flag", "profile");
+                Prefs.putString("destination","Profile");
                 startActivity(i);
                 break;
-
-
         }
     }
 
@@ -72,6 +72,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     public void onBackPressed() {
         Intent i = new Intent(EditProfileActivity.this, HomeActivity.class);
         i.putExtra("flag", "profile");
+        Prefs.putString("destination","Profile");
         startActivity(i);
         finish();
         super.onBackPressed();

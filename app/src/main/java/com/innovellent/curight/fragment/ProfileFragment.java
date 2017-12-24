@@ -182,9 +182,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             public void onResponse(Call<Profile_Response> call, Response<Profile_Response> response) {
 
                 if (response.body() != null) {
-                 //   Log.e(TAG, "profileResponse: code: " + response.body().getCode());
+                    Log.e(TAG, "profileResponse: code: " + response.body().getCode());
                     ArrayList<PROFILE_RESPONSE_FEED> result = response.body().getResults();
-                 //   Log.e(TAG, "profileResponse: listsize: " + result.size());
+                    Log.e(TAG, "profileResponse: listsize: " + result.size());
                     for (int i = 0; i < result.size(); i++) {
 
                        Log.e(TAG, "profileResponse: id: " + result.get(i).getId());
@@ -199,6 +199,17 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                         tvLDL.setText(String.valueOf(result.get(i).getHdl())+"-"+String.valueOf(result.get(i).getLdl()));
                         tvMyHeight.setText(result.get(i).getHeight());
                     }
+                }else{
+                    Toast.makeText(getActivity(), "No Data", Toast.LENGTH_SHORT).show();
+                    tvprofile_name.setText("Name: ");
+                    tv_patient_id.setText("Patient ID: ");
+                    tvWeight.setText(" ");
+                    tvBloodPressure.setText(" ");
+                    tvBMI.setText(" ");
+                    tvCholestrol.setText(" ");
+                    tvHDL.setText(" ");
+                    tvLDL.setText(" ");
+                    tvMyHeight.setText(" ");
                 }
 
             }
