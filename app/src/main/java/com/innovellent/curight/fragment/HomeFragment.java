@@ -25,6 +25,7 @@ import com.innovellent.curight.activities.DiagnosticTestListActivity;
 import com.innovellent.curight.activities.DoctorAppointmentActivity;
 import com.innovellent.curight.activities.HomeActivity;
 import com.innovellent.curight.activities.SearchActivity;
+import com.innovellent.curight.activities.YourReportsActivity;
 import com.innovellent.curight.adapter.CustomAdapter;
 import com.innovellent.curight.adapter.ViewPagerAdapter;
 
@@ -38,7 +39,7 @@ public class HomeFragment extends Fragment  implements View.OnClickListener{
     TextView tvTitle,titleOne,titleThree;
     public static EditText editMobileNo;
     private int   mScrollState;
-    RelativeLayout rlBookTest,rlFood,rlHealthPackage,rlDoctorAppoinment;
+    RelativeLayout rlBookTest,rlFood,rlHealthPackage,rlDoctorAppoinment,rlYoursReports;
     LinearLayout llSliderdotpanel;
     private int dotscount;
 
@@ -148,6 +149,7 @@ public class HomeFragment extends Fragment  implements View.OnClickListener{
         imageView1.setImageResource(R.drawable.circular_blue);
         ivHealthPackage.setOnClickListener(this);
         rlDoctorAppoinment.setOnClickListener(this);
+        rlYoursReports.setOnClickListener(this);
 
 
 
@@ -168,6 +170,7 @@ public void init(View rootView){
     rlDoctorAppoinment = (RelativeLayout)rootView.findViewById(R.id.rlDoctorAppointment);
     rlHealthPackage=(RelativeLayout)rootView.findViewById(R.id.rlHealthPackage);
     ivHealthPackage=(ImageView)rootView.findViewById(R.id.ivHealthPackage);
+    rlYoursReports= (RelativeLayout)rootView.findViewById(R.id.rlYoursReports);
   // llSliderdotpanel=(LinearLayout)rootView.findViewById(R.id.llSliderDots);
 
 
@@ -339,6 +342,10 @@ public void timedatepicker(){
             case R.id.rlDoctorAppointment:
                 Intent i_doctorappointment = new Intent(getActivity(),DoctorAppointmentActivity.class);
                 startActivity(i_doctorappointment);
+                break;
+            case R.id.rlYoursReports:
+                Intent i_yourreports = new Intent(getActivity(), YourReportsActivity.class);
+                startActivity(i_yourreports);
                 break;
 
 

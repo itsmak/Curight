@@ -24,7 +24,7 @@ public class BloodCountListAdapter extends RecyclerView.Adapter<BloodCountListAd
     class MyViewHolder extends RecyclerView.ViewHolder {
 
 
-       TextView tvAntiCPP,tvCRP,tvESR,tvHaemoglobin,tvHbA1c,tvINR,tvPlatelet,tvProlactin,tvRBC,tvRF,tvWBC;
+       TextView tvAntiCPP,tvCRP,tvESR,tvHaemoglobin,tvHbA1c,tvINR,tvPlatelet,tvProlactin,tvRBC,tvRF,tvWBC,txt_bloodcountdate;
 
         MyViewHolder(View view) {
             super(view);
@@ -39,6 +39,7 @@ public class BloodCountListAdapter extends RecyclerView.Adapter<BloodCountListAd
             tvRBC=(TextView)view.findViewById(R.id.tvRBC);
             tvRF=(TextView)view.findViewById(R.id.tvRF);
             tvWBC=(TextView)view.findViewById(R.id.tvWBC);
+            txt_bloodcountdate = (TextView)view.findViewById(R.id.txt_bloodcountdate);
 
         }
     }
@@ -57,6 +58,7 @@ public class BloodCountListAdapter extends RecyclerView.Adapter<BloodCountListAd
 
     @Override
     public void onBindViewHolder(final BloodCountListAdapter.MyViewHolder holder, final int position) {
+
         holder.tvAntiCPP.setText(arrayList.get(position).getAntiCPP());
         holder.tvCRP.setText(arrayList.get(position).getCRP());
         holder.tvESR.setText(arrayList.get(position).getESR());
@@ -68,6 +70,7 @@ public class BloodCountListAdapter extends RecyclerView.Adapter<BloodCountListAd
         holder.tvRBC.setText(arrayList.get(position).getRBC());
         holder.tvRF.setText(arrayList.get(position).getRF());
         holder.tvWBC.setText(arrayList.get(position).getWBC());
+        holder.txt_bloodcountdate.setText(arrayList.get(position).getDate());
 
 
 

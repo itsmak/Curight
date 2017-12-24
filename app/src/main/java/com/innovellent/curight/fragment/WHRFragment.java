@@ -1,17 +1,24 @@
 package com.innovellent.curight.fragment;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -48,6 +55,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -90,6 +98,14 @@ public class WHRFragment extends Fragment implements View.OnClickListener{
     private long userId;
     JSONObject jsonObject2;
     int whrid;
+    String about;
+    private String date, waist, hip;
+    private RelativeLayout dateButton, timeButton;
+    private EditText etDate,  etWaist, etHip;
+    private Button btnSubmit_whr;
+    Context context;
+    public ImageView ivCancel;
+    private DatePickerDialog datePickerDialog;
     public WHRFragment() {
 
     }
@@ -183,13 +199,77 @@ public class WHRFragment extends Fragment implements View.OnClickListener{
 
 
 
+
     private void addWHR() {
-        addWHRDialog = new AddWHRDialog(getActivity(), new AddWHRDialog.AddWHRDialogClickListener() {
+
+        final Dialog dialog = new Dialog(getActivity());
+
+        dialog.setContentView(R.layout.dialog_add_whr);
+
+        getActivity().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+
+        dateButton = (RelativeLayout) dialog.findViewById(R.id.date_layout_whr);
+
+        etDate = (EditText) dialog.findViewById(R.id.tv_date_whr);
+        etWaist = (EditText)dialog. findViewById(R.id.waist_whr);
+        etHip = (EditText) dialog.findViewById(R.id.hip_whr);
+        btnSubmit_whr =(Button)dialog.findViewById(R.id.btnSubmit_whr);
+        ivCancel = (ImageView)dialog.findViewById(R.id.ivCancel);
+
+        final Calendar calendar = Calendar.getInstance();
+
+        datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                etDate.setText(getContext().getString(R.string.date_formatted, year, month + 1, dayOfMonth));
+            }
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
+
+        dateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                datePickerDialog.show();
+            }
+        });
+
+        btnSubmit_whr.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                showProgressDialog("Adding");
+                validateInputs();
+
+
+            }
+        });
+
+        ivCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+
+        dialog.show();
+
+
+
+       /* addWHRDialog = new AddWHRDialog(getActivity(), new AddWHRDialog.AddWHRDialogClickListener() {
             @Override
             public void onSubmit(String date, String height, String weight) {
                 addWHRDialog.dismiss();
                 showProgressDialog("Adding");
                 addWHRRecord(date, height, weight);
+                tvList.setTextColor(Color.parseColor("#9DA1A0"));
+                rlGraph.setVisibility(View.GONE);
+                cvCard.setVisibility(View.GONE);
+                mAdapter.notifyDataSetChanged();
+                recyclerView.setAdapter(mAdapter);
+                recyclerView.setVisibility(View.VISIBLE);
+
             }
 
             @Override
@@ -197,10 +277,39 @@ public class WHRFragment extends Fragment implements View.OnClickListener{
                 addWHRDialog.dismiss();
             }
         });
-        addWHRDialog.show();
+        addWHRDialog.show();*/
 
 
     }
+
+
+    private void validateInputs() {
+        if (!(date = etDate.getText().toString().trim()).equals(""))
+
+            if (!(waist = etWaist.getText().toString().trim()).equals(""))
+                if (!(hip = etHip.getText().toString().trim()).equals(""))
+
+                    addWHRRecord(date, waist, hip);
+
+
+                else
+                    Toast.makeText(context, "Please enter valid weight", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(context, "Please enter valid height", Toast.LENGTH_SHORT).show();
+        else
+            Toast.makeText(context, "Please enter valid date", Toast.LENGTH_SHORT).show();
+
+    }
+
+   /* void onSubmit(String date,String height,String weight){
+
+        showProgressDialog("Adding");
+        addWHRRecord(date, height, weight);
+
+    }*/
+
+
+
 
 
     public void setGreen() {
@@ -335,92 +444,114 @@ public class WHRFragment extends Fragment implements View.OnClickListener{
                         String code = jsonObject.getString("Code");
                         Log.d("code==", code);
 
-                        JSONObject jsonObject1 = jsonObject.getJSONObject("Results");
-                        String whrflag_mystring = jsonObject1.getString("whrFlag");
-                        Log.d("whrflag", whrflag_mystring);
+                        if("200".equals(code)) {
 
-                        tvBP.setText(jsonObject1.getString("whr"));
-                        if (jsonObject1.getString("whrFlag") != null){
-                            switch (jsonObject1.getString("whrFlag")) {
-                                case "U":
-                                    setBlue();
-                                    break;
-                                case "low risk":
-                                    setGreen();
-                                    break;
-                                case "medium risk":
-                                    setYellow();
-                                    break;
-                                case "high risk":
-                                    setRed();
-                                    break;
-                                default:
-                                    setYellow();
-                                    break;
-                            }
-                        }
+                            JSONObject jsonObject1 = jsonObject.getJSONObject("Results");
+                            String whrflag_mystring = jsonObject1.getString("whrFlag");
+                            Log.d("whrflag", whrflag_mystring);
 
-                        JSONArray jsonArray_parent = jsonObject1.getJSONArray("whrdtoList");
-
-                        for(int i=0; i<jsonArray_parent.length(); i++){
-
-
-                           // String date = jsonObject1.getString("date");
-                           // Log.d("date", date);
-
-                            daywise = new WHR_LIST_DATE();
-                            jsonObject1=jsonArray_parent.getJSONObject(i);
-
-                            daywise.setDate(jsonObject1.getString("date"));
-
-                            arraylist_whr_list_dates.add(daywise);
-
-
-                            JSONArray jsonArray_child = jsonObject1.getJSONArray("whrList");
-                            for(int j=0; j<jsonArray_child.length(); j++){
-
-                                //jsonArray_child = jsonObject1.getJSONArray("whrList");
-                                record = new WHR_LIST();
-                                jsonObject2 = jsonArray_child.getJSONObject(j);
-
-                               // String waist = jsonObject2.getString("waistcircumference");
-                               // Log.d("waist", waist);
-                                whrid= Integer.parseInt(jsonObject2.getString("whrid"));
-                                record.setWhr(jsonObject2.getString("whr"));
-                                record.setGraphflag(jsonObject2.getString("graphflag"));
-                                record.setWaistcircumference(jsonObject2.getString("waistcircumference"));
-                                record.setHipcircumference(jsonObject2.getString("hipcircumference"));
-
-                                arraylist_whr_list.add(record);
-                                points.add(new DataPoint(i, Double.parseDouble(record.getWhr())));
-
+                            tvBP.setText(jsonObject1.getString("whr"));
+                            if (jsonObject1.getString("whrFlag") != null) {
+                                switch (jsonObject1.getString("whrFlag")) {
+                                    case "U":
+                                        setBlue();
+                                        break;
+                                    case "low risk":
+                                        setGreen();
+                                        break;
+                                    case "medium risk":
+                                        setYellow();
+                                        break;
+                                    case "high risk":
+                                        setRed();
+                                        break;
+                                    default:
+                                        setYellow();
+                                        break;
+                                }
                             }
 
-                        }
+                            JSONArray jsonArray_parent = jsonObject1.getJSONArray("whrdtoList");
 
-                        DataPoint[] pointArray = new DataPoint[arraylist_whr_list.size()];
-                        lineGraph.removeAllSeries();
-                        lineGraph.addSeries(new LineGraphSeries<>(points.toArray(pointArray)));
-                        lineGraph.getViewport().setMinX(0);
-                        lineGraph.getViewport().setMinY(0);
-                        lineGraph.getViewport().setScrollable(false);
+                            for (int i = 0; i < jsonArray_parent.length(); i++) {
 
 
-                        mAdapter = new WHRAdapter(getActivity(), arraylist_whr_list_dates,arraylist_whr_list, new WHRAdapter.OnWHRListener() {
-                            @Override
-                            public void onDelete(int record) {
-                                showProgressDialog("Deleting");
-                                Log.d("whrid", ""+whrid);
-                                DeleteWhrData(whrid);
+                                // String date = jsonObject1.getString("date");
+                                // Log.d("date", date);
+
+                                daywise = new WHR_LIST_DATE();
+                                jsonObject1 = jsonArray_parent.getJSONObject(i);
+
+                                daywise.setDate(jsonObject1.getString("date"));
+
+                                arraylist_whr_list_dates.add(daywise);
+
+
+                                JSONArray jsonArray_child = jsonObject1.getJSONArray("whrList");
+                                for (int j = 0; j < jsonArray_child.length(); j++) {
+
+                                    //jsonArray_child = jsonObject1.getJSONArray("whrList");
+                                    record = new WHR_LIST();
+                                    jsonObject2 = jsonArray_child.getJSONObject(j);
+
+                                    // String waist = jsonObject2.getString("waistcircumference");
+                                    // Log.d("waist", waist);
+                                    whrid = Integer.parseInt(jsonObject2.getString("whrid"));
+                                    record.setWhr(jsonObject2.getString("whr"));
+                                    record.setGraphflag(jsonObject2.getString("graphflag"));
+                                    record.setWaistcircumference(jsonObject2.getString("waistcircumference"));
+                                    record.setHipcircumference(jsonObject2.getString("hipcircumference"));
+                                    record.setWhrid(Integer.parseInt(jsonObject2.getString("whrid")));
+
+                                    arraylist_whr_list.add(record);
+                                    points.add(new DataPoint(i, Double.parseDouble(record.getWhr())));
+
+                                }
+
+                               // arraylist_whr_list.addAll(daywise.getWhrList());
+
                             }
-                        });
 
-                            if(getActivity()!=null){
+                            DataPoint[] pointArray = new DataPoint[arraylist_whr_list.size()];
+                            lineGraph.removeAllSeries();
+                            lineGraph.addSeries(new LineGraphSeries<>(points.toArray(pointArray)));
+                            lineGraph = new GraphView(getActivity());
+                            lineGraph.getViewport().setMinX(0);
+                            lineGraph.getViewport().setMinY(0);
+                            lineGraph.getViewport().setScrollable(false);
 
-                               // mAdapter=new WHRAdapter(getActivity(),arraylist_whr_list_dates,arraylist_whr_list);
+
+                           /* mAdapter = new WHRAdapter(getActivity(), arraylist_whr_list_dates, arraylist_whr_list, new WHRAdapter.OnWHRListener() {
+                                @Override
+                                public void onDelete(int record) {
+                                    showProgressDialog("Deleting");
+                                    Log.d("whrid", "" + whrid);
+                                    DeleteWhrData(whrid);
+                                }
+                            });*/
+                                mAdapter=new WHRAdapter(getActivity(),arraylist_whr_list_dates,arraylist_whr_list);
                                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
                                 recyclerView.setAdapter(mAdapter);
-                            }
+
+
+                        }else if("403".equals(code)) {
+
+                            Toast.makeText(getActivity(), "No Record Found", Toast.LENGTH_SHORT).show();
+                            /*try{
+                                String res_datanotfound = response.body().string();
+                                JSONObject jsonObject1 = new JSONObject(res_datanotfound);
+
+                                String code_403 = jsonObject1.getString("Code");
+                                String result_403 = jsonObject1.getString("Results");
+
+                                if(code_403.equals("403")){
+                                    Toast.makeText(getActivity(), "No Record Found", Toast.LENGTH_SHORT).show();
+                                }
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }*/
+
+                        }
 
                     }catch (Exception e){
                         e.printStackTrace();
@@ -575,52 +706,7 @@ public class WHRFragment extends Fragment implements View.OnClickListener{
     }
 
 
-    private void DeleteWhrData(int whr_list){
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(new Config().SERVER_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
 
-        ApiInterface apiInterface = retrofit.create(ApiInterface.class);
-
-        try{
-            DeleteParameterPojo deleteParameterPojo = new DeleteParameterPojo(Integer.parseInt(jsonObject2.getString("whrid")));
-            final Call<ResponseBody> call = apiInterface.deleteWhrdata("abc", deleteParameterPojo);
-
-            call.enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    if(response.isSuccessful()){
-                        progressDialog.dismiss();
-                        try {
-                            String res_delete = response.body().string();
-
-                            JSONObject jsonObject = new JSONObject(res_delete);
-
-                            String results = jsonObject.getString("Results");
-
-                            if(results.equals("Success")){
-                                Toast.makeText(getActivity(), "Successfully Deleted", Toast.LENGTH_SHORT).show();
-                                showProgressDialog("Loading");
-                                progressDialog.dismiss();
-                            }
-                        }catch (Exception e){
-                            e.printStackTrace();
-                        }
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-                }
-            });
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-
-    }
 
 
     @Override
@@ -631,6 +717,11 @@ public class WHRFragment extends Fragment implements View.OnClickListener{
 
             case R.id.ivAdd:
                 addWHR();
+                tvList.setTextColor(Color.parseColor("#9DA1A0"));
+                rlGraph.setVisibility(View.GONE);
+                cvCard.setVisibility(View.GONE);
+                mAdapter.notifyDataSetChanged();
+                recyclerView.setVisibility(View.VISIBLE);
                 break;
             case R.id.tvTrends:
                 rlGraph.setVisibility(View.VISIBLE);

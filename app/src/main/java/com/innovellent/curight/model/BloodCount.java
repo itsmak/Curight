@@ -17,7 +17,27 @@ public class BloodCount {
     private String RF;
     private String WBC;
 
-    public  BloodCount(String AntiCPP,String CRP,String ESR,String Haemoglobin,String HbA1c,String INR,String Platelet,String Prolactin,String RBC,String RF,String WBC){
+    public String getDate() {
+        return Date;
+    }
+
+    public void setDate(String date) {
+        Date = date;
+    }
+
+    private String Date;
+
+    public String getBcid() {
+        return Bcid;
+    }
+
+    public void setBcid(String bcid) {
+        Bcid = bcid;
+    }
+
+    private String Bcid;
+
+    /*public  BloodCount(String AntiCPP,String CRP,String ESR,String Haemoglobin,String HbA1c,String INR,String Platelet,String Prolactin,String RBC,String RF,String WBC){
         this.AntiCPP=AntiCPP;
         this.CRP=CRP;
         this.ESR=ESR;
@@ -31,7 +51,7 @@ public class BloodCount {
         this.WBC=WBC;
 
 
-    }
+    }*/
 
     public String getAntiCPP() {
         return AntiCPP;

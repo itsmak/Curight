@@ -55,7 +55,7 @@ public class SummaryAdapter  extends RecyclerView.Adapter<SummaryAdapter.MyViewH
         return new SummaryAdapter.MyViewHolder(itemView);
     }
 
-    public void swap(ArrayList<String> list,ArrayList<String> amountList){
+   /* public void swap(ArrayList<String> list,ArrayList<String> amountList){
         if (arrayList != null) {
             arrayList.clear();
             arrayList.addAll(list);
@@ -64,7 +64,7 @@ public class SummaryAdapter  extends RecyclerView.Adapter<SummaryAdapter.MyViewH
             arrayList = list;
         }
         notifyDataSetChanged();
-    }
+    }*/
 
     @Override
     public void onBindViewHolder(final SummaryAdapter.MyViewHolder holder, final int position) {

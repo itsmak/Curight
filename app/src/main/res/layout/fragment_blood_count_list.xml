@@ -68,6 +68,7 @@
                android:layout_marginTop="10dp"
                android:orientation="horizontal"
                android:layout_width="match_parent"
+               android:id="@+id/linear_datedialog"
                android:layout_height="wrap_content">
                <ImageView
                    android:layout_marginTop="2dp"
@@ -78,10 +79,13 @@
                    android:layout_height="wrap_content" />
                <TextView
                    android:text="Select Date"
+                   android:id="@+id/txt_selectdateforbloodcount"
                    android:textColor="@color/darkgray"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content" />
            </LinearLayout>
+
+
             <LinearLayout
                 android:id="@+id/llprofile"
                 android:orientation="horizontal"

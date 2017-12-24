@@ -92,14 +92,21 @@
             android:layout_height="wrap_content"
             android:textSize="12sp" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txt_whrid"
+            android:text="1"
+            android:layout_alignLeft="@+id/tvPulseMeasure"/>
 
-       <!-- <ImageView
+
+       <ImageView
             android:id="@+id/delete_whr"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:src="@drawable/error"/>-->
+            android:src="@drawable/error"/>
     </RelativeLayout>
 
 

@@ -144,6 +144,7 @@
     <string name="bpm">bmp</string>
     <string name="pulse1">Pulse</string>
 
+    <string name="BCid">BCID</string>
     <string name="AntiCPP">AntiCPP</string>
     <string name="CRP">CRP</string>
     <string name="ESR">ESR</string>
@@ -213,14 +214,14 @@
     <string name="bloodsugar">BloodSugar</string>
     <string name="normalduration">Normal Duration</string>
     <string name="currentperiod">Current Period</string>
-    <string name="gap">Gap</string>
+    <string name="gap">gap</string>
     <string name="notes2">Notes</string>
     <string name="misssed">Did I missed ?</string>
     <string name="dmisssed">I did\'nt missed</string>
 
     <string name="setreminder">Set Reminder</string>
     <string name="normalperiodduration">Normal Period Duration</string>
-    <string name="firstperiod">1st Period</string>
+    <string name="firstperiod">Gap</string>
     <string name="secondperiod">2nd Period</string>
 
     <string name="missperiod">Did you miss?</string>

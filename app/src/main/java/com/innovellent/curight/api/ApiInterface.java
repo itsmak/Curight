@@ -3,13 +3,17 @@ package com.innovellent.curight.api;
 import com.innovellent.curight.model.Auth;
 import com.innovellent.curight.model.BMIReport;
 import com.innovellent.curight.model.BloodPressureReport;
+import com.innovellent.curight.model.BloodcountPojo;
 import com.innovellent.curight.model.Calorie;
 import com.innovellent.curight.model.CholesterolReport;
 import com.innovellent.curight.model.CreateExercise;
+import com.innovellent.curight.model.DeleteFctDataPojo;
 import com.innovellent.curight.model.DeleteParameterPojo;
+import com.innovellent.curight.model.DeleteParameterpatientreport;
 import com.innovellent.curight.model.DiagnosticCenterDoctorByDC;
 import com.innovellent.curight.model.DiagnosticCentre;
 import com.innovellent.curight.model.FamilyProfile;
+import com.innovellent.curight.model.FctPojo;
 import com.innovellent.curight.model.FoodCreate;
 import com.innovellent.curight.model.FoodItem;
 import com.innovellent.curight.model.GetTestDetailCenter;
@@ -24,12 +28,14 @@ import com.innovellent.curight.model.POST_MED_CLASS;
 import com.innovellent.curight.model.POST_TIME_UPDATE_CLASS;
 import com.innovellent.curight.model.POST_UPDATE_CLASS;
 import com.innovellent.curight.model.ParameterPojo;
+import com.innovellent.curight.model.PatientReportsPojo;
 import com.innovellent.curight.model.PhotosCenterByDC;
 import com.innovellent.curight.model.PostBodyClass;
 import com.innovellent.curight.model.PostBodyProfile;
 import com.innovellent.curight.model.SearchingCenter;
 import com.innovellent.curight.model.ServerResponse;
 import com.innovellent.curight.model.ServerResponseAuth;
+import com.innovellent.curight.model.ServerResponseBloodCount;
 import com.innovellent.curight.model.ServerResponseBookedTest;
 import com.innovellent.curight.model.ServerResponseCalorie;
 import com.innovellent.curight.model.ServerResponseCreateExercise;
@@ -37,6 +43,7 @@ import com.innovellent.curight.model.ServerResponseDiagCenter;
 import com.innovellent.curight.model.ServerResponseDoctorAppointment;
 import com.innovellent.curight.model.ServerResponseDoctorByDC;
 import com.innovellent.curight.model.ServerResponseExercise;
+import com.innovellent.curight.model.ServerResponseFct;
 import com.innovellent.curight.model.ServerResponseFood;
 import com.innovellent.curight.model.ServerResponseGetFood;
 import com.innovellent.curight.model.ServerResponseGetTestDetail;
@@ -107,12 +114,40 @@ public interface ApiInterface {
     Call<ResponseBody> getwhrlistdata(@Header("x-access-token") String accessToken, @Body ParameterPojo value);
 
     @Headers("Content-Type: application/json")
+    @POST("fct/get")
+    Call<ResponseBody> getfctdata(@Header("x-access-token") String accessToken, @Body FctPojo value);
+
+    @Headers("Content-Type: application/json")
+    @POST("fct/create")
+    Call<ServerResponseFct<String>> addfctrecord(@Header("x-access-token") String accessToken, @Body String requestbody);
+
+    @Headers("Content-Type: application/json")
+    @POST("fct/delete")
+    Call<ResponseBody> deletefctrecord(@Header("x-access-token") String accessToken, @Body DeleteFctDataPojo deleteFctDataPojo);
+
+    @Headers("Content-Type: application/json")
+    @POST("bloodcount/get")
+    Call<ResponseBody> getbloodcountdata(@Header("x-access-token") String accessToken, @Body BloodcountPojo bloodcountPojo);
+
+    @Headers("Content-Type: application/json")
+    @POST("bloodcount/create")
+    Call<ServerResponseBloodCount<String>> addbloodcountrecord(@Header("x-access-token") String accessToken, @Body String requestbody);
+
+    @Headers("Content-Type: application/json")
     @POST("whr/delete")
     Call<ResponseBody> deleteWhrdata(@Header("x-access-token") String accessToken, @Body DeleteParameterPojo value);
 
     @Headers("Content-Type: application/json")
     @POST("whr/create")
     Call<ServerResponse<String>> addWHRRecord(@Header("x-access-token") String accessToken, @Body String requestBody);
+
+    @Headers("Content-Type: application/json")
+    @POST("patientreports/get")
+    Call<ResponseBody> getpatientreports(@Header("x-access-token") String accessToken, @Body PatientReportsPojo patientReportsPojo);
+
+    @Headers("Content-Type: application/json")
+    @POST("patientreports/delete")
+    Call<ResponseBody> deletepatientreportrecord(@Header("x-access-token") String accessToken, @Body DeleteParameterpatientreport deleteParameterpatientreport);
 
     @POST("user/authenticate")
     Call<ServerResponseAuth> performAuth(@Body Auth auth);

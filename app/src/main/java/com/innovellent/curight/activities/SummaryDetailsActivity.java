@@ -72,14 +72,19 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
         if (bundle!=null) {
             dc_id = bundle.getLong("dc_id");
             dc_name = bundle.getString("dc_name");
+
+
             loc = bundle.getString("location");
             test_names = bundle.getString("test_names");
+            Log.d("test_names***",  test_names);
             sel_test_ids = bundle.getString("sel_test_ids");
             test_amnt_str =  bundle.getString("test_amounts");
         }
         init();
         iniClick();
         getData();
+
+        Log.d("arraylistsize***",  ""+arrayList.size());
 
     }
     public void init(){
@@ -148,7 +153,7 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
             mAdapter = new SummaryAdapter(SummaryDetailsActivity.this, arrayList, amountList);
             recycler_view.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
             recycler_view.setAdapter(mAdapter);
-        mAdapter.swap(arrayList,amountList);
+        //mAdapter.swap(arrayList,amountList);
     }
 
 

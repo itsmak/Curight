@@ -99,6 +99,7 @@ public class AddWHRDialog extends Dialog {
                 if (!(waist = etWaist.getText().toString().trim()).equals(""))
                     if (!(hip = etHip.getText().toString().trim()).equals(""))
                         listener.onSubmit(date, waist, hip);
+
                     else
                         Toast.makeText(context, "Please enter valid weight", Toast.LENGTH_SHORT).show();
                 else

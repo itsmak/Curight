@@ -1,5 +1,6 @@
 package com.innovellent.curight.adapter;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -8,16 +9,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.innovellent.curight.R;
+import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.BMIRecord;
 import com.innovellent.curight.model.BloodPressure;
+import com.innovellent.curight.model.DeleteParameterPojo;
 import com.innovellent.curight.model.DoctorList;
 import com.innovellent.curight.model.WHR_LIST;
 import com.innovellent.curight.model.WHR_LIST_DATE;
 import com.innovellent.curight.model.WhrList;
+import com.innovellent.curight.utility.Config;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by SUNIL on 12/11/2017.
@@ -31,15 +45,16 @@ public class WHRAdapter extends RecyclerView.Adapter<WHRAdapter.MyViewHolder> {
     private WHRAdapter.OnWHRListener listener;
     WHR_LIST_DATE whr_list_date;
     WHR_LIST whr_list;
+    ProgressDialog progressDialog;
     Context mContext;
 
 
     String date,whrflag,waistcircumference,hipcircumference,whr;
-    public WHRAdapter(Context context,ArrayList<WHR_LIST_DATE> arraylist_whr_list_dates, ArrayList<WHR_LIST> arraylist_whr_list,OnWHRListener listener) {
+    public WHRAdapter(Context context,ArrayList<WHR_LIST_DATE> arraylist_whr_list_dates, ArrayList<WHR_LIST> arraylist_whr_list) {
         mContext = context;
         this.arraylist_whr_list_dates = arraylist_whr_list_dates;
         this.arraylist_whr_list = arraylist_whr_list;
-        this.listener = listener;
+        //this.listener = listener;
     }
     @Override
     public WHRAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -62,15 +77,38 @@ public class WHRAdapter extends RecyclerView.Adapter<WHRAdapter.MyViewHolder> {
         holder.tvSysDia.setText("W/H:"+" "+arraylist_whr_list.get(position).getWaistcircumference()+"/"+arraylist_whr_list.get(position).getHipcircumference());
         holder.tvDate.setText(arraylist_whr_list_dates.get(position).getDate());
         holder.tvPulse.setText(String.valueOf(arraylist_whr_list.get(position).getWhr()));
+        holder.txt_whrid.setText(String.valueOf(arraylist_whr_list.get(position).getWhrid()));
 
-        holder.delete_whr.setOnClickListener(new View.OnClickListener() {
+
+       holder.delete_whr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onDelete(arraylist_whr_list.get(position).getWhrid());
+
+                whr_list_date = arraylist_whr_list_dates.get(position);
+                whr_list = arraylist_whr_list.get(position);
+                //Log.d("item_id"+"WHRID", ""+whr_list.getWhrid());
+                showProgressDialog("Deleting item");
+                DeleteWhrData(whr_list.getWhrid());
+                removeAt(position);
+
+
+               // listener.onDelete(arraylist_whr_list.get(position).getWhrid());
 
 
             }
         });
+    }
+
+
+    private void removeAt(int position) {
+        arraylist_whr_list_dates.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, arraylist_whr_list_dates.size());
+    }
+
+    private void showProgressDialog(String title) {
+        progressDialog = ProgressDialog.show(mContext, title, "please wait", true, false);
+        progressDialog.show();
     }
 
 
@@ -89,15 +127,64 @@ public class WHRAdapter extends RecyclerView.Adapter<WHRAdapter.MyViewHolder> {
 
         TextView tvSysDia;
         TextView tvPulse;
-        TextView tvDate;
+        TextView tvDate,txt_whrid;
         ImageView delete_whr;
         MyViewHolder(View view) {
             super(view);
             tvSysDia = (TextView) view.findViewById(R.id.tvSysDia);
             tvPulse = (TextView) view.findViewById(R.id.tvPulse);
             tvDate=(TextView)view.findViewById(R.id.tv_date);
-           // delete_whr = (ImageView)view.findViewById(R.id.delete_whr);
+            delete_whr = (ImageView)view.findViewById(R.id.delete_whr);
+            txt_whrid = (TextView)view.findViewById(R.id.txt_whrid);
 
         }
+    }
+
+
+    private void DeleteWhrData(int whr_list){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(new Config().SERVER_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ApiInterface apiInterface = retrofit.create(ApiInterface.class);
+
+        try{
+            DeleteParameterPojo deleteParameterPojo = new DeleteParameterPojo(whr_list);
+            final Call<ResponseBody> call = apiInterface.deleteWhrdata("abc", deleteParameterPojo);
+
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if(response.isSuccessful()){
+                        progressDialog.dismiss();
+                        try {
+                            String res_delete = response.body().string();
+
+                            JSONObject jsonObject = new JSONObject(res_delete);
+
+                            String results = jsonObject.getString("Results");
+
+                            if(results.equals("Success")){
+                                Toast.makeText(mContext, "Successfully Deleted", Toast.LENGTH_SHORT).show();
+                                showProgressDialog("Loading");
+                                progressDialog.dismiss();
+                            }
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                }
+            });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
     }
 }

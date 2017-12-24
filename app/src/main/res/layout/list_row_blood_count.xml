@@ -8,12 +8,20 @@
     android:layout_height="wrap_content">
     <TextView
         android:layout_width="match_parent"
-        android:text="25-Sept-2017"
+        android:text=""
         android:textSize="12sp"
+        android:id="@+id/txt_bloodcountdate"
         android:layout_marginBottom="10dp"
         android:textAlignment="center"
         android:textColor="@color/darkgray"
         android:layout_height="wrap_content" />
+
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_gravity="right"
+        android:id="@+id/img_deleteitemforbloodcount"
+        android:background="@drawable/error"/>
     <LinearLayout
         android:weightSum="100"
         android:layout_width="match_parent"
@@ -427,6 +435,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </RelativeLayout>
+
+
+
+
 
     </LinearLayout>
 
