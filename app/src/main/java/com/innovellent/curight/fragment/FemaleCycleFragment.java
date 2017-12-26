@@ -353,15 +353,19 @@ public class FemaleCycleFragment extends Fragment implements View.OnClickListene
 
                         }
 
-                        mAdapter=new FemaleCycleAdapter(getActivity(),arrayList);
-                        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-                        recyclerView.setAdapter(mAdapter);
-                        rlFemaleCycle.setVisibility(View.GONE);
+                        if(getActivity()!=null) {
+                            mAdapter = new FemaleCycleAdapter(getActivity(), arrayList);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+                            recyclerView.setAdapter(mAdapter);
+                            rlFemaleCycle.setVisibility(View.GONE);
+                        }
 
 
                     }catch (Exception e){
                         e.printStackTrace();
                     }
+                }else{
+                    Toast.makeText(getActivity(), "No Record Found", Toast.LENGTH_SHORT).show();
                 }
             }
 

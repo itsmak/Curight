@@ -343,14 +343,18 @@ public class BloodCountListFragment extends Fragment implements View.OnClickList
 
                         }
 
-                        mAdapter=new BloodCountListAdapter(getActivity(),arrayList);
-                        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-                        recyclerView.setAdapter(mAdapter);
-                        rlAddBloodCount.setVisibility(View.GONE);
+                        if(getActivity()!=null) {
+                            mAdapter = new BloodCountListAdapter(getActivity(), arrayList);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+                            recyclerView.setAdapter(mAdapter);
+                            rlAddBloodCount.setVisibility(View.GONE);
+                        }
 
                     }catch (Exception e){
                         e.printStackTrace();
                     }
+                }else{
+                    Toast.makeText(getActivity(), "No Record Found", Toast.LENGTH_SHORT).show();
                 }
             }
 

@@ -365,6 +365,7 @@ public class WHRFragment extends Fragment implements View.OnClickListener{
 
         try{
             int uid = (int) Prefs.getLong("user_id",0);
+            Log.d("user_id_addwhr", ""+uid);
             JSONObject paramObject = new JSONObject();
             paramObject.put("userid", uid);
             paramObject.put("date", date);
@@ -427,7 +428,8 @@ public class WHRFragment extends Fragment implements View.OnClickListener{
                 .build();
 
         ApiInterface apiInterface = retrofit.create(ApiInterface.class);
-        ParameterPojo parameterPojo = new ParameterPojo(7);
+        int uid = (int) Prefs.getLong("user_id",0);
+        ParameterPojo parameterPojo = new ParameterPojo(uid);
         final Call<ResponseBody> call = apiInterface.getwhrlistdata("abc", parameterPojo);
 
 
@@ -445,7 +447,6 @@ public class WHRFragment extends Fragment implements View.OnClickListener{
                         String code = jsonObject.getString("Code");
                         Log.d("code==", code);
 
-                        if("200".equals(code)) {
 
                             JSONObject jsonObject1 = jsonObject.getJSONObject("Results");
                             String whrflag_mystring = jsonObject1.getString("whrFlag");
@@ -513,13 +514,15 @@ public class WHRFragment extends Fragment implements View.OnClickListener{
 
                             }
 
-                            DataPoint[] pointArray = new DataPoint[arraylist_whr_list.size()];
-                            lineGraph.removeAllSeries();
-                            lineGraph.addSeries(new LineGraphSeries<>(points.toArray(pointArray)));
-                            lineGraph = new GraphView(getActivity());
-                            lineGraph.getViewport().setMinX(0);
-                            lineGraph.getViewport().setMinY(0);
-                            lineGraph.getViewport().setScrollable(false);
+                            if(arraylist_whr_list!=null) {
+                                DataPoint[] pointArray = new DataPoint[points.size()];
+                                lineGraph.removeAllSeries();
+                                lineGraph.addSeries(new LineGraphSeries<>(points.toArray(pointArray)));
+                                // lineGraph = new GraphView(getActivity());
+                                lineGraph.getViewport().setMinX(0);
+                                lineGraph.getViewport().setMinY(0);
+                                lineGraph.getViewport().setScrollable(false);
+                            }
 
 
                            /* mAdapter = new WHRAdapter(getActivity(), arraylist_whr_list_dates, arraylist_whr_list, new WHRAdapter.OnWHRListener() {
@@ -530,33 +533,36 @@ public class WHRFragment extends Fragment implements View.OnClickListener{
                                     DeleteWhrData(whrid);
                                 }
                             });*/
-                                mAdapter=new WHRAdapter(getActivity(),arraylist_whr_list_dates,arraylist_whr_list);
-                                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-                                recyclerView.setAdapter(mAdapter);
-
-
-                        }else if("403".equals(code)) {
-
-                            Toast.makeText(getActivity(), "No Record Found", Toast.LENGTH_SHORT).show();
-                            /*try{
-                                String res_datanotfound = response.body().string();
-                                JSONObject jsonObject1 = new JSONObject(res_datanotfound);
-
-                                String code_403 = jsonObject1.getString("Code");
-                                String result_403 = jsonObject1.getString("Results");
-
-                                if(code_403.equals("403")){
-                                    Toast.makeText(getActivity(), "No Record Found", Toast.LENGTH_SHORT).show();
+                                if(getActivity()!=null) {
+                                    mAdapter = new WHRAdapter(getActivity(), arraylist_whr_list_dates, arraylist_whr_list);
+                                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+                                    recyclerView.setAdapter(mAdapter);
                                 }
-                            }catch (Exception e){
-                                e.printStackTrace();
-                            }*/
 
-                        }
+
+
 
                     }catch (Exception e){
                         e.printStackTrace();
                     }
+                }else {
+
+                     Toast.makeText(getActivity(), "No Record Found", Toast.LENGTH_SHORT).show();
+                    /*try{
+                        String res_datanotfound = response.body().string();
+                        JSONObject jsonObject1 = new JSONObject(res_datanotfound);
+
+                        String code_403 = jsonObject1.getString("Code");
+                        Log.d("code_403", code_403);
+                        String result_403 = jsonObject1.getString("Results");
+                        Log.d("result_403", result_403);
+                        if(code_403.equals("403")){
+                            Toast.makeText(getActivity(), "No Record Found", Toast.LENGTH_SHORT).show();
+                        }
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }*/
+
                 }
             }
 
