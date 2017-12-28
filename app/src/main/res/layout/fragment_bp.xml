@@ -9,7 +9,6 @@
         android:id="@+id/llList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/spUser"
         android:background="@color/colorPrimary"
         android:orientation="horizontal"
         android:weightSum="100">
@@ -46,12 +45,15 @@
 
     </LinearLayout>
 
+
+
     <RelativeLayout
         android:id="@+id/rlGraph"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/llList"
         android:gravity="center">
+
 
         <com.jjoe64.graphview.GraphView
             android:id="@+id/graphLine"
@@ -60,6 +62,23 @@
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:title="Graph Title" />
+
+
+
+        <Spinner
+            android:id="@+id/spUser"
+            android:padding="5dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="2dp"
+            android:layout_above="@id/graphLine"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/graylight" />
+
+
+
+
+
     </RelativeLayout>
 
     <android.support.v7.widget.CardView
@@ -183,10 +202,14 @@
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/llList"
         android:background="@color/lightgray" />
+
+
+
 </RelativeLayout>

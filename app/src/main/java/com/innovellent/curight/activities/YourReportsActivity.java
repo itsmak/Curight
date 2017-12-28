@@ -26,6 +26,7 @@ import com.innovellent.curight.model.PatientReportsData;
 import com.innovellent.curight.model.PatientReportsPojo;
 import com.innovellent.curight.model.PostBodyProfile;
 import com.innovellent.curight.utility.Config;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -116,8 +117,8 @@ public class YourReportsActivity extends AppCompatActivity implements SearchView
                 .build();
 
         ApiInterface reditapi = retrofit.create(ApiInterface.class);
-
-        PostBodyProfile postBodyprofile = new PostBodyProfile(1, "family");
+        int uid = (int) Prefs.getLong("user_id",0);
+        PostBodyProfile postBodyprofile = new PostBodyProfile(uid, "family");
         Call<MyProfile_Response> call = reditapi.getProfile(postBodyprofile);
 
         call.enqueue(new Callback<MyProfile_Response>() {
@@ -174,8 +175,8 @@ public class YourReportsActivity extends AppCompatActivity implements SearchView
                 .build();
 
         ApiInterface apiInterface = retrofit.create(ApiInterface.class);
-
-        PatientReportsPojo patientReportsPojo = new PatientReportsPojo(1);
+        int uid = (int) Prefs.getLong("user_id",0);
+        PatientReportsPojo patientReportsPojo = new PatientReportsPojo(uid);
 
         final Call<ResponseBody> call = apiInterface.getpatientreports("abc", patientReportsPojo);
 
@@ -233,6 +234,7 @@ public class YourReportsActivity extends AppCompatActivity implements SearchView
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+
                 Toast.makeText(YourReportsActivity.this, "Something went wrong please try again", Toast.LENGTH_SHORT).show();
             }
         });

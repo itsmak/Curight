@@ -2,9 +2,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.innovellent.hp.bottomnav.MainActivity">
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_home"
+            android:title="Home"/>
+        <item
+            android:id="@+id/nav_aboutus"
+            android:title="About Us" />
+        <item
+            android:id="@+id/nav_contactus"
+            android:title="Contact Us" />
+        <item
+            android:id="@+id/nav_feedback"
+            android:title="Feedback" />
+        <item
+            android:id="@+id/nav_rateapp"
+            android:title="Rate App" />
+
+
+        <item
+            android:id="@+id/nav_referearn"
+            android:title="Refer A Earn" />
+
+        <item
+            android:id="@+id/nav_logout"
+            android:title="Sign out"/>
+
+    </group>
 </menu>

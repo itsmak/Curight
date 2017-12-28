@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +41,7 @@ import com.innovellent.curight.utility.Config;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import org.json.JSONObject;
 
@@ -71,18 +73,24 @@ public class BPFragment extends Fragment implements View.OnClickListener {
     AddBPRecordsDialog addRecordsDialog;
     RelativeLayout rlGraph;
     int i;
-
+    String USER_ID;
+    ArrayList<PROFILE> spinnerList=new ArrayList<PROFILE>();
+    PROFILE_SPINNER_ADAPTER customSpinnerAdapter3;
     private TextView systolicDiastolic, pulse;
     private Long userId;
     private String accessToken;
     private static final String TAG = ".Retro_MainActivity";
     private ProgressDialog progressDialog;
+    int uid;
+    Spinner spUser;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_bp, container, false);
         initReferences(rootView);
         initOnClick();
+
+        getSpinnerData();
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("mypref", Context.MODE_PRIVATE);
         accessToken = sharedPreferences.getString("access_token", "");
@@ -140,6 +148,7 @@ public class BPFragment extends Fragment implements View.OnClickListener {
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         cvCard = (CardView) rootView.findViewById(R.id.cvCard);
         lineGraph = (GraphView) rootView.findViewById(R.id.graphLine);
+        spUser = (Spinner) rootView.findViewById(R.id.spUser);
     }
 
     public void initOnClick() {
@@ -220,6 +229,86 @@ public class BPFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+
+
+    private void getSpinnerData() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(new Config().SERVER_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ApiInterface reditapi = retrofit.create(ApiInterface.class);
+        int uid = (int) Prefs.getLong("user_id",0);
+        PostBodyProfile postBodyprofile = new PostBodyProfile(uid, "family");
+        Call<MyProfile_Response> call = reditapi.getProfile(postBodyprofile);
+
+        call.enqueue(new Callback<MyProfile_Response>() {
+            @Override
+            public void onResponse(Call<MyProfile_Response> call, Response<MyProfile_Response> response) {
+
+
+                if (response.body() != null) {
+
+
+                    Log.e("", "profileResponse: code: " + response.body().getCode());
+
+                    ArrayList<PROFILE_FEED> result = response.body().getResults();
+
+                    Log.e("", "profileResponse: listsize: " + result.size());
+                    for (int i = 0; i < result.size(); i++) {
+
+                        USER_ID = result.get(i).getUserid();
+                        //spinnerList.add(new PROFILE("","","",""));
+                        spinnerList.add(new PROFILE(result.get(i).getUserid(),result.get(i).getId(), result.get(i).getName(), result.get(i).getAge(), result.get(i).getRelationship()));
+                    }
+                    getData2();
+                    // GetData(result.get(1).getUserid());
+                } else {
+
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+
+                }
+
+                //remainder_rclrvw.setAdapter(mAdapter);
+
+            }
+
+            @Override
+            public void onFailure(Call<MyProfile_Response> call, Throwable t) {
+
+                Log.e("", "onFailure: Somethings went wrong" + t.getMessage());
+                Toast.makeText(getActivity(), "Somethings went wrong", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
+
+    public void getData2() {
+
+        customSpinnerAdapter3 = new PROFILE_SPINNER_ADAPTER(getActivity(), spinnerList);
+        spUser.setAdapter(customSpinnerAdapter3);
+        spUser.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                //   Toast.makeText(PasswordRecoveryQuestionsActivity.this, spinner3[i], Toast.LENGTH_SHORT).show();
+                //spAge.setText(spinnerList.get(i).getUser_age());
+                USER_ID = spinnerList.get(i).getUser_id();
+                Prefs.putLong("spinner_id", Long.parseLong(spinnerList.get(i).getUser_id()));
+                uid = (int) Prefs.getLong("spinner_id",0);
+                Log.e("Userid", spinnerList.get(i).getUser_id());
+                //bp.getBloodPressureRecords(spinnerList.get(i).getUser_id());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+    }
+
+
     public void getBloodPressureRecords(String user_id) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(new Config().SERVER_URL)
@@ -231,7 +320,7 @@ public class BPFragment extends Fragment implements View.OnClickListener {
 
         try {
             JSONObject paramObject = new JSONObject();
-            paramObject.put("userid", userId);
+            paramObject.put("userid", user_id);
 
             Call<ServerResponse<BloodPressureReport>> call = apiInterface.getBloodPressureRecords("bgvvgjhhjv", paramObject.toString());
             call.enqueue(new Callback<ServerResponse<BloodPressureReport>>() {

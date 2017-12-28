@@ -215,7 +215,7 @@ public class YourReportsAdapter extends RecyclerView.Adapter<YourReportsAdapter.
             patientReportsDatas.addAll(model);
         } else {
             for (PatientReportsData wp : model) {
-                if (wp.getReason().toLowerCase(Locale.getDefault()).contains(charText)|| wp.getDiagnsticcentrename().toLowerCase(Locale.getDefault()).contains(charText)) {
+                if (wp.getReason().toLowerCase(Locale.getDefault()).contains(charText)|| wp.getDiagnsticcentrename().toLowerCase(Locale.getDefault()).contains(charText)|| wp.getDoctorname().toLowerCase(Locale.getDefault()).contains(charText)) {
                    patientReportsDatas.add(wp);
                 }
             }
