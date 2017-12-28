@@ -32,12 +32,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class OtpVerifyActivity extends Activity {
+    //private String access_token_str = "";
+    long otp;
     private Button btContinue,etContinue1;
     private EditText etOtp;
     private String user_id,email,name;
     private Long uid;
-    //private String access_token_str = "";
-    long otp;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,14 +140,17 @@ public class OtpVerifyActivity extends Activity {
                             finish();
                         }else
                         {
-                                Intent intent = new Intent(OtpVerifyActivity.this, PaymentDetailsActivity.class);
-                                Bundle bundle = new Bundle();
-                                bundle.putString("user_id", user_id);
-                                bundle.putLong("uid", uid);
-                                bundle.putString("name", name);
-                                bundle.putString("email", email);
-                                intent.putExtras(bundle);
-                                startActivity(intent);
+                            Intent myint = new Intent(getApplicationContext(), HomeActivity.class);
+                            startActivity(myint);
+                            finish();
+//                                Intent intent = new Intent(OtpVerifyActivity.this, PaymentDetailsActivity.class);
+//                                Bundle bundle = new Bundle();
+//                                bundle.putString("user_id", user_id);
+//                                bundle.putLong("uid", uid);
+//                                bundle.putString("name", name);
+//                                bundle.putString("email", email);
+//                                intent.putExtras(bundle);
+//                                startActivity(intent);
                             }
                         }
 

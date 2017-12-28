@@ -50,7 +50,6 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
     ImageView ivBack;
     TextView startDate,endDate,tvCenterName,tvLoc;
     Button btnProcceed,btnAddTest;
-    private int mYear, mMonth, mDay;
     CheckBox cbHomePickup;
     ArrayList<String> arrayList = new ArrayList<String>();
     //ArrayList<String> newArrayList = new ArrayList<String>();
@@ -63,6 +62,7 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
     String[] test_amnts;
     TextView tvTotal;
     boolean updateFlag = false;
+    private int mYear, mMonth, mDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,12 +73,12 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
             dc_id = bundle.getLong("dc_id");
             dc_name = bundle.getString("dc_name");
 
-
             loc = bundle.getString("location");
             test_names = bundle.getString("test_names");
             Log.d("test_names***",  test_names);
             sel_test_ids = bundle.getString("sel_test_ids");
             test_amnt_str =  bundle.getString("test_amounts");
+            Log.d("test_amountarray***",  test_amnt_str);
         }
         init();
         iniClick();
@@ -134,6 +134,7 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
             test_amnts = test_amnt_str.split(",");
         }
         long total_amount = 0L;
+
         for (String amount : test_amnts) {
             amountList.add(amount);
             total_amount = total_amount + Long.parseLong(amount);

@@ -25,12 +25,14 @@ import android.widget.Toast;
 import com.innovellent.curight.R;
 import com.innovellent.curight.activities.HomeActivity;
 import com.innovellent.curight.adapter.BPAdapter;
+import com.innovellent.curight.adapter.MedicineReminderAdapter;
 import com.innovellent.curight.adapter.PROFILE_SPINNER_ADAPTER;
 import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.AddBPRecordsDialog;
 import com.innovellent.curight.model.BloodPressureDayWise;
 import com.innovellent.curight.model.BloodPressureRecord;
 import com.innovellent.curight.model.BloodPressureReport;
+import com.innovellent.curight.model.Medicine;
 import com.innovellent.curight.model.MyProfile_Response;
 import com.innovellent.curight.model.PROFILE;
 import com.innovellent.curight.model.PROFILE_FEED;
@@ -58,6 +60,7 @@ import static com.innovellent.curight.utility.Constants.CURIGHT_TAG;
 
 public class BPFragment extends Fragment implements View.OnClickListener {
 
+    private static final String TAG = ".Retro_MainActivity";
     TextView tvBP, tvList, tvTrends;
     ImageView ivBmi;
     ImageView ivAdd;
@@ -70,12 +73,11 @@ public class BPFragment extends Fragment implements View.OnClickListener {
     ArrayList<Object> arrayList = new ArrayList<>();
     AddBPRecordsDialog addRecordsDialog;
     RelativeLayout rlGraph;
-    int i;
-
+        int i;;
+List<Object>  objects = new ArrayList<>();
     private TextView systolicDiastolic, pulse;
     private Long userId;
     private String accessToken;
-    private static final String TAG = ".Retro_MainActivity";
     private ProgressDialog progressDialog;
 
     @Override
@@ -89,7 +91,7 @@ public class BPFragment extends Fragment implements View.OnClickListener {
         userId = sharedPreferences.getLong("user_id", 2L);
 
         showProgressDialog("Loading");
-        getBloodPressureRecords(HomeActivity.USER_ID);
+        getBloodPressureRecords(HomeActivity.uid);
 
         return rootView;
     }
@@ -202,7 +204,7 @@ public class BPFragment extends Fragment implements View.OnClickListener {
                             if (serverResponse.getResults().equals("Success")) {
                                 Toast.makeText(getActivity(), "Successfully Added", Toast.LENGTH_SHORT).show();
                                 showProgressDialog("Loading");
-                                getBloodPressureRecords(HomeActivity.USER_ID);
+                                getBloodPressureRecords(HomeActivity.uid);
                             } else
                                 Toast.makeText(getActivity(), "Please try again", Toast.LENGTH_SHORT).show();
                         }
@@ -220,7 +222,9 @@ public class BPFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    public void getBloodPressureRecords(String user_id) {
+    public void getBloodPressureRecords(int user_id) {
+        Log.d(TAG, "calling"+"BPfrgament called"+user_id);
+        clearData();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(new Config().SERVER_URL)
                 .addConverterFactory(ScalarsConverterFactory.create())
@@ -231,7 +235,7 @@ public class BPFragment extends Fragment implements View.OnClickListener {
 
         try {
             JSONObject paramObject = new JSONObject();
-            paramObject.put("userid", userId);
+            paramObject.put("userid", user_id);
 
             Call<ServerResponse<BloodPressureReport>> call = apiInterface.getBloodPressureRecords("bgvvgjhhjv", paramObject.toString());
             call.enqueue(new Callback<ServerResponse<BloodPressureReport>>() {
@@ -265,7 +269,7 @@ public class BPFragment extends Fragment implements View.OnClickListener {
 
                             List<BloodPressureDayWise> dayWises = report.getBpList();
                             if (!dayWises.isEmpty()) {
-                                List<Object> objects = new ArrayList<>();
+
                                 List<DataPoint> points = new ArrayList<>();
                                 int i = 0;
                                 for (BloodPressureDayWise dayWise : dayWises) {
@@ -294,6 +298,8 @@ public class BPFragment extends Fragment implements View.OnClickListener {
                                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
                                 recyclerView.setAdapter(mAdapter);
                             }
+                        }else {
+                            Toast.makeText(getActivity(), "No Record Found", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
@@ -341,7 +347,7 @@ public class BPFragment extends Fragment implements View.OnClickListener {
                             if (serverResponse.getResults().equals("Success")) {
                                 Toast.makeText(getActivity(), "Successfully Deleted", Toast.LENGTH_SHORT).show();
                                 showProgressDialog("Loading");
-                                getBloodPressureRecords(HomeActivity.USER_ID);
+                                getBloodPressureRecords(HomeActivity.uid);
                             } else {
                                 Toast.makeText(getActivity(), "please try again", Toast.LENGTH_SHORT).show();
                             }
@@ -361,7 +367,26 @@ public class BPFragment extends Fragment implements View.OnClickListener {
 
 
     }
+    public void clearData() {
+        mAdapter = new BPAdapter(getActivity(), objects, new BPAdapter.OnBloodPressureListener() {
+            @Override
+            public void onDelete(BloodPressureRecord record) {
 
+            }
+        });
+        Log.d(TAG,"object size before clear"+objects.isEmpty());
+        // Let gc do its work
+        for (int i = 0; i < objects.size(); i++)
+        {
+            objects.add(null);
+        }
+
+        Log.d(TAG,"object size after clear"+objects.size());
+
+      //  objects.clear(); //clear list
+        mAdapter.notifyDataSetChanged(); //let your adapter know about the changes and reload view.
+
+    }
     @Override
     public void onClick(View v) {
 

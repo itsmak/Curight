@@ -1,17 +1,21 @@
 package com.innovellent.curight.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 
 
 public class ServerResponseTest {
-    private String Code;
+    @SerializedName("Code")
+    private int Code;
+    @SerializedName("Results")
     private ArrayList<Test> Results=new ArrayList<>();
 
-    public String getCode() {
+    public int getCode() {
         return Code;
     }
 
-    public void setCode(String Code) {
+    public void setCode(int Code) {
         this.Code = Code;
     }
 

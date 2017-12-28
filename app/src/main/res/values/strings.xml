@@ -67,6 +67,7 @@
     <string name="medium1">Medium</string>
     <string name="discount">Discount</string>
     <string name="search">Search</string>
+    <string name="searchtest">Search your test</string>
     <string name="save">Save</string>
     <string name="parent">Parent Name:</string>
     <string name="entermedicince">Enter Medicine</string>
@@ -182,8 +183,8 @@
     <string name="paymenta">Payment Amount</string>
 
     <string name="selectdate">Select Date</string>
-    <string name="alltest">All Tests</string>
-    <string name="diagnosticenter">Select Diagnostic Center</string>
+    <string name="alltest">ALL TEST</string>
+    <string name="diagnosticenter">Select Diagnostic Centre</string>
     <string name="totalpaybleamount">Total Payable Amount</string>
     <string name="discountcode">Select Discount Code</string>
     <string name="enterdiscountcode">Enter Dicount Code :</string>

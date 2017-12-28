@@ -48,9 +48,10 @@ public class SearchActivity extends AppCompatActivity {
     ArrayList<Test> testArrayList = new ArrayList<Test>();
     ServerResponseTest serverResponseTest;
     Test test;
+    SearchAdapter searchAdapter;
     //private EditText searchBar;
     private String test_ids="";
-    SearchAdapter searchAdapter;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -146,39 +147,39 @@ public class SearchActivity extends AppCompatActivity {
 
 
     //getting test data by ID
-    private void getTestById(){
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(new Config().SERVER_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        ApiInterface apiInterface = retrofit.create(ApiInterface.class);
-
-       // sel_test_ids = DiagnosticTestListActivity.testid;
-
-        final TestingCenter centre = new TestingCenter("1");
-
-
-        Call<ServerResponseTest> call = apiInterface.getTestById("abc", centre);
-
-        call.enqueue(new Callback<ServerResponseTest>() {
-            @Override
-            public void onResponse(Call<ServerResponseTest> call, Response<ServerResponseTest> response) {
-                serverResponseTest =(ServerResponseTest) response.body();
-                String code = serverResponseTest.getCode();
-                if ("200".equals(code)) {
-                    for (int i = 0; i < serverResponseTest.getResults().size(); i++) {
-                        Test jsonObject = serverResponseTest.getResults().get(i);
-                        String testname = jsonObject.getTestname();
-                        Log.d("TestName==", testname);
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ServerResponseTest> call, Throwable t) {
-
-            }
-        });
-    }
+//    private void getTestById(){
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl(new Config().SERVER_URL)
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build();
+//
+//        ApiInterface apiInterface = retrofit.create(ApiInterface.class);
+//
+//       // sel_test_ids = DiagnosticTestListActivity.testid;
+//
+//        final TestingCenter centre = new TestingCenter("1");
+//
+//
+//        Call<ServerResponseTest> call = apiInterface.getTestById("abc", centre);
+//
+//        call.enqueue(new Callback<ServerResponseTest>() {
+//            @Override
+//            public void onResponse(Call<ServerResponseTest> call, Response<ServerResponseTest> response) {
+//                serverResponseTest =(ServerResponseTest) response.body();
+//                String code = serverResponseTest.getCode();
+//                if ("200".equals(code)) {
+//                    for (int i = 0; i < serverResponseTest.getResults().size(); i++) {
+//                        Test jsonObject = serverResponseTest.getResults().get(i);
+//                        String testname = jsonObject.getTestname();
+//                        Log.d("TestName==", testname);
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ServerResponseTest> call, Throwable t) {
+//
+//            }
+//        });
+//    }
 }

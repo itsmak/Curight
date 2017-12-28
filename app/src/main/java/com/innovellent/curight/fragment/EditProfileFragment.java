@@ -57,14 +57,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class EditProfileFragment extends Fragment implements View.OnClickListener{
 
+    private static final String TAG = "CuRight";
+    private static final String BASE_URL = "http://13.59.209.135:8090/diagnosticAPI/webapi/";
     Spinner spGender,sprelationship,spBloodGroup,spCity,spState;
     EditText etFullName,etEmail,etMobileNo,etAddress,etdateOfBirth,etpincd;
     TextView tvDateOfBirth,tvGender,tvMartialStatus,tvInterest,tvBloodGroup,tvCity,tvState,tvPin;
     Button btn_submit;
-    private int mYear, mMonth, mDay;
-    private static final String TAG = "CuRight";
-    private static final String BASE_URL = "http://13.59.209.135:8090/diagnosticAPI/webapi/";
     SpinnerAdapter mAdapter;
+    private int mYear, mMonth, mDay;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -300,6 +300,7 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
                                         Intent homeint = new Intent(getActivity(), HomeActivity.class);
                                         Prefs.putString("destination","Profile");
                                         startActivity(homeint);
+
 
                                     }else {
                                         Toast.makeText(getActivity(),"You are already Registered",Toast.LENGTH_SHORT).show();
