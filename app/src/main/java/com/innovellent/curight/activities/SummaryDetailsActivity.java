@@ -31,6 +31,7 @@ import com.innovellent.curight.model.TestBookingId;
 import com.innovellent.curight.model.TestDetail;
 import com.innovellent.curight.utility.Config;
 import com.innovellent.curight.utility.Util;
+import com.pixplicity.easyprefs.library.Prefs;
 
 
 import java.util.ArrayList;
@@ -45,14 +46,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class SummaryDetailsActivity extends AppCompatActivity implements View.OnClickListener{
+    private static final String TAG = "CuRight";
     RecyclerView recycler_view;
     SummaryAdapter mAdapter;
     ImageView ivBack;
     TextView startDate,endDate,tvCenterName,tvLoc;
     Button btnProcceed,btnAddTest;
     CheckBox cbHomePickup;
-    ArrayList<String> arrayList = new ArrayList<String>();
     //ArrayList<String> newArrayList = new ArrayList<String>();
+    ArrayList<String> arrayList = new ArrayList<String>();
     ArrayList<String> amountList =new ArrayList<String>();
     Toolbar toolbar;
     String dc_name,loc,test_names;
@@ -72,19 +74,23 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
         if (bundle!=null) {
             dc_id = bundle.getLong("dc_id");
             dc_name = bundle.getString("dc_name");
-
             loc = bundle.getString("location");
             test_names = bundle.getString("test_names");
-            Log.d("test_names***",  test_names);
             sel_test_ids = bundle.getString("sel_test_ids");
             test_amnt_str =  bundle.getString("test_amounts");
-            Log.d("test_amountarray***",  test_amnt_str);
+            Log.d(TAG,"summery_test_id***"+String.valueOf(dc_id));
+            Log.d(TAG,"summery_test_dcname***"+dc_name);
+            Log.d(TAG,"summery_test_location***"+loc);
+            Log.d(TAG,"summery_test_names***"+test_names);
+            Log.d(TAG,"summery_seltestid***"+sel_test_ids);
+            Log.d(TAG,"summery_testamnt***"+test_amnt_str);
         }
         init();
         iniClick();
         getData();
 
         Log.d("arraylistsize***",  ""+arrayList.size());
+        Log.d("amountlistsize***",  ""+amountList.size());
 
     }
     public void init(){
@@ -125,20 +131,26 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
             }
         });
         if (!("".equals(test_names))) {
-            tests_arr = test_names.split("\\^");
+            tests_arr = test_names.split(",");
         }
-        for (int i=0;i<tests_arr.length;i++) {
-            arrayList.add(tests_arr[i]);
+        if(tests_arr!=null)
+        {
+            for (int i=0;i<tests_arr.length;i++) {
+                arrayList.add(tests_arr[i]);
+            }
         }
         if (!("".equals(test_amnt_str))) {
             test_amnts = test_amnt_str.split(",");
         }
         long total_amount = 0L;
-
-        for (String amount : test_amnts) {
-            amountList.add(amount);
-            total_amount = total_amount + Long.parseLong(amount);
+        if(test_amnts!=null)
+        {
+            for (String amount : test_amnts) {
+                amountList.add(amount);
+                total_amount = total_amount + Long.parseLong(amount);
+            }
         }
+
         Log.e("SUMMARY","total amnt :: "+total_amount);
         tvTotal.setText(total_amount+"");
         SharedPreferences sharedPreferences = getSharedPreferences("mypref", Context.MODE_PRIVATE);
@@ -165,15 +177,26 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
 
             case R.id.btnProcceed:
 
-                SharedPreferences sharedPreferences = getSharedPreferences("mypref", Context.MODE_PRIVATE);
-                String x_access_token = sharedPreferences.getString("access_token","");
-                if (Util.isEmpty(x_access_token)) {
-                    //perform login
-                    Intent i1 = new Intent(SummaryDetailsActivity.this, LoginActivity.class);
-                    startActivity(i1);
-                } else {
-                    //do Payment as its logged in
-                    doPayment(x_access_token);
+//                SharedPreferences sharedPreferences = getSharedPreferences("mypref", Context.MODE_PRIVATE);
+//                String x_access_token = sharedPreferences.getString("access_token","");
+//                if (Util.isEmpty(x_access_token)) {
+//                    //perform login
+//                    Intent i1 = new Intent(SummaryDetailsActivity.this, LoginActivity.class);
+//                    startActivity(i1);
+//                } else {
+//                    //do Payment as its logged in
+//                    doPayment(x_access_token);
+//                }
+
+                Long uid = Prefs.getLong("user_id",0);
+                Log.d(TAG,"shared_summary_id"+uid);
+                    if (uid==0) {
+                    Intent i = new Intent(SummaryDetailsActivity.this, Summary_login.class);
+                    startActivity(i);
+                }else {
+                    Intent i = new Intent(SummaryDetailsActivity.this, PaymentDetailsActivity.class);
+                    startActivity(i);
+
                 }
 
                 break;

@@ -33,31 +33,14 @@
         </RelativeLayout>
 
     </android.support.v7.widget.Toolbar>
-    <LinearLayout
-        android:id="@+id/search_panel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar"
-        android:background="@drawable/border_rectangle_grey"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:gravity="center|right"
-        android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_weight="1"
-            android:background="@android:color/white"
-            android:gravity="center|right">
 
             <EditText
-                android:id="@+id/etSearch"
+                android:id="@+id/etSearch_diagnostic"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_margin="5dp"
+                android:layout_below="@+id/toolbar"
+                android:layout_margin="10dp"
                 android:background="@drawable/logine_edit_search"
                 android:drawableLeft="@drawable/ic_search2"
                 android:ems="10"
@@ -65,14 +48,12 @@
                 android:hint="@string/searchtest" >
             </EditText>
 
-        </LinearLayout>
 
-    </LinearLayout>
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/search_panel"
+        android:layout_below="@+id/etSearch_diagnostic"
         android:layout_centerHorizontal="true"
         android:background="@color/white"
         android:text="@string/alltest"
@@ -85,10 +66,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/llButton"
+        android:layout_alignLeft="@+id/etSearch_diagnostic"
+        android:layout_alignRight="@+id/etSearch_diagnostic"
         android:layout_below="@+id/tvTitle"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp" />
+        android:layout_centerHorizontal="true"/>
     <LinearLayout
         android:id="@+id/llButton"
         android:layout_width="match_parent"

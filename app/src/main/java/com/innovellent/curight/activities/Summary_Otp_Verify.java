@@ -11,8 +11,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import com.innovellent.curight.OtpVerifyActivity;
 import com.innovellent.curight.R;
 import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.AccessToken;
@@ -21,17 +19,14 @@ import com.innovellent.curight.model.ServerResponseAuth;
 import com.innovellent.curight.utility.Config;
 import com.innovellent.curight.utility.Util;
 import com.pixplicity.easyprefs.library.Prefs;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
 /**
  * Created by Mak on 12/27/2017.
  */
-
 public class Summary_Otp_Verify extends Activity {
 
     //private String access_token_str = "";
@@ -127,7 +122,7 @@ public class Summary_Otp_Verify extends Activity {
                         Prefs.putString("email", email);
                         String data = Prefs.getString("destination","");
                         Log.d("Shared","Shared "+data);
-                                                    Intent intent = new Intent(Summary_Otp_Verify.this, PaymentDetailsActivity.class);
+                        Intent intent = new Intent(Summary_Otp_Verify.this, PaymentDetailsActivity.class);
                             Bundle bundle = new Bundle();
                             bundle.putString("user_id", user_id);
                             bundle.putLong("uid", uid);
