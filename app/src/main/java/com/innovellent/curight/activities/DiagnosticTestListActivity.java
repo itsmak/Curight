@@ -20,12 +20,14 @@ import com.google.gson.JsonObject;
 import com.innovellent.curight.R;
 import com.innovellent.curight.adapter.DiagnosticTestAdapter;
 import com.innovellent.curight.api.ApiInterface;
+import com.innovellent.curight.fragment.Medicine_list;
 import com.innovellent.curight.model.ServerResponseTest;
 import com.innovellent.curight.model.Test;
 import com.innovellent.curight.model.Test_List;
 import com.innovellent.curight.utility.Config;
 import com.innovellent.curight.utility.Constants;
 import com.innovellent.curight.utility.Util;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import org.json.JSONObject;
 
@@ -57,49 +59,100 @@ public class DiagnosticTestListActivity extends AppCompatActivity{
     Test jsonObject;
     ArrayList<Test> testObjs = new ArrayList<Test>();
 
+    public static ArrayList<Test> getTestObjs(){
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(new Config().SERVER_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ApiInterface apiInterface = retrofit.create(ApiInterface.class);
+
+        Call<ServerResponseTest> call = apiInterface.getTest();
+
+        Log.e("TAG",call.request().url()+"");
+
+        final ArrayList<Test> testObjects = new ArrayList<Test>();
+
+        final ArrayList<String> testAL = new ArrayList<String>();
+
+        call.enqueue(new Callback<ServerResponseTest>() {
+            @Override
+            public void onResponse(Call<ServerResponseTest> call, Response<ServerResponseTest> response) {
+                ServerResponseTest tests =(ServerResponseTest) response.body();
+                int code = tests.getCode();
+                if ("200".equals(code)) {
+                    for (int i = 0; i < tests.getResults().size(); i++) {
+                        Test jsonObject = tests.getResults().get(i);
+                        testObjects.add(jsonObject);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ServerResponseTest> call, Throwable t) {
+                t.getMessage();
+                String s = t.getMessage();
+                Log.e("TAG","error :: "+s);
+            }
+        });
+        return testObjects;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diagnostic_test_list);
-
+        Prefs.putString("test_id","");
+        Prefs.putInt("test_length",0);
         getalltest();
+        getData();
         init();
         iniClick();
 
         etSearch.setClickable(true);
         etSearch.clearFocus();
-        try {
+
             etSearch.addTextChangedListener(new TextWatcher() {
-                public void afterTextChanged(Editable s) {
+                public void afterTextChanged(Editable editable) {
+                   filter(editable.toString());
                 }
 
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 }
 
                 public void onTextChanged(CharSequence query, int start, int before, int count) {
-                    query = etSearch.getText().toString().toString().toLowerCase();
-
-                    final ArrayList<String> filteredList = new ArrayList<>();
-
-                    for (int i = 0; i < arrayList.size(); i++) {
-
-                        final String text = arrayList.get(i).toString().toLowerCase();
-                        if (text.contains(query)) {
-
-                            filteredList.add(arrayList.get(i));
-                        }
-                    }
-
-                    //mAdapter=new DiagnosticTestAdapter(DiagnosticTestListActivity.this,filteredList);
-                    recycler_view.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-                    recycler_view.setAdapter(mAdapter);
                 }
             });
 
-        }catch (Exception e){
-            System.out.println("Exception :::  "+e);
-        }
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Prefs.putString("test_id","");
+       // Prefs.putInt("test_length",0);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Prefs.putString("test_id","");
+       // Prefs.putInt("test_length",0);
+    }
+
+    private void filter(String text){
+
+        ArrayList<Test_List> filteredlist = new ArrayList<>();
+        for(Test_List item : testlist){
+            if(item.getTestname().toLowerCase().contains(text.toLowerCase()))
+            {
+                filteredlist.add(item);
+            }
+        }
+        mAdapter.filterlist(filteredlist);
+    }
+
     public void init(){
         toolbar=(Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -108,10 +161,11 @@ public class DiagnosticTestListActivity extends AppCompatActivity{
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
-        etSearch=(EditText)findViewById(R.id.etSearch);
+        etSearch=(EditText)findViewById(R.id.etSearch_diagnostic);
         recycler_view=(RecyclerView)findViewById(R.id.recycler_view);
         btnSubmit=(Button)findViewById(R.id.btnSubmit);
     }
+
     public void iniClick(){
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,53 +177,26 @@ public class DiagnosticTestListActivity extends AppCompatActivity{
                 {
                     sel_test_ids = sel_test_ids.substring(0,sel_test_ids.length()-1);
                 }
+                Log.d(TAG, "String ID"+sel_test_ids);
                 bundle.putString("test_id",sel_test_ids);
                 bundle.putString("test_names",sel_test_names);
                 i.putExtras(bundle);
-                startActivity(i);
+                String mystring = Prefs.getString("test_id","");
+                Log.d(TAG,"selected ids text:"+mystring);
+                if (mystring.length()==0)
+                {
+                    Toast.makeText(getApplicationContext(),"Select atleast One test",Toast.LENGTH_SHORT).show();
+                }else {
+                    Log.d(TAG,"mytestlength"+mystring.length());
+                    Prefs.putInt("test_length",mystring.length());
+                    startActivity(i);
+                    //finish();
+                }
+                //
             }
         });
     }
 
-//    public static ArrayList<Test> getTestObjs(){
-//
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl(new Config().SERVER_URL)
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build();
-//
-//        ApiInterface apiInterface = retrofit.create(ApiInterface.class);
-//
-//        Call<ServerResponseTest> call = apiInterface.getTest();
-//
-//        Log.e("TAG",call.request().url()+"");
-//
-//        final ArrayList<Test> testObjects = new ArrayList<Test>();
-//
-//        final ArrayList<String> testAL = new ArrayList<String>();
-//
-//        call.enqueue(new Callback<ServerResponseTest>() {
-//            @Override
-//            public void onResponse(Call<ServerResponseTest> call, Response<ServerResponseTest> response) {
-//                ServerResponseTest tests =(ServerResponseTest) response.body();
-//                String code = tests.getCode();
-//                if ("200".equals(code)) {
-//                    for (int i = 0; i < tests.getResults().size(); i++) {
-//                        Test jsonObject = tests.getResults().get(i);
-//                        testObjects.add(jsonObject);
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ServerResponseTest> call, Throwable t) {
-//                t.getMessage();
-//                String s = t.getMessage();
-//                Log.e("TAG","error :: "+s);
-//            }
-//        });
-//        return testObjects;
-//    }
     public  void getalltest()
     {
         Retrofit retrofit = new Retrofit.Builder()
@@ -221,60 +248,62 @@ public class DiagnosticTestListActivity extends AppCompatActivity{
     }
 
 
-//    public void getData(){
-//
-//    Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl(new Config().SERVER_URL)
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build();
-//
-//    ApiInterface apiInterface = retrofit.create(ApiInterface.class);
-//
-//    Call<ServerResponseTest> call = apiInterface.getTest();
-//
-//    Log.e("TAG",call.request().url()+"");
-//
-//    call.enqueue(new Callback<ServerResponseTest>() {
-//        @Override
-//        public void onResponse(Call<ServerResponseTest> call, Response<ServerResponseTest> response) {
-//            tests =(ServerResponseTest) response.body();
-//            int code = tests.getCode();
-//            if ("200".equals(code)) {
-//                for (int i = 0; i < tests.getResults().size(); i++) {
-//                    jsonObject = tests.getResults().get(i);
-//                    testObjs.add(jsonObject);
-//                    try {
-//                        String test_name = jsonObject.getTestname();
-//                        testArrayList.add(test_name);
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                }
+    public void getData(){
+
+    Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(new Config().SERVER_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+    ApiInterface apiInterface = retrofit.create(ApiInterface.class);
+
+    Call<ServerResponseTest> call = apiInterface.getTest();
+
+    Log.e("TAG",call.request().url()+"");
+
+    call.enqueue(new Callback<ServerResponseTest>() {
+        @Override
+        public void onResponse(Call<ServerResponseTest> call, Response<ServerResponseTest> response) {
+            tests =(ServerResponseTest) response.body();
+           // ArrayList<Test> result = response.body().getResults();
+            int code = tests.getCode();
+            if ("200".equals(code)) {
+                for (int i = 0; i < tests.getResults().size(); i++) {
+                    jsonObject = tests.getResults().get(i);
+                    //testlist.add(new Test_List(result.get(i).getTestid(),result.get(i).getTestcode(),result.get(i).getTestname(),result.get(i).getDescription(),result.get(i).getModifiedby()));
+                    testObjs.add(jsonObject);
+                    try {
+                        String test_name = jsonObject.getTestname();
+                        testArrayList.add(test_name);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
 //                if (testArrayList.size()!=0) {
-//                    mAdapter = new DiagnosticTestAdapter(DiagnosticTestListActivity.this, testArrayList, testObjs);
+//                    mAdapter = new DiagnosticTestAdapter(DiagnosticTestListActivity.this, testlist, testObjs);
 //                    recycler_view.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
 //                    recycler_view.setAdapter(mAdapter);
 //                }
-//            }
-//        }
-//
-//        @Override
-//        public void onFailure(Call<ServerResponseTest> call, Throwable t) {
-//            t.getMessage();
-//            String message = t.getMessage();
-//            Log.e("TAG","error :: "+message);
-//            if (!isFinishing()) {
-//                if (Constants.SERVER_DOWN.equals(message)) {
-//                        Util.showAlertDialog(DiagnosticTestListActivity.this, "Server is Down! Please try  again later!", "ERROR");
-//                        return;
-//                    } else {
-//                        Util.showAlertDialog(DiagnosticTestListActivity.this, message, "ERROR");
-//                        return;
-//                    }
-//                }
-//            }
-//        });
-//    }
+            }
+        }
+
+        @Override
+        public void onFailure(Call<ServerResponseTest> call, Throwable t) {
+            t.getMessage();
+            String message = t.getMessage();
+            Log.e("TAG","error :: "+message);
+            if (!isFinishing()) {
+                if (Constants.SERVER_DOWN.equals(message)) {
+                        Util.showAlertDialog(DiagnosticTestListActivity.this, "Server is Down! Please try  again later!", "ERROR");
+                        return;
+                    } else {
+                        Util.showAlertDialog(DiagnosticTestListActivity.this, message, "ERROR");
+                        return;
+                    }
+                }
+            }
+        });
+    }
 
 
     @Override

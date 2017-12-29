@@ -19,6 +19,7 @@ import com.innovellent.curight.model.DiagnosticCentre;
 import com.innovellent.curight.model.ServerResponseDiagCenter;
 import com.innovellent.curight.model.TestDetail;
 import com.innovellent.curight.utility.Config;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.ArrayList;
 
@@ -30,18 +31,19 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class DiagnosticCentersActivity extends AppCompatActivity implements View.OnClickListener{
+    private static final String TAG = "CuRight";
     RecyclerView recycler_view;
     DiagnosticCenterAdapter mAdapter;
     ImageView ivBack;
     Toolbar toolbar;
     ServerResponseDiagCenter diagCenterByTest;
-
     TestDetail testDetail;
     Center center;
-
+    char newtest_id [];
+    ArrayList<Center> centerObjs = new ArrayList<Center>();
     private String test_ids="";
     private String test_names="";
-    ArrayList<Center> centerObjs = new ArrayList<Center>();
+    private String my_test_id = "",newtext,finaltext_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +54,44 @@ public class DiagnosticCentersActivity extends AppCompatActivity implements View
             test_ids = bundle.getString("test_id");
             test_names = bundle.getString("test_names");
         }
+        my_test_id=Prefs.getString("test_id","");
+        if(my_test_id.length()==1)
+        {
+            finaltext_id=my_test_id;
+        }else{
+            int j=0;
+            newtest_id = new char[my_test_id.length()+my_test_id.length()];
+            for(int i=0;i<my_test_id.length();i++)
+            {
+                    newtest_id[j] = my_test_id.charAt(i);
+                    j=j+1;
+                    newtest_id[j]=',';
+                    j=j+1;
+
+            }
+            if(newtext!=null)
+            {
+                newtext = new String(newtest_id);
+                finaltext_id= newtext.substring(0,newtest_id.length-1);
+            }
+        }
+
+        Log.d(TAG,"test_Id_old:"+my_test_id);
+        Log.d(TAG,"test_Id_new"+finaltext_id);
+
+        testcount();
+
         init();
-        getData();
+        getData(finaltext_id);
 
     }
+        public int testcount()
+        {
+        int test_count = Prefs.getInt("test_length",0);
+            Log.d(TAG,"activity_testcount"+test_count);
+        return test_count;
+        }
+
     public void init(){
         toolbar=(Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -66,7 +102,7 @@ public class DiagnosticCentersActivity extends AppCompatActivity implements View
         recycler_view=(RecyclerView)findViewById(R.id.recycler_view);
     }
 
-    public void getData(){
+    public void getData(String newtest_id){
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(new Config().SERVER_URL)
@@ -75,8 +111,8 @@ public class DiagnosticCentersActivity extends AppCompatActivity implements View
 
 
         ApiInterface apiInterface = retrofit.create(ApiInterface.class);
-
-        final DiagnosticCentre centre = new DiagnosticCentre(0,test_ids);
+        Log.d(TAG,"summery_param"+newtest_id);
+        final DiagnosticCentre centre = new DiagnosticCentre(0,newtest_id);
 
         Call<ServerResponseDiagCenter> call = apiInterface.getDcTest(centre);
 
@@ -117,22 +153,27 @@ public class DiagnosticCentersActivity extends AppCompatActivity implements View
         {
 
 
-
-
         }
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId()==android.R.id.home)
+            //finish();
+        {
+            Intent i=new Intent(DiagnosticCentersActivity.this,DiagnosticTestListActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(i);
             finish();
+        }
         return super.onOptionsItemSelected(item);
     }
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
         Intent i=new Intent(DiagnosticCentersActivity.this,DiagnosticTestListActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i);
         finish();
-        super.onBackPressed();
+
     }
 }

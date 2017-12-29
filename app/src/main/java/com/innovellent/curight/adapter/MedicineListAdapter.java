@@ -20,27 +20,12 @@ import java.util.ArrayList;
 
 public class MedicineListAdapter  extends RecyclerView.Adapter<MedicineListAdapter.MyViewHolder> {
 
+    RadioButton selected=null;
     private ArrayList<Medicine_list> arrayList = new ArrayList<>();
     private Context mContext;
     private String state;
-    RadioButton selected=null;
 
 
-
-    class MyViewHolder extends RecyclerView.ViewHolder {
-
-        TextView tvMedicineName;
-        RadioButton cbDiagnosticTest;
-
-        MyViewHolder(View view) {
-            super(view);
-            tvMedicineName = (TextView) view.findViewById(R.id.tvMedicineName);
-            cbDiagnosticTest=(RadioButton)view.findViewById(R.id.cbDiagnosticTest);
-
-
-
-        }
-    }
 
     public MedicineListAdapter(Context context,ArrayList<Medicine_list> arrayList) {
         mContext = context;
@@ -75,9 +60,6 @@ public class MedicineListAdapter  extends RecyclerView.Adapter<MedicineListAdapt
                 selected = holder.cbDiagnosticTest;
             }
         });
-
-
-
     }
 
     @Override
@@ -88,6 +70,21 @@ public class MedicineListAdapter  extends RecyclerView.Adapter<MedicineListAdapt
     public void filterlist(ArrayList<Medicine_list> filteredlist) {
         arrayList=filteredlist;
         notifyDataSetChanged();
+    }
+
+    class MyViewHolder extends RecyclerView.ViewHolder {
+
+        TextView tvMedicineName;
+        RadioButton cbDiagnosticTest;
+
+        MyViewHolder(View view) {
+            super(view);
+            tvMedicineName = (TextView) view.findViewById(R.id.tvMedicineName);
+            cbDiagnosticTest=(RadioButton)view.findViewById(R.id.cbDiagnosticTest);
+
+
+
+        }
     }
 }
 

@@ -11,6 +11,7 @@ public class Test_List {
     private String testname;
     private String description;
     private Long modifiedby;
+  //  private boolean isSelected;
 
     public Test_List(Long testid, String testcode, String testname, String description, Long modifiedby) {
         this.testid = testid;
@@ -18,7 +19,16 @@ public class Test_List {
         this.testname = testname;
         this.description = description;
         this.modifiedby = modifiedby;
+  //      this.isSelected = isSelected;
     }
+
+//    public boolean isSelected() {
+//        return isSelected;
+//    }
+//
+//    public void setSelected(boolean selected) {
+//        isSelected = selected;
+//    }
 
     public Long getTestid() {
         return testid;

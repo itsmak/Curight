@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
@@ -24,6 +25,7 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.innovellent.curight.R;
+import com.innovellent.curight.activities.DiagnosticCentersActivity;
 import com.innovellent.curight.activities.SummaryDetailsActivity;
 import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.Center;
@@ -37,6 +39,7 @@ import com.innovellent.curight.model.ServerResponseOverviewByDC;
 import com.innovellent.curight.model.ServerResponsePhotosByDC;
 import com.innovellent.curight.model.TestDetail;
 import com.innovellent.curight.utility.Config;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -117,8 +120,9 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
                 tests_count++;
             }
         }
-
-        holder.testCount.setText(tests_count+" Out of "+arrayList.get(position).getCount()+" tests available");
+        int test_count = ((DiagnosticCentersActivity)mContext).testcount();
+        Log.d(TAG,"adapter_testcount"+test_count);
+        holder.testCount.setText(arrayList.get(position).getCount()+" Out of "+test_count+" tests available");
 
         holder.btnOverview.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,45 +141,63 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
         holder.btnBookTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i=new Intent(mContext,SummaryDetailsActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putLong("dc_id",arrayList.get(position).getDiagnosticcentreid());
-                bundle.putString("dc_name",arrayList.get(position).getDiagnosticcentrename());
-                bundle.putString("location",arrayList.get(position).getAddress());
+                if(Integer.parseInt(arrayList.get(position).getCount())>0)
+                {
+                    Intent i=new Intent(mContext,SummaryDetailsActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putLong("dc_id",arrayList.get(position).getDiagnosticcentreid());
+                    bundle.putString("dc_name",arrayList.get(position).getDiagnosticcentrename());
+                    bundle.putString("location",arrayList.get(position).getAddress());
+                    Log.e("TAG","Size is ::  "+arrayList.get(position).getTestDetail().size());
 
-                Log.e("TAG","Size is ::  "+arrayList.get(position).getTestDetail().size());
+                    ArrayList<TestDetail> testObj = arrayList.get(position).getTestDetail();
+                    String test_amounts = "";
 
-
-                ArrayList<TestDetail> testObj = arrayList.get(position).getTestDetail();
-                String test_amounts = "";
-                for (int j=0;j<testObj.size();j++) {
-                    if ("Y".equals(testObj.get(j).getTestchoosen())) {
-                        test_amounts = test_amounts + testObj.get(j).getAmount() + ",";
-                        Log.d(TAG, "test_amounts"+ test_amounts);
+                    for (int j=0;j<testObj.size();j++) {
+                        if ("Y".equals(testObj.get(j).getTestchoosen())) {
+                            test_amounts = test_amounts + testObj.get(j).getAmount() + ",";
+                            Log.d(TAG, "test_amounts"+ test_amounts);
+                        }
                     }
-                }
-                //Log.e("AMOUNTS","Val :: "+test_amounts);
+                    Log.d(TAG,"test_amounts :: "+test_amounts);
 
-                String test_amnt_str = test_amounts;
-                if (test_amnt_str.endsWith(",")) {
-                    test_amnt_str = test_amnt_str.substring(0,test_amnt_str.length()-1);
-                }
+                    String test_amnt_str = test_amounts;
+                    if (test_amnt_str.endsWith(",")) {
+                        test_amnt_str = test_amnt_str.substring(0,test_amnt_str.length()-1);
+                    }
 
-                //Log.e("AMOUNTS","amnt_str :: "+test_amnt_str);
+                    Log.e(TAG,"test_amounts final:: "+test_amnt_str);
 
-                String sel_test_names = DiagnosticTestAdapter.sel_test_names;
-                if (sel_test_names.endsWith("^")) {
-                    sel_test_names = sel_test_names.substring(0,sel_test_names.length()-1);
+                    String test_name = "";
+
+                    for (int j=0;j<testObj.size();j++) {
+                        if ("Y".equals(testObj.get(j).getTestchoosen())) {
+                            test_name = test_name + testObj.get(j).getTestName() + ",";
+                            Log.d(TAG, "test_name"+ test_name);
+                        }
+                    }
+                    Log.e(TAG,"test_name :: "+test_name);
+                    String test_name_str = test_name;
+                    if (test_name_str.endsWith(",")) {
+                        test_name_str = test_name_str.substring(0,test_name_str.length()-1);
+                    }
+                    Log.e(TAG,"test_name_final:: "+test_name_str);
+                    String sel_test_names = DiagnosticTestAdapter.sel_test_names;
+                    if (sel_test_names.endsWith("^")) {
+                        sel_test_names = sel_test_names.substring(0,sel_test_names.length()-1);
+                    }
+                    String sel_test_ids = DiagnosticTestAdapter.sel_test_ids;
+                    if (sel_test_ids.endsWith("^")) {
+                        sel_test_ids = sel_test_ids.substring(0,sel_test_ids.length()-1);
+                    }
+                    bundle.putString("sel_test_ids",sel_test_ids);
+                    bundle.putString("test_names",test_name_str);
+                    bundle.putString("test_amounts",test_amnt_str);
+                    i.putExtras(bundle);
+                    mContext.startActivity(i);
+                }else {
+                    Toast.makeText(mContext.getApplicationContext(),"Selected Tests are not available",Toast.LENGTH_SHORT).show();
                 }
-                String sel_test_ids = DiagnosticTestAdapter.sel_test_ids;
-                if (sel_test_ids.endsWith("^")) {
-                    sel_test_ids = sel_test_ids.substring(0,sel_test_ids.length()-1);
-                }
-                bundle.putString("sel_test_ids",sel_test_ids);
-                bundle.putString("test_names",sel_test_names);
-                bundle.putString("test_amounts",test_amnt_str);
-                i.putExtras(bundle);
-                mContext.startActivity(i);
             }
         });
 

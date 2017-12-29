@@ -98,7 +98,6 @@ public class MedicineReminderListActivity extends AppCompatActivity implements V
                         }
                     }
 
-
 //                    mAdapter=new MedicineListAdapter(MedicineReminderListActivity.this,filteredList);
 //                    recycler_view.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
 //                    recycler_view.setAdapter(mAdapter);
