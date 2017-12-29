@@ -60,21 +60,22 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         switch (v.getId()) {
 
             case R.id.ivBack:
-                Intent i = new Intent(EditProfileActivity.this, HomeActivity.class);
-                i.putExtra("flag", "profile");
-                Prefs.putString("destination","Profile");
-                startActivity(i);
+//                Intent i = new Intent(EditProfileActivity.this, HomeActivity.class);
+//                i.putExtra("flag", "profile");
+//                Prefs.putString("destination","Profile");
+//                startActivity(i);
+                super.onBackPressed();
                 break;
         }
     }
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(EditProfileActivity.this, HomeActivity.class);
-        i.putExtra("flag", "profile");
-        Prefs.putString("destination","Profile");
-        startActivity(i);
-        finish();
+//        Intent i = new Intent(EditProfileActivity.this, HomeActivity.class);
+//        i.putExtra("flag", "profile");
+//        Prefs.putString("destination","Profile");
+//        startActivity(i);
+//        finish();
         super.onBackPressed();
     }
     private void setupViewPagerReminder() {

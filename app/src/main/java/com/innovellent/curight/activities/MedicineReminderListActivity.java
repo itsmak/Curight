@@ -43,13 +43,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class MedicineReminderListActivity extends AppCompatActivity implements View.OnClickListener{
+    private static final String TAG = "CuRight";
     RecyclerView recycler_view;
     MedicineListAdapter mAdapter;
     Button btnSubmit;
     ImageView ivAdd,ivBack;
     EditText etMedicineName,etSearch,etsearch_med;
     Toolbar toolbar;
-    private static final String TAG = "CuRight";
     ArrayList<Medicine_list> arrayList=new ArrayList<Medicine_list>();
 
     @Override
@@ -213,7 +213,6 @@ public class MedicineReminderListActivity extends AppCompatActivity implements V
                     Log.e(TAG, "getmedicine:  listsize: " + result.size());
                     for (int i = 0; i < result.size(); i++){
                         arrayList.add(new Medicine_list(result.get(i).getMedicineid(),result.get(i).getMedicinename()));
-
                     }
                 }else {
                     Toast.makeText(MedicineReminderListActivity.this, response.message(), Toast.LENGTH_SHORT).show();

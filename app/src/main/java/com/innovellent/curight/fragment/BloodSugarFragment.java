@@ -92,11 +92,11 @@ public class BloodSugarFragment extends Fragment implements View.OnClickListener
 
         LineGraphSeries<DataPoint> line_series =
                 new LineGraphSeries<DataPoint>(new DataPoint[] {
-                        new DataPoint(0, 1),
-                        new DataPoint(1, 4),
-                        new DataPoint(2, 2),
-                        new DataPoint(3, 5),
-                        new DataPoint(4, 3),
+                        new DataPoint(0, 0),
+                        new DataPoint(0, 0),
+                        new DataPoint(0, 0),
+                        new DataPoint(0, 0),
+                        new DataPoint(0, 0),
 
                 });
         line_graph.addSeries(line_series);
@@ -183,16 +183,16 @@ public class BloodSugarFragment extends Fragment implements View.OnClickListener
 
 
     public void getData(){
-        arrayList.add(new BloodPressure("197/23","92"));
-        arrayList.add(new BloodPressure("127/53","42"));
-        arrayList.add(new BloodPressure("177/63","81"));
-        arrayList.add(new BloodPressure("183/12","55"));
-        arrayList.add(new BloodPressure("162/33","64"));
-        arrayList.add(new BloodPressure("132/33","53"));
-        arrayList.add(new BloodPressure("163/33","63"));
-        arrayList.add(new BloodPressure("152/63","91"));
-        arrayList.add(new BloodPressure("122/23","32"));
-        arrayList.add(new BloodPressure("162/73","61"));
+//        arrayList.add(new BloodPressure("197/23","92"));
+//        arrayList.add(new BloodPressure("127/53","42"));
+//        arrayList.add(new BloodPressure("177/63","81"));
+//        arrayList.add(new BloodPressure("183/12","55"));
+//        arrayList.add(new BloodPressure("162/33","64"));
+//        arrayList.add(new BloodPressure("132/33","53"));
+//        arrayList.add(new BloodPressure("163/33","63"));
+//        arrayList.add(new BloodPressure("152/63","91"));
+//        arrayList.add(new BloodPressure("122/23","32"));
+//        arrayList.add(new BloodPressure("162/73","61"));
         mAdapter=new BloodPressureAdapter(getActivity(),arrayList);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(mAdapter);

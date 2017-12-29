@@ -8,7 +8,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
    <item android:state_pressed="true">
       <shape android:shape="rectangle">
-         <solid android:color="@color/colorPrimaryDark" />
+         <solid android:color="#0387d2" />
       </shape>
    </item>
    <item android:state_focused="true">

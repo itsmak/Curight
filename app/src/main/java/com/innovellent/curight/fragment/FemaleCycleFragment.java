@@ -82,7 +82,7 @@ public class FemaleCycleFragment extends Fragment implements View.OnClickListene
     Calendar calendar;
     ProgressDialog progressDialog;
     DatePickerDialog datePickerDialog;
-    String normalduration,gap,currentperiod,missing,notes,reminder,radiobutton_selected_yes,Date,fctid;
+    String normalduration,gap,currentperiod,missing,notes,reminder,radiobutton_selected_yes="",Date,fctid;
     RelativeLayout date_layout;
     ArrayList<FCT> arrayList=new ArrayList<FCT >();
     public FemaleCycleFragment() {
@@ -132,10 +132,10 @@ public class FemaleCycleFragment extends Fragment implements View.OnClickListene
                     Toast.makeText(getActivity(), "Please Select any one yes or no", Toast.LENGTH_SHORT).show();
                 }else if(radio_button_yes.isChecked()) {
 
-                    radiobutton_selected_yes = radio_button_yes.getTag().toString();
+                    radiobutton_selected_yes = "Yes";
                 }else if(radio_button_no.isChecked()) {
 
-                    radiobutton_selected_yes = radio_button_no.getTag().toString();
+                    radiobutton_selected_yes = "No";
                 }
 
 
@@ -251,10 +251,10 @@ public class FemaleCycleFragment extends Fragment implements View.OnClickListene
                 .build();
 
         ApiInterface apiInterface = retrofit.create(ApiInterface.class);
-
+        int uid = (int) Prefs.getLong("user_id",0);
         try{
             JSONObject paramObject = new JSONObject();
-            paramObject.put("userid", 1);
+            paramObject.put("userid", uid);
             paramObject.put("normalperiodduration", Normalperiodduration);
             paramObject.put("gap", Gap);
             paramObject.put("reminderdays", Reminderdays);

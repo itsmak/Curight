@@ -21,6 +21,7 @@ import android.widget.ListView;
 import com.innovellent.curight.R;
 import com.innovellent.curight.adapter.CustomDrawerAdapter;
 import com.innovellent.curight.model.DrawerItem;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,26 +38,22 @@ public class NavigationDrawerFragment extends Fragment {
      * expands it. This shared preference tracks this.
      */
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
-
-    /**
-     * A pointer to the current callbacks instance (the Activity).
-     */
-    private NavigationDrawerCallbacks mCallbacks;
-
+    public static List<DrawerItem> dataList;
     /**
      * Helper component that ties the action bar to the navigation drawer.
      */
     public ActionBarDrawerToggle mDrawerToggle;
-
+    public int mCurrentSelectedPosition = 12;
+    public CustomDrawerAdapter mDrawerAdapter;
+    /**
+     * A pointer to the current callbacks instance (the Activity).
+     */
+    private NavigationDrawerCallbacks mCallbacks;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerListView;
     private View mFragmentContainerView;
-
-    public int mCurrentSelectedPosition = 12;
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
-    private List<DrawerItem> dataList;
-    private CustomDrawerAdapter mDrawerAdapter;
 
     public NavigationDrawerFragment() {
     }
@@ -238,6 +235,35 @@ public class NavigationDrawerFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+    public void addItemsToDataList() {
+
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("mypref", Context.MODE_PRIVATE);
+
+
+        mDrawerAdapter = new CustomDrawerAdapter(getActivity(), R.layout.custom_drawer_item, dataList);
+
+           /* dataList.add(new DrawerItem("About Us"));
+            dataList.add(new DrawerItem("Contact Us"));
+            dataList.add(new DrawerItem("Feedback"));
+            dataList.add(new DrawerItem("Rate App"));
+            dataList.add(new DrawerItem("Refer A Friend"));
+            dataList.add(new DrawerItem("Sign in"));*/
+
+            dataList.add(new DrawerItem("About Us"));
+            dataList.add(new DrawerItem("Contact Us"));
+            dataList.add(new DrawerItem("Feedback"));
+            dataList.add(new DrawerItem("Rate App"));
+            dataList.add(new DrawerItem("Refer A Friend"));
+            dataList.add(new DrawerItem("Sign out"));
+
+
+
+
+
+
+
+    }
+
     /**
      * Callbacks interface that all activities using this fragment must implement.
      */
@@ -246,22 +272,5 @@ public class NavigationDrawerFragment extends Fragment {
          * Called when an item in the navigation drawer is selected.
          */
         void onNavigationDrawerItemSelected(int position);
-    }
-
-    private void addItemsToDataList() {
-
-        SharedPreferences sharedPreferences = getContext().getSharedPreferences("mypref", Context.MODE_PRIVATE);
-
-
-            dataList.add(new DrawerItem("About Us"));
-            dataList.add(new DrawerItem("Contact Us"));
-            dataList.add(new DrawerItem("Feedback"));
-            dataList.add(new DrawerItem("Rate App"));
-            dataList.add(new DrawerItem("Refer A Friend"));
-            dataList.add(new DrawerItem("Sign Out"));
-
-
-
-
     }
 }

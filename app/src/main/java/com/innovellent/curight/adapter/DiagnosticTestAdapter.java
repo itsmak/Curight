@@ -9,38 +9,126 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.innovellent.curight.R;
 import com.innovellent.curight.model.Test;
+import com.innovellent.curight.model.Test_List;
 
 import java.util.ArrayList;
 
+import static android.content.ContentValues.TAG;
 
 
 public class DiagnosticTestAdapter extends RecyclerView.Adapter<DiagnosticTestAdapter.MyViewHolder> {
 
+    public static String sel_test_names = "";
+    public static String sel_test_ids = "";
     private ArrayList<String> arrayList = new ArrayList<>();
+    private ArrayList<Test_List> t_arrayList = new ArrayList<>();
     //private ArrayList<String> testIdList = new ArrayList<>();
     private Context mContext;
     private ArrayList<Test> testObjs;
-    public static String sel_test_names = "";
-    public static String sel_test_ids = "";
 
     //private onRecyclerViewItemClickListener mItemClickListener;
 
+    public DiagnosticTestAdapter(Context context,ArrayList<Test_List> arrayList) {
+        mContext = context;
+        this.t_arrayList = arrayList;
+
+    }
+
+   public DiagnosticTestAdapter(Context context,ArrayList<String> arrayList,ArrayList<Test> testObjs) {
+        mContext = context;
+        this.arrayList = arrayList;
+       this.testObjs = testObjs;
+    }
+
+    @Override
+    public DiagnosticTestAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_row_diagnostic_test, parent, false);
+        itemView.setClickable(true);
+        //itemView.setOnClickListener(this);
+        return new DiagnosticTestAdapter.MyViewHolder(itemView);
+    }
+
+//    private void addItem(String test_name,Test test) {
+//        this.arrayList.add(test_name);
+//        this.testObjs.add(test);
+//        notifyDataSetChanged();
+//    }
+
+    @Override
+    public void onBindViewHolder(final DiagnosticTestAdapter.MyViewHolder holder, final int position) {
+
+        holder.tvtestname.setText(t_arrayList.get(position).getTestname());
+        holder.tvdescription.setText(t_arrayList.get(position).getDescription());
+
+        Log.d(TAG, "gettest:  desc "+ holder.tvdescription.getText().toString());
+        Log.d(TAG, "gettest:  name "+ holder.tvtestname.getText().toString());
+        /*String testChoosenFlag = testObjs.get(position).getTestcode();
+        if ("Y".equals(testChoosenFlag)) {
+            holder.testCheckBox.setChecked(true);
+        }*/
+
+        holder.rl_diagnostictest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (holder.testCheckBox.isChecked()) {
+                    holder.testCheckBox.setChecked(false);
+                } else {
+                    holder.testCheckBox.setChecked(true);
+                }
+            }
+        });
+
+        holder.tvtestname.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (holder.testCheckBox.isChecked()) {
+                    holder.testCheckBox.setChecked(false);
+                } else {
+                    holder.testCheckBox.setChecked(true);
+                    /*sel_test_ids = sel_test_ids + testObjs.get(position).getTestid() + ",";
+                    sel_test_names = sel_test_names + testObjs.get(position).getTestname() + "^";*/
+                }
+            }
+        });
+        holder.testCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (compoundButton.isChecked()) {
+                    if (testObjs==null) {
+                    } else {
+                        sel_test_ids = sel_test_ids + testObjs.get(position).getTestid() + ",";
+                        sel_test_names = sel_test_names + testObjs.get(position).getTestname() + "^";
+                    }
+                }
+            }
+        });
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return t_arrayList.size();
+    }
+
     class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvCity;
+        TextView tvtestname,tvdescription;
         CheckBox testCheckBox;
-        CardView cardView;
-
+        //CardView cardView;
+        RelativeLayout rl_diagnostictest;
         MyViewHolder(View view) {
             super(view);
-            tvCity = (TextView) view.findViewById(R.id.tvCity);
+            tvtestname = (TextView) view.findViewById(R.id.tvtestname);
+            tvdescription = (TextView) view.findViewById(R.id.tvdescription);
             testCheckBox = (CheckBox) view.findViewById(R.id.cbDiagnosticTest);
-            cardView = (CardView) view.findViewById(R.id.card_view2);
+            rl_diagnostictest = (RelativeLayout) view.findViewById(R.id.rl_diagnostictest);
+      //      cardView = (CardView) view.findViewById(R.id.card_view2);
             //cardView.setOnClickListener(this);
             testCheckBox.setClickable(true);
             //testCheckBox.setOnClickListener(this);
@@ -71,80 +159,5 @@ public class DiagnosticTestAdapter extends RecyclerView.Adapter<DiagnosticTestAd
             }
 
              }*/
-    }
-
-   public DiagnosticTestAdapter(Context context,ArrayList<String> arrayList,ArrayList<Test> testObjs) {
-        mContext = context;
-        this.arrayList = arrayList;
-       this.testObjs = testObjs;
-    }
-
-    private void addItem(String test_name,Test test) {
-        this.arrayList.add(test_name);
-        this.testObjs.add(test);
-        notifyDataSetChanged();
-    }
-
-
-    @Override
-    public DiagnosticTestAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_row_diagnostic_test, parent, false);
-        itemView.setClickable(true);
-        //itemView.setOnClickListener(this);
-        return new DiagnosticTestAdapter.MyViewHolder(itemView);
-    }
-
-    @Override
-    public void onBindViewHolder(final DiagnosticTestAdapter.MyViewHolder holder, final int position) {
-
-        holder.tvCity.setText(arrayList.get(position));
-        String testChoosenFlag = testObjs.get(position).getTestcode();
-        if ("Y".equals(testChoosenFlag)) {
-            holder.testCheckBox.setChecked(true);
-        }
-
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (holder.testCheckBox.isChecked()) {
-                    holder.testCheckBox.setChecked(false);
-                } else {
-                    holder.testCheckBox.setChecked(true);
-                }
-            }
-        });
-
-        holder.tvCity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (holder.testCheckBox.isChecked()) {
-                    holder.testCheckBox.setChecked(false);
-                } else {
-                    holder.testCheckBox.setChecked(true);
-                    /*sel_test_ids = sel_test_ids + testObjs.get(position).getTestid() + ",";
-                    sel_test_names = sel_test_names + testObjs.get(position).getTestname() + "^";*/
-                }
-            }
-        });
-
-        holder.testCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (compoundButton.isChecked()) {
-                    if (testObjs==null) {
-
-                    } else {
-                        sel_test_ids = sel_test_ids + testObjs.get(position).getTestid() + ",";
-                        sel_test_names = sel_test_names + testObjs.get(position).getTestname() + "^";
-                    }
-                }
-            }
-        });
-
-    }
-
-    @Override
-    public int getItemCount() {
-        return arrayList.size();
     }
 }

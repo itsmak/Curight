@@ -53,8 +53,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCenterAdapter.MyViewHolder> implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
 
-    private ArrayList<Center> arrayList = new ArrayList<Center>();
-    private Context mContext;
+    private static final String TAG = "CuRight";
     TextView doctorname_doctorbydc,specialization_doctorbydc,tvemail_doctorbydc,tvtime_doctorbydc,tvmobile_doctorbydc,tvaddress_doctorbydc;
     String doctorname,spec,email,normalworkingdays,weekendworkingdays,mobile,address;//strings for getdoctorbydc
     String summary;
@@ -66,6 +65,14 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
     TextView input;
     SliderLayout sliderLayout;
     HashMap<String,String> Hash_file_maps ;
+    private ArrayList<Center> arrayList = new ArrayList<Center>();
+    private Context mContext;
+
+    public DiagnosticCenterAdapter(Context context, ArrayList<Center> arrayList) {
+        mContext = context;
+        this.arrayList = arrayList;
+
+    }
 
     @Override
     public void onSliderClick(BaseSliderView slider) {
@@ -84,46 +91,6 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
 
     @Override
     public void onPageScrollStateChanged(int state) {
-
-    }
-
-
-
-
-    class MyViewHolder extends RecyclerView.ViewHolder {
-
-        TextView tvCenterName;
-        Button btnBookTest;
-        RadioButton rbSpec;
-        TextView startTime;
-        RadioButton rbTag;
-        TextView endTime;
-        TextView location;
-        TextView testCount;
-        Button btnOverview,btnDoctors,btnTest;
-        Button btnPhotos;
-
-        MyViewHolder(View view) {
-            super(view);
-            tvCenterName = (TextView) view.findViewById(R.id.tvCenterName);
-            btnBookTest=(Button)view.findViewById(R.id.btnBookTest);
-            rbSpec = (RadioButton) view.findViewById(R.id.rbSpec);
-            startTime = (TextView) view.findViewById(R.id.tvDateTime);
-            rbTag = (RadioButton) view.findViewById(R.id.rbFullTime);
-            endTime = (TextView) view.findViewById(R.id.tvFullTimeDateTime);
-            location = (TextView) view.findViewById(R.id.tvLocation);
-            testCount = (TextView) view.findViewById(R.id.tvTestCount);
-            btnOverview = (Button) view.findViewById(R.id.btnOverview);
-            btnPhotos = (Button) view.findViewById(R.id.btnPhotos);
-            btnDoctors = (Button)view.findViewById(R.id.btnDoctors);
-            btnTest = (Button)view.findViewById(R.id.btnTest);
-
-        }
-    }
-
-    public DiagnosticCenterAdapter(Context context, ArrayList<Center> arrayList) {
-        mContext = context;
-        this.arrayList = arrayList;
 
     }
 
@@ -184,6 +151,7 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
                 for (int j=0;j<testObj.size();j++) {
                     if ("Y".equals(testObj.get(j).getTestchoosen())) {
                         test_amounts = test_amounts + testObj.get(j).getAmount() + ",";
+                        Log.d(TAG, "test_amounts"+ test_amounts);
                     }
                 }
                 //Log.e("AMOUNTS","Val :: "+test_amounts);
@@ -255,7 +223,6 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
         return arrayList.size();
     }
 
-
     //getdoctorbydc api
     private void getdoctorbydc(int pos){
         Retrofit retrofit = new Retrofit.Builder()
@@ -319,7 +286,6 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
             }
         });
     }
-
 
     //gettestbydc api
     private void gettestbydc(int pos){
@@ -401,7 +367,6 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
         });
     }
 
-
     //overview api
     private void getoverviewbydc(int pos){
         Retrofit retrofit = new Retrofit.Builder()
@@ -455,7 +420,6 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
             }
         });
     }
-
 
     //getphotosbydc api
     private void getphotosbydc(int pos){
@@ -531,6 +495,37 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
 
             }
         });
+    }
+
+    class MyViewHolder extends RecyclerView.ViewHolder {
+
+        TextView tvCenterName;
+        Button btnBookTest;
+        RadioButton rbSpec;
+        TextView startTime;
+        RadioButton rbTag;
+        TextView endTime;
+        TextView location;
+        TextView testCount;
+        Button btnOverview,btnDoctors,btnTest;
+        Button btnPhotos;
+
+        MyViewHolder(View view) {
+            super(view);
+            tvCenterName = (TextView) view.findViewById(R.id.tvCenterName);
+            btnBookTest=(Button)view.findViewById(R.id.btnBookTest);
+            rbSpec = (RadioButton) view.findViewById(R.id.rbSpec);
+            startTime = (TextView) view.findViewById(R.id.tvDateTime);
+            rbTag = (RadioButton) view.findViewById(R.id.rbFullTime);
+            endTime = (TextView) view.findViewById(R.id.tvFullTimeDateTime);
+            location = (TextView) view.findViewById(R.id.tvLocation);
+            testCount = (TextView) view.findViewById(R.id.tvTestCount);
+            btnOverview = (Button) view.findViewById(R.id.btnOverview);
+            btnPhotos = (Button) view.findViewById(R.id.btnPhotos);
+            btnDoctors = (Button)view.findViewById(R.id.btnDoctors);
+            btnTest = (Button)view.findViewById(R.id.btnTest);
+
+        }
     }
 
 

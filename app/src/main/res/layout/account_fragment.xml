@@ -8,285 +8,285 @@
 
 <LinearLayout
     android:id="@+id/llprofile"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="10dp"
-    android:layout_width="match_parent"
-    android:weightSum="100"
-    android:layout_height="wrap_content">
+    android:weightSum="100">
 
 <ImageView
-    android:background="@mipmap/icprofile"
     android:layout_width="0dp"
+    android:layout_height="30dp"
     android:layout_weight="10"
-    android:layout_height="30dp" />
+    android:background="@mipmap/icprofile" />
 
     <TextView
         android:id="@+id/tvProfile"
-        android:text="Profile"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:layout_weight="77"
-        android:textSize="15dp"
+        android:text="Profile"
         android:textColor="@color/darkgray"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content" />
+        android:textSize="15dp" />
     <ImageView
-        android:background="@mipmap/go_arrow"
         android:layout_width="0dp"
+        android:layout_height="20dp"
         android:layout_weight="3"
-        android:layout_height="20dp" />
+        android:background="@mipmap/go_arrow" />
 
 </LinearLayout>
     <View
+        android:id="@+id/vline1"
         android:layout_width="match_parent"
         android:layout_height="0.2dp"
-        android:id="@+id/vline1"
         android:layout_below="@+id/llprofile"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:background="@color/darkgray"/>
     <LinearLayout
-        android:layout_below="@+id/vline1"
         android:id="@+id/llLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/vline1"
         android:orientation="horizontal"
         android:padding="10dp"
-        android:layout_width="match_parent"
-        android:weightSum="100"
-        android:layout_height="wrap_content">
+        android:weightSum="100">
 
         <ImageView
-            android:background="@mipmap/aboutus"
             android:layout_width="0dp"
-            android:layout_weight="10"
+            android:layout_height="30dp"
             android:layout_marginTop="5dp"
-            android:layout_height="30dp" />
+            android:layout_weight="10"
+            android:background="@mipmap/aboutus" />
 
         <TextView
             android:id="@+id/tvAboutUs"
-            android:text="About Us"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="15dp"
             android:layout_weight="77"
-            android:textSize="15dp"
+            android:text="About Us"
             android:textColor="@color/darkgray"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content" />
+            android:textSize="15dp" />
         <ImageView
-            android:background="@mipmap/go_arrow"
             android:layout_width="0dp"
+            android:layout_height="20dp"
             android:layout_weight="3"
-            android:layout_height="20dp" />
+            android:background="@mipmap/go_arrow" />
 
     </LinearLayout>
     <View
+        android:id="@+id/vline2"
         android:layout_width="match_parent"
         android:layout_height="0.2dp"
-        android:id="@+id/vline2"
         android:layout_below="@+id/llLayout2"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:background="@color/darkgray"/>
     <LinearLayout
-        android:layout_below="@+id/vline2"
         android:id="@+id/llLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/vline2"
         android:orientation="horizontal"
         android:padding="10dp"
-        android:layout_width="match_parent"
-        android:weightSum="100"
-        android:layout_height="wrap_content">
+        android:weightSum="100">
 
         <ImageView
-            android:background="@mipmap/profile2"
             android:layout_width="0dp"
-            android:layout_weight="10"
+            android:layout_height="30dp"
             android:layout_marginTop="5dp"
-            android:layout_height="30dp" />
+            android:layout_weight="10"
+            android:background="@mipmap/profile2" />
 
         <TextView
             android:id="@+id/tvntContactUs"
-            android:text="Contact Us"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="15dp"
             android:layout_weight="77"
-            android:textSize="15dp"
+            android:text="Contact Us"
             android:textColor="@color/darkgray"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content" />
+            android:textSize="15dp" />
         <ImageView
-            android:background="@mipmap/go_arrow"
             android:layout_width="0dp"
+            android:layout_height="20dp"
             android:layout_weight="3"
-            android:layout_height="20dp" />
+            android:background="@mipmap/go_arrow" />
 
     </LinearLayout>
     <View
+        android:id="@+id/vline3"
         android:layout_width="match_parent"
         android:layout_height="0.2dp"
-        android:id="@+id/vline3"
         android:layout_below="@+id/llLayout3"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:background="@color/darkgray"/>
     <LinearLayout
-        android:layout_below="@+id/vline3"
         android:id="@+id/llLayout4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/vline3"
         android:orientation="horizontal"
         android:padding="10dp"
-        android:layout_width="match_parent"
-        android:weightSum="100"
-        android:layout_height="wrap_content">
+        android:weightSum="100">
 
         <ImageView
-            android:background="@mipmap/feedback"
             android:layout_width="0dp"
+            android:layout_height="30dp"
             android:layout_marginTop="5dp"
             android:layout_weight="10"
-            android:layout_height="30dp" />
+            android:background="@mipmap/feedback" />
 
         <TextView
             android:id="@+id/tvFeedback"
-            android:text="Feedback"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="15dp"
             android:layout_weight="77"
-            android:textSize="15dp"
+            android:text="Feedback"
             android:textColor="@color/darkgray"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content" />
+            android:textSize="15dp" />
         <ImageView
-            android:background="@mipmap/go_arrow"
             android:layout_width="0dp"
+            android:layout_height="20dp"
             android:layout_weight="3"
-            android:layout_height="20dp" />
+            android:background="@mipmap/go_arrow" />
 
     </LinearLayout>
     <View
+        android:id="@+id/vline4"
         android:layout_width="match_parent"
         android:layout_height="0.2dp"
-        android:id="@+id/vline4"
         android:layout_below="@+id/llLayout4"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:background="@color/darkgray"/>
     <LinearLayout
-        android:layout_below="@+id/vline4"
         android:id="@+id/llLayout41"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/vline4"
         android:orientation="horizontal"
         android:padding="10dp"
-        android:layout_width="match_parent"
-        android:weightSum="100"
-        android:layout_height="wrap_content">
+        android:weightSum="100">
 
         <ImageView
-            android:background="@mipmap/rateapp"
             android:layout_width="0dp"
-            android:layout_weight="10"
+            android:layout_height="30dp"
             android:layout_marginTop="5dp"
-            android:layout_height="30dp" />
+            android:layout_weight="10"
+            android:background="@mipmap/rateapp" />
 
         <TextView
             android:id="@+id/tvRateApp"
-            android:text="Rate App"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="15dp"
             android:layout_weight="77"
-            android:textSize="15dp"
+            android:text="Rate App"
             android:textColor="@color/darkgray"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content" />
+            android:textSize="15dp" />
         <ImageView
-            android:background="@mipmap/go_arrow"
             android:layout_width="0dp"
+            android:layout_height="20dp"
             android:layout_weight="3"
-            android:layout_height="20dp" />
+            android:background="@mipmap/go_arrow" />
 
     </LinearLayout>
     <View
+        android:id="@+id/vline5"
         android:layout_width="match_parent"
         android:layout_height="0.2dp"
-        android:id="@+id/vline5"
         android:layout_below="@+id/llLayout41"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:background="@color/darkgray"/>
     <LinearLayout
-        android:layout_below="@+id/vline5"
         android:id="@+id/llLayout5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/vline5"
         android:orientation="horizontal"
         android:padding="10dp"
-        android:layout_width="match_parent"
-        android:weightSum="100"
-        android:layout_height="wrap_content">
+        android:weightSum="100">
 
         <ImageView
-            android:background="@mipmap/icreferfriend"
             android:layout_width="0dp"
-            android:layout_weight="10"
+            android:layout_height="30dp"
             android:layout_marginTop="5dp"
-            android:layout_height="30dp" />
+            android:layout_weight="10"
+            android:background="@mipmap/icreferfriend" />
 
         <TextView
             android:id="@+id/tvReferFriends"
-            android:text="Refer A Friend"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="15dp"
             android:layout_weight="77"
-            android:textSize="15dp"
+            android:text="Refer A Friend"
             android:textColor="@color/darkgray"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content" />
+            android:textSize="15dp" />
         <ImageView
-            android:background="@mipmap/go_arrow"
             android:layout_width="0dp"
+            android:layout_height="20dp"
             android:layout_weight="3"
-            android:layout_height="20dp" />
+            android:background="@mipmap/go_arrow" />
 
     </LinearLayout>
     <View
+        android:id="@+id/vline61"
         android:layout_width="match_parent"
         android:layout_height="0.2dp"
-        android:id="@+id/vline61"
         android:layout_below="@+id/llLayout5"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:background="@color/darkgray"/>
     <LinearLayout
-        android:layout_below="@id/llLayout5"
         android:id="@+id/llLayout6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/llLayout5"
         android:orientation="horizontal"
         android:padding="10dp"
-        android:layout_width="match_parent"
-        android:weightSum="100"
-        android:layout_height="wrap_content">
+        android:weightSum="100">
 
         <ImageView
-            android:background="@mipmap/signout"
             android:layout_width="0dp"
-            android:layout_weight="10"
+            android:layout_height="30dp"
             android:layout_marginTop="5dp"
-            android:layout_height="30dp" />
+            android:layout_weight="10"
+            android:background="@mipmap/signout" />
 
         <TextView
             android:id="@+id/tvSignOut"
-            android:text="Sign Out"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="15dp"
             android:layout_weight="77"
-            android:textSize="15dp"
+            android:text=""
             android:textColor="@color/darkgray"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content" />
+            android:textSize="15dp" />
         <ImageView
-            android:background="@mipmap/go_arrow"
             android:layout_width="0dp"
+            android:layout_height="20dp"
             android:layout_weight="3"
-            android:layout_height="20dp" />
+            android:background="@mipmap/go_arrow" />
 
     </LinearLayout>
     <View
+        android:id="@+id/vline7"
         android:layout_width="match_parent"
         android:layout_height="0.2dp"
-        android:id="@+id/vline7"
         android:layout_below="@+id/llLayout6"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"

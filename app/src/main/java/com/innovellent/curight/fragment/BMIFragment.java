@@ -232,6 +232,8 @@ public class BMIFragment extends Fragment implements View.OnClickListener {
                                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
                                 recyclerView.setAdapter(mAdapter);
                             }
+                        }else {
+                            Toast.makeText(getActivity(), "No Record Found", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }

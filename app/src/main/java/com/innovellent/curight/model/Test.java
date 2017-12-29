@@ -1,5 +1,7 @@
 package com.innovellent.curight.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.json.JSONObject;
 
 import java.lang.String;
@@ -9,11 +11,16 @@ import java.lang.String;
  */
 
 public class Test {
+    @SerializedName("testname")
     private String testname;
+    @SerializedName("testid")
     private Long testid;
     private Long diagnosticcentreid;
+    @SerializedName("testcode")
     private String testcode;
+    @SerializedName("description")
     private String description;
+    @SerializedName("modifiedby")
     private Long modifiedby;
 
     public Test(String testname,Long testid,Long diagnosticcentreid,String testcode,String description,Long modifiedby){
@@ -42,13 +49,13 @@ public class Test {
         this.testname = testname;
     }
 
-    public Long getDiagnosticcentreid() {
-        return diagnosticcentreid;
-    }
-
-    public void setDiagnosticcentreid(Long diagnosticcentreid) {
-        this.diagnosticcentreid = diagnosticcentreid;
-    }
+//    public Long getDiagnosticcentreid() {
+//        return diagnosticcentreid;
+//    }
+//
+//    public void setDiagnosticcentreid(Long diagnosticcentreid) {
+//        this.diagnosticcentreid = diagnosticcentreid;
+//    }
 
     public String getTestcode() {
         return testcode;

@@ -7,9 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.innovellent.curight.R;
 import com.innovellent.curight.activities.ProfileActivity;
+import com.pixplicity.easyprefs.library.Prefs;
 
 
 public class AccountFragment extends Fragment implements
@@ -17,6 +19,7 @@ public class AccountFragment extends Fragment implements
 
     Double longi,lati;
     LinearLayout llprofile,llLayout2,llLayout3,llLayout4,llLayout41,llLayout5;
+    TextView tvSignOut;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -33,6 +36,7 @@ public class AccountFragment extends Fragment implements
         llLayout4=(LinearLayout)rootView.findViewById(R.id.llLayout4);
         llLayout41=(LinearLayout)rootView.findViewById(R.id.llLayout41);
         llLayout5=(LinearLayout)rootView.findViewById(R.id.llLayout5);
+        tvSignOut = (TextView)rootView.findViewById(R.id.tvSignOut);
 
     }
     public void initRegister(){
@@ -59,6 +63,15 @@ public class AccountFragment extends Fragment implements
                 fragmentTransaction2.commit();
                 */
                 break;
+            case R.id.llLayout5:
+                Long uid = Prefs.getLong("user_id",0);
+                if (uid==0)
+                {
+                    tvSignOut.setText("Sign In");
+                }else{
+                    tvSignOut.setText("Sign Out");
+                }
+
 
 
         }

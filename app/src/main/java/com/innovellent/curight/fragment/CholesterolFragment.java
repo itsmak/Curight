@@ -246,6 +246,8 @@ public class CholesterolFragment extends Fragment implements View.OnClickListene
                                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
                                 recyclerView.setAdapter(mAdapter);
                             }
+                        }else {
+                            Toast.makeText(getActivity(), "No Record Found", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }

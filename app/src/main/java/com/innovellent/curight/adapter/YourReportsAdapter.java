@@ -45,13 +45,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class YourReportsAdapter extends RecyclerView.Adapter<YourReportsAdapter.MyViewHolder>  {
 
+    private static final int MAX_LINES =1;
     Context mContext;
     ArrayList<PatientReportsData> patientReportsDatas =new ArrayList<PatientReportsData>();
     ArrayList<PatientReportsData> model;
     PatientReportsData patientReportsData;
     String doctorno;
     ProgressDialog progressDialog;
-    private static final int MAX_LINES =1;
 
     public YourReportsAdapter(Context context, ArrayList<PatientReportsData> patientReportsDatas) {
         mContext = context;
@@ -185,28 +185,6 @@ public class YourReportsAdapter extends RecyclerView.Adapter<YourReportsAdapter.
         return patientReportsDatas.size();
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder {
-
-        TextView txt_day,txt_month,txt_diagonsticname,txt_reason,txt_doctorname,txt_doctornumber,txt_comments,txt_visitdate;
-        ImageView img_calldoctor_fromreport,img_delete_parentreport;
-
-        public MyViewHolder(View itemView) {
-            super(itemView);
-
-            txt_day = (TextView)itemView.findViewById(R.id.txt_day);
-            txt_month = (TextView)itemView.findViewById(R.id.txt_month);
-            txt_diagonsticname = (TextView)itemView.findViewById(R.id.txt_diagonsticname);
-            txt_reason = (TextView)itemView.findViewById(R.id.txt_reason);
-            txt_doctorname = (TextView)itemView.findViewById(R.id.txt_doctorname);
-            //txt_doctornumber = (TextView)itemView.findViewById(R.id.txt_doctornumber);
-            txt_comments = (TextView)itemView.findViewById(R.id.txt_comments);
-            //txt_visitdate = (TextView)itemView.findViewById(R.id.txt_visitdate);
-            img_calldoctor_fromreport = (ImageView)itemView.findViewById(R.id.img_calldoctor_fromreport);
-            img_delete_parentreport =(ImageView)itemView.findViewById(R.id.img_delete_parentreport);
-        }
-    }
-
-
     // Filter Class
     public void filter(String charText) {
         charText = charText.toLowerCase(Locale.getDefault());
@@ -222,7 +200,6 @@ public class YourReportsAdapter extends RecyclerView.Adapter<YourReportsAdapter.
         }
         notifyDataSetChanged();
     }
-
 
     private void deletepatientreport(int patientreportid){
 
@@ -269,6 +246,27 @@ public class YourReportsAdapter extends RecyclerView.Adapter<YourReportsAdapter.
             e.printStackTrace();
         }
 
+    }
+
+    class MyViewHolder extends RecyclerView.ViewHolder {
+
+        TextView txt_day,txt_month,txt_diagonsticname,txt_reason,txt_doctorname,txt_doctornumber,txt_comments,txt_visitdate;
+        ImageView img_calldoctor_fromreport,img_delete_parentreport;
+
+        public MyViewHolder(View itemView) {
+            super(itemView);
+
+            txt_day = (TextView)itemView.findViewById(R.id.txt_day);
+            txt_month = (TextView)itemView.findViewById(R.id.txt_month);
+            txt_diagonsticname = (TextView)itemView.findViewById(R.id.txt_diagonsticname);
+            txt_reason = (TextView)itemView.findViewById(R.id.txt_reason);
+            txt_doctorname = (TextView)itemView.findViewById(R.id.txt_doctorname);
+            //txt_doctornumber = (TextView)itemView.findViewById(R.id.txt_doctornumber);
+            txt_comments = (TextView)itemView.findViewById(R.id.txt_comments);
+            //txt_visitdate = (TextView)itemView.findViewById(R.id.txt_visitdate);
+            img_calldoctor_fromreport = (ImageView)itemView.findViewById(R.id.img_calldoctor_fromreport);
+            img_delete_parentreport =(ImageView)itemView.findViewById(R.id.img_delete_parentreport);
+        }
     }
 
 
