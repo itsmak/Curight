@@ -5,13 +5,26 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+
+    <Spinner
+        android:id="@+id/spUser"
+        android:padding="5dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/graylight" />
     <LinearLayout
         android:id="@+id/llList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/spUser"
         android:background="@color/colorPrimary"
         android:orientation="horizontal"
         android:weightSum="100">
+
+
+
 
         <TextView
             android:id="@+id/tvTrends"
@@ -65,15 +78,7 @@
 
 
 
-        <Spinner
-            android:id="@+id/spUser"
-            android:padding="5dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="2dp"
-            android:layout_above="@id/graphLine"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/graylight" />
+
 
 
 

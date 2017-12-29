@@ -49,8 +49,9 @@ public class WHRAdapter extends RecyclerView.Adapter<WHRAdapter.MyViewHolder> {
     Context mContext;
 
 
+
     String date,whrflag,waistcircumference,hipcircumference,whr;
-    public WHRAdapter(Context context,ArrayList<WHR_LIST_DATE> arraylist_whr_list_dates, ArrayList<WHR_LIST> arraylist_whr_list) {
+    public WHRAdapter(Context context,ArrayList<WHR_LIST_DATE> arraylist_whr_list_dates,ArrayList<WHR_LIST> arraylist_whr_list) {
         mContext = context;
         this.arraylist_whr_list_dates = arraylist_whr_list_dates;
         this.arraylist_whr_list = arraylist_whr_list;
@@ -74,10 +75,22 @@ public class WHRAdapter extends RecyclerView.Adapter<WHRAdapter.MyViewHolder> {
 
         whr_list_date = arraylist_whr_list_dates.get(position);
         whr_list = arraylist_whr_list.get(position);
-        holder.tvSysDia.setText("W/H:"+" "+arraylist_whr_list.get(position).getWaistcircumference()+"/"+arraylist_whr_list.get(position).getHipcircumference());
-        holder.tvDate.setText(arraylist_whr_list_dates.get(position).getDate());
-        holder.tvPulse.setText(String.valueOf(arraylist_whr_list.get(position).getWhr()));
-        holder.txt_whrid.setText(String.valueOf(arraylist_whr_list.get(position).getWhrid()));
+
+        Log.d("arraylist_whr_lisdates", ""+arraylist_whr_list_dates.size());
+        Log.d("arraylist_whr_list", ""+arraylist_whr_list.size());
+        if(arraylist_whr_list_dates.size()>0&&arraylist_whr_list.size()>0){
+
+            holder.tvSysDia.setText("W/H:"+" "+arraylist_whr_list.get(position).getWaistcircumference()+"/"+arraylist_whr_list.get(position).getHipcircumference());
+            holder.tvDate.setText(arraylist_whr_list_dates.get(position).getDate());
+            holder.tvPulse.setText(String.valueOf(arraylist_whr_list.get(position).getWhr()));
+            holder.txt_whrid.setText(String.valueOf(arraylist_whr_list.get(position).getWhrid()));
+        }else{
+            holder.tvSysDia.setText("");
+            holder.tvDate.setText("");
+            holder.tvPulse.setText("");
+            holder.txt_whrid.setText("");
+        }
+
 
 
        holder.delete_whr.setOnClickListener(new View.OnClickListener() {
@@ -115,6 +128,7 @@ public class WHRAdapter extends RecyclerView.Adapter<WHRAdapter.MyViewHolder> {
 
     @Override
     public int getItemCount() {
+
         return arraylist_whr_list_dates.size();
     }
 

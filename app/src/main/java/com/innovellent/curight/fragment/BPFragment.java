@@ -69,7 +69,7 @@ public class BPFragment extends Fragment implements View.OnClickListener {
     RecyclerView recyclerView;
     BPAdapter mAdapter;
     GraphView lineGraph;
-    ArrayList<Object> arrayList = new ArrayList<>();
+    List<Object> arrayList = new ArrayList<>();
     AddBPRecordsDialog addRecordsDialog;
     RelativeLayout rlGraph;
     int i;
@@ -81,7 +81,7 @@ public class BPFragment extends Fragment implements View.OnClickListener {
     private String accessToken;
     private static final String TAG = ".Retro_MainActivity";
     private ProgressDialog progressDialog;
-    int uid;
+    int uid,position;
     Spinner spUser;
 
     @Override
@@ -97,7 +97,7 @@ public class BPFragment extends Fragment implements View.OnClickListener {
         userId = sharedPreferences.getLong("user_id", 2L);
 
         showProgressDialog("Loading");
-        getBloodPressureRecords(HomeActivity.USER_ID);
+        getBloodPressureRecords(USER_ID);
 
         return rootView;
     }
@@ -211,7 +211,7 @@ public class BPFragment extends Fragment implements View.OnClickListener {
                             if (serverResponse.getResults().equals("Success")) {
                                 Toast.makeText(getActivity(), "Successfully Added", Toast.LENGTH_SHORT).show();
                                 showProgressDialog("Loading");
-                                getBloodPressureRecords(HomeActivity.USER_ID);
+                                getBloodPressureRecords(USER_ID);
                             } else
                                 Toast.makeText(getActivity(), "Please try again", Toast.LENGTH_SHORT).show();
                         }
@@ -262,6 +262,9 @@ public class BPFragment extends Fragment implements View.OnClickListener {
                         spinnerList.add(new PROFILE(result.get(i).getUserid(),result.get(i).getId(), result.get(i).getName(), result.get(i).getAge(), result.get(i).getRelationship()));
                     }
                     getData2();
+                    USER_ID = result.get(0).getUserid();
+                    Log.d(TAG, "Myuserid default" + USER_ID);
+                    getBloodPressureRecords(USER_ID);
                     // GetData(result.get(1).getUserid());
                 } else {
 
@@ -277,7 +280,7 @@ public class BPFragment extends Fragment implements View.OnClickListener {
             public void onFailure(Call<MyProfile_Response> call, Throwable t) {
 
                 Log.e("", "onFailure: Somethings went wrong" + t.getMessage());
-                Toast.makeText(getActivity(), "Somethings went wrong", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -294,10 +297,10 @@ public class BPFragment extends Fragment implements View.OnClickListener {
                 //   Toast.makeText(PasswordRecoveryQuestionsActivity.this, spinner3[i], Toast.LENGTH_SHORT).show();
                 //spAge.setText(spinnerList.get(i).getUser_age());
                 USER_ID = spinnerList.get(i).getUser_id();
-                Prefs.putLong("spinner_id", Long.parseLong(spinnerList.get(i).getUser_id()));
-                uid = (int) Prefs.getLong("spinner_id",0);
-                Log.e("Userid", spinnerList.get(i).getUser_id());
-                //bp.getBloodPressureRecords(spinnerList.get(i).getUser_id());
+                //Prefs.putLong("spinner_id", Long.parseLong(spinnerList.get(i).getUser_id()));
+                //uid = (int) Prefs.getLong("spinner_id",0);
+                Log.d(TAG, "Myuserid on select" + USER_ID);
+               getBloodPressureRecords(USER_ID);
             }
 
             @Override
@@ -310,6 +313,7 @@ public class BPFragment extends Fragment implements View.OnClickListener {
 
 
     public void getBloodPressureRecords(String user_id) {
+            cleardata();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(new Config().SERVER_URL)
                 .addConverterFactory(ScalarsConverterFactory.create())
@@ -338,13 +342,13 @@ public class BPFragment extends Fragment implements View.OnClickListener {
                                 case "normal":
                                     setBlue();
                                     break;
-                                case "low risk":
+                                case "low":
                                     setGreen();
                                     break;
-                                case "medium risk":
+                                case "prehigh":
                                     setYellow();
                                     break;
-                                case "high risk":
+                                case "high":
                                     setRed();
                                     break;
                                 default:
@@ -354,15 +358,15 @@ public class BPFragment extends Fragment implements View.OnClickListener {
 
                             List<BloodPressureDayWise> dayWises = report.getBpList();
                             if (!dayWises.isEmpty()) {
-                                List<Object> objects = new ArrayList<>();
+                                arrayList = new ArrayList<>();
                                 List<DataPoint> points = new ArrayList<>();
                                 int i = 0;
                                 for (BloodPressureDayWise dayWise : dayWises) {
-                                    objects.add(dayWise.getDate());
+                                    arrayList.add(dayWise.getDate());
                                     List<BloodPressureRecord> records = dayWise.getBpList();
                                     for (int j = 0, size = records.size(); j < size; i++, j++) {
                                         BloodPressureRecord record = records.get(j);
-                                        objects.add(record);
+                                        arrayList.add(record);
                                         points.add(new DataPoint(i, record.getPulse()));
                                     }
                                 }
@@ -373,7 +377,7 @@ public class BPFragment extends Fragment implements View.OnClickListener {
                                 lineGraph.getViewport().setMinY(0);
                                 lineGraph.getViewport().setScrollable(false);
 
-                                mAdapter = new BPAdapter(getActivity(), objects, new BPAdapter.OnBloodPressureListener() {
+                                mAdapter = new BPAdapter(getActivity(), arrayList,position, new BPAdapter.OnBloodPressureListener() {
                                     @Override
                                     public void onDelete(BloodPressureRecord record) {
                                         showProgressDialog("Deleting");
@@ -396,6 +400,19 @@ public class BPFragment extends Fragment implements View.OnClickListener {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+    private void cleardata(){
+
+        mAdapter = new BPAdapter(getActivity(), arrayList,position, new BPAdapter.OnBloodPressureListener() {
+            @Override
+            public void onDelete(BloodPressureRecord record) {
+
+            }
+        });
+
+        mAdapter.ListClear();
     }
 
     private void showProgressDialog(String title) {
@@ -430,7 +447,7 @@ public class BPFragment extends Fragment implements View.OnClickListener {
                             if (serverResponse.getResults().equals("Success")) {
                                 Toast.makeText(getActivity(), "Successfully Deleted", Toast.LENGTH_SHORT).show();
                                 showProgressDialog("Loading");
-                                getBloodPressureRecords(HomeActivity.USER_ID);
+                                getBloodPressureRecords(USER_ID);
                             } else {
                                 Toast.makeText(getActivity(), "please try again", Toast.LENGTH_SHORT).show();
                             }

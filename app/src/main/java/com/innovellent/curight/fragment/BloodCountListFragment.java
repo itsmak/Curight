@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -20,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,10 +29,15 @@ import android.widget.Toast;
 import com.innovellent.curight.R;
 import com.innovellent.curight.activities.TrackActivity;
 import com.innovellent.curight.adapter.BloodCountListAdapter;
+import com.innovellent.curight.adapter.PROFILE_SPINNER_ADAPTER;
 import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.AddBloodCountDialog;
 import com.innovellent.curight.model.BloodCount;
 import com.innovellent.curight.model.BloodcountPojo;
+import com.innovellent.curight.model.MyProfile_Response;
+import com.innovellent.curight.model.PROFILE;
+import com.innovellent.curight.model.PROFILE_FEED;
+import com.innovellent.curight.model.PostBodyProfile;
 import com.innovellent.curight.model.ServerResponse;
 import com.innovellent.curight.model.ServerResponseBloodCount;
 import com.innovellent.curight.utility.Config;
@@ -51,6 +58,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
+import static android.content.ContentValues.TAG;
 import static com.innovellent.curight.utility.Constants.CURIGHT_TAG;
 
 
@@ -69,8 +77,12 @@ public class BloodCountListFragment extends Fragment implements View.OnClickList
     LinearLayout linear_datedialog;
     String bcid,anticep,crp,esr,haemoglobin,hbalc,inr,platelets,prolactin,rbc,rf,wbc,date;
     ScrollView svAddBloodCount;
+    String USER_ID;
+    ArrayList<PROFILE> spinnerList=new ArrayList<PROFILE>();
+    PROFILE_SPINNER_ADAPTER customSpinnerAdapter3;
     private DatePickerDialog datePickerDialog;
-
+    Spinner spUser;
+    int uid;
     ArrayList<BloodCount> arrayList=new ArrayList<BloodCount >();
     public BloodCountListFragment() {
 
@@ -87,10 +99,12 @@ public class BloodCountListFragment extends Fragment implements View.OnClickList
         View rootView = inflater.inflate(R.layout.fragment_blood_count_list, container, false);
 
 
-        getbloodcountdata();
+       // getbloodcountdata();
         initReferences(rootView);
         inClick();
         //getData();
+
+        getSpinnerData();
 
         final Calendar calendar = Calendar.getInstance();
 
@@ -154,6 +168,7 @@ public class BloodCountListFragment extends Fragment implements View.OnClickList
         etRBC = (EditText)rootView.findViewById(R.id.etRBC);
         etRF = (EditText)rootView.findViewById(R.id.etRF);
         etWBC = (EditText)rootView.findViewById(R.id.etWBC);
+        spUser = (Spinner) rootView.findViewById(R.id.spUser);
 
 
 
@@ -185,6 +200,90 @@ public class BloodCountListFragment extends Fragment implements View.OnClickList
 
 
     }*/
+
+
+    private void getSpinnerData() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(new Config().SERVER_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ApiInterface reditapi = retrofit.create(ApiInterface.class);
+        int uid = (int) Prefs.getLong("user_id",0);
+        PostBodyProfile postBodyprofile = new PostBodyProfile(uid, "family");
+        Call<MyProfile_Response> call = reditapi.getProfile(postBodyprofile);
+
+        call.enqueue(new Callback<MyProfile_Response>() {
+            @Override
+            public void onResponse(Call<MyProfile_Response> call, Response<MyProfile_Response> response) {
+
+
+                if (response.body() != null) {
+
+
+                    Log.e("", "profileResponse: code: " + response.body().getCode());
+
+                    ArrayList<PROFILE_FEED> result = response.body().getResults();
+
+                    Log.e("", "profileResponse: listsize: " + result.size());
+                    for (int i = 0; i < result.size(); i++) {
+
+                        USER_ID = result.get(i).getUserid();
+                        //spinnerList.add(new PROFILE("","","",""));
+                        spinnerList.add(new PROFILE(result.get(i).getUserid(),result.get(i).getId(), result.get(i).getName(), result.get(i).getAge(), result.get(i).getRelationship()));
+                    }
+                    getData2();
+                    int uid = (int) Prefs.getLong("user_id",0);
+                    Log.d("user_forwhr", ""+uid);
+                    getbloodcountdata(uid);
+                    // GetData(result.get(1).getUserid());
+                } else {
+
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+
+                }
+
+                //remainder_rclrvw.setAdapter(mAdapter);
+
+            }
+
+            @Override
+            public void onFailure(Call<MyProfile_Response> call, Throwable t) {
+
+                Log.e("", "onFailure: Somethings went wrong" + t.getMessage());
+                Toast.makeText(getActivity(), "Somethings went wrong", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
+
+    public void getData2() {
+
+        customSpinnerAdapter3 = new PROFILE_SPINNER_ADAPTER(getActivity(), spinnerList);
+        spUser.setAdapter(customSpinnerAdapter3);
+        spUser.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                //   Toast.makeText(PasswordRecoveryQuestionsActivity.this, spinner3[i], Toast.LENGTH_SHORT).show();
+                //spAge.setText(spinnerList.get(i).getUser_age());
+                USER_ID = spinnerList.get(i).getUser_id();
+                Prefs.putLong("spinner_id", Long.parseLong(spinnerList.get(i).getUser_id()));
+                uid = (int) Prefs.getLong("spinner_id",0);
+                Log.d(TAG, "Myuserid on select" + uid);
+
+                getbloodcountdata(uid);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+    }
+
+
     @Override
     public void onClick(View v) {
         switch (v.getId())
@@ -257,7 +356,7 @@ public class BloodCountListFragment extends Fragment implements View.OnClickList
                             if(serverResponseBloodCount.getResults().equals("Success")){
                                 Toast.makeText(getActivity(), "Successfully Added", Toast.LENGTH_SHORT).show();
                                 showProgressDialog("Loading");
-                                getbloodcountdata();
+                                getbloodcountdata(uid);
                                 progressDialog.dismiss();
                             }else {
                                 Toast.makeText(getActivity(), "please try again", Toast.LENGTH_SHORT).show();
@@ -279,15 +378,14 @@ public class BloodCountListFragment extends Fragment implements View.OnClickList
     }
 
 
-    private void getbloodcountdata(){
-
+    private void getbloodcountdata(int user_id){
+        cleardata();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(new Config().SERVER_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        int uid = (int) Prefs.getLong("user_id",0);
         ApiInterface apiInterface = retrofit.create(ApiInterface.class);
-        BloodcountPojo bloodcountPojo = new BloodcountPojo(uid);
+        BloodcountPojo bloodcountPojo = new BloodcountPojo(user_id);
 
         final Call<ResponseBody> call = apiInterface.getbloodcountdata("abc", bloodcountPojo);
 
@@ -354,16 +452,28 @@ public class BloodCountListFragment extends Fragment implements View.OnClickList
                         e.printStackTrace();
                     }
                 }else{
+                    recyclerView.removeAllViews();
                     Toast.makeText(getActivity(), "No Record Found", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                if (getActivity() != null) progressDialog.dismiss();
+                Log.d(CURIGHT_TAG, t.getMessage());
             }
         });
 
+    }
+
+    private void cleardata(){
+
+        mAdapter = new BloodCountListAdapter(getActivity(),arrayList);
+
+        arrayList.clear();
+
+        Log.d("bloodcountclear", ""+arrayList.size());
+        mAdapter.notifyDataSetChanged();
     }
 }
 

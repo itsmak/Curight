@@ -185,13 +185,13 @@ public class BMIFragment extends Fragment implements View.OnClickListener {
                                     case "U":
                                         setBlue();
                                         break;
-                                    case "low risk":
+                                    case "N":
                                         setGreen();
                                         break;
-                                    case "medium risk":
+                                    case "OV":
                                         setYellow();
                                         break;
-                                    case "high risk":
+                                    case "OB":
                                         setRed();
                                         break;
                                     default:

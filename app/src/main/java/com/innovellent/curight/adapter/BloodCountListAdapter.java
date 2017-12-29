@@ -18,13 +18,71 @@ import java.util.ArrayList;
 public class BloodCountListAdapter extends RecyclerView.Adapter<BloodCountListAdapter.MyViewHolder> {
 
     private ArrayList<BloodCount> arrayList = new ArrayList<>();
-    private Context mContext;
+     Context mContext;
     private String state;
+    BloodCount bloodCount;
+
+
+
+    public BloodCountListAdapter(Context context,ArrayList<BloodCount> arrayList) {
+        mContext = context;
+        this.arrayList = arrayList;
+
+    }
+
+    @Override
+    public BloodCountListAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_row_blood_count, parent, false);
+        return new BloodCountListAdapter.MyViewHolder(itemView);
+    }
+
+    @Override
+    public void onBindViewHolder(final BloodCountListAdapter.MyViewHolder holder, final int position) {
+
+
+        if(arrayList.size()>0) {
+
+            holder.tvAntiCPP.setText(arrayList.get(position).getAntiCPP());
+            holder.tvCRP.setText(arrayList.get(position).getCRP());
+            holder.tvESR.setText(arrayList.get(position).getESR());
+            holder.tvHaemoglobin.setText(arrayList.get(position).getHaemoglobin());
+            holder.tvHbA1c.setText(arrayList.get(position).getHbA1c());
+            holder.tvINR.setText(arrayList.get(position).getINR());
+            holder.tvPlatelet.setText(arrayList.get(position).getPlatelet());
+            holder.tvProlactin.setText(arrayList.get(position).getProlactin());
+            holder.tvRBC.setText(arrayList.get(position).getRBC());
+            holder.tvRF.setText(arrayList.get(position).getRF());
+            holder.tvWBC.setText(arrayList.get(position).getWBC());
+            holder.txt_bloodcountdate.setText(arrayList.get(position).getDate());
+        }else{
+            holder.tvAntiCPP.setText("");
+            holder.tvCRP.setText("");
+            holder.tvESR.setText("");
+            holder.tvHaemoglobin.setText("");
+            holder.tvHbA1c.setText("");
+            holder.tvINR.setText("");
+            holder.tvPlatelet.setText("");
+            holder.tvProlactin.setText("");
+            holder.tvRBC.setText("");
+            holder.tvRF.setText("");
+            holder.tvWBC.setText("");
+            holder.txt_bloodcountdate.setText("");
+        }
+
+
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return arrayList.size();
+    }
+
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
 
-       TextView tvAntiCPP,tvCRP,tvESR,tvHaemoglobin,tvHbA1c,tvINR,tvPlatelet,tvProlactin,tvRBC,tvRF,tvWBC,txt_bloodcountdate;
+        TextView tvAntiCPP,tvCRP,tvESR,tvHaemoglobin,tvHbA1c,tvINR,tvPlatelet,tvProlactin,tvRBC,tvRF,tvWBC,txt_bloodcountdate;
 
         MyViewHolder(View view) {
             super(view);
@@ -42,42 +100,5 @@ public class BloodCountListAdapter extends RecyclerView.Adapter<BloodCountListAd
             txt_bloodcountdate = (TextView)view.findViewById(R.id.txt_bloodcountdate);
 
         }
-    }
-
-    public BloodCountListAdapter(Context context,ArrayList<BloodCount> arrayList) {
-        mContext = context;
-        this.arrayList = arrayList;
-
-    }
-
-    @Override
-    public BloodCountListAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_row_blood_count, parent, false);
-        return new BloodCountListAdapter.MyViewHolder(itemView);
-    }
-
-    @Override
-    public void onBindViewHolder(final BloodCountListAdapter.MyViewHolder holder, final int position) {
-
-        holder.tvAntiCPP.setText(arrayList.get(position).getAntiCPP());
-        holder.tvCRP.setText(arrayList.get(position).getCRP());
-        holder.tvESR.setText(arrayList.get(position).getESR());
-        holder.tvHaemoglobin.setText(arrayList.get(position).getHaemoglobin());
-        holder.tvHbA1c.setText(arrayList.get(position).getHbA1c());
-        holder.tvINR.setText(arrayList.get(position).getINR());
-        holder.tvPlatelet.setText(arrayList.get(position).getPlatelet());
-        holder.tvProlactin.setText(arrayList.get(position).getProlactin());
-        holder.tvRBC.setText(arrayList.get(position).getRBC());
-        holder.tvRF.setText(arrayList.get(position).getRF());
-        holder.tvWBC.setText(arrayList.get(position).getWBC());
-        holder.txt_bloodcountdate.setText(arrayList.get(position).getDate());
-
-
-
-    }
-
-    @Override
-    public int getItemCount() {
-        return arrayList.size();
     }
 }

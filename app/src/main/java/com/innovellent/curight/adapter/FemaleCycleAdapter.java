@@ -75,13 +75,26 @@ public class FemaleCycleAdapter extends RecyclerView.Adapter<FemaleCycleAdapter.
     public void onBindViewHolder(final FemaleCycleAdapter.MyViewHolder holder, final int position) {
        // holder.tvAntiCPP.setText(arrayList.get(position).getAntiCPP());
         item = arrayList.get(position);
-        holder.tvDays.setText(item.getNormalperiodduration());
-        holder.tvgap_days.setText(item.getGap());
-        holder.tvCurrentPeriod.setText(item.getCurrentperioddate());
-        holder.tvMissed.setText(item.getMiss());
-        holder.tvNoteslabel.setText(item.getNotes());
-        holder.txt_reminderdays.setText(item.getReminderdays());
-        holder.fctid.setText(String.valueOf(item.getFemalecycletrackid()));
+
+        if(arrayList.size()>0) {
+            holder.tvDays.setText(item.getNormalperiodduration());
+            holder.tvgap_days.setText(item.getGap());
+            holder.tvCurrentPeriod.setText(item.getCurrentperioddate());
+            holder.tvMissed.setText(item.getMiss());
+            holder.tvNoteslabel.setText(item.getNotes());
+            holder.txt_reminderdays.setText(item.getReminderdays());
+            holder.fctid.setText(String.valueOf(item.getFemalecycletrackid()));
+
+        }else{
+            holder.tvDays.setText("");
+            holder.tvgap_days.setText("");
+            holder.tvCurrentPeriod.setText("");
+            holder.tvMissed.setText("");
+            holder.tvNoteslabel.setText("");
+            holder.txt_reminderdays.setText("");
+            holder.fctid.setText(String.valueOf(""));
+
+        }
 
 
         femalecycletrackid = item.getFemalecycletrackid();

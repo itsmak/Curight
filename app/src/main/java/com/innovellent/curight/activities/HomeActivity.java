@@ -118,7 +118,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
     TabLayout tabLayout;
     NumberPicker numberpicker;
     SearchView searchView;
-    BPFragment bp;
     PROFILE_SPINNER_ADAPTER customSpinnerAdapter3;
     ArrayList<PROFILE> spinnerList=new ArrayList<PROFILE>();
     SharedPreferences sharedPreferences;
@@ -135,9 +134,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
         Log.d(TAG,"Homeactivity: oncreate");
         sharedPreferences = getSharedPreferences("mypref", Context.MODE_PRIVATE);
 
-        bp = new BPFragment();
         init();
-        getSpinnerData();
+//        getSpinnerData();
         //onclick();
 
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
@@ -279,7 +277,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
         Log.d(TAG,"Homeactivity: onDestroy");
     }
 
-    public void getData2() {
+   /* public void getData2() {
 
         customSpinnerAdapter3 = new PROFILE_SPINNER_ADAPTER(HomeActivity.this, spinnerList);
         spUser.setAdapter(customSpinnerAdapter3);
@@ -292,7 +290,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
                 Prefs.putLong("spinner_id", Long.parseLong(spinnerList.get(i).getUser_id()));
                 uid = (int) Prefs.getLong("spinner_id",0);
                 Log.e("Userid", spinnerList.get(i).getUser_id());
-                bp.getBloodPressureRecords(uid);
             }
 
             @Override
@@ -355,7 +352,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
         });
     }
 
-
+*/
 
 
     private void fragmentChange(String name) {
@@ -436,7 +433,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
         setupViewPagerHome(viewPager);
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
-        spUser = (Spinner) findViewById(R.id.spUser);
+        //spUser = (Spinner) findViewById(R.id.spUser);
         tvTitle = (TextView) findViewById(R.id.tvTitle);
         tvTitle.setVisibility(View.GONE);
         searchView = (SearchView) findViewById(R.id.select_loc);
@@ -472,7 +469,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
 
     public void onclick() {
         ivAdd.setOnClickListener(this);
-        spUser.setVisibility(View.GONE);
+//        spUser.setVisibility(View.GONE);
         tabLayout.setVisibility(View.GONE);
         //ivAdd.setVisibility(View.INVISIBLE);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -487,7 +484,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
                         tvTitle.setVisibility(View.GONE);
                         viewPager.setVisibility(View.VISIBLE);
                         frameLayout.setVisibility(View.GONE);
-                        spUser.setVisibility(View.GONE);
+                        //spUser.setVisibility(View.GONE);
                         tabLayout.setVisibility(View.GONE);
                         adapter.notifyDataSetChanged();
                         setupViewPagerHome(viewPager);
@@ -510,7 +507,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
                             viewPager.setVisibility(View.VISIBLE);
                             frameLayout.setVisibility(View.GONE);
                             tabLayout.setVisibility(View.VISIBLE);
-                            spUser.setVisibility(View.GONE);
+                            //spUser.setVisibility(View.GONE);
                             adapter.notifyDataSetChanged();
                             setupViewPagerMedicineReminder(viewPager);
                             tabLayout.setupWithViewPager(viewPager);
@@ -526,7 +523,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
                             viewPager.setVisibility(View.VISIBLE);
                             frameLayout.setVisibility(View.GONE);
                             tabLayout.setVisibility(View.VISIBLE);
-                            spUser.setVisibility(View.GONE);
+                            //spUser.setVisibility(View.GONE);
                             adapter.notifyDataSetChanged();
                             setupViewPagerArticle(viewPager);
                             tabLayout.setupWithViewPager(viewPager);
@@ -548,7 +545,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
                             ivAdd.setVisibility(View.INVISIBLE);
                             viewPager.setVisibility(View.VISIBLE);
                             frameLayout.setVisibility(View.GONE);
-                            spUser.setVisibility(View.VISIBLE);
+                            //spUser.setVisibility(View.VISIBLE);
                             tabLayout.setVisibility(View.VISIBLE);
                             adapter.notifyDataSetChanged();
                             setupViewPagerTrack(viewPager);
@@ -573,7 +570,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
                             tvTitle.setText("Profile");
                             viewPager.setVisibility(View.VISIBLE);
                             frameLayout.setVisibility(View.GONE);
-                            spUser.setVisibility(View.GONE);
+                           // spUser.setVisibility(View.GONE);
                             tabLayout.setVisibility(View.GONE);
                             adapter.notifyDataSetChanged();
                             setupViewPagerProfile(viewPager);
@@ -654,7 +651,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
         frameLayout.setVisibility(View.GONE);
         adapter.notifyDataSetChanged();
         tabLayout.setupWithViewPager(viewPager);
-        spUser.setVisibility(View.GONE);
+        //spUser.setVisibility(View.GONE);
         tabLayout.setVisibility(View.GONE);
         adapter = new HomeActivity.ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new MedicineReminderFragment(), "");
@@ -700,14 +697,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
 
     public void foodfitness() {
         frameLayout.setVisibility(View.VISIBLE);
-        spUser.setVisibility(View.GONE);
+       // spUser.setVisibility(View.GONE);
         tabLayout.setVisibility(View.GONE);
         viewPager.setVisibility(View.GONE);
 
     }
 
     public void bloodcount() {
-        spUser.setVisibility(View.VISIBLE);
+        //spUser.setVisibility(View.VISIBLE);
         frameLayout.setVisibility(View.VISIBLE);
         tabLayout.setVisibility(View.VISIBLE);
         viewPager.setVisibility(View.GONE);

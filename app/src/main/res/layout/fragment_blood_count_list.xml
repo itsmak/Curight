@@ -4,6 +4,17 @@
     android:background="@color/gray"
     android:layout_height="match_parent">
 
+
+
+    <Spinner
+        android:id="@+id/spUser"
+        android:padding="5dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/graylight" />
+
     <LinearLayout
         android:background="@color/colorPrimary"
         android:orientation="horizontal"

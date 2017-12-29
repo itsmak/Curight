@@ -6,9 +6,9 @@ package com.innovellent.curight.model;
 
 public class ParameterPojo {
 
-    private int userid;
+    private String userid;
 
-    public ParameterPojo(int userid) {
+    public ParameterPojo(String userid) {
         this.userid = userid;
     }
 

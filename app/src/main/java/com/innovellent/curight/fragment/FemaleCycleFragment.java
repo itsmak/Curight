@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -22,6 +23,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +32,7 @@ import com.innovellent.curight.R;
 import com.innovellent.curight.adapter.BloodCountListAdapter;
 import com.innovellent.curight.adapter.BloodPressureAdapter;
 import com.innovellent.curight.adapter.FemaleCycleAdapter;
+import com.innovellent.curight.adapter.PROFILE_SPINNER_ADAPTER;
 import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.AddBloodCountDialog;
 import com.innovellent.curight.model.AddWHRDialog;
@@ -37,6 +40,10 @@ import com.innovellent.curight.model.BloodCount;
 import com.innovellent.curight.model.BloodPressure;
 import com.innovellent.curight.model.FCT;
 import com.innovellent.curight.model.FctPojo;
+import com.innovellent.curight.model.MyProfile_Response;
+import com.innovellent.curight.model.PROFILE;
+import com.innovellent.curight.model.PROFILE_FEED;
+import com.innovellent.curight.model.PostBodyProfile;
 import com.innovellent.curight.model.ServerResponseBloodCount;
 import com.innovellent.curight.model.ServerResponseFct;
 import com.innovellent.curight.utility.Config;
@@ -57,6 +64,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
+import static android.content.ContentValues.TAG;
 import static com.innovellent.curight.utility.Constants.CURIGHT_TAG;
 
 /**
@@ -84,6 +92,11 @@ public class FemaleCycleFragment extends Fragment implements View.OnClickListene
     DatePickerDialog datePickerDialog;
     String normalduration,gap,currentperiod,missing,notes,reminder,radiobutton_selected_yes="",Date,fctid;
     RelativeLayout date_layout;
+    String USER_ID;
+    ArrayList<PROFILE> spinnerList=new ArrayList<PROFILE>();
+    PROFILE_SPINNER_ADAPTER customSpinnerAdapter3;
+    Spinner spUser;
+    int uid;
     ArrayList<FCT> arrayList=new ArrayList<FCT >();
     public FemaleCycleFragment() {
 
@@ -99,10 +112,13 @@ public class FemaleCycleFragment extends Fragment implements View.OnClickListene
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_female_cycle, container, false);
 
-        getFCTData();
+       // getFCTData();
         initReferences(rootView);
         inClick();
         //getData();
+
+
+        getSpinnerData();
 
         calendar = Calendar.getInstance();
 
@@ -184,6 +200,7 @@ public class FemaleCycleFragment extends Fragment implements View.OnClickListene
         radio_button_yes = (RadioButton)rootView.findViewById(R.id.radio_button_yes);
         radio_button_no = (RadioButton)rootView.findViewById(R.id.radio_button_no);
         date_layout = (RelativeLayout)rootView.findViewById(R.id.date_layout);
+        spUser = (Spinner) rootView.findViewById(R.id.spUser);
 
 
     }
@@ -215,6 +232,90 @@ public class FemaleCycleFragment extends Fragment implements View.OnClickListene
 
 
     }*/
+
+
+
+    private void getSpinnerData() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(new Config().SERVER_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ApiInterface reditapi = retrofit.create(ApiInterface.class);
+        int uid = (int) Prefs.getLong("user_id",0);
+        PostBodyProfile postBodyprofile = new PostBodyProfile(uid, "family");
+        Call<MyProfile_Response> call = reditapi.getProfile(postBodyprofile);
+
+        call.enqueue(new Callback<MyProfile_Response>() {
+            @Override
+            public void onResponse(Call<MyProfile_Response> call, Response<MyProfile_Response> response) {
+
+
+                if (response.body() != null) {
+
+
+                    Log.e("", "profileResponse: code: " + response.body().getCode());
+
+                    ArrayList<PROFILE_FEED> result = response.body().getResults();
+
+                    Log.e("", "profileResponse: listsize: " + result.size());
+                    for (int i = 0; i < result.size(); i++) {
+
+                        USER_ID = result.get(i).getUserid();
+                        //spinnerList.add(new PROFILE("","","",""));
+                        spinnerList.add(new PROFILE(result.get(i).getUserid(),result.get(i).getId(), result.get(i).getName(), result.get(i).getAge(), result.get(i).getRelationship()));
+                    }
+                    getData2();
+                    int uid = (int) Prefs.getLong("user_id",0);
+                    Log.d("user_forwhr", ""+uid);
+                    getFCTData(uid);
+                    // GetData(result.get(1).getUserid());
+                } else {
+
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+
+                }
+
+                //remainder_rclrvw.setAdapter(mAdapter);
+
+            }
+
+            @Override
+            public void onFailure(Call<MyProfile_Response> call, Throwable t) {
+
+                Log.e("", "onFailure: Somethings went wrong" + t.getMessage());
+                Toast.makeText(getActivity(), "Somethings went wrong", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
+
+    public void getData2() {
+
+        customSpinnerAdapter3 = new PROFILE_SPINNER_ADAPTER(getActivity(), spinnerList);
+        spUser.setAdapter(customSpinnerAdapter3);
+        spUser.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                //   Toast.makeText(PasswordRecoveryQuestionsActivity.this, spinner3[i], Toast.LENGTH_SHORT).show();
+                //spAge.setText(spinnerList.get(i).getUser_age());
+                USER_ID = spinnerList.get(i).getUser_id();
+                Prefs.putLong("spinner_id", Long.parseLong(spinnerList.get(i).getUser_id()));
+                uid = (int) Prefs.getLong("spinner_id",0);
+                Log.d(TAG, "Myuserid on select" + uid);
+
+                getFCTData(uid);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId())
@@ -251,7 +352,7 @@ public class FemaleCycleFragment extends Fragment implements View.OnClickListene
                 .build();
 
         ApiInterface apiInterface = retrofit.create(ApiInterface.class);
-        int uid = (int) Prefs.getLong("user_id",0);
+        final int uid = (int) Prefs.getLong("user_id",0);
         try{
             JSONObject paramObject = new JSONObject();
             paramObject.put("userid", uid);
@@ -278,7 +379,7 @@ public class FemaleCycleFragment extends Fragment implements View.OnClickListene
                             if(serverResponseFct.getResults().equals("Success")){
                                 Toast.makeText(getActivity(), "Successfully Added", Toast.LENGTH_SHORT).show();
                                 showProgressDialog("Loading");
-                                getFCTData();
+                                getFCTData(uid);
                                 progressDialog.dismiss();
                             }
                         }
@@ -300,17 +401,17 @@ public class FemaleCycleFragment extends Fragment implements View.OnClickListene
     }
 
 
-    private void getFCTData(){
-
+    private void getFCTData(int user_id){
+        cleardata();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(new Config().SERVER_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         ApiInterface apiInterface = retrofit.create(ApiInterface.class);
-        int uid = (int) Prefs.getLong("user_id",0);
+       // int uid = (int) Prefs.getLong("user_id",0);
 
-        FctPojo fctPojo = new FctPojo(uid);
+        FctPojo fctPojo = new FctPojo(user_id);
 
         final Call<ResponseBody> call = apiInterface.getfctdata("abc", fctPojo);
 
@@ -365,16 +466,26 @@ public class FemaleCycleFragment extends Fragment implements View.OnClickListene
                         e.printStackTrace();
                     }
                 }else{
+                    recyclerView.removeAllViews();
                     Toast.makeText(getActivity(), "No Record Found", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                if (getActivity() != null) progressDialog.dismiss();
+                Log.d(CURIGHT_TAG, t.getMessage());
             }
         });
 
+    }
+
+    private void cleardata(){
+
+        mAdapter = new FemaleCycleAdapter(getActivity(),arrayList);
+
+        arrayList.clear();
+        mAdapter.notifyDataSetChanged();
     }
 }
 

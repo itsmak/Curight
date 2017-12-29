@@ -5,6 +5,16 @@
     android:background="@color/gray"
  >
 
+
+    <Spinner
+        android:id="@+id/spUser"
+        android:padding="5dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/graylight" />
+
     <LinearLayout
         android:id="@+id/llList"
         android:layout_width="match_parent"

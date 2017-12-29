@@ -22,11 +22,13 @@ public class BPAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<Object> objects = new ArrayList<>();
     private Context context;
+    private int position;
 
-    public BPAdapter(Context context, List<Object> arrayList, OnBloodPressureListener listener) {
+    public BPAdapter(Context context, List<Object> arrayList,int position, OnBloodPressureListener listener) {
         this.context = context;
         this.objects = arrayList;
         this.listener = listener;
+        this.position = position;
     }
 
     @Override
@@ -76,6 +78,11 @@ public class BPAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         void onDelete(BloodPressureRecord record);
     }
 
+    public void ListClear(){
+
+        objects.clear();
+        notifyDataSetChanged();
+    }
     private class BloodPressureViewHolder extends RecyclerView.ViewHolder {
 
         TextView systolicDiastolic, pulse, time;
