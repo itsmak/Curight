@@ -95,6 +95,20 @@
     <string name="fouryear">4 year</string>
 
 
+    //toolbar titles
+    <string-array name="nav_toolbar_titles">
+        <item>Home</item>
+        <item>About Us</item>
+        <item>Contact Us</item>
+        <item>Feedback</item>
+        <item>Rate App</item>
+        <item>Refer A Earn</item>
+        <item>Sign out</item>
+
+
+    </string-array>
+
+
     <string name="dueon"><b>Due On</b></string>
     <string name="takeon"><b>Taken On</b></string>
     <string name="givenby"><b>Given By</b></string>
@@ -259,7 +273,7 @@
         <item> </item>
         <item>Male</item>
         <item>Female</item>
-        </string-array>
+    </string-array>
     <string-array name="array_relationship">
         <item> </item>
         <item>Friend</item>
@@ -301,4 +315,7 @@
         <item>Chennai</item>
         <item>New Delhi</item>
     </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

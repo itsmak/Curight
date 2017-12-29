@@ -3,7 +3,7 @@
     android:id="@+id/popup_elementq"
     android:layout_width="match_parent"
     android:background="#ffffff"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent">Toolbar
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -112,14 +112,13 @@
                     android:background="@android:color/white"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:layout_below="@+id/toolbar"
                     android:elevation="6dp"
                     app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
                     app:tabTextColor="@color/graylight"
                     app:tabSelectedTextColor="@color/colorPrimary"
                     android:minHeight="?attr/actionBarSize"
                     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
-                <Spinner
+               <!-- <Spinner
                     android:id="@+id/spUser"
                     android:padding="5dp"
                     android:layout_marginTop="2dp"
@@ -127,19 +126,17 @@
                     android:layout_below="@id/tab_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/graylight" />
+                    android:backgroundTint="@color/graylight" />-->
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/viewpager"
                     android:layout_above="@+id/bottomBar"
                     android:layout_width="match_parent"
-                    android:layout_below="@id/spUser"
                     android:layout_height="match_parent"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior"  />
 
                 <FrameLayout
                     android:layout_above="@+id/bottomBar"
-                    android:layout_below="@+id/toolbar"
                     android:visibility="gone"
                     android:id="@+id/rlMainFragment"
                     android:layout_width="match_parent"
@@ -166,10 +163,10 @@
 
             </RelativeLayout>
         </RelativeLayout>
-        <fragment
+        <android.support.design.widget.NavigationView
             android:id="@+id/navigation_drawer"
             android:name="com.innovellent.curight.fragment.NavigationDrawerFragment"
-            android:layout_width="260dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
             tools:layout="@layout/fragment_navigation_drawer" />
