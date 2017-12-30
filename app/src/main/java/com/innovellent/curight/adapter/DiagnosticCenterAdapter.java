@@ -99,7 +99,7 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
 
     @Override
     public DiagnosticCenterAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_row_diagnostic_center, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_new_diagnostic_centre, parent, false);
         return new DiagnosticCenterAdapter.MyViewHolder(itemView);
     }
 
@@ -182,6 +182,19 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
                         test_name_str = test_name_str.substring(0,test_name_str.length()-1);
                     }
                     Log.e(TAG,"test_name_final:: "+test_name_str);
+
+                    String sel_test_id="";
+                    for (int j=0;j<testObj.size();j++) {
+                        if ("Y".equals(testObj.get(j).getTestchoosen())) {
+                            sel_test_id = sel_test_id + testObj.get(j).getTestid()+",";
+                        }
+                    }
+                    String test_id_str = sel_test_id;
+                    if (test_id_str.endsWith(",")) {
+                        test_id_str = test_id_str.substring(0,test_id_str.length()-1);
+                    }
+                    Log.e(TAG,"test_id_final:: "+test_id_str);
+
                     String sel_test_names = DiagnosticTestAdapter.sel_test_names;
                     if (sel_test_names.endsWith("^")) {
                         sel_test_names = sel_test_names.substring(0,sel_test_names.length()-1);
@@ -190,7 +203,7 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
                     if (sel_test_ids.endsWith("^")) {
                         sel_test_ids = sel_test_ids.substring(0,sel_test_ids.length()-1);
                     }
-                    bundle.putString("sel_test_ids",sel_test_ids);
+                    bundle.putString("sel_test_ids",test_id_str);
                     bundle.putString("test_names",test_name_str);
                     bundle.putString("test_amounts",test_amnt_str);
                     i.putExtras(bundle);

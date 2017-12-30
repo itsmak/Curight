@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.innovellent.curight.R;
 import com.innovellent.curight.adapter.DiagnosticCenterAdapter;
@@ -67,23 +68,19 @@ public class DiagnosticCentersActivity extends AppCompatActivity implements View
                     j=j+1;
                     newtest_id[j]=',';
                     j=j+1;
-
             }
+            newtext = new String(newtest_id);
             if(newtext!=null)
             {
-                newtext = new String(newtest_id);
+
                 finaltext_id= newtext.substring(0,newtest_id.length-1);
             }
         }
-
         Log.d(TAG,"test_Id_old:"+my_test_id);
         Log.d(TAG,"test_Id_new"+finaltext_id);
-
         testcount();
-
         init();
         getData(finaltext_id);
-
     }
         public int testcount()
         {
@@ -119,20 +116,24 @@ public class DiagnosticCentersActivity extends AppCompatActivity implements View
         call.enqueue(new Callback<ServerResponseDiagCenter>() {
             @Override
             public void onResponse(Call<ServerResponseDiagCenter> call, Response<ServerResponseDiagCenter> response) {
-                diagCenterByTest =(ServerResponseDiagCenter) response.body();
-                String code = diagCenterByTest.getCode();
-                if ("200".equals(code)) {
-                    for (int i = 0; i < diagCenterByTest.getResults().size(); i++) {
-                        center = diagCenterByTest.getResults().get(i);
-                        //Log.e("TAG","SERVER RESPONSE ::  "+diagCenterByTest.getResults().get(i));;
-                        centerObjs.add(center);
-                    }
-                    if (centerObjs.size()!=0) {
-                        mAdapter = new DiagnosticCenterAdapter(DiagnosticCentersActivity.this,centerObjs);
-                        recycler_view.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-                        recycler_view.setAdapter(mAdapter);
-                    }
-                }
+              if(response.body()!=null) {
+                  diagCenterByTest = (ServerResponseDiagCenter) response.body();
+                  String code = diagCenterByTest.getCode();
+                  if ("200".equals(code)) {
+                      for (int i = 0; i < diagCenterByTest.getResults().size(); i++) {
+                          center = diagCenterByTest.getResults().get(i);
+                          //Log.e("TAG","SERVER RESPONSE ::  "+diagCenterByTest.getResults().get(i));;
+                          centerObjs.add(center);
+                      }
+                      if (centerObjs.size() != 0) {
+                          mAdapter = new DiagnosticCenterAdapter(DiagnosticCentersActivity.this, centerObjs);
+                          recycler_view.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+                          recycler_view.setAdapter(mAdapter);
+                      }
+                  }
+              }else {
+                  Toast.makeText(getApplicationContext(),"No data",Toast.LENGTH_SHORT).show();
+              }
             }
 
             @Override
