@@ -13,31 +13,44 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.innovellent.curight.R;
 import com.innovellent.curight.adapter.BMIAdapter;
+import com.innovellent.curight.adapter.PROFILE_SPINNER_ADAPTER;
+import com.innovellent.curight.adapter.WHRAdapter;
 import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.AddBMIRecordsDialog;
+import com.innovellent.curight.model.BMI;
 import com.innovellent.curight.model.BMIDayWise;
 import com.innovellent.curight.model.BMIRecord;
 import com.innovellent.curight.model.BMIReport;
 import com.innovellent.curight.model.BloodPressure;
+import com.innovellent.curight.model.MyProfile_Response;
+import com.innovellent.curight.model.PROFILE;
+import com.innovellent.curight.model.PROFILE_FEED;
+import com.innovellent.curight.model.ParameterBMI;
+import com.innovellent.curight.model.PostBodyProfile;
 import com.innovellent.curight.model.ServerResponse;
 import com.innovellent.curight.utility.Config;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import com.pixplicity.easyprefs.library.Prefs;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -45,6 +58,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
+import static android.content.ContentValues.TAG;
 import static com.innovellent.curight.utility.Constants.CURIGHT_TAG;
 
 public class BMIFragment extends Fragment implements View.OnClickListener {
@@ -58,10 +72,16 @@ public class BMIFragment extends Fragment implements View.OnClickListener {
     Button btnStatus;
     GraphView lineGraph;
     int i;
+    String USER_ID,res_dataforbmi;
+    ArrayList<PROFILE> spinnerList=new ArrayList<PROFILE>();
+    PROFILE_SPINNER_ADAPTER customSpinnerAdapter3;
+    ArrayList<BMI> bmiArrayList = new ArrayList<BMI>();
     RelativeLayout rlGraph;
+    JSONArray jsonArray_parent,jsonarray_child;
     private String accessToken;
     private long userId;
     private ProgressDialog progressDialog;
+    Spinner spUser;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -69,13 +89,14 @@ public class BMIFragment extends Fragment implements View.OnClickListener {
         initReferences(rootView);
         initOnClick();
 
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("mypref", Context.MODE_PRIVATE);
+        /*SharedPreferences sharedPreferences = getActivity().getSharedPreferences("mypref", Context.MODE_PRIVATE);
 
         accessToken = sharedPreferences.getString("access_token", "");
         userId = sharedPreferences.getLong("user_id", 7L);
 
-        showProgressDialog("Loading");
-        getBMIRecords();
+        showProgressDialog("Loading");*/
+        spinnerList.clear();
+        getSpinnerData();
 
         return rootView;
 
@@ -144,6 +165,7 @@ public class BMIFragment extends Fragment implements View.OnClickListener {
         rlGraph = (RelativeLayout) rootView.findViewById(R.id.rlGraph);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         lineGraph = (GraphView) rootView.findViewById(R.id.graphLine);
+        spUser = (Spinner) rootView.findViewById(R.id.spUser);
     }
 
     public void initOnClick() {
@@ -156,7 +178,91 @@ public class BMIFragment extends Fragment implements View.OnClickListener {
         tvList.setTextColor(Color.parseColor("#9DA1A0"));
     }
 
-    private void getBMIRecords() {
+
+    private void getSpinnerData() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(new Config().SERVER_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ApiInterface reditapi = retrofit.create(ApiInterface.class);
+        int uid = (int) Prefs.getLong("user_id",0);
+        PostBodyProfile postBodyprofile = new PostBodyProfile(uid, "family");
+        Call<MyProfile_Response> call = reditapi.getProfile(postBodyprofile);
+
+        call.enqueue(new Callback<MyProfile_Response>() {
+            @Override
+            public void onResponse(Call<MyProfile_Response> call, Response<MyProfile_Response> response) {
+
+
+                if (response.body() != null) {
+
+
+                    Log.e("", "profileResponse: code: " + response.body().getCode());
+
+                    ArrayList<PROFILE_FEED> result = response.body().getResults();
+
+                    Log.e("", "profileResponse: listsize: " + result.size());
+                    for (int i = 0; i < result.size(); i++) {
+
+                        USER_ID = result.get(i).getUserid();
+                        //spinnerList.add(new PROFILE("","","",""));
+                        spinnerList.add(new PROFILE(result.get(i).getUserid(),result.get(i).getId(), result.get(i).getName(), result.get(i).getAge(), result.get(i).getRelationship()));
+                    }
+                    getData2();
+                    USER_ID = result.get(0).getUserid();
+
+                    // GetData(result.get(1).getUserid());
+                } else {
+
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+
+                }
+
+                //remainder_rclrvw.setAdapter(mAdapter);
+
+            }
+
+            @Override
+            public void onFailure(Call<MyProfile_Response> call, Throwable t) {
+
+                Log.e("", "onFailure: Somethings went wrong" + t.getMessage());
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
+
+    public void getData2() {
+
+        customSpinnerAdapter3 = new PROFILE_SPINNER_ADAPTER(getActivity(), spinnerList);
+        spUser.setAdapter(customSpinnerAdapter3);
+        spUser.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                //   Toast.makeText(PasswordRecoveryQuestionsActivity.this, spinner3[i], Toast.LENGTH_SHORT).show();
+                //spAge.setText(spinnerList.get(i).getUser_age());
+                // USER_ID = spinnerList.get(i).getUser_id();
+                Prefs.putLong("spinner_id", Long.parseLong(spinnerList.get(i).getUser_id()));
+                int uid = (int) Prefs.getLong("spinner_id",0);
+                Log.d(TAG,"Useridchanding" +uid);
+                getBMIRecords(uid);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                int uid = (int) Prefs.getLong("user_id",0);
+                Log.d("user_forwhr", ""+uid);
+                Log.d(TAG, "MyUSER_ID on spinner" + USER_ID);
+                getBMIRecords(uid);
+            }
+        });
+
+    }
+
+    private void getBMIRecords(int user_id) {
+        cleardata();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(new Config().SERVER_URL)
                 .addConverterFactory(ScalarsConverterFactory.create())
@@ -165,91 +271,99 @@ public class BMIFragment extends Fragment implements View.OnClickListener {
 
         ApiInterface apiInterface = retrofit.create(ApiInterface.class);
 
-        try {
-            JSONObject paramObject = new JSONObject();
-            paramObject.put("userid", userId);
+        ParameterBMI parameterBMI = new ParameterBMI(user_id);
 
-            Call<ServerResponse<BMIReport>> call = apiInterface.getBMIRecords(accessToken, paramObject.toString());
-            call.enqueue(new Callback<ServerResponse<BMIReport>>() {
-                @Override
-                public void onResponse(Call<ServerResponse<BMIReport>> call, Response<ServerResponse<BMIReport>> response) {
-                    if (getActivity() != null) {
-                        progressDialog.dismiss();
-                        if (response.isSuccessful()) {
-                            ServerResponse<BMIReport> serverResponse = response.body();
-                            BMIReport report = serverResponse.getResults();
+        final Call<ResponseBody> call = apiInterface.getBMIRecords("abc", parameterBMI);
 
-                            tvBMI.setText(String.valueOf(report.getBmi()));
-                            if (report.getBmiFlag() != null)
-                                switch (report.getBmiFlag()) {
-                                    case "U":
-                                        setBlue();
-                                        break;
-                                    case "N":
-                                        setGreen();
-                                        break;
-                                    case "OV":
-                                        setYellow();
-                                        break;
-                                    case "OB":
-                                        setRed();
-                                        break;
-                                    default:
-                                        setYellow();
-                                        break;
-                                }
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.body() != null) {
+                    try{
+                        res_dataforbmi = response.body().string();
+                        List<DataPoint> points = new ArrayList<>();
+                        JSONObject jsonObject = new JSONObject(res_dataforbmi);
+                        String code = jsonObject.getString("Code");
+                        JSONObject jsonObject1 = jsonObject.getJSONObject("Results");
+                        int bmi = jsonObject1.getInt("bmi");
+                        String bmiFlag = jsonObject1.getString("bmiFlag");
+                        tvBMI.setText(String.valueOf(bmi));
 
-                            List<BMIDayWise> bmiDayWises = report.getBmiList();
-                            if (!bmiDayWises.isEmpty()) {
-                                List<Object> objects = new ArrayList<>();
-                                List<DataPoint> points = new ArrayList<>();
-                                int i = 0;
-                                for (BMIDayWise dayWise : bmiDayWises) {
-                                    objects.add(dayWise.getDate());
-                                    List<BMIRecord> records = dayWise.getRecords();
-                                    for (int j = 0, size = records.size(); j < size; i++, j++) {
-                                        BMIRecord record = records.get(j);
-                                        objects.add(record);
-                                        points.add(new DataPoint(i, record.getBmi()));
-                                    }
-                                    objects.addAll(dayWise.getRecords());
-                                }
-
-                                DataPoint[] pointArray = new DataPoint[points.size()];
-                                lineGraph.removeAllSeries();
-                                lineGraph.addSeries(new LineGraphSeries<>(points.toArray(pointArray)));
-                                lineGraph.getViewport().setMinX(0);
-                                lineGraph.getViewport().setMinY(0);
-                                lineGraph.getViewport().setScrollable(false);
-
-                                mAdapter = new BMIAdapter(getActivity(), objects, new BMIAdapter.OnBMIListener() {
-                                    @Override
-                                    public void onDelete(BMIRecord record) {
-                                        showProgressDialog("Deleting");
-                                        deleteBMIRecord(record);
-                                    }
-                                });
-                                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-                                recyclerView.setAdapter(mAdapter);
+                        if (bmiFlag != null){
+                            switch (bmiFlag) {
+                                case "U":
+                                    setBlue();
+                                    break;
+                                case "N":
+                                    setGreen();
+                                    break;
+                                case "OV":
+                                    setYellow();
+                                    break;
+                                case "OB":
+                                    setRed();
+                                    break;
+                                default:
+                                    setYellow();
+                                    break;
                             }
-                        }else {
-                            Toast.makeText(getActivity(), "No Record Found", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }
 
-                @Override
-                public void onFailure(Call<ServerResponse<BMIReport>> call, Throwable t) {
-                    if (getActivity() != null) progressDialog.dismiss();
-                    t.getMessage();
+                        }
+
+                        jsonArray_parent = jsonObject1.getJSONArray("bmiList");
+                        for(int i=0;i<jsonArray_parent.length();i++){
+                            jsonObject1 = jsonArray_parent.getJSONObject(i);
+                            jsonarray_child = jsonObject1.getJSONArray("bmiList");
+
+                            for(int j=0; j<jsonarray_child.length(); j++){
+                                bmiArrayList.add(new BMI(jsonArray_parent.getJSONObject(i).getString("date"),jsonarray_child.getJSONObject(j).getString("weight"),jsonarray_child.getJSONObject(j).getString("height"),jsonarray_child.getJSONObject(j).getString("bmi"),jsonarray_child.getJSONObject(j).getInt("bmiid")));
+                                points.add(new DataPoint(j, Double.parseDouble(jsonarray_child.getJSONObject(j).getString("bmi"))));
+                            }
+                        }
+                        DataPoint[] pointArray = new DataPoint[points.size()];
+                        lineGraph.removeAllSeries();
+                        lineGraph.addSeries(new LineGraphSeries<>(points.toArray(pointArray)));
+                        // lineGraph = new GraphView(getActivity());
+                        lineGraph.getViewport().setMinX(0);
+                        lineGraph.getViewport().setMinY(0);
+                        lineGraph.getViewport().setScrollable(false);
+
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }else{
+                    tvBMI.setText("");
+                    lineGraph.removeAllSeries();
+                    ivBmi.setBackgroundResource(R.mipmap.ic_bmired);
+                    btnStatus.setText("");
+                    btnStatus.setBackgroundResource(R.color.bmitext);
+                    recyclerView.removeAllViews();
+                    Toast.makeText(getActivity(), "No Record Found", Toast.LENGTH_SHORT).show();
                 }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+                mAdapter=new BMIAdapter(getActivity(),bmiArrayList);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+                recyclerView.setAdapter(mAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e(TAG, "onFailure: Somethings went wrong" + t.getMessage());
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    private void deleteBMIRecord(BMIRecord record) {
+    private void cleardata(){
+
+        Log.d("arraylistbefore", ""+bmiArrayList.size());
+        mAdapter = new BMIAdapter(getActivity(), bmiArrayList);
+
+        bmiArrayList.clear();
+        Log.d("arraylistafter", ""+bmiArrayList.size());
+        mAdapter.notifyDataSetChanged();
+    }
+
+   /* private void deleteBMIRecord(BMIRecord record) {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(new Config().SERVER_URL)
@@ -263,7 +377,7 @@ public class BMIFragment extends Fragment implements View.OnClickListener {
             JSONObject paramObject = new JSONObject();
             paramObject.put("bmiid", record.getBmiid());
 
-            Call<ServerResponse<String>> call = apiInterface.deleteBMIRecord(accessToken, paramObject.toString());
+            Call<ServerResponse<String>> call = apiInterface.deleteBMIRecord("abc", paramObject.toString());
             call.enqueue(new Callback<ServerResponse<String>>() {
                 @Override
                 public void onResponse(Call<ServerResponse<String>> call, Response<ServerResponse<String>> response) {
@@ -293,7 +407,7 @@ public class BMIFragment extends Fragment implements View.OnClickListener {
         }
 
 
-    }
+    }*/
 
     private void showProgressDialog(String title) {
         progressDialog = ProgressDialog.show(getContext(), title, "please wait", true, false);
@@ -329,7 +443,8 @@ public class BMIFragment extends Fragment implements View.OnClickListener {
                             if (serverResponse.getResults().equals("Success")) {
                                 Toast.makeText(getActivity(), "Successfully Added", Toast.LENGTH_SHORT).show();
                                 showProgressDialog("Loading");
-                                getBMIRecords();
+                                int uid = (int) Prefs.getLong("user_id",0);
+                                getBMIRecords(uid);
                             } else
                                 Toast.makeText(getActivity(), "Please try again", Toast.LENGTH_SHORT).show();
                         }

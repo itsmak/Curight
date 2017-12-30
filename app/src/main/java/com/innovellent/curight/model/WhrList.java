@@ -1,5 +1,6 @@
 package com.innovellent.curight.model;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -12,11 +13,16 @@ import java.util.List;
 public class WhrList {
 
 
+    @SerializedName("whrFlag")
+    @Expose
     private String whrFlag;
 
-
+    @SerializedName("whr")
+    @Expose
     private int whr;
 
+    @SerializedName("whrdtoList")
+    @Expose
     private ArrayList<WHR_LIST_DATE> whrdtoList = null;
 
     public String getWhrFlag() {

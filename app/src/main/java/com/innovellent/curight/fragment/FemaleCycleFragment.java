@@ -118,6 +118,7 @@ public class FemaleCycleFragment extends Fragment implements View.OnClickListene
         //getData();
 
 
+        spinnerList.clear();
         getSpinnerData();
 
         calendar = Calendar.getInstance();
@@ -266,9 +267,7 @@ public class FemaleCycleFragment extends Fragment implements View.OnClickListene
                         spinnerList.add(new PROFILE(result.get(i).getUserid(),result.get(i).getId(), result.get(i).getName(), result.get(i).getAge(), result.get(i).getRelationship()));
                     }
                     getData2();
-                    int uid = (int) Prefs.getLong("user_id",0);
-                    Log.d("user_forwhr", ""+uid);
-                    getFCTData(uid);
+                    USER_ID = result.get(0).getUserid();
                     // GetData(result.get(1).getUserid());
                 } else {
 
@@ -310,7 +309,9 @@ public class FemaleCycleFragment extends Fragment implements View.OnClickListene
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
+                int uid = (int) Prefs.getLong("user_id",0);
+                Log.d("user_forwhr", ""+uid);
+                Log.d(TAG, "MyUSER_ID on spinner" + USER_ID);
             }
         });
 
@@ -379,6 +380,7 @@ public class FemaleCycleFragment extends Fragment implements View.OnClickListene
                             if(serverResponseFct.getResults().equals("Success")){
                                 Toast.makeText(getActivity(), "Successfully Added", Toast.LENGTH_SHORT).show();
                                 showProgressDialog("Loading");
+                                int uid = (int) Prefs.getLong("user_id",0);
                                 getFCTData(uid);
                                 progressDialog.dismiss();
                             }

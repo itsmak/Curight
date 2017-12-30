@@ -104,6 +104,7 @@ public class BloodCountListFragment extends Fragment implements View.OnClickList
         inClick();
         //getData();
 
+        spinnerList.clear();
         getSpinnerData();
 
         final Calendar calendar = Calendar.getInstance();
@@ -233,9 +234,7 @@ public class BloodCountListFragment extends Fragment implements View.OnClickList
                         spinnerList.add(new PROFILE(result.get(i).getUserid(),result.get(i).getId(), result.get(i).getName(), result.get(i).getAge(), result.get(i).getRelationship()));
                     }
                     getData2();
-                    int uid = (int) Prefs.getLong("user_id",0);
-                    Log.d("user_forwhr", ""+uid);
-                    getbloodcountdata(uid);
+                    USER_ID = result.get(0).getUserid();
                     // GetData(result.get(1).getUserid());
                 } else {
 
@@ -277,7 +276,10 @@ public class BloodCountListFragment extends Fragment implements View.OnClickList
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
+                int uid = (int) Prefs.getLong("user_id",0);
+                Log.d("user_forwhr", ""+uid);
+                Log.d(TAG, "MyUSER_ID on spinner" + USER_ID);
+                getbloodcountdata(uid);
             }
         });
 
@@ -356,6 +358,7 @@ public class BloodCountListFragment extends Fragment implements View.OnClickList
                             if(serverResponseBloodCount.getResults().equals("Success")){
                                 Toast.makeText(getActivity(), "Successfully Added", Toast.LENGTH_SHORT).show();
                                 showProgressDialog("Loading");
+                                int uid = (int) Prefs.getLong("user_id",0);
                                 getbloodcountdata(uid);
                                 progressDialog.dismiss();
                             }else {

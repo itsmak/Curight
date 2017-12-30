@@ -4,24 +4,37 @@
     android:layout_height="wrap_content"
     android:background="@color/lightgray">
 
+
+    <TextView
+        android:id="@+id/tv_date"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="5dp"
+        android:text="05-06-2017"
+        android:layout_marginBottom="10dp"
+        android:textSize="18sp"
+        android:textColor="@color/darkgray"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <LinearLayout
         android:id="@+id/ll_articles"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingBottom="5dp"
+        android:layout_below="@+id/tv_date"
         android:paddingLeft="5dp"
         android:paddingRight="10dp"
         android:paddingTop="5dp">
 
-        <TextView
+       <!-- <TextView
             android:id="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
             android:text="12:33"
-            android:textSize="10sp" />
+            android:textSize="10sp" />-->
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -47,6 +60,16 @@
                 android:layout_toRightOf="@+id/bmi"
                 android:background="@drawable/like" />
 
+
+            <TextView
+                android:id="@+id/tvBmivalue"
+                android:text="97"
+                android:layout_marginLeft="30dp"
+                android:layout_toRightOf="@id/ivHeart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp" />
+
             <TextView
                 android:id="@+id/tvMeasure"
                 android:layout_width="wrap_content"
@@ -56,6 +79,9 @@
                 android:layout_toRightOf="@id/bmi"
                 android:text="kg/m2"
                 android:textSize="12sp" />
+
+
+
 
             <ImageView
                 android:id="@+id/delete"

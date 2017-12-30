@@ -3,6 +3,7 @@ package com.innovellent.curight.activities;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -71,7 +72,7 @@ public class YourReportsActivity extends AppCompatActivity implements SearchView
         editsearch = (SearchView) findViewById(R.id.search);
         editsearch.setOnQueryTextListener(this);
 
-        getpatientreportsdata();
+        getSpinnerData();
 
 
         ivback.setOnClickListener(new View.OnClickListener() {
@@ -86,28 +87,6 @@ public class YourReportsActivity extends AppCompatActivity implements SearchView
 
     }
 
-
-    public void getData2() {
-
-
-        customSpinnerAdapter3 = new PROFILE_SPINNER_ADAPTER(YourReportsActivity.this, spinnerList);
-        sp_familyforreports.setAdapter(customSpinnerAdapter3);
-        sp_familyforreports.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                //   Toast.makeText(PasswordRecoveryQuestionsActivity.this, spinner3[i], Toast.LENGTH_SHORT).show();
-                //spAge.setText(spinnerList.get(i).getUser_age());
-               // Log.e("Userid", spinnerList.get(i).getUser_id());
-                //bp.getBloodPressureRecords(spinnerList.get(i).getUser_id());
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
-    }
 
 
     private void getSpinnerData() {
@@ -141,6 +120,7 @@ public class YourReportsActivity extends AppCompatActivity implements SearchView
                         spinnerList.add(new PROFILE(result.get(i).getUserid(),result.get(i).getId(), result.get(i).getName(), result.get(i).getAge(), result.get(i).getRelationship()));
                     }
                     getData2();
+                    USER_ID = result.get(0).getUserid();
                     // GetData(result.get(1).getUserid());
                 } else {
 
@@ -162,12 +142,43 @@ public class YourReportsActivity extends AppCompatActivity implements SearchView
         });
     }
 
-    private void getpatientreportsdata(){
 
-        progressDialog = new ProgressDialog(YourReportsActivity.this);
+
+    public void getData2() {
+
+
+        customSpinnerAdapter3 = new PROFILE_SPINNER_ADAPTER(YourReportsActivity.this, spinnerList);
+        sp_familyforreports.setAdapter(customSpinnerAdapter3);
+        sp_familyforreports.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                //   Toast.makeText(PasswordRecoveryQuestionsActivity.this, spinner3[i], Toast.LENGTH_SHORT).show();
+                //spAge.setText(spinnerList.get(i).getUser_age());
+                // Log.e("Userid", spinnerList.get(i).getUser_id());
+                //bp.getBloodPressureRecords(spinnerList.get(i).getUser_id());
+                Prefs.putLong("spinner_id", Long.parseLong(spinnerList.get(i).getUser_id()));
+                int uid = (int) Prefs.getLong("spinner_id",0);
+                getpatientreportsdata(uid);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                int uid = (int) Prefs.getLong("user_id",0);
+                Log.d("user_forwhr", ""+uid);
+                Log.d("TAG", "MyUSER_ID on spinner" + USER_ID);
+                getpatientreportsdata(uid);
+            }
+        });
+
+    }
+
+
+    private void getpatientreportsdata(int user_id){
+
+       /* progressDialog = new ProgressDialog(YourReportsActivity.this);
         progressDialog.setMessage("Please Wait...");
         progressDialog.show();
-        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setCanceledOnTouchOutside(false);*/
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(new Config().SERVER_URL)
@@ -175,15 +186,14 @@ public class YourReportsActivity extends AppCompatActivity implements SearchView
                 .build();
 
         ApiInterface apiInterface = retrofit.create(ApiInterface.class);
-        int uid = (int) Prefs.getLong("user_id",0);
-        PatientReportsPojo patientReportsPojo = new PatientReportsPojo(uid);
+        PatientReportsPojo patientReportsPojo = new PatientReportsPojo(user_id);
 
         final Call<ResponseBody> call = apiInterface.getpatientreports("abc", patientReportsPojo);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if(response.isSuccessful()){
+                if(response.body()!=null){
                     progressDialog.dismiss();
                     try{
                         String res_data = response.body().string();
@@ -198,6 +208,7 @@ public class YourReportsActivity extends AppCompatActivity implements SearchView
                         if(code.equals("200")){
 
                             JSONArray jsonArray = jsonObject.getJSONArray("Results");
+                            showProgressDialog("Loading");
                             for(int i=0; i<jsonArray.length(); i++) {
                                 JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                                 patientReportsData = new PatientReportsData();
@@ -217,18 +228,27 @@ public class YourReportsActivity extends AppCompatActivity implements SearchView
 
 
                             }
-                                getSpinnerData();
+
+                            progressDialog.dismiss();
+                                //getSpinnerData();
                             _adpater=new YourReportsAdapter(YourReportsActivity.this,patientReportsDataArrayList);
                             recyclerView_reports.setLayoutManager(new LinearLayoutManager(YourReportsActivity.this, LinearLayoutManager.VERTICAL, false));
                             recyclerView_reports.setAdapter(_adpater);
 
 
-
                         }
-                        progressDialog.dismiss();
+
                     }catch (Exception e){
                         e.printStackTrace();
                     }
+
+                }else{
+                    Toast.makeText(YourReportsActivity.this, "No Records Found", Toast.LENGTH_SHORT).show();
+
+                    AlertDialog.Builder ab = new AlertDialog.Builder(YourReportsActivity.this);
+                    ab.setMessage("No Records Found");
+                    ab.create();
+                    ab.show();
                 }
             }
 
@@ -240,6 +260,10 @@ public class YourReportsActivity extends AppCompatActivity implements SearchView
         });
     }
 
+    private void showProgressDialog(String title) {
+        progressDialog = ProgressDialog.show(YourReportsActivity.this, title, "please wait", true, false);
+        progressDialog.show();
+    }
     @Override
     public boolean onQueryTextSubmit(String query) {
         return false;

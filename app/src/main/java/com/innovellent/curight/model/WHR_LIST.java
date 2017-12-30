@@ -1,5 +1,6 @@
 package com.innovellent.curight.model;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -8,9 +9,31 @@ import com.google.gson.annotations.SerializedName;
 
 public class WHR_LIST {
 
+
+        @SerializedName("whrid")
+        @Expose
         private int whrid;
 
-        private String whr;
+        @SerializedName("whr")
+        @Expose
+        private String whr_subdata;
+
+    @SerializedName("graphflag")
+    @Expose
+    private String graphflag;
+
+    @SerializedName("waistcircumference")
+    @Expose
+    private String waistcircumference;
+
+    @SerializedName("hipcircumference")
+    @Expose
+    private String hipcircumference;
+
+    /*@SerializedName("whrFlag")
+    @Expose
+    private String whrFlag;*/
+
 
     public String getGraphflag() {
         return graphflag;
@@ -20,22 +43,6 @@ public class WHR_LIST {
         this.graphflag = graphflag;
     }
 
-    private String graphflag;
-
-        private String waistcircumference;
-
-        private String hipcircumference;
-
-        private String whrFlag;
-
-
-   /* public WHR_LIST(int whrid, String whr, String waistcircumference, String hipcircumference, String whrFlag) {
-        this.whrid = whrid;
-        this.whr = whr;
-        this.waistcircumference = waistcircumference;
-        this.hipcircumference = hipcircumference;
-        this.whrFlag = whrFlag;
-    }*/
 
     public int getWhrid() {
         return whrid;
@@ -45,12 +52,12 @@ public class WHR_LIST {
         this.whrid = whrid;
     }
 
-    public String getWhr() {
-        return whr;
+    public String getWhr_subdata() {
+        return whr_subdata;
     }
 
-    public void setWhr(String whr) {
-        this.whr = whr;
+    public void setWhr_subdata(String whr_subdata) {
+        this.whr_subdata = whr_subdata;
     }
 
     public String getWaistcircumference() {
@@ -69,13 +76,13 @@ public class WHR_LIST {
         this.hipcircumference = hipcircumference;
     }
 
-    public String getWhrFlag() {
+    /*public String getWhrFlag() {
         return whrFlag;
     }
 
     public void setWhrFlag(String whrFlag) {
         this.whrFlag = whrFlag;
-    }
+    }*/
 
 
 

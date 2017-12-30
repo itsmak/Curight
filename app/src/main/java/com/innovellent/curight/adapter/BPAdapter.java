@@ -1,91 +1,109 @@
 package com.innovellent.curight.adapter;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.innovellent.curight.R;
+import com.innovellent.curight.api.ApiInterface;
+import com.innovellent.curight.model.BP;
 import com.innovellent.curight.model.BloodPressureRecord;
+import com.innovellent.curight.model.DeleteBPRecordParameter;
+import com.innovellent.curight.model.ServerResponse;
+import com.innovellent.curight.model.WHR;
+import com.innovellent.curight.utility.Config;
+import com.pixplicity.easyprefs.library.Prefs;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BPAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
+
+import static com.innovellent.curight.utility.Constants.CURIGHT_TAG;
+
+public class BPAdapter extends RecyclerView.Adapter<BPAdapter.BloodPressureViewHolder> {
 
     private final int DATE = 0;
     private final int RECORD = 1;
-    private final OnBloodPressureListener listener;
-
+    ArrayList<BP> bpArrayList = new ArrayList<BP>();
+    BP bp;
     private List<Object> objects = new ArrayList<>();
-    private Context context;
+     Context context;
     private int position;
-
-    public BPAdapter(Context context, List<Object> arrayList,int position, OnBloodPressureListener listener) {
+    ProgressDialog progressDialog;
+    public BPAdapter(Context context, ArrayList<BP> bpArrayList) {
         this.context = context;
-        this.objects = arrayList;
-        this.listener = listener;
-        this.position = position;
+        this.bpArrayList = bpArrayList;
+
+    }
+
+
+    @Override
+    public BPAdapter.BloodPressureViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.blood_pressure_record_row, parent, false);
+        return new BPAdapter.BloodPressureViewHolder(itemView);
     }
 
     @Override
-    public int getItemViewType(int position) {
-        return objects.get(position) instanceof String ? DATE : RECORD;
+    public void onBindViewHolder(BPAdapter.BloodPressureViewHolder holder, final int position) {
+
+        holder.tvdate.setText(bpArrayList.get(position).getDate());
+        holder.systolicDiastolic.setText(String.valueOf(bpArrayList.get(position).getSystolic())+"/"+String.valueOf(bpArrayList.get(position).getDiastolic()));
+        holder.pulse.setText(String.valueOf(bpArrayList.get(position).getPulse()));
+        holder.time.setText(bpArrayList.get(position).getTime());
+
+
+        holder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                bp = bpArrayList.get(position);
+                showProgressDialog("Deleting item");
+                deleteBloodPressureRecord(bp.getBpid());
+                removeAt(position);
+
+            }
+        });
+
     }
 
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        LayoutInflater inflater = LayoutInflater.from(context);
-
-        if (viewType == 0) {
-            return new StringViewHolder(inflater.inflate(R.layout.text_row, parent, false));
-        }
-        return new BloodPressureViewHolder(inflater.inflate(R.layout.blood_pressure_record_row, parent, false));
+    private void removeAt(int position) {
+        bpArrayList.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, bpArrayList.size());
     }
 
-    @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
-        final Object item = objects.get(position);
-
-        if (holder instanceof StringViewHolder)
-            ((StringViewHolder) holder).text.setText(((String) item));
-        else {
-            final BloodPressureRecord record = (BloodPressureRecord) item;
-            BloodPressureViewHolder bloodPressureViewHolder = ((BloodPressureViewHolder) holder);
-            bloodPressureViewHolder.systolicDiastolic.setText(context.getString(R.string.systolic_diastolic_formatted, record.getSystolic(), record.getDiastolic()));
-            bloodPressureViewHolder.pulse.setText(String.valueOf(record.getPulse()));
-            bloodPressureViewHolder.time.setText(String.valueOf(record.getTime()));
-            bloodPressureViewHolder.delete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.onDelete(record);
-                }
-            });
-        }
+    private void showProgressDialog(String title) {
+        progressDialog = ProgressDialog.show(context, title, "please wait", true, false);
+        progressDialog.show();
     }
 
     @Override
     public int getItemCount() {
-        return objects != null ? objects.size() : 0;
+        return bpArrayList.size();
     }
 
-    public interface OnBloodPressureListener {
-        void onDelete(BloodPressureRecord record);
-    }
 
-    public void ListClear(){
 
-        objects.clear();
-        notifyDataSetChanged();
-    }
-    private class BloodPressureViewHolder extends RecyclerView.ViewHolder {
+     class BloodPressureViewHolder extends RecyclerView.ViewHolder {
 
-        TextView systolicDiastolic, pulse, time;
+        TextView systolicDiastolic, pulse, time,tvdate;
         ImageView delete;
 
         BloodPressureViewHolder(View view) {
@@ -94,16 +112,89 @@ public class BPAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             pulse = (TextView) view.findViewById(R.id.tvPulse);
             time = (TextView) view.findViewById(R.id.tv_time);
             delete = (ImageView) view.findViewById(R.id.delete);
+            tvdate =(TextView)view.findViewById(R.id.tv_date);
         }
     }
 
-    private class StringViewHolder extends RecyclerView.ViewHolder {
-        TextView text;
 
-        StringViewHolder(View view) {
-            super(view);
-            text = (TextView) view;
+    private void deleteBloodPressureRecord(int bpid) {
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(new Config().SERVER_URL)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ApiInterface apiInterface = retrofit.create(ApiInterface.class);
+
+        try {
+            DeleteBPRecordParameter deleteBPRecordParameter = new DeleteBPRecordParameter(bpid);
+            final Call<ResponseBody> call = apiInterface.deleteBloodPressureRecord("abc", deleteBPRecordParameter);
+
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if(response.isSuccessful()){
+                        progressDialog.dismiss();
+
+                        try{
+                            String res_delete = response.body().string();
+                            JSONObject jsonObject = new JSONObject(res_delete);
+
+                            String results = jsonObject.getString("Results");
+
+                            if(results.equals("Success")){
+                                Toast.makeText(context, "Successfully Deleted", Toast.LENGTH_SHORT).show();
+                                showProgressDialog("Loading");
+                                progressDialog.dismiss();
+                            }
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                }
+            });
+            /*JSONObject paramObject = new JSONObject();
+            paramObject.put("bpid", record.getBpId());
+
+            Call<ServerResponse<String>> call = apiInterface.deleteBloodPressureRecord("abc", paramObject.toString());
+            call.enqueue(new Callback<ServerResponse<String>>() {
+                @Override
+                public void onResponse(Call<ServerResponse<String>> call, Response<ServerResponse<String>> response) {
+                    if (getActivity() != null) {
+
+                        progressDialog.dismiss();
+                        if (response.isSuccessful()) {
+
+                            ServerResponse<String> serverResponse = response.body();
+                            if (serverResponse.getResults().equals("Success")) {
+                                Toast.makeText(getActivity(), "Successfully Deleted", Toast.LENGTH_SHORT).show();
+                                showProgressDialog("Loading");
+                                int uid = (int) Prefs.getLong("user_id",0);
+                                getBloodPressureRecords(uid);
+                            } else {
+                                Toast.makeText(getActivity(), "please try again", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ServerResponse<String>> call, Throwable t) {
+                    if (getActivity() != null) progressDialog.dismiss();
+                    Log.d(CURIGHT_TAG, t.getMessage());
+                }
+            });*/
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
+
     }
 
 

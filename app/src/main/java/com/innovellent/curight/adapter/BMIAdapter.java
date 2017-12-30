@@ -1,5 +1,6 @@
 package com.innovellent.curight.adapter;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,32 +8,47 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.innovellent.curight.R;
+import com.innovellent.curight.api.ApiInterface;
+import com.innovellent.curight.model.BMI;
 import com.innovellent.curight.model.BMIRecord;
+import com.innovellent.curight.model.DeleteBMIRecord;
+import com.innovellent.curight.utility.Config;
 
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.List;
 
-public class BMIAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
+
+public class BMIAdapter extends RecyclerView.Adapter<BMIAdapter.BMIViewHolder> {
 
     private final int DATE = 0;
     private final int RECORD = 1;
-    private OnBMIListener listener;
     private List<Object> objects;
-    private Context context;
+     Context context;
+    ArrayList<BMI> bmiArrayList = new ArrayList<BMI>();
+    BMI bmi;
+    ProgressDialog progressDialog;
 
-    public BMIAdapter(Context context, List<Object> objects, OnBMIListener listener) {
+    public BMIAdapter(Context context,ArrayList<BMI> bmis) {
         this.context = context;
-        this.objects = objects;
-        this.listener = listener;
+        this.bmiArrayList = bmis;
+
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        return objects.get(position) instanceof String ? DATE : RECORD;
-    }
 
-    @Override
+
+    /*@Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
 
@@ -62,37 +78,121 @@ public class BMIAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             });
         }
 
+    }*/
+
+    @Override
+    public BMIAdapter.BMIViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.bmi_record_row, parent, false);
+        return new BMIAdapter.BMIViewHolder(itemView);
+    }
+
+    @Override
+    public void onBindViewHolder(BMIViewHolder holder, final int position) {
+
+        holder.tvDate.setText(bmiArrayList.get(position).getDate());
+        holder.bmi.setText(bmiArrayList.get(position).getWeight()+"/"+bmiArrayList.get(position).getHeight());
+        holder.tvBmivalue.setText(bmiArrayList.get(position).getBmi());
+
+
+        holder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bmi = bmiArrayList.get(position);
+                //Log.d("item_id"+"WHRID", ""+whr_list.getWhrid());
+                showProgressDialog("Deleting item");
+                deleteBMIRecord(bmi.getBmiid());
+                removeAt(position);
+            }
+        });
+
+    }
+
+
+    private void removeAt(int position) {
+        bmiArrayList.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, bmiArrayList.size());
+    }
+
+    private void showProgressDialog(String title) {
+        progressDialog = ProgressDialog.show(context, title, "please wait", true, false);
+        progressDialog.show();
     }
 
     @Override
     public int getItemCount() {
-        return objects != null ? objects.size() : 0;
+        return bmiArrayList.size();
     }
 
-    public interface OnBMIListener {
-        void onDelete(BMIRecord record);
-    }
 
-    private class BMIViewHolder extends RecyclerView.ViewHolder {
 
-        TextView bmi;
-        TextView time;
+    public class BMIViewHolder extends RecyclerView.ViewHolder {
+
+        TextView bmi,tvDate,tvBmivalue;
         ImageView delete;
 
         BMIViewHolder(View view) {
             super(view);
             bmi = (TextView) view.findViewById(R.id.bmi);
             delete = (ImageView) view.findViewById(R.id.delete);
-            time = (TextView) view.findViewById(R.id.tv_time);
+            tvDate = (TextView)view.findViewById(R.id.tv_date);
+            tvBmivalue = (TextView)view.findViewById(R.id.tvBmivalue);
         }
     }
 
-    private class StringViewHolder extends RecyclerView.ViewHolder {
-        TextView text;
 
-        StringViewHolder(View view) {
-            super(view);
-            text = (TextView) view;
+    private void deleteBMIRecord(int bmiid) {
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(new Config().SERVER_URL)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ApiInterface apiInterface = retrofit.create(ApiInterface.class);
+
+        try{
+
+            DeleteBMIRecord deleteBMIRecord = new DeleteBMIRecord(bmiid);
+
+            final Call<ResponseBody> call = apiInterface.deleteBMIRecord("abc",deleteBMIRecord);
+
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if(response.isSuccessful()){
+                        progressDialog.dismiss();
+                        try {
+                            String res_delete = response.body().string();
+
+                            JSONObject jsonObject = new JSONObject(res_delete);
+
+                            String results = jsonObject.getString("Results");
+
+                            if(results.equals("Success")){
+                                Toast.makeText(context, "Successfully Deleted", Toast.LENGTH_SHORT).show();
+                                showProgressDialog("Loading");
+                                progressDialog.dismiss();
+                            }
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                }
+            });
+
+        }catch (Exception e){
+            e.printStackTrace();
         }
+
+
+
     }
+
+
 }

@@ -7,6 +7,9 @@ import com.innovellent.curight.model.BloodcountPojo;
 import com.innovellent.curight.model.Calorie;
 import com.innovellent.curight.model.CholesterolReport;
 import com.innovellent.curight.model.CreateExercise;
+import com.innovellent.curight.model.DeleteBMIRecord;
+import com.innovellent.curight.model.DeleteBPRecordParameter;
+import com.innovellent.curight.model.DeleteCholesterolRecordParameter;
 import com.innovellent.curight.model.DeleteFctDataPojo;
 import com.innovellent.curight.model.DeleteParameterPojo;
 import com.innovellent.curight.model.DeleteParameterpatientreport;
@@ -27,6 +30,9 @@ import com.innovellent.curight.model.POST_CREATE_CLASS;
 import com.innovellent.curight.model.POST_MED_CLASS;
 import com.innovellent.curight.model.POST_TIME_UPDATE_CLASS;
 import com.innovellent.curight.model.POST_UPDATE_CLASS;
+import com.innovellent.curight.model.ParameterBMI;
+import com.innovellent.curight.model.ParameterBP;
+import com.innovellent.curight.model.ParameterCholesterol;
 import com.innovellent.curight.model.ParameterPojo;
 import com.innovellent.curight.model.PatientReportsPojo;
 import com.innovellent.curight.model.PhotosCenterByDC;
@@ -117,9 +123,9 @@ public interface ApiInterface {
     @POST("diagnosticcentre/getallphotos")
     Call<ServerResponsePhotosByDC> getPhotosByDC(@Body PhotosCenterByDC center);
 
-    @Headers("Content-Type: application/json")
+    @Headers("x-access-token: hjjgkuykg")
     @POST("whr/get")
-    Call<ResponseBody> getwhrlistdata(@Header("x-access-token") String accessToken, @Body ParameterPojo value);
+    Call<ResponseBody> getwhrlistdata(@Body ParameterPojo value);
 
     @Headers("Content-Type: application/json")
     @POST("fct/get")
@@ -176,9 +182,9 @@ public interface ApiInterface {
     Call<ServerResponseCreateExercise> createExercise(@Header("x-access-token") String x_access_token, @Body String requestBody);
 
     //Blood Pressure APIs
-    @Headers("Content-Type: application/json")
+    @Headers("x-access-token: hjjgkuykg")
     @POST("bloodpressure/get")
-    Call<ServerResponse<BloodPressureReport>> getBloodPressureRecords(@Header("x-access-token") String x_access_token, @Body String userId);
+    Call<ResponseBody> getBloodPressureRecords(@Body ParameterBP userId);
 
     @Headers("Content-Type: application/json")
     @POST("bloodpressure/create")
@@ -186,12 +192,12 @@ public interface ApiInterface {
 
     @Headers("Content-Type: application/json")
     @POST("bloodpressure/delete")
-    Call<ServerResponse<String>> deleteBloodPressureRecord(@Header("x-access-token") String accessToken, @Body String requestBody);
+    Call<ResponseBody> deleteBloodPressureRecord(@Header("x-access-token") String accessToken, @Body DeleteBPRecordParameter requestBody);
 
     //Cholesterol APIs
     @Headers("Content-Type: application/json")
     @POST("cholestrol/get")
-    Call<ServerResponse<CholesterolReport>> getCholesterolRecords(@Header("x-access-token") String accessToken, @Body String requestBody);
+    Call<ResponseBody> getCholesterolRecords(@Header("x-access-token") String accessToken, @Body ParameterCholesterol requestBody);
 
     @Headers("Content-Type: application/json")
     @POST("cholestrol/create")
@@ -199,12 +205,12 @@ public interface ApiInterface {
 
     @Headers("Content-Type: application/json")
     @POST("cholestrol/delete")
-    Call<ServerResponse<String>> deleteCholesterolRecord(@Header("x-access-token") String accessToken, @Body String requestBody);
+    Call<ResponseBody> deleteCholesterolRecord(@Header("x-access-token") String accessToken, @Body DeleteCholesterolRecordParameter requestBody);
 
     //BMI APIs
     @Headers("Content-Type: application/json")
     @POST("bmi/get")
-    Call<ServerResponse<BMIReport>> getBMIRecords(@Header("x-access-token") String accessToken, @Body String requestBody);
+    Call<ResponseBody> getBMIRecords(@Header("x-access-token") String accessToken, @Body ParameterBMI requestBody);
 
     @Headers("Content-Type: application/json")
     @POST("bmi/create")
@@ -212,7 +218,7 @@ public interface ApiInterface {
 
     @Headers("Content-Type: application/json")
     @POST("bmi/delete")
-    Call<ServerResponse<String>> deleteBMIRecord(@Header("x-access-token") String accessToken, @Body String requestBody);
+    Call<ResponseBody> deleteBMIRecord(@Header("x-access-token") String accessToken, @Body DeleteBMIRecord requestBody);
 
     //Family APIs
     @Headers("Content-Type: application/json")

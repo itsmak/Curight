@@ -27,27 +27,33 @@ import com.innovellent.curight.R;
 import com.innovellent.curight.activities.HomeActivity;
 import com.innovellent.curight.adapter.BPAdapter;
 import com.innovellent.curight.adapter.PROFILE_SPINNER_ADAPTER;
+import com.innovellent.curight.adapter.WHRAdapter;
 import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.AddBPRecordsDialog;
+import com.innovellent.curight.model.BP;
 import com.innovellent.curight.model.BloodPressureDayWise;
 import com.innovellent.curight.model.BloodPressureRecord;
 import com.innovellent.curight.model.BloodPressureReport;
 import com.innovellent.curight.model.MyProfile_Response;
 import com.innovellent.curight.model.PROFILE;
 import com.innovellent.curight.model.PROFILE_FEED;
+import com.innovellent.curight.model.ParameterBP;
 import com.innovellent.curight.model.PostBodyProfile;
 import com.innovellent.curight.model.ServerResponse;
+import com.innovellent.curight.model.WHR;
 import com.innovellent.curight.utility.Config;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.pixplicity.easyprefs.library.Prefs;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -70,17 +76,19 @@ public class BPFragment extends Fragment implements View.OnClickListener {
     BPAdapter mAdapter;
     GraphView lineGraph;
     List<Object> arrayList = new ArrayList<>();
+    ArrayList<BP> bp_arraylist = new ArrayList<BP>();
     AddBPRecordsDialog addRecordsDialog;
     RelativeLayout rlGraph;
     int i;
-    String USER_ID;
+    String USER_ID,res_dataforbp;
     ArrayList<PROFILE> spinnerList=new ArrayList<PROFILE>();
     PROFILE_SPINNER_ADAPTER customSpinnerAdapter3;
-    private TextView systolicDiastolic, pulse;
+    private TextView systolicDiastolic, txt_pulse;
     private Long userId;
     private String accessToken;
     private static final String TAG = ".Retro_MainActivity";
     private ProgressDialog progressDialog;
+    JSONArray jsonArray_parent,jsonarray_child;
     int uid,position;
     Spinner spUser;
 
@@ -90,14 +98,15 @@ public class BPFragment extends Fragment implements View.OnClickListener {
         initReferences(rootView);
         initOnClick();
 
+        spinnerList.clear();
         getSpinnerData();
 
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("mypref", Context.MODE_PRIVATE);
+       /* SharedPreferences sharedPreferences = getActivity().getSharedPreferences("mypref", Context.MODE_PRIVATE);
         accessToken = sharedPreferences.getString("access_token", "");
         userId = sharedPreferences.getLong("user_id", 2L);
-
-        showProgressDialog("Loading");
-        getBloodPressureRecords(USER_ID);
+*/
+       // showProgressDialog("Loading");
+       // getBloodPressureRecords(USER_ID);
 
         return rootView;
     }
@@ -136,8 +145,8 @@ public class BPFragment extends Fragment implements View.OnClickListener {
 
     public void initReferences(View rootView) {
         systolicDiastolic = (TextView) rootView.findViewById(R.id.systolic_diastolic);
-        pulse = (TextView) rootView.findViewById(R.id.pulse);
-        tvBP = (TextView) rootView.findViewById(R.id.tvBP);
+        txt_pulse = (TextView) rootView.findViewById(R.id.pulse);
+        //tvBP = (TextView) rootView.findViewById(R.id.tvBP);
         ivBmi = (ImageView) rootView.findViewById(R.id.ivBmi);
         llStatus = (LinearLayout) rootView.findViewById(R.id.llStatus);
         btnStatus = (Button) rootView.findViewById(R.id.btnStatus);
@@ -160,6 +169,198 @@ public class BPFragment extends Fragment implements View.OnClickListener {
         recyclerView.setVisibility(View.GONE);
         tvTrends.setTextColor(Color.parseColor("#FFFFFF"));
         tvList.setTextColor(Color.parseColor("#9DA1A0"));
+    }
+
+
+
+
+    private void getSpinnerData() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(new Config().SERVER_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ApiInterface reditapi = retrofit.create(ApiInterface.class);
+        int uid = (int) Prefs.getLong("user_id",0);
+        PostBodyProfile postBodyprofile = new PostBodyProfile(uid, "family");
+        Call<MyProfile_Response> call = reditapi.getProfile(postBodyprofile);
+
+        call.enqueue(new Callback<MyProfile_Response>() {
+            @Override
+            public void onResponse(Call<MyProfile_Response> call, Response<MyProfile_Response> response) {
+
+
+                if (response.body() != null) {
+
+
+                    Log.e("", "profileResponse: code: " + response.body().getCode());
+
+                    ArrayList<PROFILE_FEED> result = response.body().getResults();
+
+                    Log.e("", "profileResponse: listsize: " + result.size());
+                    for (int i = 0; i < result.size(); i++) {
+
+                        USER_ID = result.get(i).getUserid();
+                        //spinnerList.add(new PROFILE("","","",""));
+                        spinnerList.add(new PROFILE(result.get(i).getUserid(),result.get(i).getId(), result.get(i).getName(), result.get(i).getAge(), result.get(i).getRelationship()));
+                    }
+                    getData2();
+                    USER_ID = result.get(0).getUserid();
+
+                    // GetData(result.get(1).getUserid());
+                } else {
+
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+
+                }
+
+                //remainder_rclrvw.setAdapter(mAdapter);
+
+            }
+
+            @Override
+            public void onFailure(Call<MyProfile_Response> call, Throwable t) {
+
+                Log.e("", "onFailure: Somethings went wrong" + t.getMessage());
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
+
+    public void getData2() {
+
+        customSpinnerAdapter3 = new PROFILE_SPINNER_ADAPTER(getActivity(), spinnerList);
+        spUser.setAdapter(customSpinnerAdapter3);
+        spUser.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                //   Toast.makeText(PasswordRecoveryQuestionsActivity.this, spinner3[i], Toast.LENGTH_SHORT).show();
+                //spAge.setText(spinnerList.get(i).getUser_age());
+               // USER_ID = spinnerList.get(i).getUser_id();
+                Prefs.putLong("spinner_id", Long.parseLong(spinnerList.get(i).getUser_id()));
+                int uid = (int) Prefs.getLong("spinner_id",0);
+                Log.d(TAG,"Useridchanding" +uid);
+               getBloodPressureRecords(uid);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                int uid = (int) Prefs.getLong("user_id",0);
+                Log.d("user_forwhr", ""+uid);
+                Log.d(TAG, "MyUSER_ID on spinner" + USER_ID);
+                getBloodPressureRecords(uid);
+            }
+        });
+
+    }
+
+
+    public void getBloodPressureRecords(int user_id) {
+            cleardata();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(new Config().SERVER_URL)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ApiInterface apiInterface = retrofit.create(ApiInterface.class);
+
+        ParameterBP parameterBP = new ParameterBP(user_id);
+
+        Call<ResponseBody> call = apiInterface.getBloodPressureRecords(parameterBP);
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.body() != null) {
+                    try{
+
+                        res_dataforbp = response.body().string();
+                        List<DataPoint> points = new ArrayList<>();
+                        JSONObject jsonObject = new JSONObject(res_dataforbp);
+                        String code = jsonObject.getString("Code");
+
+                        JSONObject jsonObject1 = jsonObject.getJSONObject("Results");
+                        int pulse = jsonObject1.getInt("pulse");
+                        String systolic = jsonObject1.getString("systolic");
+                        String diastolic = jsonObject1.getString("diastolic");
+
+                        systolicDiastolic.setText(systolic+"/"+diastolic);
+                        txt_pulse.setText(String.valueOf(pulse));
+                        String bpFlag = jsonObject1.getString("bpFlag");
+                        if (bpFlag != null){
+                            switch (bpFlag) {
+                                case "normal":
+                                    setBlue();
+                                    break;
+                                case "low":
+                                    setGreen();
+                                    break;
+                                case "prehigh":
+                                    setYellow();
+                                    break;
+                                case "high":
+                                    setRed();
+                                    break;
+                                default:
+                                    setYellow();
+                                    break;
+                            }
+                        }
+
+                        jsonArray_parent = jsonObject1.getJSONArray("bpList");
+                        for(int i=0; i<jsonArray_parent.length(); i++){
+
+                            //bp_arraylist.add(new BP(0,0,0,0,"",jsonArray_parent.getJSONObject(i).getString("date"),""));
+                            jsonObject1 = jsonArray_parent.getJSONObject(i);
+
+                            jsonarray_child =jsonObject1.getJSONArray("bpList");
+
+                            for(int j=0; j<jsonarray_child.length(); j++){
+                                bp_arraylist.add(new BP(jsonArray_parent.getJSONObject(i).getString("date"),jsonarray_child.getJSONObject(j).getInt("bpid"),jsonarray_child.getJSONObject(j).getString("time"),jsonarray_child.getJSONObject(j).getInt("pulse"),jsonarray_child.getJSONObject(j).getInt("systolic"),jsonarray_child.getJSONObject(j).getInt("diastolic"),""));
+                                points.add(new DataPoint(j, Double.parseDouble(String.valueOf(jsonarray_child.getJSONObject(j).getInt("pulse")))));
+                            }
+                        }
+
+                        DataPoint[] pointArray = new DataPoint[points.size()];
+                        lineGraph.removeAllSeries();
+                        lineGraph.addSeries(new LineGraphSeries<>(points.toArray(pointArray)));
+                        // lineGraph = new GraphView(getActivity());
+                        lineGraph.getViewport().setMinX(0);
+                        lineGraph.getViewport().setMinY(0);
+                        lineGraph.getViewport().setScrollable(false);
+
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+
+
+                }else{
+                    systolicDiastolic.setText("");
+                    txt_pulse.setText("");
+                    lineGraph.removeAllSeries();
+                    ivBmi.setBackgroundResource(R.mipmap.ic_bpyellow);
+                    btnStatus.setText("");
+                    btnStatus.setBackgroundResource(R.color.protein);
+                    recyclerView.removeAllViews();
+                    Toast.makeText(getActivity(), "No Record Found", Toast.LENGTH_SHORT).show();
+                }
+                mAdapter=new BPAdapter(getActivity(),bp_arraylist);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+                recyclerView.setAdapter(mAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e(TAG, "onFailure: Somethings went wrong" + t.getMessage());
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
     }
 
     private void showAddBloodPressureDialog() {
@@ -200,7 +401,7 @@ public class BPFragment extends Fragment implements View.OnClickListener {
             paramObject.put("systolic", systolic);
             paramObject.put("diastolic", diastolic);
 
-            Call<ServerResponse<String>> call = apiInterface.addBloodPressureRecord(accessToken, paramObject.toString());
+            Call<ServerResponse<String>> call = apiInterface.addBloodPressureRecord("abc", paramObject.toString());
             call.enqueue(new Callback<ServerResponse<String>>() {
                 @Override
                 public void onResponse(Call<ServerResponse<String>> call, Response<ServerResponse<String>> response) {
@@ -211,7 +412,8 @@ public class BPFragment extends Fragment implements View.OnClickListener {
                             if (serverResponse.getResults().equals("Success")) {
                                 Toast.makeText(getActivity(), "Successfully Added", Toast.LENGTH_SHORT).show();
                                 showProgressDialog("Loading");
-                                getBloodPressureRecords(USER_ID);
+                                int uid = (int) Prefs.getLong("user_id",0);
+                                getBloodPressureRecords(uid);
                             } else
                                 Toast.makeText(getActivity(), "Please try again", Toast.LENGTH_SHORT).show();
                         }
@@ -230,189 +432,14 @@ public class BPFragment extends Fragment implements View.OnClickListener {
     }
 
 
-
-    private void getSpinnerData() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(new Config().SERVER_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        ApiInterface reditapi = retrofit.create(ApiInterface.class);
-        int uid = (int) Prefs.getLong("user_id",0);
-        PostBodyProfile postBodyprofile = new PostBodyProfile(uid, "family");
-        Call<MyProfile_Response> call = reditapi.getProfile(postBodyprofile);
-
-        call.enqueue(new Callback<MyProfile_Response>() {
-            @Override
-            public void onResponse(Call<MyProfile_Response> call, Response<MyProfile_Response> response) {
-
-
-                if (response.body() != null) {
-
-
-                    Log.e("", "profileResponse: code: " + response.body().getCode());
-
-                    ArrayList<PROFILE_FEED> result = response.body().getResults();
-
-                    Log.e("", "profileResponse: listsize: " + result.size());
-                    for (int i = 0; i < result.size(); i++) {
-
-                        USER_ID = result.get(i).getUserid();
-                        //spinnerList.add(new PROFILE("","","",""));
-                        spinnerList.add(new PROFILE(result.get(i).getUserid(),result.get(i).getId(), result.get(i).getName(), result.get(i).getAge(), result.get(i).getRelationship()));
-                    }
-                    getData2();
-                    USER_ID = result.get(0).getUserid();
-                    Log.d(TAG, "Myuserid default" + USER_ID);
-                    getBloodPressureRecords(USER_ID);
-                    // GetData(result.get(1).getUserid());
-                } else {
-
-                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
-
-                }
-
-                //remainder_rclrvw.setAdapter(mAdapter);
-
-            }
-
-            @Override
-            public void onFailure(Call<MyProfile_Response> call, Throwable t) {
-
-                Log.e("", "onFailure: Somethings went wrong" + t.getMessage());
-                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
-
-            }
-        });
-    }
-
-
-    public void getData2() {
-
-        customSpinnerAdapter3 = new PROFILE_SPINNER_ADAPTER(getActivity(), spinnerList);
-        spUser.setAdapter(customSpinnerAdapter3);
-        spUser.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                //   Toast.makeText(PasswordRecoveryQuestionsActivity.this, spinner3[i], Toast.LENGTH_SHORT).show();
-                //spAge.setText(spinnerList.get(i).getUser_age());
-                USER_ID = spinnerList.get(i).getUser_id();
-                //Prefs.putLong("spinner_id", Long.parseLong(spinnerList.get(i).getUser_id()));
-                //uid = (int) Prefs.getLong("spinner_id",0);
-                Log.d(TAG, "Myuserid on select" + USER_ID);
-               getBloodPressureRecords(USER_ID);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
-    }
-
-
-    public void getBloodPressureRecords(String user_id) {
-            cleardata();
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(new Config().SERVER_URL)
-                .addConverterFactory(ScalarsConverterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        ApiInterface apiInterface = retrofit.create(ApiInterface.class);
-
-        try {
-            JSONObject paramObject = new JSONObject();
-            paramObject.put("userid", user_id);
-
-            Call<ServerResponse<BloodPressureReport>> call = apiInterface.getBloodPressureRecords("bgvvgjhhjv", paramObject.toString());
-            call.enqueue(new Callback<ServerResponse<BloodPressureReport>>() {
-                @Override
-                public void onResponse(Call<ServerResponse<BloodPressureReport>> call, Response<ServerResponse<BloodPressureReport>> response) {
-                    if (getActivity() != null) {
-                        progressDialog.dismiss();
-                        if (response.isSuccessful()) {
-                            ServerResponse<BloodPressureReport> serverResponse = response.body();
-                            BloodPressureReport report = serverResponse.getResults();
-                            Log.d("BP", report.toString());
-                            systolicDiastolic.setText(getActivity().getString(R.string.systolic_diastolic_formatted, report.getSystolic(), report.getDiastolic()));
-                            pulse.setText(String.valueOf(report.getPulse()));
-                            switch (report.getBpFlag()) {
-                                case "normal":
-                                    setBlue();
-                                    break;
-                                case "low":
-                                    setGreen();
-                                    break;
-                                case "prehigh":
-                                    setYellow();
-                                    break;
-                                case "high":
-                                    setRed();
-                                    break;
-                                default:
-                                    setYellow();
-                                    break;
-                            }
-
-                            List<BloodPressureDayWise> dayWises = report.getBpList();
-                            if (!dayWises.isEmpty()) {
-                                arrayList = new ArrayList<>();
-                                List<DataPoint> points = new ArrayList<>();
-                                int i = 0;
-                                for (BloodPressureDayWise dayWise : dayWises) {
-                                    arrayList.add(dayWise.getDate());
-                                    List<BloodPressureRecord> records = dayWise.getBpList();
-                                    for (int j = 0, size = records.size(); j < size; i++, j++) {
-                                        BloodPressureRecord record = records.get(j);
-                                        arrayList.add(record);
-                                        points.add(new DataPoint(i, record.getPulse()));
-                                    }
-                                }
-                                DataPoint[] pointArray = new DataPoint[points.size()];
-                                lineGraph.removeAllSeries();
-                                lineGraph.addSeries(new LineGraphSeries<>(points.toArray(pointArray)));
-                                lineGraph.getViewport().setMinX(0);
-                                lineGraph.getViewport().setMinY(0);
-                                lineGraph.getViewport().setScrollable(false);
-
-                                mAdapter = new BPAdapter(getActivity(), arrayList,position, new BPAdapter.OnBloodPressureListener() {
-                                    @Override
-                                    public void onDelete(BloodPressureRecord record) {
-                                        showProgressDialog("Deleting");
-                                        deleteBloodPressureRecord(record);
-                                    }
-                                });
-                                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-                                recyclerView.setAdapter(mAdapter);
-                            }
-                        }
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ServerResponse<BloodPressureReport>> call, Throwable t) {
-                    if (getActivity() != null) progressDialog.dismiss();
-                    Log.d(CURIGHT_TAG, t.getMessage());
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
     private void cleardata(){
 
-        mAdapter = new BPAdapter(getActivity(), arrayList,position, new BPAdapter.OnBloodPressureListener() {
-            @Override
-            public void onDelete(BloodPressureRecord record) {
+        Log.d("arraylistbefore", ""+bp_arraylist.size());
+        mAdapter = new BPAdapter(getActivity(), bp_arraylist);
 
-            }
-        });
-
-        mAdapter.ListClear();
+        bp_arraylist.clear();
+        Log.d("arraylistafter", ""+bp_arraylist.size());
+        mAdapter.notifyDataSetChanged();
     }
 
     private void showProgressDialog(String title) {
@@ -420,53 +447,7 @@ public class BPFragment extends Fragment implements View.OnClickListener {
         progressDialog.show();
     }
 
-    private void deleteBloodPressureRecord(BloodPressureRecord record) {
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(new Config().SERVER_URL)
-                .addConverterFactory(ScalarsConverterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        ApiInterface apiInterface = retrofit.create(ApiInterface.class);
-
-        try {
-            JSONObject paramObject = new JSONObject();
-            paramObject.put("bpid", record.getBpId());
-
-            Call<ServerResponse<String>> call = apiInterface.deleteBloodPressureRecord(accessToken, paramObject.toString());
-            call.enqueue(new Callback<ServerResponse<String>>() {
-                @Override
-                public void onResponse(Call<ServerResponse<String>> call, Response<ServerResponse<String>> response) {
-                    if (getActivity() != null) {
-
-                        progressDialog.dismiss();
-                        if (response.isSuccessful()) {
-
-                            ServerResponse<String> serverResponse = response.body();
-                            if (serverResponse.getResults().equals("Success")) {
-                                Toast.makeText(getActivity(), "Successfully Deleted", Toast.LENGTH_SHORT).show();
-                                showProgressDialog("Loading");
-                                getBloodPressureRecords(USER_ID);
-                            } else {
-                                Toast.makeText(getActivity(), "please try again", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ServerResponse<String>> call, Throwable t) {
-                    if (getActivity() != null) progressDialog.dismiss();
-                    Log.d(CURIGHT_TAG, t.getMessage());
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-    }
 
     @Override
     public void onClick(View v) {

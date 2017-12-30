@@ -13,32 +13,45 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.innovellent.curight.R;
+import com.innovellent.curight.adapter.BPAdapter;
 import com.innovellent.curight.adapter.CholesterolAdapter;
+import com.innovellent.curight.adapter.PROFILE_SPINNER_ADAPTER;
 import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.AddCholesterolRecordsDialog;
 import com.innovellent.curight.model.BloodPressure;
+import com.innovellent.curight.model.Cholesterol;
 import com.innovellent.curight.model.CholesterolDayWise;
 import com.innovellent.curight.model.CholesterolRecord;
 import com.innovellent.curight.model.CholesterolReport;
+import com.innovellent.curight.model.MyProfile_Response;
+import com.innovellent.curight.model.PROFILE;
+import com.innovellent.curight.model.PROFILE_FEED;
+import com.innovellent.curight.model.ParameterCholesterol;
+import com.innovellent.curight.model.PostBodyProfile;
 import com.innovellent.curight.model.ServerResponse;
 import com.innovellent.curight.utility.Config;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import com.pixplicity.easyprefs.library.Prefs;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -46,6 +59,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
+import static android.content.ContentValues.TAG;
 import static com.innovellent.curight.utility.Constants.CURIGHT_TAG;
 
 /**
@@ -60,6 +74,7 @@ public class CholesterolFragment extends Fragment implements View.OnClickListene
     RecyclerView recyclerView;
     CholesterolAdapter mAdapter;
     ArrayList<BloodPressure> arrayList = new ArrayList<>();
+    ArrayList<Cholesterol> cholesterolArrayList = new ArrayList<Cholesterol>();
     CardView cvCard;
     AddCholesterolRecordsDialog addCholesterolRecordsDialog;
     LinearLayout llStatus;
@@ -73,6 +88,11 @@ public class CholesterolFragment extends Fragment implements View.OnClickListene
     private Button btnStatus;
     private ProgressDialog progressDialog;
     private GraphView lineGraph;
+    String res_data,USER_ID;
+    JSONArray jsonarray_parent,jsonarray_child;
+    ArrayList<PROFILE> spinnerList=new ArrayList<PROFILE>();
+    PROFILE_SPINNER_ADAPTER customSpinnerAdapter3;
+    Spinner spUser;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -80,13 +100,14 @@ public class CholesterolFragment extends Fragment implements View.OnClickListene
         initReferences(rootView);
         initOnClick();
 
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("mypref", Context.MODE_PRIVATE);
+        /*SharedPreferences sharedPreferences = getActivity().getSharedPreferences("mypref", Context.MODE_PRIVATE);
 
         accessToken = sharedPreferences.getString("access_token", "");
         userId = sharedPreferences.getLong("user_id", 1L);
-
-        showProgressDialog("Loading");
-        getCholesterolRecords();
+*/
+        //showProgressDialog("Loading");
+        spinnerList.clear();
+        getSpinnerData();
 
         return rootView;
     }
@@ -132,7 +153,7 @@ public class CholesterolFragment extends Fragment implements View.OnClickListene
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         cvCard = (CardView) rootView.findViewById(R.id.cvCard1);
         lineGraph = (GraphView) rootView.findViewById(R.id.graphLine);
-
+        spUser = (Spinner) rootView.findViewById(R.id.spUser);
         ivBmi = (ImageView) rootView.findViewById(R.id.ivBmi);
         btnStatus = (Button) rootView.findViewById(R.id.btnStatus);
         tvLDL = (TextView) rootView.findViewById(R.id.ldl);
@@ -148,6 +169,89 @@ public class CholesterolFragment extends Fragment implements View.OnClickListene
         recyclerView.setVisibility(View.GONE);
         tvTrends.setTextColor(Color.parseColor("#FFFFFF"));
         tvList.setTextColor(Color.parseColor("#9DA1A0"));
+    }
+
+
+    private void getSpinnerData() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(new Config().SERVER_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ApiInterface reditapi = retrofit.create(ApiInterface.class);
+        int uid = (int) Prefs.getLong("user_id",0);
+        PostBodyProfile postBodyprofile = new PostBodyProfile(uid, "family");
+        Call<MyProfile_Response> call = reditapi.getProfile(postBodyprofile);
+
+        call.enqueue(new Callback<MyProfile_Response>() {
+            @Override
+            public void onResponse(Call<MyProfile_Response> call, Response<MyProfile_Response> response) {
+
+
+                if (response.body() != null) {
+
+
+                    Log.e("", "profileResponse: code: " + response.body().getCode());
+
+                    ArrayList<PROFILE_FEED> result = response.body().getResults();
+
+                    Log.e("", "profileResponse: listsize: " + result.size());
+                    for (int i = 0; i < result.size(); i++) {
+
+                        USER_ID = result.get(i).getUserid();
+                        //spinnerList.add(new PROFILE("","","",""));
+                        spinnerList.add(new PROFILE(result.get(i).getUserid(),result.get(i).getId(), result.get(i).getName(), result.get(i).getAge(), result.get(i).getRelationship()));
+                    }
+                    getData2();
+                    USER_ID = result.get(0).getUserid();
+
+                    // GetData(result.get(1).getUserid());
+                } else {
+
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+
+                }
+
+                //remainder_rclrvw.setAdapter(mAdapter);
+
+            }
+
+            @Override
+            public void onFailure(Call<MyProfile_Response> call, Throwable t) {
+
+                Log.e("", "onFailure: Somethings went wrong" + t.getMessage());
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
+
+    public void getData2() {
+
+        customSpinnerAdapter3 = new PROFILE_SPINNER_ADAPTER(getActivity(), spinnerList);
+        spUser.setAdapter(customSpinnerAdapter3);
+        spUser.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                //   Toast.makeText(PasswordRecoveryQuestionsActivity.this, spinner3[i], Toast.LENGTH_SHORT).show();
+                //spAge.setText(spinnerList.get(i).getUser_age());
+                // USER_ID = spinnerList.get(i).getUser_id();
+                Prefs.putLong("spinner_id", Long.parseLong(spinnerList.get(i).getUser_id()));
+                int uid = (int) Prefs.getLong("spinner_id",0);
+                Log.d(TAG,"Useridchanding" +uid);
+                getCholesterolRecords(uid);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                int uid = (int) Prefs.getLong("user_id",0);
+                Log.d("user_forwhr", ""+uid);
+                Log.d(TAG, "MyUSER_ID on spinner" + USER_ID);
+                getCholesterolRecords(uid);
+            }
+        });
+
     }
 
     private void showAddCholesterolRecordDialog() {
@@ -169,7 +273,8 @@ public class CholesterolFragment extends Fragment implements View.OnClickListene
         addCholesterolRecordsDialog.show();
     }
 
-    private void getCholesterolRecords() {
+    private void getCholesterolRecords(int user_id) {
+        cleardata();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(new Config().SERVER_URL)
                 .addConverterFactory(ScalarsConverterFactory.create())
@@ -178,92 +283,101 @@ public class CholesterolFragment extends Fragment implements View.OnClickListene
 
         ApiInterface apiInterface = retrofit.create(ApiInterface.class);
 
-        try {
-            JSONObject paramObject = new JSONObject();
-            paramObject.put("userid", userId);
+        ParameterCholesterol parameterCholesterol = new ParameterCholesterol(user_id);
 
-            Call<ServerResponse<CholesterolReport>> call = apiInterface.getCholesterolRecords(accessToken, paramObject.toString());
-            call.enqueue(new Callback<ServerResponse<CholesterolReport>>() {
-                @Override
-                public void onResponse(Call<ServerResponse<CholesterolReport>> call, Response<ServerResponse<CholesterolReport>> response) {
-                    if (getActivity() != null) {
-                        progressDialog.dismiss();
-                        if (response.isSuccessful()) {
-                            ServerResponse<CholesterolReport> serverResponse = response.body();
-                            CholesterolReport report = serverResponse.getResults();
+        Call<ResponseBody> call = apiInterface.getCholesterolRecords("abc", parameterCholesterol);
 
-                            tvLDL.setText(String.valueOf(report.getLdl()));
-                            tvHDL.setText(String.valueOf(report.getHdl()));
-                            if (report.getCholesterolFlag() != null)
-                                switch (report.getCholesterolFlag()) {
-                                    case "Good":
-                                        setBlue();
-                                        break;
-                                    case "low risk":
-                                        setGreen();
-                                        break;
-                                    case "medium risk":
-                                        setYellow();
-                                        break;
-                                    case "high risk":
-                                        setRed();
-                                        break;
-                                    default:
-                                        setYellow();
-                                        break;
-                                }
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.body() != null) {
 
-                            List<CholesterolDayWise> cholesterolDayWises = report.getDayWises();
-                            if (!cholesterolDayWises.isEmpty()) {
-                                List<Object> objects = new ArrayList<>();
-                                List<DataPoint> points = new ArrayList<>();
-                                int i = 0;
-                                for (CholesterolDayWise dayWise : cholesterolDayWises) {
-                                    objects.add(dayWise.getDate());
-                                    List<CholesterolRecord> records = dayWise.getRecords();
-                                    for (int j = 0, size = records.size(); j < size; i++, j++) {
-                                        CholesterolRecord record = records.get(j);
-                                        objects.add(record);
-                                        points.add(new DataPoint(i, record.getTriglycerides()));
-                                    }
-                                    objects.addAll(dayWise.getRecords());
-                                }
+                    try{
+                        res_data = response.body().string();
+                        List<DataPoint> points = new ArrayList<>();
+                        JSONObject jsonObject = new JSONObject(res_data);
+                        String code = jsonObject.getString("Code");
 
-                                DataPoint[] pointArray = new DataPoint[points.size()];
-                                lineGraph.removeAllSeries();
-                                lineGraph.addSeries(new LineGraphSeries<>(points.toArray(pointArray)));
-                                lineGraph.getViewport().setMinX(0);
-                                lineGraph.getViewport().setMinY(0);
-                                lineGraph.getViewport().setScrollable(false);
-
-                                mAdapter = new CholesterolAdapter(getActivity(), objects, new CholesterolAdapter.OnCholesterolListener() {
-                                    @Override
-                                    public void onDelete(CholesterolRecord record) {
-                                        showProgressDialog("Deleting");
-                                        deleteCholesterolRecord(record);
-                                    }
-                                });
-                                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-                                recyclerView.setAdapter(mAdapter);
+                        JSONObject jsonObject1 = jsonObject.getJSONObject("Results");
+                        String whrflag_mystring = jsonObject1.getString("cholestrolFlag");
+                        if (whrflag_mystring != null){
+                            switch (whrflag_mystring) {
+                                case "Good":
+                                    setBlue();
+                                    break;
+                                case "low risk":
+                                    setGreen();
+                                    break;
+                                case "medium risk":
+                                    setYellow();
+                                    break;
+                                case "high risk":
+                                    setRed();
+                                    break;
+                                default:
+                                    setYellow();
+                                    break;
                             }
-                        }else {
-                            Toast.makeText(getActivity(), "No Record Found", Toast.LENGTH_SHORT).show();
+
                         }
+
+                        int HDL = jsonObject1.getInt("hdl");
+                        int LDL = jsonObject1.getInt("ldl");
+
+                        tvLDL.setText(String.valueOf(LDL));
+                        tvHDL.setText(String.valueOf(HDL));
+
+                        jsonarray_parent = jsonObject1.getJSONArray("cholestrolbpList");
+                        for(int i=0; i<jsonarray_parent.length(); i++){
+
+                            jsonObject1 = jsonarray_parent.getJSONObject(i);
+
+                            jsonarray_child = jsonObject1.getJSONArray("cholestrolList");
+                            for(int j=0;j<jsonarray_child.length();j++){
+                                cholesterolArrayList.add(new Cholesterol(jsonarray_child.getJSONObject(j).getInt("hdl"),jsonarray_child.getJSONObject(j).getInt("ldl"),jsonarray_child.getJSONObject(j).getInt("cholestrolid"),jsonarray_child.getJSONObject(j).getInt("triglycerides"),jsonarray_parent.getJSONObject(i).getString("date"),jsonarray_child.getJSONObject(j).getString("time"),jsonarray_child.getJSONObject(j).getString("totalCholestrolFlag")));
+                                points.add(new DataPoint(j, Double.parseDouble(String.valueOf(jsonarray_child.getJSONObject(j).getInt("triglycerides")))));
+
+                            }
+                        }
+                        DataPoint[] pointArray = new DataPoint[points.size()];
+                        lineGraph.removeAllSeries();
+                        lineGraph.addSeries(new LineGraphSeries<>(points.toArray(pointArray)));
+                        // lineGraph = new GraphView(getActivity());
+                        lineGraph.getViewport().setMinX(0);
+                        lineGraph.getViewport().setMinY(0);
+                        lineGraph.getViewport().setScrollable(false);
+
+
+                    }catch (Exception e){
+                        e.printStackTrace();
                     }
+                }else{
+                    tvHDL.setText("");
+                    tvLDL.setText("");
+                    lineGraph.removeAllSeries();
+                    ivBmi.setBackgroundResource(R.mipmap.ic_cholestrolblue);
+                    btnStatus.setText("");
+                    btnStatus.setBackgroundResource(R.color.colorPrimary);
+                    recyclerView.removeAllViews();
+                    Toast.makeText(getActivity(), "No Record Found", Toast.LENGTH_SHORT).show();
+
                 }
 
-                @Override
-                public void onFailure(Call<ServerResponse<CholesterolReport>> call, Throwable t) {
-                    if (getActivity() != null) progressDialog.dismiss();
-                    t.getMessage();
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+                mAdapter=new CholesterolAdapter(getActivity(),cholesterolArrayList);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+                recyclerView.setAdapter(mAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e(TAG, "onFailure: Somethings went wrong" + t.getMessage());
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
-    private void deleteCholesterolRecord(CholesterolRecord record) {
+   /* private void deleteCholesterolRecord(CholesterolRecord record) {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(new Config().SERVER_URL)
@@ -307,6 +421,17 @@ public class CholesterolFragment extends Fragment implements View.OnClickListene
         }
 
 
+    }*/
+
+
+    private void cleardata(){
+
+        Log.d("arraylistbefore", ""+cholesterolArrayList.size());
+        mAdapter = new CholesterolAdapter(getActivity(), cholesterolArrayList);
+
+        cholesterolArrayList.clear();
+        Log.d("arraylistafter", ""+cholesterolArrayList.size());
+        mAdapter.notifyDataSetChanged();
     }
 
     private void showProgressDialog(String title) {
@@ -333,7 +458,7 @@ public class CholesterolFragment extends Fragment implements View.OnClickListene
             paramObject.put("date", date);
             paramObject.put("time", time);
 
-            Call<ServerResponse<String>> call = apiInterface.addCholesterolRecord(accessToken, paramObject.toString());
+            Call<ServerResponse<String>> call = apiInterface.addCholesterolRecord("abc", paramObject.toString());
             call.enqueue(new Callback<ServerResponse<String>>() {
                 @Override
                 public void onResponse(Call<ServerResponse<String>> call, Response<ServerResponse<String>> response) {
@@ -344,7 +469,8 @@ public class CholesterolFragment extends Fragment implements View.OnClickListene
                             if (serverResponse.getResults().equals("Success")) {
                                 Toast.makeText(getActivity(), "Successfully Added", Toast.LENGTH_SHORT).show();
                                 showProgressDialog("Loading");
-                                getCholesterolRecords();
+                                int uid = (int) Prefs.getLong("user_id",0);
+                                getCholesterolRecords(uid);
                             } else
                                 Toast.makeText(getActivity(), "Please try again", Toast.LENGTH_SHORT).show();
                         }

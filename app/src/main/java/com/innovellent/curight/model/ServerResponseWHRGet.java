@@ -12,25 +12,25 @@ public class ServerResponseWHRGet<T> {
 
 
     @SerializedName("Code")
-    private Integer code;
+    private int code;
 
     @SerializedName("Results")
-     WhrList Results;
+    private T results;
+    //ArrayList<WhrList> results = new ArrayList<>();
 
-
-    public Integer getCode() {
+    public int getCode() {
         return code;
     }
 
-    public void setCode(Integer code) {
+    public void setCode(int code) {
         this.code = code;
     }
 
-    public WhrList getResults() {
-        return Results;
+    public T getResults() {
+        return results;
     }
 
-    public void setResults(WhrList results) {
-        Results = results;
+    public void setResults(T results) {
+        this.results = results;
     }
 }
