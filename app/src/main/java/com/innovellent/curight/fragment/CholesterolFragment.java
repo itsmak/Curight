@@ -81,6 +81,11 @@ public class CholesterolFragment extends Fragment implements View.OnClickListene
     RelativeLayout rlGraph;
     int i;
     GraphView line_graph;
+    String res_data,USER_ID;
+    JSONArray jsonarray_parent,jsonarray_child;
+    ArrayList<PROFILE> spinnerList=new ArrayList<PROFILE>();
+    PROFILE_SPINNER_ADAPTER customSpinnerAdapter3;
+    Spinner spUser;
     private String accessToken;
     private long userId;
     private TextView tvLDL, tvHDL;
@@ -88,11 +93,6 @@ public class CholesterolFragment extends Fragment implements View.OnClickListene
     private Button btnStatus;
     private ProgressDialog progressDialog;
     private GraphView lineGraph;
-    String res_data,USER_ID;
-    JSONArray jsonarray_parent,jsonarray_child;
-    ArrayList<PROFILE> spinnerList=new ArrayList<PROFILE>();
-    PROFILE_SPINNER_ADAPTER customSpinnerAdapter3;
-    Spinner spUser;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -197,10 +197,20 @@ public class CholesterolFragment extends Fragment implements View.OnClickListene
 
                     Log.e("", "profileResponse: listsize: " + result.size());
                     for (int i = 0; i < result.size(); i++) {
+                        String name = result.get(i).getName();
+                        String lastName = "";
+                        String firstName= "";
+                        if(name.split("\\w+").length>1){
 
+                            //lastName = name.substring(name.lastIndexOf(" ")+1);
+                            firstName = name.substring(0, name.lastIndexOf(' '));
+                        }
+                        else{
+                            firstName = name;
+                        }
                         USER_ID = result.get(i).getUserid();
                         //spinnerList.add(new PROFILE("","","",""));
-                        spinnerList.add(new PROFILE(result.get(i).getUserid(),result.get(i).getId(), result.get(i).getName(), result.get(i).getAge(), result.get(i).getRelationship()));
+                        spinnerList.add(new PROFILE(result.get(i).getUserid(),result.get(i).getId(), firstName, result.get(i).getAge(), result.get(i).getRelationship()));
                     }
                     getData2();
                     USER_ID = result.get(0).getUserid();

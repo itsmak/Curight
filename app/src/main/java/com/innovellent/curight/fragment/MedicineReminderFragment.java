@@ -51,6 +51,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MedicineReminderFragment extends Fragment implements View.OnClickListener{
 
+    private static final String TAG = ".Retro_MainActivity";
+    private static final String BASE_URL ="http://13.59.209.135:8090/diagnosticAPI/webapi/";
+    static String USER_ID,M_YEAR,M_MONTH,M_DAY,FINAL_DATE;
     RecyclerView recyclerView;
     HorizontalCalendar horizontalCalendar;
     ChangeMorningPreferenceDialog morningPreferenceDialog;
@@ -61,11 +64,8 @@ public class MedicineReminderFragment extends Fragment implements View.OnClickLi
     Spinner spItem;
     ImageView ivReminder;
     String[]spinner1={"John","Jobby","Suresh","Mahesh"};
-    private static final String TAG = ".Retro_MainActivity";
-    private static final String BASE_URL ="http://13.59.209.135:8090/diagnosticAPI/webapi/";
     ArrayList<PROFILE> spinnerList=new ArrayList<PROFILE>();
     PROFILE_SPINNER_ADAPTER customSpinnerAdapter3;
-    static String USER_ID,M_YEAR,M_MONTH,M_DAY,FINAL_DATE;
     int counter= 0;
     int position;
     MedicineReminderAdapter mAdapter;
@@ -188,10 +188,20 @@ public class MedicineReminderFragment extends Fragment implements View.OnClickLi
                     Log.e(TAG, "profileResponse: listsize: " +result.size());
                     for(int i=0;i<result.size();i++)
                     {
+                        String name = result.get(i).getName();
+                        String lastName = "";
+                        String firstName= "";
+                        if(name.split("\\w+").length>1){
 
+                            //lastName = name.substring(name.lastIndexOf(" ")+1);
+                            firstName = name.substring(0, name.lastIndexOf(' '));
+                        }
+                        else{
+                            firstName = name;
+                        }
                         USER_ID = result.get(i).getUserid();
                         //spinnerList.add(new PROFILE("","","",""));
-                        spinnerList.add(new PROFILE(result.get(i).getUserid(),result.get(i).getId(),result.get(i).getName(),result.get(i).getAge(),result.get(i).getRelationship()));
+                        spinnerList.add(new PROFILE(result.get(i).getUserid(),result.get(i).getId(),firstName,result.get(i).getAge(),result.get(i).getRelationship()));
                     }
                     getData2();
                     USER_ID = result.get(0).getUserid();

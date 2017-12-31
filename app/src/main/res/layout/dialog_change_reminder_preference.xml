@@ -1,93 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_marginTop="55dp"
-    android:paddingBottom="20dp"
-    android:background="@android:color/white"
     android:layout_height="wrap_content"
+    android:layout_marginTop="55dp"
+    android:background="@android:color/white"
+    android:paddingBottom="20dp"
     >
     <LinearLayout
         android:id="@+id/card_header"
-        android:padding="10dp"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
         <TextView
             android:id="@+id/tvAbout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="22dp"
             android:layout_gravity="center_horizontal"
             android:gravity="center_vertical|center_horizontal"
             android:text="Medi1"
             android:textAllCaps="false"
-            android:textColor="@color/colorPrimary" />
+            android:textColor="@color/colorPrimary"
+            android:textSize="22dp" />
 
     </LinearLayout>
 
 <TextView
     android:id="@+id/tvMedicine"
-    android:text="2mg"
-    android:layout_below="@+id/card_header"
-    android:textColor="@color/darkgray"
-    android:textAlignment="center"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" />
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/card_header"
+    android:text="2mg"
+    android:textAlignment="center"
+    android:textColor="@color/darkgray" />
 
     <TextView
         android:id="@+id/tv_date"
-        android:text="12-08-2017"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/tvMedicine"
-        android:textColor="@color/darkgray"
+        android:text="12-08-2017"
         android:textAlignment="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:textColor="@color/darkgray" />
     <LinearLayout
-        android:orientation="horizontal"
-        android:weightSum="100"
         android:id="@+id/llButton"
-        android:layout_below="@+id/tv_date"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_date"
+        android:orientation="horizontal"
+        android:weightSum="100">
         <Button
-            android:background="@color/colorAccent"
             android:id="@+id/btnTake"
-            android:text="@string/take"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/tvMedicine"
-            android:layout_marginTop="30dp"
-            android:textSize="20dp"
-            android:textColor="@android:color/white"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_width="0dp"
+            android:layout_marginTop="30dp"
             android:layout_weight="50"
-            android:layout_height="wrap_content" />
-        <Button
             android:background="@color/colorAccent"
-            android:id="@+id/btnSkip"
-            android:text="@string/skip"
-            android:layout_below="@+id/tvMedicine"
-            android:layout_marginTop="30dp"
-            android:textSize="20dp"
+            android:text="@string/take"
             android:textColor="@android:color/white"
+            android:textSize="20dp" />
+        <Button
+            android:id="@+id/btnSkip"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvMedicine"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_width="0dp"
+            android:layout_marginTop="30dp"
             android:layout_weight="50"
-            android:layout_height="wrap_content" />
+            android:background="@color/colorAccent"
+            android:text="@string/skip"
+            android:textColor="@android:color/white"
+            android:textSize="20dp" />
 
     </LinearLayout>
 
-    <Button
-        android:background="@color/colorAccent"
+    <ImageButton
         android:id="@+id/btnClose"
-        android:text="@string/close"
-        android:layout_below="@+id/llButton"
-        android:layout_marginTop="30dp"
-        android:textSize="20dp"
-        android:textColor="@android:color/white"
-        android:layout_marginLeft="70dp"
-        android:layout_marginRight="70dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_margin="5dp"
+        android:backgroundTint="@color/white"
+        android:src="@drawable/ic_close" />
 </RelativeLayout>

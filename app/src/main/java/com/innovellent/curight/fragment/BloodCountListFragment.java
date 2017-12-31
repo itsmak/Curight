@@ -80,10 +80,10 @@ public class BloodCountListFragment extends Fragment implements View.OnClickList
     String USER_ID;
     ArrayList<PROFILE> spinnerList=new ArrayList<PROFILE>();
     PROFILE_SPINNER_ADAPTER customSpinnerAdapter3;
-    private DatePickerDialog datePickerDialog;
     Spinner spUser;
     int uid;
     ArrayList<BloodCount> arrayList=new ArrayList<BloodCount >();
+    private DatePickerDialog datePickerDialog;
     public BloodCountListFragment() {
 
     }
@@ -229,9 +229,20 @@ public class BloodCountListFragment extends Fragment implements View.OnClickList
                     Log.e("", "profileResponse: listsize: " + result.size());
                     for (int i = 0; i < result.size(); i++) {
 
+                        String name = result.get(i).getName();
+                        String lastName = "";
+                        String firstName= "";
+                        if(name.split("\\w+").length>1){
+
+                            //lastName = name.substring(name.lastIndexOf(" ")+1);
+                            firstName = name.substring(0, name.lastIndexOf(' '));
+                        }
+                        else{
+                            firstName = name;
+                        }
                         USER_ID = result.get(i).getUserid();
                         //spinnerList.add(new PROFILE("","","",""));
-                        spinnerList.add(new PROFILE(result.get(i).getUserid(),result.get(i).getId(), result.get(i).getName(), result.get(i).getAge(), result.get(i).getRelationship()));
+                        spinnerList.add(new PROFILE(result.get(i).getUserid(),result.get(i).getId(), firstName, result.get(i).getAge(), result.get(i).getRelationship()));
                     }
                     getData2();
                     USER_ID = result.get(0).getUserid();

@@ -18,56 +18,15 @@ import java.util.ArrayList;
 
 public class MedicineReminderAdapter extends RecyclerView.Adapter<MedicineReminderAdapter.MyViewHolder> {
 
+    private static final String TAG = ".Retro_MainActivity";
+    private final OnTimeClickListener listener;
+    private final int position;
     private ArrayList<Medicine> arrayList = new ArrayList<>();
     private Context mContext;
     private String state;
     private TextView tvTime;
     private ImageView ivmorningtimeChange;
-    private final OnTimeClickListener listener;
-    private final int position;
-    private static final String TAG = ".Retro_MainActivity";
     private ChangeMorningPreferenceDialog changeMorningPreferenceDialog;
-
-    public interface OnTimeClickListener {
-
-        void onMorningClick(Medicine item_m,int position);
-        void onNoonClick(Medicine item_n, int position);
-        void onEveningClick(Medicine item_e, int position);
-        void onNightClick(Medicine item_ngt, int position);
-    }
-
-    class MyViewHolder extends RecyclerView.ViewHolder {
-
-        TextView tvMedicineName1,tvMedicineMeasure,tv_time,tvMorninglabel,tvTimeNoon,tvNoonlabel,tvTimeEvening,tvEveninglabel,tvTimetNight,tvNightlabel;
-        ImageView ivmorningtimeChange,ivnoonChange,tvEveningChange,tvNightLabel,deleteBtn,ivMorning,tvNoon,tvEvening,tvNight;
-        RelativeLayout morning_rl,noon_rl,evening_rl,night_rl;
-        MyViewHolder(View view) {
-            super(view);
-            morning_rl = (RelativeLayout) view.findViewById(R.id.morning_rl);
-            noon_rl = (RelativeLayout) view.findViewById(R.id.noon_rl);
-            evening_rl = (RelativeLayout) view.findViewById(R.id.evening_rl);
-            night_rl = (RelativeLayout) view.findViewById(R.id.night_rl);
-            tvMedicineName1 = (TextView) view.findViewById(R.id.tvMedicineName1);
-            tvMedicineMeasure = (TextView) view.findViewById(R.id.tvMedicineMeasure);
-            tv_time = (TextView) view.findViewById(R.id.tv_time);
-            tvMorninglabel = (TextView) view.findViewById(R.id.tvMorninglabel);
-            tvTimeNoon = (TextView) view.findViewById(R.id.tvTimeNoon);
-            tvNoonlabel = (TextView) view.findViewById(R.id.tvNoonlabel);
-            tvTimeEvening = (TextView) view.findViewById(R.id.tvTimeEvening);
-            tvEveninglabel = (TextView) view.findViewById(R.id.tvEveninglabel);
-            tvTimetNight = (TextView) view.findViewById(R.id.tvTimetNight);
-            tvNightlabel = (TextView) view.findViewById(R.id.tvNightlabel);
-            ivmorningtimeChange=(ImageView)view.findViewById(R.id.ivmorningtimeChange);
-            ivnoonChange = (ImageView)view.findViewById(R.id.ivnoonChange);
-            tvEveningChange=(ImageView)view.findViewById(R.id.tvEveningChange);
-            tvNightLabel =(ImageView)view.findViewById(R.id.tvNightLabel);
-            deleteBtn = (ImageView) view.findViewById(R.id.delete_btn);
-            ivMorning = (ImageView) view.findViewById(R.id.ivMorning);
-            tvNoon = (ImageView) view.findViewById(R.id.tvNoon);
-            tvEvening = (ImageView) view.findViewById(R.id.tvEvening);
-            tvNight = (ImageView) view.findViewById(R.id.tvNight);
-        }
-    }
 
     public MedicineReminderAdapter(Context context,ArrayList<Medicine> arrayList,int position,OnTimeClickListener listener) {
         mContext = context;
@@ -155,13 +114,13 @@ public class MedicineReminderAdapter extends RecyclerView.Adapter<MedicineRemind
         }
         if(arrayList.get(position).getNighttime().equals(""))
         {
-            holder.tvNight.setImageResource(R.drawable.ic_evening_black);
+            holder.tvNight.setImageResource(R.drawable.ic_night_black);
             holder.tvTimetNight.setTextColor(Color.parseColor("#bbbdbf"));
             holder.tvNightlabel.setTextColor(Color.parseColor("#bbbdbf"));
             holder.tvNightLabel.setVisibility(View.GONE);
         }else {
             holder.tvTimetNight.setText(arrayList.get(position).getNighttime());
-            holder.tvNight.setImageResource(R.drawable.ic_evening_blue);
+            holder.tvNight.setImageResource(R.drawable.ic_night_blue);
             holder.tvTimetNight.setTextColor(Color.parseColor("#0075b2"));
             holder.tvNightlabel.setTextColor(Color.parseColor("#0075b2"));
             holder.tvNightLabel.setVisibility(View.VISIBLE);
@@ -242,5 +201,46 @@ public class MedicineReminderAdapter extends RecyclerView.Adapter<MedicineRemind
     @Override
     public int getItemCount() {
         return arrayList.size();
+    }
+
+    public interface OnTimeClickListener {
+
+        void onMorningClick(Medicine item_m,int position);
+        void onNoonClick(Medicine item_n, int position);
+        void onEveningClick(Medicine item_e, int position);
+        void onNightClick(Medicine item_ngt, int position);
+    }
+
+    class MyViewHolder extends RecyclerView.ViewHolder {
+
+        TextView tvMedicineName1,tvMedicineMeasure,tv_time,tvMorninglabel,tvTimeNoon,tvNoonlabel,tvTimeEvening,tvEveninglabel,tvTimetNight,tvNightlabel;
+        ImageView ivmorningtimeChange,ivnoonChange,tvEveningChange,tvNightLabel,deleteBtn,ivMorning,tvNoon,tvEvening,tvNight;
+        RelativeLayout morning_rl,noon_rl,evening_rl,night_rl;
+        MyViewHolder(View view) {
+            super(view);
+            morning_rl = (RelativeLayout) view.findViewById(R.id.morning_rl);
+            noon_rl = (RelativeLayout) view.findViewById(R.id.noon_rl);
+            evening_rl = (RelativeLayout) view.findViewById(R.id.evening_rl);
+            night_rl = (RelativeLayout) view.findViewById(R.id.night_rl);
+            tvMedicineName1 = (TextView) view.findViewById(R.id.tvMedicineName1);
+            tvMedicineMeasure = (TextView) view.findViewById(R.id.tvMedicineMeasure);
+            tv_time = (TextView) view.findViewById(R.id.tv_time);
+            tvMorninglabel = (TextView) view.findViewById(R.id.tvMorninglabel);
+            tvTimeNoon = (TextView) view.findViewById(R.id.tvTimeNoon);
+            tvNoonlabel = (TextView) view.findViewById(R.id.tvNoonlabel);
+            tvTimeEvening = (TextView) view.findViewById(R.id.tvTimeEvening);
+            tvEveninglabel = (TextView) view.findViewById(R.id.tvEveninglabel);
+            tvTimetNight = (TextView) view.findViewById(R.id.tvTimetNight);
+            tvNightlabel = (TextView) view.findViewById(R.id.tvNightlabel);
+            ivmorningtimeChange=(ImageView)view.findViewById(R.id.ivmorningtimeChange);
+            ivnoonChange = (ImageView)view.findViewById(R.id.ivnoonChange);
+            tvEveningChange=(ImageView)view.findViewById(R.id.tvEveningChange);
+            tvNightLabel =(ImageView)view.findViewById(R.id.tvNightLabel);
+            deleteBtn = (ImageView) view.findViewById(R.id.delete_btn);
+            ivMorning = (ImageView) view.findViewById(R.id.ivMorning);
+            tvNoon = (ImageView) view.findViewById(R.id.tvNoon);
+            tvEvening = (ImageView) view.findViewById(R.id.tvEvening);
+            tvNight = (ImageView) view.findViewById(R.id.tvNight);
+        }
     }
 }

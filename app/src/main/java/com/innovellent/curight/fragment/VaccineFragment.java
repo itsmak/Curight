@@ -59,6 +59,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by sagar on 10/11/2017.
  */
 public class VaccineFragment extends Fragment implements View.OnClickListener {
+    //ImageView ivAdd1,ivAdd2,ivAdd3,ivBack;
+    private static final String TAG = "CuRight";
+    private static final String BASE_URL = "http://13.59.209.135:8090/diagnosticAPI/webapi/";
     RecyclerView remainder_rclrvw;
     VaccineAdapter mAdapter;
     Spinner spYear;
@@ -67,9 +70,6 @@ public class VaccineFragment extends Fragment implements View.OnClickListener {
     LinearLayoutManager layoutManager;
     VaccineReminderYearDialog vaccineReminderYearDialog;
     AddRemainder_FRAGMENT_DAILOG vaccineadddailog;
-    //ImageView ivAdd1,ivAdd2,ivAdd3,ivBack;
-    private static final String TAG = "CuRight";
-    private static final String BASE_URL = "http://13.59.209.135:8090/diagnosticAPI/webapi/";
     String USER_ID;
     PROFILE_SPINNER_ADAPTER customSpinnerAdapter3;
    //VaccineAddReminderDialog vaccineAddReminderDialog;
@@ -162,10 +162,20 @@ public class VaccineFragment extends Fragment implements View.OnClickListener {
                     Log.e(TAG, "profileResponse: listsize: " + result.size());
                     for (int i = 0; i < result.size(); i++)
                     {
+                        String name = result.get(i).getName();
+                        String lastName = "";
+                        String firstName= "";
+                        if(name.split("\\w+").length>1){
 
+                            //lastName = name.substring(name.lastIndexOf(" ")+1);
+                            firstName = name.substring(0, name.lastIndexOf(' '));
+                        }
+                        else{
+                            firstName = name;
+                        }
                         USER_ID = result.get(i).getUserid();
                         //spinnerList.add(new PROFILE("","","",""));
-                        spinnerList.add(new PROFILE(result.get(i).getUserid(),result.get(i).getId(), result.get(i).getName(), result.get(i).getAge(), result.get(i).getRelationship()));
+                        spinnerList.add(new PROFILE(result.get(i).getUserid(),result.get(i).getId(), firstName, result.get(i).getAge(), result.get(i).getRelationship()));
                     }
                     getData2();
                     USER_ID = result.get(0).getUserid();

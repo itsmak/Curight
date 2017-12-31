@@ -78,10 +78,10 @@ public class BMIFragment extends Fragment implements View.OnClickListener {
     ArrayList<BMI> bmiArrayList = new ArrayList<BMI>();
     RelativeLayout rlGraph;
     JSONArray jsonArray_parent,jsonarray_child;
+    Spinner spUser;
     private String accessToken;
     private long userId;
     private ProgressDialog progressDialog;
-    Spinner spUser;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -204,10 +204,20 @@ public class BMIFragment extends Fragment implements View.OnClickListener {
 
                     Log.e("", "profileResponse: listsize: " + result.size());
                     for (int i = 0; i < result.size(); i++) {
+                        String name = result.get(i).getName();
+                        String lastName = "";
+                        String firstName= "";
+                        if(name.split("\\w+").length>1){
 
+                            //lastName = name.substring(name.lastIndexOf(" ")+1);
+                            firstName = name.substring(0, name.lastIndexOf(' '));
+                        }
+                        else{
+                            firstName = name;
+                        }
                         USER_ID = result.get(i).getUserid();
                         //spinnerList.add(new PROFILE("","","",""));
-                        spinnerList.add(new PROFILE(result.get(i).getUserid(),result.get(i).getId(), result.get(i).getName(), result.get(i).getAge(), result.get(i).getRelationship()));
+                        spinnerList.add(new PROFILE(result.get(i).getUserid(),result.get(i).getId(), firstName, result.get(i).getAge(), result.get(i).getRelationship()));
                     }
                     getData2();
                     USER_ID = result.get(0).getUserid();

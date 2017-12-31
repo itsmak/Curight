@@ -70,6 +70,7 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
     ServerResponseOverviewByDC serverResponseOverviewByDC;
     ServerResponsePhotosByDC serverResponsePhotosByDC;
     TextView input;
+    View input2;
     SliderLayout sliderLayout;
     DoctorByDC doctorByDC;
     ArrayList<DoctorByDC> doctorByDCArrayList = new ArrayList<DoctorByDC>();
@@ -349,13 +350,18 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
                 sv.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
                 LinearLayout layout1 = new LinearLayout(mContext);
                 LinearLayout.LayoutParams layout = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                layout.setMargins(1, 1, 1, 1);
+                layout.setMargins(1, 10, 1, 10);
+//                View view= new View(mContext);
+//                view.setMinimumWidth(LinearLayout.LayoutParams.MATCH_PARENT);
+//                view.setBackgroundColor(Color.BLACK);
+//                view.setMinimumHeight(2);
                 divider.setLayoutParams(layout);
-                divider.setBackgroundColor(Color.WHITE);
+                divider.setBackgroundColor(Color.BLACK);
+
                 layout1.setOrientation(LinearLayout.VERTICAL);
 
                 sv.addView(layout1);
-
+               // sv.addView(layout1,view);
 
                 if("200".equals(code)){
                     final Dialog dialog = new Dialog(mContext);
@@ -363,7 +369,7 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
                     LinearLayout ll = (LinearLayout)dialog.findViewById(R.id.ll_gettestbydc);
                     ImageView img_clsoedialog = (ImageView)dialog.findViewById(R.id.img_closedialog);
 
-                    for (int i = 0; i < serverResponseGetTestDetail.getResults().size(); i++) {
+                    for (int i = 0; i < 4; i++) {
                         testcode = serverResponseGetTestDetail.getResults().get(i).getTestcode();
                         testname = serverResponseGetTestDetail.getResults().get(i).getTestname();
                         Log.d("TestName==", testname);
@@ -372,13 +378,17 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
                         desc = serverResponseGetTestDetail.getResults().get(i).getDescription();
                         testinst = serverResponseGetTestDetail.getResults().get(i).getTestinstruction();
 
-                       input = new TextView(mContext);
-                        input.setPadding(5, 5, 5, 5);
+                        input = new TextView(mContext);
+                        input.setPadding(5, 10, 5, 10);
                         input.setText(testname);
                         input.setTypeface(input.getTypeface(), Typeface.BOLD);
-
-
+                        input2 = new View(mContext);
+                        input2.setMinimumWidth(LinearLayout.LayoutParams.MATCH_PARENT);
+                        input2.setBackgroundColor(Color.GRAY);
+                        input2.setMinimumHeight(2);
                         layout1.addView(input);
+                       // layout1.removeView(view);
+                        layout1.addView(input2);
                     }
 
                     ll.addView(sv);
@@ -533,6 +543,12 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
         });
     }
 
+    public static class MyDialogFragment extends DialogFragment{
+
+        private RecyclerView mRecyclerView;
+        private MyRecyclerAdapter_Dialog adapter;
+    }
+
     class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvCenterName;
@@ -562,12 +578,6 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
             btnTest = (Button)view.findViewById(R.id.btnTest);
 
         }
-    }
-
-    public static class MyDialogFragment extends DialogFragment{
-
-        private RecyclerView mRecyclerView;
-        private MyRecyclerAdapter_Dialog adapter;
     }
 
 

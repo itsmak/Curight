@@ -87,6 +87,9 @@ import static com.innovellent.curight.utility.Constants.CURIGHT_TAG;
 
 public class WHRFragment extends Fragment implements View.OnClickListener{
 
+    private static final String TAG = "CuRight";
+    private static final String BASE_URL = "http://13.59.209.135:8090/diagnosticAPI/webapi/";
+    public ImageView ivCancel;
     TextView tvBP,tvList,tvTrends;
     ImageView ivWhr,ivAdd,ivGraph;
     RelativeLayout rlStatus;
@@ -107,27 +110,24 @@ public class WHRFragment extends Fragment implements View.OnClickListener{
     WhrList report;
     WHR_LIST record;
     ProgressDialog progressDialog;
-    private long userId;
     JSONObject jsonObject2,jsonObject1;
     int whrid;
     String about;
-    private String date, waist, hip;
-    private RelativeLayout dateButton, timeButton;
-    private EditText etDate,  etWaist, etHip;
-    private Button btnSubmit_whr;
-    private static final String TAG = "CuRight";
-    private static final String BASE_URL = "http://13.59.209.135:8090/diagnosticAPI/webapi/";
     Context context;
     String USER_ID,res_data;
     ArrayList<PROFILE> spinnerList=new ArrayList<PROFILE>();
     ArrayList<WHR> whr_arraylist = new ArrayList<WHR>();
     PROFILE_SPINNER_ADAPTER customSpinnerAdapter3;
-    public ImageView ivCancel;
     Spinner spUser;
     int uid;
     ServerResponseWHRGet serverResponseWHRGet;
     JSONArray jsonArray_child;
     JSONArray jsonArray_parent;
+    private long userId;
+    private String date, waist, hip;
+    private RelativeLayout dateButton, timeButton;
+    private EditText etDate,  etWaist, etHip;
+    private Button btnSubmit_whr;
     private DatePickerDialog datePickerDialog;
     public WHRFragment() {
 
@@ -252,9 +252,20 @@ public class WHRFragment extends Fragment implements View.OnClickListener{
                     Log.e("", "profileResponse: listsize: " + result.size());
                     for (int i = 0; i < result.size(); i++) {
 
+                        String name = result.get(i).getName();
+                        String lastName = "";
+                        String firstName= "";
+                        if(name.split("\\w+").length>1){
+
+                            //lastName = name.substring(name.lastIndexOf(" ")+1);
+                            firstName = name.substring(0, name.lastIndexOf(' '));
+                        }
+                        else{
+                            firstName = name;
+                        }
                         USER_ID = result.get(i).getUserid();
                         //spinnerList.add(new PROFILE("","","",""));
-                        spinnerList.add(new PROFILE(result.get(i).getUserid(),result.get(i).getId(), result.get(i).getName(), result.get(i).getAge(), result.get(i).getRelationship()));
+                        spinnerList.add(new PROFILE(result.get(i).getUserid(),result.get(i).getId(), firstName, result.get(i).getAge(), result.get(i).getRelationship()));
 
                     }
                     getData2();
