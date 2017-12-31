@@ -1,11 +1,13 @@
 package com.innovellent.curight.adapter;
 
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,6 +32,7 @@ import com.innovellent.curight.activities.SummaryDetailsActivity;
 import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.Center;
 import com.innovellent.curight.model.DiagnosticCenterDoctorByDC;
+import com.innovellent.curight.model.DoctorByDC;
 import com.innovellent.curight.model.GetTestDetailCenter;
 import com.innovellent.curight.model.OverviewCenterByDC;
 import com.innovellent.curight.model.PhotosCenterByDC;
@@ -62,11 +65,16 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
     String summary;
     String testcode,testname,testknownas,dept,desc,testinst;
     ServerResponseDoctorByDC serverResponseDoctorByDC;
+    ArrayList<ServerResponseDoctorByDC> serverResponseDoctorByDCArrayList = new ArrayList<ServerResponseDoctorByDC>();
     ServerResponseGetTestDetail serverResponseGetTestDetail;
     ServerResponseOverviewByDC serverResponseOverviewByDC;
     ServerResponsePhotosByDC serverResponsePhotosByDC;
     TextView input;
     SliderLayout sliderLayout;
+    DoctorByDC doctorByDC;
+    ArrayList<DoctorByDC> doctorByDCArrayList = new ArrayList<DoctorByDC>();
+    RecyclerView recyclerView;
+    MyRecyclerAdapter_Dialog myRecyclerAdapter_dialog;
     HashMap<String,String> Hash_file_maps ;
     private ArrayList<Center> arrayList = new ArrayList<Center>();
     private Context mContext;
@@ -218,6 +226,10 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
         holder.btnDoctors.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                myRecyclerAdapter_dialog=new MyRecyclerAdapter_Dialog(mContext,doctorByDCArrayList);
+
+                doctorByDCArrayList.clear();
+                myRecyclerAdapter_dialog.notifyDataSetChanged();
 
                 getdoctorbydc(position);
 
@@ -279,34 +291,20 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
                 serverResponseDoctorByDC =(ServerResponseDoctorByDC) response.body();
                 String code = serverResponseDoctorByDC.getCode();
 
+                Dialog dialog = new Dialog(mContext);
+                dialog.setContentView(R.layout.dialog_doctorbydc_main);
+                recyclerView = (RecyclerView)dialog.findViewById(R.id.recycler_view_doctotbydc);
                 if ("200".equals(code)) {
                     for (int i = 0; i < serverResponseDoctorByDC.getResults().size(); i++) {
-                         doctorname = serverResponseDoctorByDC.getResults().get(i).getDoctorname();
-                         spec = serverResponseDoctorByDC.getResults().get(i).getSpecialization();
-                         email = serverResponseDoctorByDC.getResults().get(i).getEmail();
-                         normalworkingdays = serverResponseDoctorByDC.getResults().get(i).getNormalworkingschedule();
-                         weekendworkingdays = serverResponseDoctorByDC.getResults().get(i).getWeekendworkingschedule();
-                         mobile = serverResponseDoctorByDC.getResults().get(i).getMobile();
-                         address = serverResponseDoctorByDC.getResults().get(i).getAddresscentre();
+                        doctorByDC=serverResponseDoctorByDC.getResults().get(i);
+                        doctorByDCArrayList.add(doctorByDC);
                     }
 
-                    Dialog dialog = new Dialog(mContext);
-                    dialog.setContentView(R.layout.dialog_doctorbydc);
-
-                    doctorname_doctorbydc = (TextView)dialog.findViewById(R.id.doctorname_doctorbydc);
-                    specialization_doctorbydc = (TextView)dialog.findViewById(R.id.specialization_doctorbydc);
-                    tvemail_doctorbydc = (TextView)dialog.findViewById(R.id.tvemail_doctorbydc);
-                    tvtime_doctorbydc = (TextView)dialog.findViewById(R.id.tvtime_doctorbydc);
-                    tvmobile_doctorbydc = (TextView)dialog.findViewById(R.id.tvmobile_doctorbydc);
-                    tvaddress_doctorbydc = (TextView)dialog.findViewById(R.id.tvaddress_doctorbydc);
 
 
-                    doctorname_doctorbydc.setText(doctorname);
-                    specialization_doctorbydc.setText(spec);
-                    tvemail_doctorbydc.setText("Email:"+" "+email);
-                    tvtime_doctorbydc.setText("Time:"+" "+normalworkingdays+" "+weekendworkingdays);
-                    tvmobile_doctorbydc.setText("Mobile:"+" "+mobile);
-                    tvaddress_doctorbydc.setText("Address:"+" "+address);
+                    myRecyclerAdapter_dialog=new MyRecyclerAdapter_Dialog(mContext,doctorByDCArrayList);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
+                    recyclerView.setAdapter(myRecyclerAdapter_dialog);
 
                     //dialog.create();
                     dialog.show();
@@ -321,6 +319,9 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
             }
         });
     }
+
+
+
 
     //gettestbydc api
     private void gettestbydc(int pos){
@@ -563,6 +564,11 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
         }
     }
 
+    public static class MyDialogFragment extends DialogFragment{
+
+        private RecyclerView mRecyclerView;
+        private MyRecyclerAdapter_Dialog adapter;
+    }
 
 
 }

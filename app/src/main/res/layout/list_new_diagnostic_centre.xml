@@ -13,7 +13,7 @@
                 android:layout_marginTop="5dp"
                 android:text="Appolo Hospital"
                 android:textAlignment="center"
-                android:textColor=" #03a9f6"
+                android:textColor="#03a9f6"
                 android:textSize="15dp"
                 android:textStyle="bold" />
 

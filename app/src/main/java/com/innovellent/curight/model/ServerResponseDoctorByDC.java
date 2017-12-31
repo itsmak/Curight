@@ -27,9 +27,9 @@ public class ServerResponseDoctorByDC {
         Results = results;
     }
 
-    public ServerResponseDoctorByDC(String code, ArrayList<DoctorByDC> results) {
+    /*public ServerResponseDoctorByDC(String code, ArrayList<DoctorByDC> results) {
 
         Code = code;
         Results = results;
-    }
+    }*/
 }
