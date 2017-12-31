@@ -43,6 +43,12 @@ public class Add_Diagnostictest_Adapter extends RecyclerView.Adapter<Add_Diagnos
     public void onBindViewHolder(final Add_Diagnostictest_Adapter.MyViewHolder holder, final int position) {
 
         holder.tvtestname.setText(t_arrayList.get(position).getTestName());
+        if(t_arrayList.get(position).getTestchoosen().equalsIgnoreCase("Y"))
+        {
+            holder.testCheckBox.setChecked(true);
+        }else {
+            holder.testCheckBox.setChecked(false);
+        }
         //holder.tvdescription.setText(t_arrayList.get(position).getDescription());
     }
     @Override

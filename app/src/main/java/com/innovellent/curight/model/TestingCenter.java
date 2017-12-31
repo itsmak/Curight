@@ -6,18 +6,18 @@ package com.innovellent.curight.model;
 
 public class TestingCenter {
 
-    private String testid;
+    private int testid;
 
-    public String getTestid() {
-        return testid;
-    }
+    public TestingCenter(int testid) {
 
-    public void setTestid(String testid) {
         this.testid = testid;
     }
 
-    public TestingCenter(String testid) {
+    public int getTestid() {
+        return testid;
+    }
 
+    public void setTestid(int testid) {
         this.testid = testid;
     }
 }

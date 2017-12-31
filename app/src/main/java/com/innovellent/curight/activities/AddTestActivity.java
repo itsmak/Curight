@@ -53,7 +53,7 @@ public class AddTestActivity extends AppCompatActivity implements View.OnClickLi
     Add_Diagnostictest_Adapter mAdapter;
     Button btnSubmit;
     ImageView ivBack;
-    EditText etSearch;
+    EditText etSearch_addtest;
     ArrayList<String> arrayList=new ArrayList<String>();
     Toolbar toolbar;
     TextView tvClinicName,location;
@@ -91,15 +91,18 @@ public class AddTestActivity extends AppCompatActivity implements View.OnClickLi
         iniClick();
         getData();
         try {
-            etSearch.addTextChangedListener(new TextWatcher() {
+            etSearch_addtest.setClickable(true);
+            etSearch_addtest.clearFocus();
+            etSearch_addtest.addTextChangedListener(new TextWatcher() {
                 public void afterTextChanged(Editable s) {
+                    filter(s.toString());
                 }
 
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 }
 
                 public void onTextChanged(CharSequence query, int start, int before, int count) {
-                    query = etSearch.getText().toString().toString().toLowerCase();
+                    query = etSearch_addtest.getText().toString().toString().toLowerCase();
 
                     final ArrayList<String> filteredList = new ArrayList<>();
 
@@ -131,7 +134,7 @@ public class AddTestActivity extends AppCompatActivity implements View.OnClickLi
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
        // ivBack=(ImageView)findViewById(R.id.ivBack);
-        etSearch=(EditText)findViewById(R.id.etSearch);
+        etSearch_addtest=(EditText)findViewById(R.id.etSearch_addtest);
         recycler_view=(RecyclerView)findViewById(R.id.recycler_view);
         btnSubmit=(Button)findViewById(R.id.btnSubmit);
         tvClinicName = (TextView) findViewById(R.id.tvClinicName);
@@ -202,8 +205,8 @@ public class AddTestActivity extends AppCompatActivity implements View.OnClickLi
                       if (testArrayList.size() != 0) {
                           mAdapter = new Add_Diagnostictest_Adapter(AddTestActivity.this,t_arraylist);
                       //  mAdapter = new DiagnosticTestAdapter(AddTestActivity.this, testArrayList);
-//                        recycler_view.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-//                        recycler_view.setAdapter(mAdapter);
+                        recycler_view.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+                        recycler_view.setAdapter(mAdapter);
                       }
                   }
               }else {

@@ -46,26 +46,22 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by Mak on 12/5/2017.
  */
 public class AddRemainder_FRAGMENT_DAILOG extends Dialog {
-    private Vaccine item;
+    private static final String BASE_URL = "http://13.59.209.135:8090/diagnosticAPI/webapi/";
     public AddRemainder_FRAGMENT_DAILOG.AddRemainder_FRAGMENT_DAILOGClickListener listener;
     Context context;
  //   int userid;
     String ageinmonth, Duration_age;
-    private static final String BASE_URL = "http://13.59.209.135:8090/diagnosticAPI/webapi/";
-    private int mYear, mMonth, mDay;
     String VACCINE_NAME, DUE_ON, TAKEN_ON, GIVENBY, ADD_DETAILS, REMAINDER1, REMAINDER2;
     TextView tvnamelabel;
     EditText addvaccine_name, addDueOn_edttxt, addTakeOn_edtxt, addGivenBy_edtxt, addDetails_edttxt, addReminder1_txtvw, addReminder2_txtvw;
+    private Vaccine item;
+    private int mYear, mMonth, mDay;
 
     public AddRemainder_FRAGMENT_DAILOG(Context context, Vaccine item, AddRemainder_FRAGMENT_DAILOG.AddRemainder_FRAGMENT_DAILOGClickListener listener) {
         super(context);
         this.context = context;
         this.item = item;
         this.listener = listener;
-    }
-
-    public interface AddRemainder_FRAGMENT_DAILOGClickListener {
-        void onSubmit(Vaccine updatedItem, String remainder1, String remainder2);
     }
 
     @Override
@@ -82,7 +78,7 @@ public class AddRemainder_FRAGMENT_DAILOG extends Dialog {
         addReminder1_txtvw = (EditText) findViewById(R.id.addReminder1_txtvw);
         addReminder2_txtvw = (EditText) findViewById(R.id.addReminder2_txtvw);
         tvnamelabel = (TextView) findViewById(R.id.tvnamelabel);
-        tvnamelabel.setText(item.getDuration_age());
+        tvnamelabel.setText("Add Vaccine");
 
         addTakeOn_edtxt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,6 +130,46 @@ public class AddRemainder_FRAGMENT_DAILOG extends Dialog {
 
     }
 
+    public void selectDate(final EditText setedttxt) {
+        final Calendar c = Calendar.getInstance();
+        mYear = c.get(Calendar.YEAR);
+        mMonth = c.get(Calendar.MONTH);
+        mDay = c.get(Calendar.DAY_OF_MONTH);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(context,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year,
+                                          int monthOfYear, int dayOfMonth) {
+
+
+                        GregorianCalendar GregorianCalendar = new GregorianCalendar(year, monthOfYear, dayOfMonth - 1);
+
+                        int dayOfWeek = GregorianCalendar.get(GregorianCalendar.DAY_OF_WEEK);
+
+                        String day = "", monthYear = "";
+                        int month = monthOfYear + 1;
+                        if (dayOfMonth >= 1 && dayOfMonth <= 9) {
+                            day = "0" + dayOfMonth;
+                        } else {
+                            day = dayOfMonth + "";
+                        }
+                        if (month >= 1 && month <= 9) {
+                            monthYear = "0" + month;
+                        } else {
+                            monthYear = month + "";
+                        }
+
+                        String date = day + "-" + monthYear + "-" + year;
+                        setedttxt.setText(dayOfMonth + "/" + (monthYear) + "/" + year);
+
+
+                    }
+                }, mYear, mMonth, mDay);
+
+
+        datePickerDialog.show();
+    }
+
 //    private void addapical(String VACCINE_NAME, String DUE_ON, String TAKEN_ON, String GIVENBY, String ADD_DETAILS, String REMAINDER1, String REMAINDER2) {
 //
 ////        listener.onSubmit();
@@ -178,44 +214,8 @@ public class AddRemainder_FRAGMENT_DAILOG extends Dialog {
 //
 //    }
 
-    public void selectDate(final EditText setedttxt) {
-        final Calendar c = Calendar.getInstance();
-        mYear = c.get(Calendar.YEAR);
-        mMonth = c.get(Calendar.MONTH);
-        mDay = c.get(Calendar.DAY_OF_MONTH);
-        DatePickerDialog datePickerDialog = new DatePickerDialog(context,
-                new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year,
-                                          int monthOfYear, int dayOfMonth) {
-
-
-                        GregorianCalendar GregorianCalendar = new GregorianCalendar(year, monthOfYear, dayOfMonth - 1);
-
-                        int dayOfWeek = GregorianCalendar.get(GregorianCalendar.DAY_OF_WEEK);
-
-                        String day = "", monthYear = "";
-                        int month = monthOfYear + 1;
-                        if (dayOfMonth >= 1 && dayOfMonth <= 9) {
-                            day = "0" + dayOfMonth;
-                        } else {
-                            day = dayOfMonth + "";
-                        }
-                        if (month >= 1 && month <= 9) {
-                            monthYear = "0" + month;
-                        } else {
-                            monthYear = month + "";
-                        }
-
-                        String date = day + "-" + monthYear + "-" + year;
-                        setedttxt.setText(dayOfMonth + "/" + (monthYear) + "/" + year);
-
-
-                    }
-                }, mYear, mMonth, mDay);
-
-
-        datePickerDialog.show();
+    public interface AddRemainder_FRAGMENT_DAILOGClickListener {
+        void onSubmit(Vaccine updatedItem, String remainder1, String remainder2);
     }
 
 }

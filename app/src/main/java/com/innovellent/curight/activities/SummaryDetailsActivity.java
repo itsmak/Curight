@@ -16,8 +16,10 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.innovellent.curight.LoginActivity;
@@ -50,7 +52,8 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
     RecyclerView recycler_view;
     SummaryAdapter mAdapter;
     ImageView ivBack;
-    TextView startDate,endDate,tvCenterName,tvLoc;
+    TextView tvCenterName,tvLoc;
+    EditText startDate,endDate;
     Button btnProcceed,btnAddTest;
     CheckBox cbHomePickup;
     //ArrayList<String> newArrayList = new ArrayList<String>();
@@ -95,8 +98,8 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
     }
     public void init(){
         toolbar=(Toolbar)findViewById(R.id.toolbar);
-        startDate =(TextView)findViewById(R.id.startDate);
-        endDate = (TextView) findViewById(R.id.endDate);
+        startDate =(EditText)findViewById(R.id.startDate);
+        endDate = (EditText) findViewById(R.id.endDate);
         cbHomePickup = (CheckBox) findViewById(R.id.cbHomePickUp);
         tvCenterName = (TextView) findViewById(R.id.tvClinicName);
         tvLoc = (TextView) findViewById(R.id.tvAddress);
@@ -187,17 +190,26 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
 //                    //do Payment as its logged in
 //                    doPayment(x_access_token);
 //                }
-
-                Long uid = Prefs.getLong("user_id",0);
-                Log.d(TAG,"shared_summary_id"+uid);
-                    if (uid==0) {
-                    Intent i = new Intent(SummaryDetailsActivity.this, Summary_login.class);
-                    startActivity(i);
+                if(startDate.getText().toString().trim().equals(""))
+                {
+                    Toast.makeText(getApplicationContext(),"Select Date & Time",Toast.LENGTH_SHORT).show();
+                }else if(endDate.getText().toString().trim().equals(""))
+                {
+                    Toast.makeText(getApplicationContext(),"Select Date & Time",Toast.LENGTH_SHORT).show();
                 }else {
-                    Intent i = new Intent(SummaryDetailsActivity.this, PaymentDetailsActivity.class);
-                    startActivity(i);
+
+                    Long uid = Prefs.getLong("user_id",0);
+                    Log.d(TAG,"shared_summary_id"+uid);
+                    if (uid==0) {
+                        Intent i = new Intent(SummaryDetailsActivity.this, Summary_login.class);
+                        startActivity(i);
+                    }else {
+                        Intent i = new Intent(SummaryDetailsActivity.this, PaymentDetailsActivity.class);
+                        startActivity(i);
+                    }
 
                 }
+
 
                 break;
             case R.id.btnAddTest:
