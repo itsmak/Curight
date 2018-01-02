@@ -116,42 +116,42 @@ public class MedicineReminderFragment extends Fragment implements View.OnClickLi
     }
 
     private void datecalculation(String year, String month, String date) {
-        if(year.equals("117")){
-            M_YEAR="2017";
-        }else if(M_YEAR.equals("118")){
-            M_YEAR="2018";
-        }
-        if(month.equals("0")){
-            M_MONTH="01";
-        }else if(month.equals("1")){
-            M_MONTH="02";
-        }else if(month.equals("2")){
-            M_MONTH="03";
-        }else if(month.equals("3")){
-            M_MONTH="04";
-        }else if(month.equals("4")){
-            M_MONTH="05";
-        }else if(month.equals("5")){
-            M_MONTH="06";
-        }else if(month.equals("6")){
-            M_MONTH="07";
-        }else if(month.equals("7")){
-            M_MONTH="08";
-        }else if(month.equals("8")){
-            M_MONTH="09";
-        }else if(month.equals("9")){
-            M_MONTH="10";
-        }else if(month.equals("9")){
-            M_MONTH="10";
-        }else if(month.equals("10")){
-            M_MONTH="11";
-        }
-        else if(month.equals("11")){
-            M_MONTH="12";
-        }
-        M_DAY =date;
-        FINAL_DATE = M_YEAR+"-"+M_MONTH+"-"+M_DAY;
-        Log.d(TAG,"calender: finaldate"+FINAL_DATE);
+
+          if (year.equals("117")) {
+              M_YEAR = "2017";
+          } else if (year.equals("118")) {
+              M_YEAR = "2018";
+          }
+          if (month.equals("0")) {
+              M_MONTH = "01";
+          } else if (month.equals("1")) {
+              M_MONTH = "02";
+          } else if (month.equals("2")) {
+              M_MONTH = "03";
+          } else if (month.equals("3")) {
+              M_MONTH = "04";
+          } else if (month.equals("4")) {
+              M_MONTH = "05";
+          } else if (month.equals("5")) {
+              M_MONTH = "06";
+          } else if (month.equals("6")) {
+              M_MONTH = "07";
+          } else if (month.equals("7")) {
+              M_MONTH = "08";
+          } else if (month.equals("8")) {
+              M_MONTH = "09";
+          } else if (month.equals("9")) {
+              M_MONTH = "10";
+          } else if (month.equals("9")) {
+              M_MONTH = "10";
+          } else if (month.equals("10")) {
+              M_MONTH = "11";
+          } else if (month.equals("11")) {
+              M_MONTH = "12";
+          }
+          M_DAY = date;
+          FINAL_DATE = M_YEAR + "-" + M_MONTH + "-" + M_DAY;
+          Log.d(TAG, "calender: finaldate" + FINAL_DATE);
 
     }
 

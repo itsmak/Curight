@@ -117,7 +117,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
     Fragment currentFragment;
     TabLayout tabLayout;
     NumberPicker numberpicker;
-    SearchView searchView;
+    ImageView searchView;
     PROFILE_SPINNER_ADAPTER customSpinnerAdapter3;
     ArrayList<PROFILE> spinnerList=new ArrayList<PROFILE>();
     SharedPreferences sharedPreferences;
@@ -148,7 +148,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
         }
 
         ivAdd = (ImageView) findViewById(R.id.ivAdd);
-
+//        searchView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                Toast.makeText(getApplicationContext(),"Select a location",Toast.LENGTH_SHORT).show();
+//
+//            }
+//        });
         ivAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -435,12 +442,32 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
         tabLayout.setupWithViewPager(viewPager);
         //spUser = (Spinner) findViewById(R.id.spUser);
         tvTitle = (TextView) findViewById(R.id.tvTitle);
-        tvTitle.setVisibility(View.GONE);
-        searchView = (SearchView) findViewById(R.id.select_loc);
-        searchView.setVisibility(View.VISIBLE);
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setQueryHint("Select City");
+        tvTitle.setVisibility(View.VISIBLE);
+        tvTitle.setText("Choose Location");
+        searchView = (ImageView) findViewById(R.id.select_loc);
+//        searchView.setVisibility(View.VISIBLE);
+//        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+//        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+//        searchView.setQueryHint("Select City");
+        searchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent i_searchlocation = new Intent(HomeActivity.this, SearchLocations.class);
+                startActivity(i_searchlocation);
+
+                Toast.makeText(getApplicationContext(),"Select a location",Toast.LENGTH_SHORT).show();
+                Log.d(TAG,"Location implementation");
+            }
+        });
+        tvTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Toast.makeText(getApplicationContext(),"Select a location",Toast.LENGTH_SHORT).show();
+                Log.d(TAG,"Location implementation");
+            }
+        });
         //searchView.setIconifiedByDefault(true);
         //searchView.setIconified(true);
         //searchView.onActionViewExpanded();
@@ -469,6 +496,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
 
     public void onclick() {
         ivAdd.setOnClickListener(this);
+        //searchView.setOnClickListener(this);
 //        spUser.setVisibility(View.GONE);
         tabLayout.setVisibility(View.GONE);
         //ivAdd.setVisibility(View.INVISIBLE);
@@ -478,10 +506,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
                 Long uid = Prefs.getLong("user_id",0);
                 switch (item.getItemId()) {
                     case R.id.action_home:
+                        tvTitle.setVisibility(View.VISIBLE);
+                        tvTitle.setText("Choose Location");
                         ivAddprofile.setVisibility(View.GONE);
                         ivAdd.setVisibility(View.VISIBLE);
+                        ivBack.setVisibility(View.VISIBLE);
+                        ivBack1.setVisibility(View.GONE);
+                        searchView.setVisibility(View.VISIBLE);
                         //tvTitle.setText("Home");
-                        tvTitle.setVisibility(View.GONE);
                         viewPager.setVisibility(View.VISIBLE);
                         frameLayout.setVisibility(View.GONE);
                         //spUser.setVisibility(View.GONE);
@@ -502,6 +534,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
                             startActivity(i);
                         }else {
                             ivAddprofile.setVisibility(View.GONE);
+                             searchView.setVisibility(View.GONE);
+                            tvTitle.setVisibility(View.VISIBLE);
                             tvTitle.setText("Reminder");
                             ivAdd.setVisibility(View.INVISIBLE);
                             viewPager.setVisibility(View.VISIBLE);
@@ -517,7 +551,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
                         return true;
                     case R.id.action_article:
 
-                        ivAddprofile.setVisibility(View.GONE);
+                            ivAddprofile.setVisibility(View.GONE);
+                            searchView.setVisibility(View.GONE);
+                            tvTitle.setVisibility(View.VISIBLE);
                             tvTitle.setText("Article");
                             ivAdd.setVisibility(View.INVISIBLE);
                             viewPager.setVisibility(View.VISIBLE);
@@ -541,7 +577,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
                             startActivity(i);
                         }else {
                             ivAddprofile.setVisibility(View.GONE);
+                            tvTitle.setVisibility(View.VISIBLE);
                             tvTitle.setText("Track");
+                           searchView.setVisibility(View.GONE);
                             ivAdd.setVisibility(View.INVISIBLE);
                             viewPager.setVisibility(View.VISIBLE);
                             frameLayout.setVisibility(View.GONE);
@@ -567,7 +605,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
                         }else {
                             ivAddprofile.setVisibility(View.VISIBLE);
                             ivAdd.setVisibility(View.INVISIBLE);
+                            tvTitle.setVisibility(View.VISIBLE);
                             tvTitle.setText("Profile");
+                           searchView.setVisibility(View.GONE);
                             viewPager.setVisibility(View.VISIBLE);
                             frameLayout.setVisibility(View.GONE);
                            // spUser.setVisibility(View.GONE);
@@ -690,7 +730,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
                 intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent1);
                 break;
-
+            case R.id.select_loc:
+                Toast.makeText(getApplicationContext(),"Wait for implementation",Toast.LENGTH_SHORT);
 
         }
     }
@@ -757,8 +798,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
             super.onBackPressed();
             finish();
         }
-
-
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {

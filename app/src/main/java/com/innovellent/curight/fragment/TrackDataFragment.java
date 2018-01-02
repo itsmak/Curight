@@ -152,12 +152,16 @@ public class TrackDataFragment extends Fragment implements View.OnClickListener,
         spUser = (Spinner) rootView.findViewById(R.id.spUser);
         llCalariesBurned = (LinearLayout) rootView.findViewById(R.id.llCalariesBurned);
         llCaloriesConsumed = (LinearLayout) rootView.findViewById(R.id.llCaloriesConsumed);
+        tvTitle.setVisibility(View.VISIBLE);
+        tvTitle.setText("Food & Fitness");
+       // ivback.setVisibility(View.GONE);
+
     }
 
     public void iniClick() {
-        //tvTitle.setText("Food & Fitness");
-        ivback.setVisibility(View.VISIBLE);
-        ivback1.setVisibility(View.GONE);
+       //tvTitle.setText("Food & Fitness");
+        ivback.setVisibility(View.GONE);
+        ivback1.setVisibility(View.VISIBLE);
         arrayList.add("BMI");
         arrayList.add("WHR");
         arrayList.add("BF");
