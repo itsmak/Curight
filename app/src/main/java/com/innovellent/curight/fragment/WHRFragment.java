@@ -192,6 +192,45 @@ public class WHRFragment extends Fragment implements View.OnClickListener{
         return rootView;
 
     }
+
+
+    public void setGreen() {
+        ivWhr.setBackgroundResource(R.mipmap.ic_bmibodygreen);
+        //  llStatus.setBackgroundColor(Color.parseColor("#C0F3AD"));
+        btnStatus_whr.setBackgroundColor(Color.parseColor("#6ADEB6"));
+        // btnStatus_whr.setTextColor(Color.parseColor("#72C852"));
+        btnStatus_whr.setText("Low Risk");
+    }
+
+    public void setYellow() {
+        ivWhr.setBackgroundResource(R.mipmap.ic_bmibodyyellow);
+        // llStatus.setBackgroundColor(Color.parseColor("#FFDC75"));
+        btnStatus_whr.setBackgroundColor(Color.parseColor("#FFC300"));
+        //btnStatus_whr.setTextColor(Color.parseColor("#EBC75B"));
+        btnStatus_whr.setText("Medium Risk");
+    }
+
+    public void setBlue() {
+        ivWhr.setBackgroundResource(R.mipmap.ic_bmibodyblue);
+        //  llStatus.setBackgroundColor(Color.parseColor("#CEDEFF"));
+        btnStatus_whr.setBackgroundColor(Color.parseColor("#0075b2"));
+        //  btnStatus_whr.setTextColor(Color.parseColor("#8EA6DC"));
+        btnStatus_whr.setText("Normal");
+    }
+
+    public void setRed() {
+        ivWhr.setBackgroundResource(R.mipmap.ic_body);
+        // llStatus.setBackgroundColor(Color.parseColor("#CEDEFF"));
+        btnStatus_whr.setBackgroundColor(Color.parseColor("#FE5757"));
+        // btnStatus_whr.setTextColor(Color.parseColor("#8EA6DC"));
+        btnStatus_whr.setText("High Risk");
+    }
+
+
+    private void showProgressDialog(String title) {
+        progressDialog = ProgressDialog.show(getContext(), title, "please wait", true, false);
+        progressDialog.show();
+    }
     public void initReferences(View rootView) {
 
 
@@ -384,14 +423,14 @@ public class WHRFragment extends Fragment implements View.OnClickListener{
 
 
                         jsonArray_parent = jsonObject1.getJSONArray("whrdtoList");
-                        for(int j=0; j<jsonArray_parent.length(); j++) {
+                        for(int i=0; i<jsonArray_parent.length(); i++) {
                            // whr_arraylist.add(new WHR(jsonArray_parent.getJSONObject(i).getString("date"),0,"", "", "", ""));
                             jsonObject1 = jsonArray_parent.getJSONObject(i);
                             jsonArray_child = jsonObject1.getJSONArray("whrList");
 
-                            for(int k=0; k<jsonArray_child.length(); k++){
-                                whr_arraylist.add(new WHR(jsonArray_parent.getJSONObject(i).getString("date"),jsonArray_child.getJSONObject(k).getInt("whrid"),jsonArray_child.getJSONObject(k).getString("whr"),jsonArray_child.getJSONObject(k).getString("graphflag"),jsonArray_child.getJSONObject(k).getString("waistcircumference"),jsonArray_child.getJSONObject(k).getString("hipcircumference")));
-                                points.add(new DataPoint(k, Double.parseDouble(jsonArray_child.getJSONObject(k).getString("whr"))));
+                            for(int j=0; j<jsonArray_child.length(); j++){
+                                whr_arraylist.add(new WHR(jsonArray_parent.getJSONObject(i).getString("date"),jsonArray_child.getJSONObject(j).getInt("whrid"),jsonArray_child.getJSONObject(j).getString("whr"),jsonArray_child.getJSONObject(j).getString("graphflag"),jsonArray_child.getJSONObject(j).getString("waistcircumference"),jsonArray_child.getJSONObject(j).getString("hipcircumference")));
+                                points.add(new DataPoint(j, Double.parseDouble(jsonArray_child.getJSONObject(j).getString("whr"))));
                             }
                         }
 
@@ -475,7 +514,7 @@ public class WHRFragment extends Fragment implements View.OnClickListener{
 
 
 
-    private void addWHR() {
+    /*private void addWHR() {
 
         final Dialog dialog = new Dialog(getActivity());
 
@@ -529,21 +568,21 @@ public class WHRFragment extends Fragment implements View.OnClickListener{
 
 
         dialog.show();
+*/
 
-
-
+    private void showAddWHRDialog() {
         addWHRDialog = new AddWHRDialog(getActivity(), new AddWHRDialog.AddWHRDialogClickListener() {
             @Override
             public void onSubmit(String date, String height, String weight) {
                 addWHRDialog.dismiss();
                 showProgressDialog("Adding");
                 addWHRRecord(date, height, weight);
-                tvList.setTextColor(Color.parseColor("#9DA1A0"));
+                /*tvList.setTextColor(Color.parseColor("#9DA1A0"));
                 rlGraph.setVisibility(View.GONE);
                 cvCard.setVisibility(View.GONE);
                 mAdapter.notifyDataSetChanged();
                 recyclerView.setAdapter(mAdapter);
-                recyclerView.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.VISIBLE);*/
 
             }
 
@@ -554,76 +593,8 @@ public class WHRFragment extends Fragment implements View.OnClickListener{
         });
         addWHRDialog.show();
 
-
     }
-
-
-    private void validateInputs() {
-        if (!(date = etDate.getText().toString().trim()).equals(""))
-
-            if (!(waist = etWaist.getText().toString().trim()).equals(""))
-                if (!(hip = etHip.getText().toString().trim()).equals(""))
-
-                    addWHRRecord(date, waist, hip);
-
-
-                else
-                    Toast.makeText(context, "Please enter valid weight", Toast.LENGTH_SHORT).show();
-            else
-                Toast.makeText(context, "Please enter valid height", Toast.LENGTH_SHORT).show();
-        else
-            Toast.makeText(context, "Please enter valid date", Toast.LENGTH_SHORT).show();
-
-    }
-
-   /* void onSubmit(String date,String height,String weight){
-
-        showProgressDialog("Adding");
-        addWHRRecord(date, height, weight);
-
-    }*/
-
-
-
-
-
-    public void setGreen() {
-        ivWhr.setBackgroundResource(R.mipmap.ic_bmibodygreen);
-        //  llStatus.setBackgroundColor(Color.parseColor("#C0F3AD"));
-        btnStatus_whr.setBackgroundColor(Color.parseColor("#6ADEB6"));
-        // btnStatus_whr.setTextColor(Color.parseColor("#72C852"));
-        btnStatus_whr.setText("Low Risk");
-    }
-
-    public void setYellow() {
-        ivWhr.setBackgroundResource(R.mipmap.ic_bmibodyyellow);
-        // llStatus.setBackgroundColor(Color.parseColor("#FFDC75"));
-        btnStatus_whr.setBackgroundColor(Color.parseColor("#FFC300"));
-        //btnStatus_whr.setTextColor(Color.parseColor("#EBC75B"));
-        btnStatus_whr.setText("Medium Risk");
-    }
-
-    public void setBlue() {
-        ivWhr.setBackgroundResource(R.mipmap.ic_bmibodyblue);
-        //  llStatus.setBackgroundColor(Color.parseColor("#CEDEFF"));
-        btnStatus_whr.setBackgroundColor(Color.parseColor("#0075b2"));
-        //  btnStatus_whr.setTextColor(Color.parseColor("#8EA6DC"));
-        btnStatus_whr.setText("Normal");
-    }
-
-    public void setRed() {
-        ivWhr.setBackgroundResource(R.mipmap.ic_body);
-        // llStatus.setBackgroundColor(Color.parseColor("#CEDEFF"));
-        btnStatus_whr.setBackgroundColor(Color.parseColor("#FE5757"));
-        // btnStatus_whr.setTextColor(Color.parseColor("#8EA6DC"));
-        btnStatus_whr.setText("High Risk");
-    }
-
-
-    private void showProgressDialog(String title) {
-        progressDialog = ProgressDialog.show(getContext(), title, "please wait", true, false);
-        progressDialog.show();
-    }
+    //}
 
 
     private void addWHRRecord(String date, String height, String weight){
@@ -688,6 +659,41 @@ public class WHRFragment extends Fragment implements View.OnClickListener{
 
 
 
+   /* private void validateInputs() {
+        if (!(date = etDate.getText().toString().trim()).equals(""))
+
+            if (!(waist = etWaist.getText().toString().trim()).equals(""))
+                if (!(hip = etHip.getText().toString().trim()).equals(""))
+
+                    addWHRRecord(date, waist, hip);
+
+
+                else
+                    Toast.makeText(context, "Please enter valid weight", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(context, "Please enter valid height", Toast.LENGTH_SHORT).show();
+        else
+            Toast.makeText(context, "Please enter valid date", Toast.LENGTH_SHORT).show();
+
+    }*/
+
+   /* void onSubmit(String date,String height,String weight){
+
+        showProgressDialog("Adding");
+        addWHRRecord(date, height, weight);
+
+    }*/
+
+
+
+
+
+
+
+
+
+
+
 
     private void cleardata(){
             Log.d("arraylistbefore", ""+whr_arraylist.size());
@@ -711,12 +717,12 @@ public class WHRFragment extends Fragment implements View.OnClickListener{
         {
 
             case R.id.ivAdd:
-                addWHR();
-                tvList.setTextColor(Color.parseColor("#9DA1A0"));
+                showAddWHRDialog();
+                /*tvList.setTextColor(Color.parseColor("#9DA1A0"));
                 rlGraph.setVisibility(View.GONE);
                 cvCard.setVisibility(View.GONE);
                 mAdapter.notifyDataSetChanged();
-                recyclerView.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.VISIBLE);*/
                 break;
             case R.id.tvTrends:
                 rlGraph.setVisibility(View.VISIBLE);

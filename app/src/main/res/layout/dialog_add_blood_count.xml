@@ -49,6 +49,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_marginBottom="10dp"
+                android:id="@+id/linear_datedialog"
                 android:layout_height="wrap_content">
                 <ImageView
                     android:layout_marginLeft="150dp"
@@ -92,6 +93,7 @@
                         android:layout_toRightOf="@+id/ivAntiCPP"
                         android:textSize="10sp"
                         android:layout_marginBottom="5dp"
+                        android:id="@+id/et_anticpp"
                         android:textAlignment="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
@@ -128,6 +130,7 @@
                         android:layout_toRightOf="@+id/ivCRP"
                         android:textSize="10sp"
                         android:layout_marginBottom="5dp"
+                        android:id="@+id/et_crp"
                         android:textAlignment="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
@@ -164,6 +167,7 @@
                         android:background="@android:color/white"
                         android:layout_toRightOf="@+id/ivESR"
                         android:textSize="10sp"
+                        android:id="@+id/et_esr"
                         android:layout_marginBottom="5dp"
                         android:textAlignment="center"
                         android:layout_width="wrap_content"
@@ -207,6 +211,7 @@
                         android:background="@android:color/white"
                         android:layout_toRightOf="@+id/ivHaemoglobin"
                         android:textSize="10sp"
+                        android:id="@+id/et_hoemoglobin"
                         android:layout_marginBottom="5dp"
                         android:textAlignment="center"
                         android:layout_width="wrap_content"
@@ -243,6 +248,7 @@
                         android:background="@android:color/white"
                         android:layout_toRightOf="@+id/ivHbA1c"
                         android:textSize="10sp"
+                        android:id="@+id/et_hbalc"
                         android:layout_marginBottom="5dp"
                         android:textAlignment="center"
                         android:layout_width="wrap_content"
@@ -280,6 +286,7 @@
                         android:background="@android:color/white"
                         android:layout_toRightOf="@+id/ivINR"
                         android:textSize="10sp"
+                        android:id="@+id/et_inr"
                         android:layout_marginBottom="5dp"
                         android:textAlignment="center"
                         android:layout_width="wrap_content"
@@ -316,16 +323,16 @@
                         android:src="@drawable/profile"
                         android:layout_height="15dp" />
                     <EditText
-                        android:layout_marginTop="5dp"
-                        android:layout_marginLeft="5dp"
                         android:hint="@string/Platelet"
                         android:background="@android:color/white"
-                        android:layout_toRightOf="@+id/ivPlatelet"
                         android:textSize="10sp"
-                        android:layout_marginBottom="5dp"
+                        android:id="@+id/et_platelet"
                         android:textAlignment="center"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/ivPlatelet"
+                        android:layout_toRightOf="@+id/ivPlatelet"
+                        android:layout_toEndOf="@+id/ivPlatelet" />
                     <TextView
                         android:layout_marginTop="2dp"
                         android:layout_marginLeft="20dp"
@@ -354,10 +361,11 @@
                     <EditText
                         android:layout_marginTop="5dp"
                         android:layout_marginLeft="5dp"
-                        android:hint="@string/CRP"
+                        android:hint="prolactin"
                         android:background="@android:color/white"
                         android:layout_toRightOf="@+id/ivProlactin"
                         android:textSize="10sp"
+                        android:id="@+id/et_prolactin"
                         android:layout_marginBottom="5dp"
                         android:textAlignment="center"
                         android:layout_width="wrap_content"
@@ -395,6 +403,7 @@
                         android:background="@android:color/white"
                         android:layout_toRightOf="@+id/ivRBC"
                         android:textSize="10sp"
+                        android:id="@+id/et_rbc"
                         android:layout_marginBottom="5dp"
                         android:textAlignment="center"
                         android:layout_width="wrap_content"
@@ -436,6 +445,7 @@
                         android:background="@android:color/white"
                         android:layout_toRightOf="@+id/ivRF"
                         android:textSize="10sp"
+                        android:id="@+id/et_rf"
                         android:layout_marginBottom="5dp"
                         android:textAlignment="center"
                         android:layout_width="wrap_content"
@@ -472,6 +482,7 @@
                         android:background="@android:color/white"
                         android:layout_toRightOf="@+id/ivWBC"
                         android:textSize="10sp"
+                        android:id="@+id/et_wbc"
                         android:layout_marginBottom="5dp"
                         android:textAlignment="center"
                         android:layout_width="wrap_content"

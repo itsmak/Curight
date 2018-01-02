@@ -35,6 +35,7 @@ import com.innovellent.curight.adapter.FemaleCycleAdapter;
 import com.innovellent.curight.adapter.PROFILE_SPINNER_ADAPTER;
 import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.AddBloodCountDialog;
+import com.innovellent.curight.model.AddFCTCountDialog;
 import com.innovellent.curight.model.AddWHRDialog;
 import com.innovellent.curight.model.BloodCount;
 import com.innovellent.curight.model.BloodPressure;
@@ -89,6 +90,7 @@ public class FemaleCycleFragment extends Fragment implements View.OnClickListene
     SimpleDateFormat simpledateformat;
     Calendar calendar;
     ProgressDialog progressDialog;
+    AddFCTCountDialog addFCTCountDialog;
     DatePickerDialog datePickerDialog;
     String normalduration,gap,currentperiod,missing,notes,reminder,radiobutton_selected_yes="",Date,fctid;
     RelativeLayout date_layout;
@@ -124,10 +126,10 @@ public class FemaleCycleFragment extends Fragment implements View.OnClickListene
         calendar = Calendar.getInstance();
 
 
-        simpledateformat = new SimpleDateFormat("yyyy-MM-dd");
-         Date = simpledateformat.format(calendar.getTime());
+        /*simpledateformat = new SimpleDateFormat("yyyy-MM-dd");
+         Date = simpledateformat.format(calendar.getTime());*/
 
-        datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+       /* datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 tv_date.setText(getContext().getString(R.string.date_formatted, year, month + 1, dayOfMonth));
@@ -158,7 +160,7 @@ public class FemaleCycleFragment extends Fragment implements View.OnClickListene
 
 
             }
-        });
+        });*/
         return rootView;
 
     }
@@ -189,18 +191,10 @@ public class FemaleCycleFragment extends Fragment implements View.OnClickListene
     public void initReferences(View rootView) {
         tvList=(TextView) rootView.findViewById(R.id.tvList);
         ivAdd=(ImageView)rootView.findViewById(R.id.ivAdd);
-        rlFemaleCycle=(RelativeLayout)rootView.findViewById(R.id.rlFemaleCycle);
+        //rlFemaleCycle=(RelativeLayout)rootView.findViewById(R.id.rlFemaleCycle);
         recyclerView=(RecyclerView)rootView.findViewById(R.id.recycler_view);
-        btnSave_fct = (Button)rootView.findViewById(R.id.btnSave_fct);
-        tv_normalduration = (EditText)rootView.findViewById(R.id.tv_normalduration);
-        et_gap = (EditText)rootView.findViewById(R.id.et_gap);
-        et_reminderdays = (EditText)rootView.findViewById(R.id.et_reminderdays);
-        etNotes = (EditText)rootView.findViewById(R.id.etNotes);
-        tv_date = (TextView)rootView.findViewById(R.id.tv_date);
-        radio_group = (RadioGroup)rootView.findViewById(R.id.radio_group);
-        radio_button_yes = (RadioButton)rootView.findViewById(R.id.radio_button_yes);
-        radio_button_no = (RadioButton)rootView.findViewById(R.id.radio_button_no);
-        date_layout = (RelativeLayout)rootView.findViewById(R.id.date_layout);
+
+       // date_layout = (RelativeLayout)rootView.findViewById(R.id.date_layout);
         spUser = (Spinner) rootView.findViewById(R.id.spUser);
 
 
@@ -208,31 +202,31 @@ public class FemaleCycleFragment extends Fragment implements View.OnClickListene
     public void inClick(){
         tvList.setOnClickListener(this);
         ivAdd.setOnClickListener(this);
-        btnSave_fct.setOnClickListener(this);
+//        btnSave_fct.setOnClickListener(this);
         tvList.setTextColor(Color.parseColor("#FFFFFF"));
 
 
     }
 
-   /* private void AddBloodCountRecords() {
-        addBloodCountDialog = new AddBloodCountDialog(getActivity(), new AddBloodCountDialog.AddBloodCountDialogClickListener(){
+    private void AddFCTRecords() {
 
-
+        addFCTCountDialog = new AddFCTCountDialog(getActivity(), new AddFCTCountDialog.AddFCTDialogClickListener() {
             @Override
-            public void onSubmit() {
-                addBloodCountDialog.dismiss();
+            public void onSubmit(String Normalperiodduration, String Gap, String Reminderdays, String CurrentPeriod, String Miss, String Notes,String Date) {
+                addFCTCountDialog.dismiss();
+                showProgressDialog("Adding");
+                addfctrecord(Normalperiodduration,Gap,Reminderdays,CurrentPeriod,Miss,Notes,Date);
             }
 
             @Override
             public void onCancel() {
-                addBloodCountDialog.dismiss();
+                addFCTCountDialog.dismiss();
             }
         });
 
-        addBloodCountDialog.show();
+        addFCTCountDialog.show();
 
-
-    }*/
+    }
 
 
 
@@ -324,6 +318,7 @@ public class FemaleCycleFragment extends Fragment implements View.OnClickListene
                 int uid = (int) Prefs.getLong("user_id",0);
                 Log.d("user_forwhr", ""+uid);
                 Log.d(TAG, "MyUSER_ID on spinner" + USER_ID);
+                getFCTData(uid);
             }
         });
 
@@ -334,22 +329,23 @@ public class FemaleCycleFragment extends Fragment implements View.OnClickListene
         switch (v.getId())
         {
             case R.id.ivAdd:
-                tvList.setTextColor(Color.parseColor("#9DA1A0"));
+                /*tvList.setTextColor(Color.parseColor("#9DA1A0"));
                 rlFemaleCycle.setVisibility(View.VISIBLE);
-                recyclerView.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.GONE);*/
+                AddFCTRecords();
                 break;
             case R.id.tvList:
                 tvList.setTextColor(Color.parseColor("#FFFFFF"));
-                rlFemaleCycle.setVisibility(View.GONE);
+                //rlFemaleCycle.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.VISIBLE);
                 break;
-            case R.id.btnSave_fct:
-                showProgressDialog("Adding");
-                addfctrecord(tv_normalduration.getText().toString().trim(),et_gap.getText().toString().trim(),et_reminderdays.getText().toString().trim(),tv_date.getText().toString().trim(),radiobutton_selected_yes,etNotes.getText().toString().trim(),Date);
+            /*case R.id.btnSave_fct:
+               // showProgressDialog("Adding");
+                //addfctrecord(tv_normalduration.getText().toString().trim(),et_gap.getText().toString().trim(),et_reminderdays.getText().toString().trim(),tv_date.getText().toString().trim(),radiobutton_selected_yes,etNotes.getText().toString().trim(),Date);
                 tvList.setTextColor(Color.parseColor("#FFFFFF"));
                 rlFemaleCycle.setVisibility(View.GONE);
                 mAdapter.notifyDataSetChanged();
-                recyclerView.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.VISIBLE);*/
             default:
                 break;
 
@@ -358,6 +354,7 @@ public class FemaleCycleFragment extends Fragment implements View.OnClickListene
 
 
     private void addfctrecord(String Normalperiodduration, String Gap,String Reminderdays,String CurrentPeriod,String Miss,String Notes,String Date){
+        Log.d("fctaddcalling", "called");
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(new Config().SERVER_URL)
                 .addConverterFactory(ScalarsConverterFactory.create())
@@ -367,6 +364,8 @@ public class FemaleCycleFragment extends Fragment implements View.OnClickListene
         ApiInterface apiInterface = retrofit.create(ApiInterface.class);
         final int uid = (int) Prefs.getLong("user_id",0);
         try{
+
+
             JSONObject paramObject = new JSONObject();
             paramObject.put("userid", uid);
             paramObject.put("normalperiodduration", Normalperiodduration);
@@ -377,6 +376,7 @@ public class FemaleCycleFragment extends Fragment implements View.OnClickListene
             paramObject.put("notes",Notes);
             paramObject.put("date", Date);
 
+            Log.d(TAG, "Fctaddingvalues" +Normalperiodduration +Gap+Reminderdays +CurrentPeriod +Miss +Notes +Date);
             Call<ServerResponseFct<String>> call = apiInterface.addfctrecord("abc", paramObject.toString());
 
             call.enqueue(new Callback<ServerResponseFct<String>>() {
@@ -387,7 +387,7 @@ public class FemaleCycleFragment extends Fragment implements View.OnClickListene
 
                         if(response.isSuccessful()){
                             ServerResponseFct<String>  serverResponseFct = response.body();
-                            Log.d("addwhrdialog_response", serverResponseFct.getResults());
+                            Log.d("addfctdialog_response", serverResponseFct.getResults());
 
                             if(serverResponseFct.getResults().equals("Success")){
                                 Toast.makeText(getActivity(), "Successfully Added", Toast.LENGTH_SHORT).show();
@@ -395,6 +395,8 @@ public class FemaleCycleFragment extends Fragment implements View.OnClickListene
                                 int uid = (int) Prefs.getLong("user_id",0);
                                 getFCTData(uid);
                                 progressDialog.dismiss();
+                            }else {
+                                Toast.makeText(getActivity(), "please try again", Toast.LENGTH_SHORT).show();
                             }
                         }
 
@@ -472,7 +474,7 @@ public class FemaleCycleFragment extends Fragment implements View.OnClickListene
                             mAdapter = new FemaleCycleAdapter(getActivity(), arrayList);
                             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
                             recyclerView.setAdapter(mAdapter);
-                            rlFemaleCycle.setVisibility(View.GONE);
+//                            rlFemaleCycle.setVisibility(View.GONE);
                         }
 
 

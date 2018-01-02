@@ -107,7 +107,7 @@ public class BloodCountListFragment extends Fragment implements View.OnClickList
         spinnerList.clear();
         getSpinnerData();
 
-        final Calendar calendar = Calendar.getInstance();
+       /* final Calendar calendar = Calendar.getInstance();
 
         datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -122,7 +122,7 @@ public class BloodCountListFragment extends Fragment implements View.OnClickList
             public void onClick(View v) {
                 datePickerDialog.show();
             }
-        });
+        });*/
 
         return rootView;
 
@@ -156,7 +156,7 @@ public class BloodCountListFragment extends Fragment implements View.OnClickList
         btnAdd = (Button)rootView.findViewById(R.id.btnAdd);
         rlAddBloodCount=(RelativeLayout)rootView.findViewById(R.id.rlAddBloodCount);
         txt_selectdateforbloodcount = (TextView)rootView.findViewById(R.id.txt_selectdateforbloodcount);
-        linear_datedialog = (LinearLayout)rootView.findViewById(R.id.linear_datedialog);
+       // linear_datedialog = (LinearLayout)rootView.findViewById(R.id.linear_datedialog);
         recyclerView=(RecyclerView)rootView.findViewById(R.id.recycler_view);
         tvProfile = (EditText)rootView.findViewById(R.id.tvProfile);
         etCRP = (EditText)rootView.findViewById(R.id.etCRP);
@@ -182,25 +182,23 @@ public class BloodCountListFragment extends Fragment implements View.OnClickList
 
     }
 
-   /* private void AddBloodCountRecords() {
-        addBloodCountDialog = new AddBloodCountDialog(getActivity(), new AddBloodCountDialog.AddBloodCountDialogClickListener(){
+    private void AddBloodCountRecords() {
+       addBloodCountDialog = new AddBloodCountDialog(getActivity(), new AddBloodCountDialog.AddBloodCountDialogClickListener() {
+           @Override
+           public void onSubmit(String Date,String Anticep, String Crp, String Esr, String Haemoglobin, String Hbalc, String Inr, String Platelest, String Prolactin, String Rbc, String Rf, String Wbc) {
+               addBloodCountDialog.dismiss();
+               showProgressDialog("Adding");
+               addbloodcountdata(Date,Anticep,Crp,Esr,Haemoglobin,Hbalc,Inr,Platelest,Prolactin,Rbc,Rf,Wbc);
+           }
 
-
-            @Override
-            public void onSubmit() {
-                addBloodCountDialog.dismiss();
-            }
-
-            @Override
-            public void onCancel() {
-                addBloodCountDialog.dismiss();
-            }
-        });
-
+           @Override
+           public void onCancel() {
+               addBloodCountDialog.dismiss();
+           }
+       });
         addBloodCountDialog.show();
 
-
-    }*/
+    }
 
 
     private void getSpinnerData() {
@@ -302,9 +300,10 @@ public class BloodCountListFragment extends Fragment implements View.OnClickList
         switch (v.getId())
         {
             case R.id.ivAdd:
-                tvList.setTextColor(Color.parseColor("#9DA1A0"));
+                AddBloodCountRecords();
+                /*tvList.setTextColor(Color.parseColor("#9DA1A0"));
                 rlAddBloodCount.setVisibility(View.VISIBLE);
-                recyclerView.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.GONE);*/
                 break;
             case R.id.tvList:
                 tvList.setTextColor(Color.parseColor("#FFFFFF"));
@@ -312,8 +311,8 @@ public class BloodCountListFragment extends Fragment implements View.OnClickList
                 recyclerView.setVisibility(View.VISIBLE);
                 break;
             case R.id.btnAdd:
-                showProgressDialog("Adding");
-                addbloodcountdata(tvProfile.getText().toString().trim(),etCRP.getText().toString().trim(),tvntContactUs.getText().toString().trim(),tvFeedback.getText().toString().trim(),etHbA1c.getText().toString().trim(),etINR.getText().toString().trim(),etPlatelet.getText().toString().trim(),etProlactin.getText().toString().trim(),etRBC.getText().toString().trim(),etRF.getText().toString().trim(),etWBC.getText().toString().trim(),txt_selectdateforbloodcount.getText().toString());
+               // showProgressDialog("Adding");
+                //addbloodcountdata(tvProfile.getText().toString().trim(),etCRP.getText().toString().trim(),tvntContactUs.getText().toString().trim(),tvFeedback.getText().toString().trim(),etHbA1c.getText().toString().trim(),etINR.getText().toString().trim(),etPlatelet.getText().toString().trim(),etProlactin.getText().toString().trim(),etRBC.getText().toString().trim(),etRF.getText().toString().trim(),etWBC.getText().toString().trim(),txt_selectdateforbloodcount.getText().toString());
                 tvList.setTextColor(Color.parseColor("#FFFFFF"));
                 rlAddBloodCount.setVisibility(View.GONE);
                 mAdapter.notifyDataSetChanged();
