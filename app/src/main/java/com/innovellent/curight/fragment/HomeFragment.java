@@ -34,21 +34,19 @@ import java.util.Date;
 
 
 public class HomeFragment extends Fragment  implements View.OnClickListener{
+    public static EditText editMobileNo;
     ImageView ivHealthPackage,imageView1,imageView2,imageView3,imageView4,imageView5,imageView6,imageView7,imageView8,imageView9;
     ViewPager viewPager;
     TextView tvTitle,titleOne,titleThree;
-    public static EditText editMobileNo;
-    private int   mScrollState;
     RelativeLayout rlBookTest,rlFood,rlHealthPackage,rlDoctorAppoinment,rlYoursReports;
     LinearLayout llSliderdotpanel;
+   // int[] luckyNumbers = {R.drawable.ic_inst, R.drawable.into_1, R.drawable.into_2,R.drawable.into_3, R.drawable.intro_4,R.drawable.intro_5,R.drawable.into_3,R.drawable.ic_inst};
+    int[] luckyNumbers = {R.drawable.into_1, R.drawable.into_1, R.drawable.into_3, R.drawable.into_2, R.drawable.intro_4, R.drawable.intro_5, R.drawable.intro_4};
+    private int   mScrollState;
     private int dotscount;
-
     private ImageView[] dots;
     private ViewPager vpAutoScrollViewPager;
     private int mCurrentPosition = 1;
-   // int[] luckyNumbers = {R.drawable.ic_inst, R.drawable.into_1, R.drawable.into_2,R.drawable.into_3, R.drawable.intro_4,R.drawable.intro_5,R.drawable.into_3,R.drawable.ic_inst};
-    int[] luckyNumbers = {R.drawable.into_1, R.drawable.into_1, R.drawable.into_3, R.drawable.into_2, R.drawable.intro_4, R.drawable.intro_5, R.drawable.intro_4};
-
     // private int[] luckyNumbers = {333,111,222,333,111}; // 333,111 at the beginning and the end for circular swipe purpose
     private int lastPageIndex = luckyNumbers.length;
     private Handler autoScrollHandler;
@@ -290,7 +288,7 @@ public void init(View rootView){
          */
     }
 
-public void timedatepicker(){
+/*public void timedatepicker(){
     new SingleDateAndTimePickerDialog.Builder(getActivity())
             // .bottomSheet()
             // .curved() .title("Select Date")
@@ -315,7 +313,7 @@ public void timedatepicker(){
                     // Toast.makeText(getActivity(),""+stringDate,Toast.LENGTH_SHORT).show();
                 }
             }).display();
-}
+}*/
     @Override
     public void onClick(View view) {
         switch (view.getId()) {

@@ -2,98 +2,89 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/popup_elementq"
     android:layout_width="match_parent"
-    android:background="#ffffff"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#ffffff">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        android:background="@color/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
         app:contentInsetEnd="0dp"
         app:contentInsetStart="0dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:weightSum="100"
-            android:orientation="horizontal"
+        <RelativeLayout
             android:id="@+id/popup_element"
-            android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/ivback"
-                android:padding="2dp"
-                android:layout_marginTop="5dp"
-                android:layout_width="0dp"
-                android:layout_weight="20"
+                android:layout_width="20dp"
                 android:layout_height="20dp"
+                android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
                 android:src="@drawable/ic_menu_bar" />
             <ImageView
                 android:id="@+id/ivback1"
-                android:padding="2dp"
-                android:visibility="gone"
-                android:layout_marginTop="5dp"
-                android:layout_width="0dp"
-                android:layout_weight="20"
+                android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_centerVertical="true"
-                android:src="@drawable/ic_arrow_back" />
+                android:layout_marginTop="5dp"
+                android:src="@drawable/ic_arrow_back"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tvTitle"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_gravity="center"
-                android:layout_weight="60"
                 android:text="Home"
                 android:textAlignment="center"
                 android:textColor="@android:color/white"
-                android:textSize="22sp"
+                android:textSize="18sp"
                 android:visibility="gone" />
 
-            <android.support.v7.widget.SearchView
-                style="@style/SearchViewStyle"
+            <ImageView
                 android:id="@+id/select_loc"
-                android:padding="5dp"
-                android:layout_width="0dp"
-                android:layout_weight="60"
-                android:queryHint="@string/search_hint"
-                android:layout_centerInParent="true"
-                android:layout_height="35dp"
-                android:paddingBottom="8dp"
-                android:layout_gravity="center" />
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:layout_toRightOf="@+id/ivback"
+                android:background="@drawable/ic_search_white_24dp"
+                android:visibility="visible"/>
 
             <ImageView
                 android:id="@+id/ivAddprofile"
-                android:padding="5dp"
-                android:layout_toRightOf="@id/tvTitle"
-                android:layout_width="0dp"
-                android:layout_weight="20"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
                 android:layout_gravity="end"
-                android:layout_height="35dp"
-                android:visibility="gone"
-                android:src="@drawable/pluse2" />
+                android:layout_marginRight="10dp"
+                android:src="@drawable/pluse2"
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/ivAdd"
-                android:padding="5dp"
-                android:layout_toRightOf="@id/tvTitle"
-                android:layout_width="0dp"
-                android:layout_weight="20"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
                 android:layout_gravity="end"
-                android:layout_height="35dp"
+                android:layout_marginRight="10dp"
                 android:src="@drawable/ic_shop_cart" />
 
-        </LinearLayout>
+        </RelativeLayout>
     </android.support.v7.widget.Toolbar>
 
     <android.support.v4.widget.DrawerLayout xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/drawer_layout"
-        android:layout_above="@+id/button_panel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/button_panel"
         android:layout_below="@id/toolbar">
         <RelativeLayout
             android:layout_width="match_parent"
@@ -108,17 +99,17 @@
                 android:layout_height="wrap_content">
                 <android.support.design.widget.TabLayout
                     android:id="@+id/tab_layout"
-                    app:tabMode="scrollable"
-                    android:background="@android:color/white"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_below="@+id/toolbar"
+                    android:background="@android:color/white"
                     android:elevation="6dp"
-                    app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
-                    app:tabTextColor="@color/graylight"
-                    app:tabSelectedTextColor="@color/colorPrimary"
                     android:minHeight="?attr/actionBarSize"
-                    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+                    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                    app:tabMode="scrollable"
+                    app:tabSelectedTextColor="@color/colorPrimary"
+                    app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
+                    app:tabTextColor="@color/graylight"/>
                <!-- <Spinner
                     android:id="@+id/spUser"
                     android:padding="5dp"
@@ -131,20 +122,20 @@
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/viewpager"
-                    android:layout_above="@+id/bottomBar"
                     android:layout_width="match_parent"
-                    android:layout_below="@id/tab_layout"
                     android:layout_height="match_parent"
+                    android:layout_above="@+id/bottomBar"
+                    android:layout_below="@id/tab_layout"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior"  />
 
                 <FrameLayout
-                    android:layout_above="@+id/bottomBar"
-                    android:layout_below="@+id/toolbar"
-                    android:visibility="gone"
                     android:id="@+id/rlMainFragment"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical" />
+                    android:layout_above="@+id/bottomBar"
+                    android:layout_below="@+id/toolbar"
+                    android:orientation="vertical"
+                    android:visibility="gone" />
 
                 <RelativeLayout
                     android:id="@+id/bottomBar"
@@ -154,8 +145,8 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true">
                     <android.support.design.widget.BottomNavigationView
-                        android:layout_width="match_parent"
                         android:id="@+id/bottomNavView_Bar"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/border_rectangle"
                         app:menu="@menu/bottom_naviagation_menu">
