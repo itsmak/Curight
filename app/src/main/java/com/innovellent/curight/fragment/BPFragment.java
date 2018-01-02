@@ -404,7 +404,8 @@ public class BPFragment extends Fragment implements View.OnClickListener {
 
         try {
             JSONObject paramObject = new JSONObject();
-            paramObject.put("userid", userId);
+            int uid = (int) Prefs.getLong("user_id",0);
+            paramObject.put("userid", uid);
             paramObject.put("time", time);
             paramObject.put("date", date);
             paramObject.put("pulse", pulse);
@@ -424,6 +425,7 @@ public class BPFragment extends Fragment implements View.OnClickListener {
                                 showProgressDialog("Loading");
                                 int uid = (int) Prefs.getLong("user_id",0);
                                 getBloodPressureRecords(uid);
+                                progressDialog.dismiss();
                             } else
                                 Toast.makeText(getActivity(), "Please try again", Toast.LENGTH_SHORT).show();
                         }

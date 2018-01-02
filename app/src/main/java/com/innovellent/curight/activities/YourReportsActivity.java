@@ -72,6 +72,8 @@ public class YourReportsActivity extends AppCompatActivity implements SearchView
         editsearch = (SearchView) findViewById(R.id.search);
         editsearch.setOnQueryTextListener(this);
 
+
+        spinnerList.clear();
         getSpinnerData();
 
 
@@ -189,6 +191,7 @@ public class YourReportsActivity extends AppCompatActivity implements SearchView
         progressDialog.setMessage("Please Wait...");
         progressDialog.show();
         progressDialog.setCanceledOnTouchOutside(false);*/
+       cleardata();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(new Config().SERVER_URL)
@@ -204,8 +207,9 @@ public class YourReportsActivity extends AppCompatActivity implements SearchView
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.body()!=null){
-                    progressDialog.dismiss();
                     try{
+//                        progressDialog.dismiss();
+
                         String res_data = response.body().string();
                         Log.e("res_data", res_data);
 
@@ -240,11 +244,7 @@ public class YourReportsActivity extends AppCompatActivity implements SearchView
                             }
 
                             progressDialog.dismiss();
-                                //getSpinnerData();
-                            _adpater=new YourReportsAdapter(YourReportsActivity.this,patientReportsDataArrayList);
-                            recyclerView_reports.setLayoutManager(new LinearLayoutManager(YourReportsActivity.this, LinearLayoutManager.VERTICAL, false));
-                            recyclerView_reports.setAdapter(_adpater);
-
+                              //  getSpinnerData();
 
                         }
 
@@ -254,12 +254,18 @@ public class YourReportsActivity extends AppCompatActivity implements SearchView
 
                 }else{
                     Toast.makeText(YourReportsActivity.this, "No Records Found", Toast.LENGTH_SHORT).show();
-
                     AlertDialog.Builder ab = new AlertDialog.Builder(YourReportsActivity.this);
                     ab.setMessage("No Records Found");
                     ab.create();
                     ab.show();
+                    recyclerView_reports.removeAllViews();
+
                 }
+                _adpater=new YourReportsAdapter(YourReportsActivity.this,patientReportsDataArrayList);
+                recyclerView_reports.setLayoutManager(new LinearLayoutManager(YourReportsActivity.this, LinearLayoutManager.VERTICAL, false));
+                recyclerView_reports.setAdapter(_adpater);
+
+
             }
 
             @Override
@@ -268,6 +274,15 @@ public class YourReportsActivity extends AppCompatActivity implements SearchView
                 Toast.makeText(YourReportsActivity.this, "Something went wrong please try again", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+
+    private void cleardata(){
+        _adpater=new YourReportsAdapter(YourReportsActivity.this,patientReportsDataArrayList);
+
+        patientReportsDataArrayList.clear();
+        _adpater.notifyDataSetChanged();
+
     }
 
     private void showProgressDialog(String title) {

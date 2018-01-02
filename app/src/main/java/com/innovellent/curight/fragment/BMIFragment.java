@@ -436,7 +436,9 @@ public class BMIFragment extends Fragment implements View.OnClickListener {
 
         try {
             JSONObject paramObject = new JSONObject();
-            paramObject.put("userid", userId);
+            int uid = (int) Prefs.getLong("user_id",0);
+
+            paramObject.put("userid", uid);
             paramObject.put("weight", weight);
             paramObject.put("weight", height);
             paramObject.put("date", date);
@@ -455,6 +457,7 @@ public class BMIFragment extends Fragment implements View.OnClickListener {
                                 showProgressDialog("Loading");
                                 int uid = (int) Prefs.getLong("user_id",0);
                                 getBMIRecords(uid);
+                                progressDialog.dismiss();
                             } else
                                 Toast.makeText(getActivity(), "Please try again", Toast.LENGTH_SHORT).show();
                         }

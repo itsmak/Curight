@@ -461,7 +461,9 @@ public class CholesterolFragment extends Fragment implements View.OnClickListene
 
         try {
             JSONObject paramObject = new JSONObject();
-            paramObject.put("userid", userId);
+            int uid = (int) Prefs.getLong("user_id",0);
+
+            paramObject.put("userid", uid);
             paramObject.put("hdl", hdl);
             paramObject.put("ldl", ldl);
             paramObject.put("triglycerides", triglycerides);
@@ -481,6 +483,7 @@ public class CholesterolFragment extends Fragment implements View.OnClickListene
                                 showProgressDialog("Loading");
                                 int uid = (int) Prefs.getLong("user_id",0);
                                 getCholesterolRecords(uid);
+                                progressDialog.dismiss();
                             } else
                                 Toast.makeText(getActivity(), "Please try again", Toast.LENGTH_SHORT).show();
                         }
