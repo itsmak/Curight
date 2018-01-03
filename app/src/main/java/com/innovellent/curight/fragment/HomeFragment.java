@@ -8,6 +8,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
 import com.innovellent.curight.R;
@@ -56,7 +59,27 @@ public class HomeFragment extends Fragment  implements View.OnClickListener{
         init(rootView);
         initonClick();
         initViewPager();
+        editMobileNo.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+             int count = editable.toString().trim().length();
+                if(count%3==0)
+                {
+                    Intent i = new Intent(getActivity(), SearchActivity.class);
+                    startActivity(i);
+                }
+            }
+        });
       PagerAdapter adapter = new CustomAdapter(getActivity());
        viewPager.setAdapter(adapter);
        // viewPager.setOnPageChangeListener(new CircularViewPagerHandler(viewPager));

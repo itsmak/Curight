@@ -18,18 +18,26 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.innovellent.curight.R;
+import com.innovellent.curight.adapter.Category_SpinnerAdapter;
 import com.innovellent.curight.adapter.FoodItemSpinnerAdapter;
 import com.innovellent.curight.adapter.FoodUnitSpinnerAdapter;
 import com.innovellent.curight.adapter.SwimmingAdapter;
 import com.innovellent.curight.api.ApiClient;
 import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.Calorie;
+import com.innovellent.curight.model.Category_Feed;
+import com.innovellent.curight.model.Category_List;
 import com.innovellent.curight.model.FoodItem;
 import com.innovellent.curight.model.FoodUnit;
 import com.innovellent.curight.model.ServerResponse;
 import com.innovellent.curight.model.ServerResponseCalorie;
+import com.innovellent.curight.model.ServerResponseFoodCategory;
+import com.innovellent.curight.model.ServerResponseTest;
 import com.innovellent.curight.model.Swimming;
+import com.innovellent.curight.utility.Config;
+import com.innovellent.curight.utility.Constants;
 import com.innovellent.curight.utility.SharedPrefService;
+import com.innovellent.curight.utility.Util;
 
 import org.json.JSONObject;
 
@@ -42,6 +50,8 @@ import java.util.Locale;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.innovellent.curight.utility.Constants.ACCESS_TOKEN;
 import static com.innovellent.curight.utility.Constants.BREAKFAST;
@@ -59,14 +69,16 @@ import static com.innovellent.curight.utility.Constants.USER_ID;
 
 public class AddFoodConsumptionActivity extends AppCompatActivity {
 
+    private static final String TAG = "CuRight";
+    Category_SpinnerAdapter category_spinneradapter;
+    ArrayList<Category_List> categorylist = new ArrayList<Category_List>();
     private Toolbar toolbar;
     private TextView tvTitle;
     private RecyclerView recyclerView;
-    private Spinner itemSpinner, unitSpinner;
+    private Spinner itemSpinner, unitSpinner,sp_category;
     private Button btnSubmit, btnAdd;
     private EditText etQuantity;
     private ProgressDialog progressDialog;
-
     private SharedPrefService sharedPrefService;
     private FoodItemSpinnerAdapter foodItemSpinnerAdapter;
     private SwimmingAdapter swimmingAdapter;
@@ -82,17 +94,78 @@ public class AddFoodConsumptionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_food);
-        setContentView(R.layout.activity_add_food);
+     //   setContentView(R.layout.activity_add_food);
 
         initReferences();
         setupToolbar();
         initClickListeners();
-
+        getcategorySpinnerdata();
         sharedPrefService = SharedPrefService.getInstance();
         userId = sharedPrefService.getLong(USER_ID);
         accessToken = sharedPrefService.getString(ACCESS_TOKEN);
-
         getFoodItems();
+    }
+
+    private void getcategorySpinnerdata() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(new Config().SERVER_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ApiInterface apiInterface = retrofit.create(ApiInterface.class);
+
+        Call<ServerResponseFoodCategory> call = apiInterface.getcategory();
+        call.enqueue(new Callback<ServerResponseFoodCategory>() {
+            @Override
+            public void onResponse(Call<ServerResponseFoodCategory> call, Response<ServerResponseFoodCategory> response) {
+                if (response.body() != null) {
+                    Log.d(TAG, "gettestcentre " + response.body().getCode());
+                    if(response.body().getCode()==200){
+                        ArrayList<Category_Feed> result = response.body().getResults();
+                        for (int i = 0; i < result.size(); i++){
+                            categorylist.add(new Category_List(result.get(i).getFoodcategoryid(),result.get(i).getCategoryname()));
+                        }
+                        setspinneradpter();
+                    }else {
+
+                    }
+                }else {
+
+                }
+            }
+            public void onFailure(Call<ServerResponseFoodCategory> call, Throwable t) {
+                t.getMessage();
+                String message = t.getMessage();
+                Log.e("TAG","error :: "+message);
+                if (!isFinishing()) {
+                    if (Constants.SERVER_DOWN.equals(message)) {
+                        Util.showAlertDialog(AddFoodConsumptionActivity.this, "Server is Down! Please try  again later!", "ERROR");
+                        return;
+                    } else {
+                        Util.showAlertDialog(AddFoodConsumptionActivity.this, message, "ERROR");
+                        return;
+                    }
+                }
+
+
+            }
+        });
+    }
+
+    private void setspinneradpter() {
+        category_spinneradapter = new Category_SpinnerAdapter(getApplicationContext(),categorylist);
+        sp_category.setAdapter(category_spinneradapter);
+        sp_category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
     private void initReferences() {
@@ -100,6 +173,7 @@ public class AddFoodConsumptionActivity extends AppCompatActivity {
         tvTitle = (TextView) findViewById(R.id.title);
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        sp_category = (Spinner) findViewById(R.id.sp_category);
         itemSpinner = (Spinner) findViewById(R.id.spItem);
         unitSpinner = (Spinner) findViewById(R.id.spUnit);
         btnSubmit = (Button) findViewById(R.id.btnSubmit);

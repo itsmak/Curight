@@ -61,6 +61,7 @@ import com.innovellent.curight.model.ServerResponseDoctorByDC;
 import com.innovellent.curight.model.ServerResponseExercise;
 import com.innovellent.curight.model.ServerResponseFct;
 import com.innovellent.curight.model.ServerResponseFood;
+import com.innovellent.curight.model.ServerResponseFoodCategory;
 import com.innovellent.curight.model.ServerResponseGetFood;
 import com.innovellent.curight.model.ServerResponseGetTestDetail;
 import com.innovellent.curight.model.ServerResponseLogin;
@@ -101,6 +102,9 @@ public interface ApiInterface {
 
     @GET("test/getalltest")
     Call<ServerResponseTest> getTest();
+
+    @GET("food/category/get")
+    Call<ServerResponseFoodCategory> getcategory();
 
     @POST("test/gettestbyid")
     Call<ServerResponseTest> getTestById(@Header("x-access-token") String x_access_token, @Body TestingCenter testingCenter);
