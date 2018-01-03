@@ -54,17 +54,15 @@
                 android:paddingLeft="10dp"
                 android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
-                android:layout_gravity="center"
                 android:weightSum="100"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <RelativeLayout
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
+
                     android:orientation="horizontal"
-                    android:layout_width="0dp"
-                    android:layout_weight="50"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:id="@+id/layout_datebloodsugar"
                     android:layout_height="wrap_content">
 
                     <ImageView
@@ -94,12 +92,13 @@
                 </RelativeLayout>
 
 
-                <RelativeLayout
+               <!-- <RelativeLayout
                     android:layout_marginTop="10dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:orientation="horizontal"
                     android:layout_width="0dp"
+                    android:id="@+id/timelayout_bloodsugar"
                     android:layout_weight="50"
                     android:layout_height="wrap_content">
 
@@ -126,7 +125,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
-                </RelativeLayout>
+                </RelativeLayout>-->
 
 
             </LinearLayout>
@@ -185,7 +184,7 @@
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content">
                   <EditText
-                      android:id="@+id/etDiastolic"
+                      android:id="@+id/etBeforemeal"
                       android:hint="0"
                       android:layout_marginRight="30dp"
                       android:layout_marginLeft="30dp"
@@ -194,7 +193,7 @@
                       android:layout_weight="50"
                       android:layout_height="wrap_content" />
                   <EditText
-                      android:id="@+id/etPulse"
+                      android:id="@+id/etAftermeal"
                       android:hint="0"
                       android:layout_marginRight="30dp"
                       android:layout_marginLeft="30dp"

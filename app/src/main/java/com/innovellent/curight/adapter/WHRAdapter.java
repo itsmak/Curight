@@ -101,7 +101,7 @@ public class WHRAdapter extends RecyclerView.Adapter<WHRAdapter.MyViewHolder> {
 
         holder.tvDate.setText(whrs.get(position).getDate());
         holder.tvSysDia.setText("W/H:"+" "+whrs.get(position).getWaistcircumference()+"/"+whrs.get(position).getHipcircumference());
-        holder.tvPulse.setText(whrs.get(position).getWhr_subdata());
+        holder.tvPulse.setText("WHR:"+" "+whrs.get(position).getWhr_subdata());
         holder.txt_whrid.setText(String.valueOf(whrs.get(position).getWhrid()));
 
 

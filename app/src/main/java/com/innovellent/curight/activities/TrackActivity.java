@@ -477,7 +477,7 @@ public class TrackActivity extends AppCompatActivity implements View.OnClickList
         return true;
     }
 
-    private void AddBloodSugarRecords() {
+   /* private void AddBloodSugarRecords() {
         addBloodSugarDialog = new AddBloodSugarDialog(this, new AddBloodSugarDialog.AddBloodSugarDialogClickListener() {
 
 
@@ -495,7 +495,7 @@ public class TrackActivity extends AppCompatActivity implements View.OnClickList
         addBloodSugarDialog.show();
 
 
-    }
+    }*/
 
 
     class ViewPagerAdapter extends FragmentPagerAdapter {

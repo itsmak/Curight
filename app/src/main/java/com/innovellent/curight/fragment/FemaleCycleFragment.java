@@ -337,8 +337,9 @@ public class FemaleCycleFragment extends Fragment implements View.OnClickListene
             case R.id.tvList:
                 tvList.setTextColor(Color.parseColor("#FFFFFF"));
                 //rlFemaleCycle.setVisibility(View.GONE);
+                mAdapter.notifyDataSetChanged();
                 recyclerView.setVisibility(View.VISIBLE);
-                break;
+
             /*case R.id.btnSave_fct:
                // showProgressDialog("Adding");
                 //addfctrecord(tv_normalduration.getText().toString().trim(),et_gap.getText().toString().trim(),et_reminderdays.getText().toString().trim(),tv_date.getText().toString().trim(),radiobutton_selected_yes,etNotes.getText().toString().trim(),Date);
@@ -371,12 +372,12 @@ public class FemaleCycleFragment extends Fragment implements View.OnClickListene
             paramObject.put("normalperiodduration", Normalperiodduration);
             paramObject.put("gap", Gap);
             paramObject.put("reminderdays", Reminderdays);
-            paramObject.put("currentperiod", CurrentPeriod);
+            paramObject.put("currentperioddate", CurrentPeriod);
             paramObject.put("miss", Miss);
             paramObject.put("notes",Notes);
             paramObject.put("date", Date);
 
-            Log.d(TAG, "Fctaddingvalues" +Normalperiodduration +Gap+Reminderdays +CurrentPeriod +Miss +Notes +Date);
+            Log.d(TAG, "Fctaddingvalues" +uid+Normalperiodduration +Gap+Reminderdays +CurrentPeriod +Miss +Notes +Date);
             Call<ServerResponseFct<String>> call = apiInterface.addfctrecord("abc", paramObject.toString());
 
             call.enqueue(new Callback<ServerResponseFct<String>>() {
@@ -387,9 +388,11 @@ public class FemaleCycleFragment extends Fragment implements View.OnClickListene
 
                         if(response.isSuccessful()){
                             ServerResponseFct<String>  serverResponseFct = response.body();
+                            Log.d("beforeresponse","response_before");
                             Log.d("addfctdialog_response", serverResponseFct.getResults());
-
+                            Log.d("afteresponse", "ressponse_after");
                             if(serverResponseFct.getResults().equals("Success")){
+                                Log.d("insideresponse","responsefct");
                                 Toast.makeText(getActivity(), "Successfully Added", Toast.LENGTH_SHORT).show();
                                 showProgressDialog("Loading");
                                 int uid = (int) Prefs.getLong("user_id",0);

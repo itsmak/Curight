@@ -91,7 +91,7 @@ public class CholesterolAdapter extends RecyclerView.Adapter<CholesterolAdapter.
     public void onBindViewHolder(CholesterolAdapter.CholesterolViewHolder holder, final int position) {
 
         holder.tv_date.setText(cholesterols.get(position).getDate());
-        holder.ldlHdl.setText(String.valueOf(cholesterols.get(position).getLdl())+"/"+String.valueOf(cholesterols.get(position).getHdl()));
+        holder.ldlHdl.setText(String.valueOf("HDL/LDL:"+cholesterols.get(position).getHdl())+"/"+String.valueOf(cholesterols.get(position).getLdl()));
         holder.time.setText(cholesterols.get(position).getTime());
         holder.triglycerides.setText(String.valueOf(cholesterols.get(position).getTriglycerides()));
 

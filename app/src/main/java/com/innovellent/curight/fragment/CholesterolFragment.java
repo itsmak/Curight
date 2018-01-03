@@ -313,15 +313,12 @@ public class CholesterolFragment extends Fragment implements View.OnClickListene
                         if (whrflag_mystring != null){
                             switch (whrflag_mystring) {
                                 case "Good":
-                                    setBlue();
-                                    break;
-                                case "low risk":
                                     setGreen();
                                     break;
-                                case "medium risk":
+                                case "Borderline":
                                     setYellow();
                                     break;
-                                case "high risk":
+                                case "High":
                                     setRed();
                                     break;
                                 default:

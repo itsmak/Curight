@@ -329,7 +329,7 @@ public class BPFragment extends Fragment implements View.OnClickListener {
                             jsonarray_child =jsonObject1.getJSONArray("bpList");
 
                             for(int j=0; j<jsonarray_child.length(); j++){
-                                bp_arraylist.add(new BP(jsonArray_parent.getJSONObject(i).getString("date"),jsonarray_child.getJSONObject(j).getInt("bpid"),jsonarray_child.getJSONObject(j).getString("time"),jsonarray_child.getJSONObject(j).getInt("pulse"),jsonarray_child.getJSONObject(j).getInt("systolic"),jsonarray_child.getJSONObject(j).getInt("diastolic"),""));
+                                bp_arraylist.add(new BP(jsonArray_parent.getJSONObject(i).getString("date"),jsonarray_child.getJSONObject(j).getInt("bpid"),jsonarray_child.getJSONObject(j).getString("time"),jsonarray_child.getJSONObject(j).getString("graphflag"),jsonarray_child.getJSONObject(j).getInt("pulse"),jsonarray_child.getJSONObject(j).getInt("systolic"),jsonarray_child.getJSONObject(j).getInt("diastolic"),""));
                                 points.add(new DataPoint(j, Double.parseDouble(String.valueOf(jsonarray_child.getJSONObject(j).getInt("pulse")))));
                             }
                         }

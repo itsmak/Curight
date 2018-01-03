@@ -114,11 +114,11 @@ public class AddFCTCountDialog extends Dialog {
         if(radio_button_yes.isChecked())
         {
             radio_button_no.setChecked(false);
-            radiobutton_selected="Yes";
+            radiobutton_selected="Y";
         }else if(radio_button_no.isChecked())
         {
             radio_button_yes.setChecked(false);
-            radiobutton_selected="No";
+            radiobutton_selected="N";
         }
 
         if(tv_normalduration.getText().toString().equals(""))

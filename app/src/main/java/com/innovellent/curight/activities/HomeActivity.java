@@ -770,7 +770,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
         viewPager.setAdapter(adapter);
     }
 
-    private void AddBloodSugarRecords() {
+    /*private void AddBloodSugarRecords() {
         addBloodSugarDialog = new AddBloodSugarDialog(this, new AddBloodSugarDialog.AddBloodSugarDialogClickListener() {
 
 
@@ -788,7 +788,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
         addBloodSugarDialog.show();
 
     }
-
+*/
     @Override
     public void onBackPressed() {
 

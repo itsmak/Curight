@@ -79,7 +79,9 @@
                 android:text="97"
                 android:textSize="20sp" />
 
-            <ImageView
+
+
+           <!-- <ImageView
                 android:id="@+id/ivline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -96,7 +98,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_toRightOf="@id/triglycerides"
                 android:text="mg/dL"
-                android:textSize="12sp" />
+                android:textSize="12sp" />-->
 
             <ImageView
                 android:id="@+id/delete"

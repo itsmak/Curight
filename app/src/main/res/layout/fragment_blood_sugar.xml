@@ -4,6 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
+
+    <Spinner
+        android:id="@+id/spUser"
+        android:padding="5dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/graylight" />
+
     <LinearLayout
         android:id="@+id/llList"
         android:layout_width="match_parent"
@@ -114,6 +125,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:text=" "
+                        android:id="@+id/txt_beforemeal"
                         android:textAlignment="center"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -143,6 +155,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:text=" "
+                        android:id="@+id/txt_aftermeal"
                         android:textAlignment="center"
                         android:textSize="20sp"
                         android:textStyle="bold" />

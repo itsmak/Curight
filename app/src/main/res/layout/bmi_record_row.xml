@@ -77,7 +77,7 @@
                 android:layout_below="@id/ivHeart"
                 android:layout_marginLeft="15dp"
                 android:layout_toRightOf="@id/bmi"
-                android:text="kg/m2"
+                android:text="kg/inch"
                 android:textSize="12sp" />
 
 

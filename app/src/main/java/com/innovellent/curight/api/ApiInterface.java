@@ -3,7 +3,9 @@ package com.innovellent.curight.api;
 import com.innovellent.curight.model.Auth;
 import com.innovellent.curight.model.BMIReport;
 import com.innovellent.curight.model.BloodPressureReport;
+import com.innovellent.curight.model.BloodSugarDeletePojo;
 import com.innovellent.curight.model.BloodcountPojo;
+import com.innovellent.curight.model.BloodsugarPojo;
 import com.innovellent.curight.model.Calorie;
 import com.innovellent.curight.model.CholesterolReport;
 import com.innovellent.curight.model.CreateExercise;
@@ -49,6 +51,7 @@ import com.innovellent.curight.model.SearchingCenter;
 import com.innovellent.curight.model.ServerResponse;
 import com.innovellent.curight.model.ServerResponseAuth;
 import com.innovellent.curight.model.ServerResponseBloodCount;
+import com.innovellent.curight.model.ServerResponseBloodSugar;
 import com.innovellent.curight.model.ServerResponseBookedTest;
 import com.innovellent.curight.model.ServerResponseCalorie;
 import com.innovellent.curight.model.ServerResponseCreateExercise;
@@ -146,6 +149,18 @@ public interface ApiInterface {
     @Headers("Content-Type: application/json")
     @POST("bloodcount/create")
     Call<ServerResponseBloodCount<String>> addbloodcountrecord(@Header("x-access-token") String accessToken, @Body String requestbody);
+
+    @Headers("Content-Type: application/json")
+    @POST("bloodsugar/get")
+    Call<ResponseBody> getbloodsugardata(@Header("x-access-token") String accessToken, @Body BloodsugarPojo bloodsugarPojo);
+
+    @Headers("Content-Type: application/json")
+    @POST("bloodsugar/create")
+    Call<ServerResponseBloodSugar<String>> addbloodsugarrecord(@Header("x-access-token") String accessToken, @Body String requestbody);
+
+    @Headers("Content-Type: application/json")
+    @POST("bloodsugar/delete")
+    Call<ResponseBody> deletebloodsugardata(@Header("x-access-token") String accessToken, @Body BloodSugarDeletePojo bloodSugarPojo);
 
     @Headers("Content-Type: application/json")
     @POST("whr/delete")

@@ -7,12 +7,19 @@ package com.innovellent.curight.model;
 public class BP {
 
     private int pulse,bpid,systolic,diastolic;
-    private String bpFlag,date,time;
+    private String bpFlag;
+    private String date;
+    private String time;
 
-    public BP(String date,int bpid,String time,int pulse,int systolic, int diastolic, String bpFlag) {
+
+
+    private String graphflag;
+
+    public BP(String date,int bpid,String time,String graphflag,int pulse,int systolic, int diastolic, String bpFlag) {
         this.pulse = pulse;
         this.bpid = bpid;
         this.systolic = systolic;
+        this.graphflag = graphflag;
         this.diastolic = diastolic;
         this.bpFlag = bpFlag;
         this.date = date;
@@ -73,5 +80,13 @@ public class BP {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public String getGraphflag() {
+        return graphflag;
+    }
+
+    public void setGraphflag(String graphflag) {
+        this.graphflag = graphflag;
     }
 }

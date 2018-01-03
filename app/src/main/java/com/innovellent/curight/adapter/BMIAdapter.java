@@ -90,8 +90,8 @@ public class BMIAdapter extends RecyclerView.Adapter<BMIAdapter.BMIViewHolder> {
     public void onBindViewHolder(BMIViewHolder holder, final int position) {
 
         holder.tvDate.setText(bmiArrayList.get(position).getDate());
-        holder.bmi.setText(bmiArrayList.get(position).getWeight()+"/"+bmiArrayList.get(position).getHeight());
-        holder.tvBmivalue.setText(bmiArrayList.get(position).getBmi());
+        holder.bmi.setText("H/W:"+" "+bmiArrayList.get(position).getHeight()+"/"+bmiArrayList.get(position).getWeight());
+        holder.tvBmivalue.setText("BMI:"+" "+bmiArrayList.get(position).getBmi());
 
 
         holder.delete.setOnClickListener(new View.OnClickListener() {
@@ -182,6 +182,7 @@ public class BMIAdapter extends RecyclerView.Adapter<BMIAdapter.BMIViewHolder> {
 
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
 
                 }
             });
