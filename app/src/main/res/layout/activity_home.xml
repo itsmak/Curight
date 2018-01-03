@@ -32,6 +32,7 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
                 android:src="@drawable/ic_arrow_back"
                 android:visibility="gone" />

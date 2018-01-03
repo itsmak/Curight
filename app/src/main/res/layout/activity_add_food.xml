@@ -86,48 +86,135 @@
                         android:layout_marginTop="0dp"
                         android:orientation="horizontal"
                         android:weightSum="100">
-
-                        <Spinner
-                            android:id="@+id/spItem"
-                            style="@style/Widget.AppCompat.Spinner.Underlined"
+                        <RelativeLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="5dp"
+                            android:layout_weight="60"
+                            android:background="@drawable/border_rectangle_grey">
+
+                            <Spinner
+                                android:id="@+id/sp_category"
+                                style="?android:attr/spinnerDropDownItemStyle"
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_centerInParent="true"
+                                android:layout_marginLeft="5dp"
+                                android:ellipsize="marquee"
+                                android:paddingRight="25dp"
+                                android:singleLine="true"
+                                android:textAlignment="inherit"
+                                android:textSize="15sp"
+                                />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
                             android:layout_weight="40"
-                            android:backgroundTint="@color/graylight" />
-
-
+                            android:background="@drawable/border_rectangle_grey">
+                            <ImageView
+                                android:id="@+id/iv_date"
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:layout_alignLeft="@+id/et_date"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="2dp"
+                                android:background="@mipmap/calendar" />
                         <EditText
-                            android:id="@+id/etQuantity"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:layout_weight="22"
-                            android:hint="Quantity"
-                            android:lines="1"
-                            android:inputType="number"
-                            android:digits="0123456789"
-                            android:textAlignment="center"
-                            android:textColor="@color/darkgray"
-                            android:textSize="12sp" />
-
-                        <Spinner
-                            android:id="@+id/spUnit"
-                            style="@style/Widget.AppCompat.Spinner.Underlined"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:id="@+id/et_date"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_centerVertical="true"
                             android:layout_marginRight="5dp"
-                            android:layout_weight="40"
-                            android:backgroundTint="@color/graylight" />
+                            android:background="@null"
+                            android:editable="false"
+                            android:hint="Enter Date"
+                            android:paddingLeft="20dp"
+                            />
 
+                        </RelativeLayout>
 
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llLayout_below"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/llLayout1"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal"
+                        android:weightSum="99">
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="33"
+                            android:background="@drawable/border_rectangle_grey">
+
+                            <Spinner
+                                android:id="@+id/spItem"
+                                style="?android:attr/spinnerDropDownItemStyle"
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_centerInParent="true"
+                                android:ellipsize="marquee"
+                                android:singleLine="true"
+                                android:textAlignment="inherit"/>
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="33"
+                            android:background="@drawable/border_rectangle_grey">
+                    <Spinner
+                        android:id="@+id/spUnit"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_centerInParent="true"
+                        android:ellipsize="marquee"
+                        android:singleLine="true"
+                        android:textAlignment="inherit"
+                        />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_weight="33"
+                            android:background="@drawable/border_rectangle_grey">
+                        <EditText
+                            android:id="@+id/etQuantity"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_centerVertical="true"
+                            android:background="@null"
+                            android:digits="0123456789"
+                            android:hint="Quantity"
+                            android:inputType="number"
+                            android:lines="1"
+                            android:padding="4dp"
+                            android:textColor="@color/darkgray"
+                            android:textSize="12sp" />
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
 
                     <LinearLayout
                         android:id="@+id/llLayout2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/llLayout1"
+                        android:layout_below="@+id/llLayout_below"
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal"
                         android:weightSum="100">

@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
@@ -58,6 +59,7 @@ public class TrackDataFragment extends Fragment implements View.OnClickListener,
     int goal_val = 0;
     int goal_change_val = 0;
     int goal_id;
+    ImageView iv_search;
     TextView tvMyGoal, tvTitle, tvGoalTop, tvConsumedNumber, tvBurnedNumber;
     private SharedPrefService sharedPrefService;
     private long userId;
@@ -142,6 +144,7 @@ public class TrackDataFragment extends Fragment implements View.OnClickListener,
 
     public void init(View rootView) {
         tvTitle = (TextView) getActivity().findViewById(R.id.tvTitle);
+        iv_search = (ImageView) getActivity().findViewById(R.id.select_loc);
         ivback = (ImageView) getActivity().findViewById(R.id.ivback);
         ivback1 = (ImageView) getActivity().findViewById(R.id.ivback1);
         tvMyGoal = (TextView) rootView.findViewById(R.id.tvMyGoal);
@@ -152,6 +155,7 @@ public class TrackDataFragment extends Fragment implements View.OnClickListener,
         spUser = (Spinner) rootView.findViewById(R.id.spUser);
         llCalariesBurned = (LinearLayout) rootView.findViewById(R.id.llCalariesBurned);
         llCaloriesConsumed = (LinearLayout) rootView.findViewById(R.id.llCaloriesConsumed);
+        iv_search.setVisibility(View.GONE);
         tvTitle.setVisibility(View.VISIBLE);
         tvTitle.setText("Food & Fitness");
        // ivback.setVisibility(View.GONE);

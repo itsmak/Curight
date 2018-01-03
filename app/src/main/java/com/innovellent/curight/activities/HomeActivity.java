@@ -35,6 +35,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.innovellent.curight.LoginActivity;
 import com.innovellent.curight.R;
 import com.innovellent.curight.adapter.CustomDrawerAdapter;
@@ -453,19 +458,34 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
             @Override
             public void onClick(View view) {
 
-                Intent i_searchlocation = new Intent(HomeActivity.this, SearchLocations.class);
-                startActivity(i_searchlocation);
-
-                Toast.makeText(getApplicationContext(),"Select a location",Toast.LENGTH_SHORT).show();
-                Log.d(TAG,"Location implementation");
+                try {
+                    Intent intent =
+                            new PlaceAutocomplete
+                                    .IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
+                                    .build(HomeActivity.this);
+                    startActivityForResult(intent, 1);
+                } catch (GooglePlayServicesRepairableException e) {
+                    // TODO: Handle the error.
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    // TODO: Handle the error.
+                }
             }
         });
         tvTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Toast.makeText(getApplicationContext(),"Select a location",Toast.LENGTH_SHORT).show();
-                Log.d(TAG,"Location implementation");
+                try {
+                    Intent intent =
+                            new PlaceAutocomplete
+                                    .IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
+                                    .build(HomeActivity.this);
+                    startActivityForResult(intent, 1);
+                } catch (GooglePlayServicesRepairableException e) {
+                    // TODO: Handle the error.
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    // TODO: Handle the error.
+                }
             }
         });
         //searchView.setIconifiedByDefault(true);
@@ -493,7 +513,30 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
         ivAdd = (ImageView) findViewById(R.id.ivAdd);
 
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                // retrive the data by using getPlace() method.
+                Place place = PlaceAutocomplete.getPlace(this, data);
+                Log.e("Tag", "Place: " + place.getAddress() + place.getPhoneNumber());
+                tvTitle.setText(place.getName());
+                Log.d(TAG,"location latitude::"+place.getLatLng());
 
+//                ((TextView) findViewById(R.id.searched_address))
+//                        .setText(place.getName()+",\n"+
+//                                place.getAddress() +"\n" + place.getPhoneNumber());
+
+            } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
+                Status status = PlaceAutocomplete.getStatus(this, data);
+                // TODO: Handle the error.
+                Log.e("Tag", status.getStatusMessage());
+
+            } else if (resultCode == RESULT_CANCELED) {
+                // The user canceled the operation.
+            }
+        }
+    }
     public void onclick() {
         ivAdd.setOnClickListener(this);
         //searchView.setOnClickListener(this);
