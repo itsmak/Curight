@@ -76,6 +76,7 @@ public class BPFragment extends Fragment implements View.OnClickListener {
     RecyclerView recyclerView;
     BPAdapter mAdapter;
     GraphView lineGraph;
+    LineGraphSeries lineGraphSeries;
     List<Object> arrayList = new ArrayList<>();
     ArrayList<BP> bp_arraylist = new ArrayList<BP>();
     AddBPRecordsDialog addRecordsDialog;
@@ -330,7 +331,8 @@ public class BPFragment extends Fragment implements View.OnClickListener {
 
                             for(int j=0; j<jsonarray_child.length(); j++){
                                 bp_arraylist.add(new BP(jsonArray_parent.getJSONObject(i).getString("date"),jsonarray_child.getJSONObject(j).getInt("bpid"),jsonarray_child.getJSONObject(j).getString("time"),jsonarray_child.getJSONObject(j).getString("graphflag"),jsonarray_child.getJSONObject(j).getInt("pulse"),jsonarray_child.getJSONObject(j).getInt("systolic"),jsonarray_child.getJSONObject(j).getInt("diastolic"),""));
-                                points.add(new DataPoint(j, Double.parseDouble(String.valueOf(jsonarray_child.getJSONObject(j).getInt("pulse")))));
+                                
+                                points.add(new DataPoint(i, Double.parseDouble(String.valueOf(jsonarray_child.getJSONObject(j).getInt("diastolic")))));
                             }
                         }
 
