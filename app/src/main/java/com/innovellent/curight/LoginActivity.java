@@ -33,14 +33,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class LoginActivity extends Activity {
+    String user_name;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor et;
     private Button btContinue,etContinue1;
     private EditText etUsername;
     private TextView register_tv;
-    String user_name;
     private User _user;
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor et;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -90,41 +89,43 @@ public class LoginActivity extends Activity {
                     call.enqueue(new Callback<ServerResponseLogin>() {
                         @Override
                         public void onResponse(Call<ServerResponseLogin> call, Response<ServerResponseLogin> response) {
-                            ServerResponseLogin responseLogin =(ServerResponseLogin) response.body();
-                            String code = responseLogin.getCode();
-                            if ("200".equals(code)) {
-                                _user = responseLogin.getResults().get(0);
+                         if (response.body() != null) {
+                             ServerResponseLogin responseLogin = (ServerResponseLogin) response.body();
+                             String code = responseLogin.getCode();
+                             if ("200".equals(code)) {
+                                 _user = responseLogin.getResults().get(0);
 
 
-                                Log.e("LOGIN","User  :: "+_user.getName()+" Mobile :: "+_user.getMobile()+" OTP :: "+_user.getOtp());
+                                 Log.e("LOGIN", "User  :: " + _user.getName() + " Mobile :: " + _user.getMobile() + " OTP :: " + _user.getOtp());
 
-                               // if (_user!=null && _user.getUserid()<=0L) {
+                                 // if (_user!=null && _user.getUserid()<=0L) {
                                 /*SharedPreferences sharedPreferences = getSharedPreferences("mypref", Context.MODE_PRIVATE);
                                 SharedPreferences.Editor et = sharedPreferences.edit();*/
-                                et.putBoolean("Islogin", false);
-                                et.putLong("user_id", _user.getUserid());
-                                et.putString("mobile",_user.getMobile());
-                                et.putString("user_name",_user.getName());
-                                et.putString("email",_user.getEmail());
-                                et.apply();
-                                et.commit();
-//
+                                 et.putBoolean("Islogin", false);
+                                 et.putLong("user_id", _user.getUserid());
+                                 et.putString("mobile", _user.getMobile());
+                                 et.putString("user_name", _user.getName());
+                                 et.putString("email", _user.getEmail());
+                                 et.apply();
+                                 et.commit();
 
+                                 Intent intent = new Intent(LoginActivity.this, OtpVerifyActivity.class);
+                                 Bundle bundle = new Bundle();
+                                 bundle.putString("user_id", _user.getMobile());
+                                 bundle.putLong("uid", _user.getUserid());
+                                 bundle.putString("name", _user.getName());
+                                 bundle.putString("email", _user.getEmail());
+                                 bundle.putLong("otp", _user.getOtp());
+                                 intent.putExtras(bundle);
+                                 startActivity(intent);
+                                 finish();
 
-                                Intent intent = new Intent(LoginActivity.this, OtpVerifyActivity.class);
-                                Bundle bundle = new Bundle();
-                                bundle.putString("user_id", _user.getMobile());
-                                bundle.putLong("uid",_user.getUserid());
-                                bundle.putString("name",_user.getName());
-                                bundle.putString("email",_user.getEmail());
-                                bundle.putLong("otp", _user.getOtp());
-                                intent.putExtras(bundle);
-                                startActivity(intent);
-                                finish();
-
-                            } /*else {
-                                //Toast.makeText(LoginActivity.this,"Login",Toast.LENGTH_LONG).show();
-                            }*/
+                             } else if ("403".equals(code)) {
+                                 Toast.makeText(LoginActivity.this, "Please enter correct Username", Toast.LENGTH_LONG).show();
+                             }
+                         }else{
+                             Toast.makeText(LoginActivity.this, "Please enter correct Username", Toast.LENGTH_LONG).show();
+                         }
                         }
 
                         @Override
