@@ -19,9 +19,21 @@ public class Cholesterol {
     }
 
     private int triglycerides;
-    private String date,time,totalCholestrolFlag;
+    private String date;
+    private String time;
+    private String totalCholestrolFlag;
 
-    public Cholesterol(int hdl, int ldl, int cholestrolid,int triglycerides,String date, String time, String totalCholestrolFlag) {
+    public String getGraphflag() {
+        return graphflag;
+    }
+
+    public void setGraphflag(String graphflag) {
+        this.graphflag = graphflag;
+    }
+
+    private String graphflag;
+
+    public Cholesterol(int hdl, int ldl, int cholestrolid,int triglycerides,String date, String time, String totalCholestrolFlag, String graphflag) {
         this.hdl = hdl;
         this.ldl = ldl;
         this.triglycerides =triglycerides;
@@ -29,6 +41,7 @@ public class Cholesterol {
         this.date = date;
         this.time = time;
         this.totalCholestrolFlag = totalCholestrolFlag;
+        this.graphflag = graphflag;
     }
 
 

@@ -451,6 +451,7 @@ public class BloodSugarFragment extends Fragment implements View.OnClickListener
                     try{
                         String res_data = response.body().string();
                         List<DataPoint> points = new ArrayList<>();
+                        List<DataPoint> points2 = new ArrayList<>();
                         Log.e("res_dataforbloodsugar", res_data);
 
                         JSONObject jsonObject = new JSONObject(res_data);
@@ -491,16 +492,30 @@ public class BloodSugarFragment extends Fragment implements View.OnClickListener
 
                             for(int j=0;j<jsonarray_child.length();j++){
                                 bloodSugarArrayList.add(new BloodSugar(jsonarray_child.getJSONObject(j).getInt("aftermeal"),jsonarray_child.getJSONObject(j).getInt("beforemeal"),jsonarray_child.getJSONObject(j).getInt("bsid"),jsonarray_child.getJSONObject(j).getString("bsflag"),jsonarray_parent.getJSONObject(i).getString("date"),jsonarray_child.getJSONObject(j).getString("graphflag")));
-                                points.add(new DataPoint(Double.parseDouble(String.valueOf(jsonarray_child.getJSONObject(j).getInt("aftermeal"))),Double.parseDouble(String.valueOf(jsonarray_child.getJSONObject(j).getInt("beforemeal")))));
-                                Log.d("bloodsugargrapghvalue",""+Double.parseDouble(String.valueOf(jsonarray_child.getJSONObject(j).getInt("aftermeal"))) +""+Double.parseDouble(String.valueOf(jsonarray_child.getJSONObject(j).getInt("beforemeal"))));
+
+                                String graphflag = jsonarray_child.getJSONObject(j).getString("graphflag");
+
+                                if(graphflag.equalsIgnoreCase("Y")){
+
+                                    double beforemeal = jsonarray_child.getJSONObject(j).getInt("beforemeal");
+                                    double aftermeal = jsonarray_child.getJSONObject(j).getInt("aftermeal");
+
+
+                                    points.add(new DataPoint(i, beforemeal));
+                                    points2.add(new DataPoint(i, aftermeal));
+                                }
+                                //points.add(new DataPoint(Double.parseDouble(String.valueOf(jsonarray_child.getJSONObject(j).getInt("aftermeal"))),Double.parseDouble(String.valueOf(jsonarray_child.getJSONObject(j).getInt("beforemeal")))));
+                                //Log.d("bloodsugargrapghvalue",""+Double.parseDouble(String.valueOf(jsonarray_child.getJSONObject(j).getInt("aftermeal"))) +""+Double.parseDouble(String.valueOf(jsonarray_child.getJSONObject(j).getInt("beforemeal"))));
 
 
 
                             }
                         }
                         DataPoint[] pointArray = new DataPoint[points.size()];
+                        DataPoint[] pointArray2 = new DataPoint[points2.size()];
                         line_graph.removeAllSeries();
                         line_graph.addSeries(new LineGraphSeries<>(points.toArray(pointArray)));
+                        line_graph.addSeries(new LineGraphSeries<>(points2.toArray(pointArray2)));
                         // lineGraph = new GraphView(getActivity());
                         line_graph.getViewport().setMinX(0);
                         line_graph.getViewport().setMinY(0);

@@ -292,6 +292,7 @@ public class BMIFragment extends Fragment implements View.OnClickListener {
                     try{
                         res_dataforbmi = response.body().string();
                         List<DataPoint> points = new ArrayList<>();
+                        List<DataPoint> points2 = new ArrayList<>();
                         JSONObject jsonObject = new JSONObject(res_dataforbmi);
                         String code = jsonObject.getString("Code");
                         JSONObject jsonObject1 = jsonObject.getJSONObject("Results");
@@ -327,12 +328,27 @@ public class BMIFragment extends Fragment implements View.OnClickListener {
 
                             for(int j=0; j<jsonarray_child.length(); j++){
                                 bmiArrayList.add(new BMI(jsonArray_parent.getJSONObject(i).getString("date"),jsonarray_child.getJSONObject(j).getString("weight"),jsonarray_child.getJSONObject(j).getString("height"),jsonarray_child.getJSONObject(j).getString("bmi"),jsonarray_child.getJSONObject(j).getInt("bmiid")));
-                                points.add(new DataPoint(j, Double.parseDouble(jsonarray_child.getJSONObject(j).getString("bmi"))));
+
+
+                                String graphflag = jsonarray_child.getJSONObject(j).getString("graphflag");
+
+                                if(graphflag.equalsIgnoreCase("Y")){
+
+                                    double height = jsonarray_child.getJSONObject(j).getInt("height");
+                                    double weight = jsonarray_child.getJSONObject(j).getInt("weight");
+
+
+                                    points.add(new DataPoint(i, height));
+                                    points2.add(new DataPoint(i, weight));
+                                }
+                                //points.add(new DataPoint(j, Double.parseDouble(jsonarray_child.getJSONObject(j).getString("bmi"))));
                             }
                         }
                         DataPoint[] pointArray = new DataPoint[points.size()];
+                        DataPoint[] pointArray2 = new DataPoint[points2.size()];
                         lineGraph.removeAllSeries();
                         lineGraph.addSeries(new LineGraphSeries<>(points.toArray(pointArray)));
+                        lineGraph.addSeries(new LineGraphSeries<>(points2.toArray(pointArray2)));
                         // lineGraph = new GraphView(getActivity());
                         lineGraph.getViewport().setMinX(0);
                         lineGraph.getViewport().setMinY(0);

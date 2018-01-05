@@ -43,6 +43,7 @@ import com.innovellent.curight.model.ServerResponse;
 import com.innovellent.curight.model.WHR;
 import com.innovellent.curight.utility.Config;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -93,7 +94,7 @@ public class BPFragment extends Fragment implements View.OnClickListener {
     private Long userId;
     private String accessToken;
     private ProgressDialog progressDialog;
-
+    //double dates;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_bp, container, false);
@@ -339,17 +340,36 @@ public class BPFragment extends Fragment implements View.OnClickListener {
 //                                        new DataPoint(0, 1)
 
 //                                });
-                                points.add(new DataPoint(i, Double.parseDouble(String.valueOf(jsonarray_child.getJSONObject(j).getInt("systolic")))));
-                              //  Log.d(TAG, "Systolicvalues", + Double.parseDouble(String.valueOf(jsonarray_child.getJSONObject(j).getInt("systolic"))));
 
-                                points2.add(new DataPoint(i, Double.parseDouble(String.valueOf(jsonarray_child.getJSONObject(j).getInt("diastolic")))));
+                                String graphflag = jsonarray_child.getJSONObject(j).getString("graphflag");
+
+                                if(graphflag.equalsIgnoreCase("Y")){
+
+                                    double systolic1 = jsonarray_child.getJSONObject(j).getInt("systolic");
+                                    double diastolic1 = jsonarray_child.getJSONObject(j).getInt("diastolic");
+
+
+                                    points.add(new DataPoint(i, systolic1));
+                                    points2.add(new DataPoint(i, diastolic1));
+                                }
+
+                                   /* try {
+                                        dates = Double.valueOf(jsonArray_parent.getJSONObject(i).getString("date"));
+                                        Log.d("Dates==", ""+dates);
+                                    }catch (NumberFormatException e) {
+                                        dates = 0;
+                                    }*/
+
+
+
                             }
                         }
 
                         DataPoint[] pointArray = new DataPoint[points.size()];
                         DataPoint[] pointArray2 = new DataPoint[points2.size()];
                         lineGraph.removeAllSeries();
-                        lineGraphSeries.setColor(Color.BLACK);
+
+                        //lineGraphSeries.setColor(Color.BLACK);
 //                        lineGraphSeries.setThickness(4);
                         
                         lineGraph.addSeries(new LineGraphSeries<>(points.toArray(pointArray)));
@@ -359,8 +379,15 @@ public class BPFragment extends Fragment implements View.OnClickListener {
 //                        staticlebel.setVerticalLabels(new String[] {"0","50","100","150"});
 //                        lineGraph.getGridLabelRenderer().setLabelFormatter(staticlebel);
                         // lineGraph = new GraphView(getActivity());
+
+                        // set date label formatter
+                       // lineGraph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
+                       // lineGraph.getGridLabelRenderer().setNumHorizontalLabels(4);
                         lineGraph.getViewport().setMinX(0);
+                       // lineGraph.getViewport().setMinX(dates);
                         lineGraph.getViewport().setMinY(0);
+                        lineGraph.getViewport().setXAxisBoundsManual(true);
+                       // lineGraph.getGridLabelRenderer().setHumanRounding(false);
                         lineGraph.getViewport().setScrollable(false);
 
                     }catch (Exception e){

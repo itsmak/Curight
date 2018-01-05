@@ -305,6 +305,8 @@ public class CholesterolFragment extends Fragment implements View.OnClickListene
                     try{
                         res_data = response.body().string();
                         List<DataPoint> points = new ArrayList<>();
+                        List<DataPoint> points2 = new ArrayList<>();
+
                         JSONObject jsonObject = new JSONObject(res_data);
                         String code = jsonObject.getString("Code");
 
@@ -341,14 +343,29 @@ public class CholesterolFragment extends Fragment implements View.OnClickListene
 
                             jsonarray_child = jsonObject1.getJSONArray("cholestrolList");
                             for(int j=0;j<jsonarray_child.length();j++){
-                                cholesterolArrayList.add(new Cholesterol(jsonarray_child.getJSONObject(j).getInt("hdl"),jsonarray_child.getJSONObject(j).getInt("ldl"),jsonarray_child.getJSONObject(j).getInt("cholestrolid"),jsonarray_child.getJSONObject(j).getInt("triglycerides"),jsonarray_parent.getJSONObject(i).getString("date"),jsonarray_child.getJSONObject(j).getString("time"),jsonarray_child.getJSONObject(j).getString("totalCholestrolFlag")));
-                                points.add(new DataPoint(j, Double.parseDouble(String.valueOf(jsonarray_child.getJSONObject(j).getInt("triglycerides")))));
+                                cholesterolArrayList.add(new Cholesterol(jsonarray_child.getJSONObject(j).getInt("hdl"),jsonarray_child.getJSONObject(j).getInt("ldl"),jsonarray_child.getJSONObject(j).getInt("cholestrolid"),jsonarray_child.getJSONObject(j).getInt("triglycerides"),jsonarray_parent.getJSONObject(i).getString("date"),jsonarray_child.getJSONObject(j).getString("time"),jsonarray_child.getJSONObject(j).getString("totalCholestrolFlag"),jsonarray_child.getJSONObject(j).getString("graphflag")));
+
+
+                                String graphflag = jsonarray_child.getJSONObject(j).getString("graphflag");
+
+                                if(graphflag.equalsIgnoreCase("Y")){
+
+                                    double LDL1 = jsonarray_child.getJSONObject(j).getInt("ldl");
+                                    double HDL1 = jsonarray_child.getJSONObject(j).getInt("hdl");
+
+
+                                    points.add(new DataPoint(i, LDL1));
+                                    points2.add(new DataPoint(i, HDL1));
+                                }
+                                //points.add(new DataPoint(j, Double.parseDouble(String.valueOf(jsonarray_child.getJSONObject(j).getInt("triglycerides")))));
 
                             }
                         }
                         DataPoint[] pointArray = new DataPoint[points.size()];
+                        DataPoint[] pointArray2 = new DataPoint[points2.size()];
                         lineGraph.removeAllSeries();
                         lineGraph.addSeries(new LineGraphSeries<>(points.toArray(pointArray)));
+                        lineGraph.addSeries(new LineGraphSeries<>(points2.toArray(pointArray2)));
                         // lineGraph = new GraphView(getActivity());
                         lineGraph.getViewport().setMinX(0);
                         lineGraph.getViewport().setMinY(0);
