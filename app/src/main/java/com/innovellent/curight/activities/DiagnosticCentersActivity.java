@@ -72,8 +72,11 @@ public class DiagnosticCentersActivity extends AppCompatActivity implements View
             newtext = new String(newtest_id);
             if(newtext!=null)
             {
+                if(newtext.length()>=1)
+                {
+                    finaltext_id= newtext.substring(0,newtest_id.length-1);
+                }
 
-                finaltext_id= newtext.substring(0,newtest_id.length-1);
             }
         }
         Log.d(TAG,"test_Id_old:"+my_test_id);

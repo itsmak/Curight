@@ -28,10 +28,13 @@ import com.innovellent.curight.model.Calorie;
 import com.innovellent.curight.model.Category_Feed;
 import com.innovellent.curight.model.Category_List;
 import com.innovellent.curight.model.FoodItem;
+import com.innovellent.curight.model.FoodItem_Feed;
 import com.innovellent.curight.model.FoodUnit;
+import com.innovellent.curight.model.Food_Units;
 import com.innovellent.curight.model.ServerResponse;
 import com.innovellent.curight.model.ServerResponseCalorie;
 import com.innovellent.curight.model.ServerResponseFoodCategory;
+import com.innovellent.curight.model.ServerResponseFoodItem;
 import com.innovellent.curight.model.ServerResponseTest;
 import com.innovellent.curight.model.Swimming;
 import com.innovellent.curight.utility.Config;
@@ -103,7 +106,50 @@ public class AddFoodConsumptionActivity extends AppCompatActivity {
         sharedPrefService = SharedPrefService.getInstance();
         userId = sharedPrefService.getLong(USER_ID);
         accessToken = sharedPrefService.getString(ACCESS_TOKEN);
-        getFoodItems();
+       // getFoodItems();
+        //getfooditemspinner();
+    }
+
+    private void getfooditemspinner(Long catid) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(new Config().SERVER_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        ApiInterface apiInterface = retrofit.create(ApiInterface.class);
+        Log.d(TAG,"getfooditem id"+catid);
+        Call<ServerResponseFoodItem> call = apiInterface.getfooditem(catid);
+        call.enqueue(new Callback<ServerResponseFoodItem>() {
+            @Override
+            public void onResponse(Call<ServerResponseFoodItem> call, Response<ServerResponseFoodItem> response) {
+                Log.d(TAG, "getfooditem body:" + response.body());
+                if (response.body() != null) {
+                    Log.d(TAG, "getfooditem code: " + response.body().getCode());
+
+                    ArrayList<FoodItem_Feed> foodItems = response.body().getResults();
+                    if (foodItems.size() > 0) {
+                        foodItemSpinnerAdapter = new FoodItemSpinnerAdapter(AddFoodConsumptionActivity.this, foodItems);
+                        itemSpinner.setAdapter(foodItemSpinnerAdapter);
+                        itemSpinner.setSelection(0);
+                        itemSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                resetFoodUnitSpinnerAdapter();
+                            }
+                            @Override
+                            public void onNothingSelected(AdapterView<?> adapterView) {
+                            }
+                        });
+                        resetFoodUnitSpinnerAdapter();
+                    }
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ServerResponseFoodItem> call, Throwable t) {
+
+            }
+        });
     }
 
     private void getcategorySpinnerdata() {
@@ -158,12 +204,12 @@ public class AddFoodConsumptionActivity extends AppCompatActivity {
         sp_category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
+                getfooditemspinner(categorylist.get(i).getFoodcategoryid());
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
+                getfooditemspinner(categorylist.get(0).getFoodcategoryid());
             }
         });
     }
@@ -240,55 +286,55 @@ public class AddFoodConsumptionActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void getFoodItems() {
-
-        progressDialog = ProgressDialog.show(AddFoodConsumptionActivity.this, "Loading", "please wait", false);
-        progressDialog.show();
-
-        ApiInterface client = ApiClient.getClient();
-        Call<ServerResponse<List<FoodItem>>> call = client.getAllFoodItems(accessToken);
-
-        call.enqueue(new Callback<ServerResponse<List<FoodItem>>>() {
-            @Override
-            public void onResponse(Call<ServerResponse<List<FoodItem>>> call, Response<ServerResponse<List<FoodItem>>> response) {
-
-                if (getBaseContext() != null) {
-                    progressDialog.dismiss();
-                    if (response.isSuccessful()) {
-                        List<FoodItem> foodItems = response.body().getResults();
-                        if (foodItems.size() > 0) {
-                            foodItemSpinnerAdapter = new FoodItemSpinnerAdapter(AddFoodConsumptionActivity.this, foodItems);
-                            itemSpinner.setAdapter(foodItemSpinnerAdapter);
-                            itemSpinner.setSelection(0);
-                            itemSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                @Override
-                                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                                    resetFoodUnitSpinnerAdapter();
-                                }
-
-                                @Override
-                                public void onNothingSelected(AdapterView<?> adapterView) {
-                                }
-                            });
-                            resetFoodUnitSpinnerAdapter();
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ServerResponse<List<FoodItem>>> call, Throwable t) {
-                if (getBaseContext() != null) progressDialog.dismiss();
-            }
-        });
-
-    }
+//    public void getFoodItems() {
+//        Log.d(TAG,"getFoodItemcalled");
+//        progressDialog = ProgressDialog.show(AddFoodConsumptionActivity.this, "Loading", "please wait", false);
+//        progressDialog.show();
+//
+//        ApiInterface client = ApiClient.getClient();
+//        Call<ServerResponse<List<FoodItem>>> call = client.getAllFoodItem(accessToken);
+//
+//        call.enqueue(new Callback<ServerResponse<List<FoodItem>>>() {
+//            @Override
+//            public void onResponse(Call<ServerResponse<List<FoodItem>>> call, Response<ServerResponse<List<FoodItem>>> response) {
+//                Log.d(TAG,"getFoodItem response"+getBaseContext());
+//                if (getBaseContext() != null) {
+//                    progressDialog.dismiss();
+//                    if (response.isSuccessful()) {
+//                        List<FoodItem> foodItems = response.body().getResults();
+//                        if (foodItems.size() > 0) {
+//                            foodItemSpinnerAdapter = new FoodItemSpinnerAdapter(AddFoodConsumptionActivity.this, foodItems);
+//                            itemSpinner.setAdapter(foodItemSpinnerAdapter);
+//                            itemSpinner.setSelection(0);
+//                            itemSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//                                @Override
+//                                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                                    resetFoodUnitSpinnerAdapter();
+//                                }
+//
+//                                @Override
+//                                public void onNothingSelected(AdapterView<?> adapterView) {
+//                                }
+//                            });
+//                            resetFoodUnitSpinnerAdapter();
+//                        }
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ServerResponse<List<FoodItem>>> call, Throwable t) {
+//                if (getBaseContext() != null) progressDialog.dismiss();
+//            }
+//        });
+//
+//    }
 
     private void resetFoodUnitSpinnerAdapter() {
         if (itemSpinner.getSelectedItem() != null) {
 
-            ArrayList<FoodUnit> foodUnits = ((FoodItem) itemSpinner.getSelectedItem()).getUnits();
-
+           // ArrayList<FoodUnit> foodUnits = ((FoodItem) itemSpinner.getSelectedItem()).getUnits();
+            ArrayList<Food_Units> foodUnits = ((FoodItem_Feed) itemSpinner.getSelectedItem()).getResults();
             if (foodUnits.size() > 0) {
                 FoodUnitSpinnerAdapter foodUnitSpinnerAdapter = new FoodUnitSpinnerAdapter(AddFoodConsumptionActivity.this, foodUnits);
                 unitSpinner.setAdapter(foodUnitSpinnerAdapter);

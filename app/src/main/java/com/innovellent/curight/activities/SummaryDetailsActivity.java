@@ -190,12 +190,9 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
 //                    //do Payment as its logged in
 //                    doPayment(x_access_token);
 //                }
-                if(startDate.getText().toString().trim().equals(""))
+                if((startDate.getText().toString().trim().equals(""))&&(endDate.getText().toString().trim().equals("")))
                 {
-                    Toast.makeText(getApplicationContext(),"Select Date & Time",Toast.LENGTH_SHORT).show();
-                }else if(endDate.getText().toString().trim().equals(""))
-                {
-                    Toast.makeText(getApplicationContext(),"Select Date & Time",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"Select start or end time",Toast.LENGTH_SHORT).show();
                 }else {
 
                     Long uid = Prefs.getLong("user_id",0);
@@ -354,10 +351,10 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
     }
     @Override
     public void onBackPressed() {
-        Intent i=new Intent(SummaryDetailsActivity.this,AddTestActivity.class);
-        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(i);
-        finish();
+//        Intent i=new Intent(SummaryDetailsActivity.this,AddTestActivity.class);
+//        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        startActivity(i);
+//        finish();
         super.onBackPressed();
     }
 

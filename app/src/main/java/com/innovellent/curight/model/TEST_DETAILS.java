@@ -13,6 +13,8 @@ public class TEST_DETAILS {
     private String homePickupFlag;
     private String labPickupFlag;
     private String testchoosen;
+    private boolean checked;
+
 
     public TEST_DETAILS(Long diagnostictestId, Long testid, String testName, Long amount, String homePickupFlag, String labPickupFlag, String testchoosen) {
         this.diagnostictestId = diagnostictestId;
@@ -22,6 +24,15 @@ public class TEST_DETAILS {
         this.homePickupFlag = homePickupFlag;
         this.labPickupFlag = labPickupFlag;
         this.testchoosen = testchoosen;
+        this.checked = false;
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 
     public Long getDiagnostictestId() {

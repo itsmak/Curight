@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.innovellent.curight.LoginActivity;
 import com.innovellent.curight.OtpVerifyActivity;
@@ -91,6 +92,7 @@ public class Summary_login extends Activity {
                     call.enqueue(new Callback<ServerResponseLogin>() {
                         @Override
                         public void onResponse(Call<ServerResponseLogin> call, Response<ServerResponseLogin> response) {
+                          if (response.body() != null) {
                             ServerResponseLogin responseLogin =(ServerResponseLogin) response.body();
                             String code = responseLogin.getCode();
                             if ("200".equals(code)) {
@@ -109,8 +111,6 @@ public class Summary_login extends Activity {
                                 et.putString("email",_user.getEmail());
                                 et.apply();
                                 et.commit();
-//
-
 
                                 Intent intent = new Intent(Summary_login.this, Summary_Otp_Verify.class);
                                 Bundle bundle = new Bundle();
@@ -123,9 +123,12 @@ public class Summary_login extends Activity {
                                 startActivity(intent);
                                 finish();
 
-                            } /*else {
-                                //Toast.makeText(LoginActivity.this,"Login",Toast.LENGTH_LONG).show();
-                            }*/
+                            }else if ("403".equals(code)) {
+                                Toast.makeText(Summary_login.this, "Please enter correct Username", Toast.LENGTH_LONG).show();
+                            }
+                          }else{
+                              Toast.makeText(Summary_login.this, "Please enter correct Username", Toast.LENGTH_LONG).show();
+                          }
                         }
 
                         @Override

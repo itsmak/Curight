@@ -213,7 +213,6 @@ public class TrackDataFragment extends Fragment implements View.OnClickListener,
             }
         });
 
-
     }
 
     public void setGoal() {

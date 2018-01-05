@@ -9,15 +9,17 @@ import android.widget.TextView;
 
 import com.innovellent.curight.R;
 import com.innovellent.curight.model.FoodItem;
+import com.innovellent.curight.model.FoodItem_Feed;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FoodItemSpinnerAdapter extends BaseAdapter {
 
-    private List<FoodItem> items;
+    private ArrayList<FoodItem_Feed> items;
     private LayoutInflater inflater;
 
-    public FoodItemSpinnerAdapter(Context context, List<FoodItem> items) {
+    public FoodItemSpinnerAdapter(Context context, ArrayList<FoodItem_Feed> items) {
         this.items = items;
         inflater = LayoutInflater.from(context);
     }
@@ -40,7 +42,7 @@ public class FoodItemSpinnerAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = inflater.inflate(R.layout.spinner_string_row, null);
-        ((TextView) view).setText(String.valueOf(items.get(position).getName()));
+        ((TextView) view).setText(String.valueOf(items.get(position).getFoodName()));
         return view;
     }
 }

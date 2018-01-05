@@ -104,7 +104,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
     Toolbar toolbar;
     ViewPager viewpager;
     HomeActivity.ViewPagerAdapter adapter;
-    Spinner spUser;
+    //Spinner spUser;
     TextView tvTrends, tvSave;
     TextView tvHome, tvTitle, tvReminder, tvArticle, tvTrack, tvProfile;
     ImageView ivHome, ivreminder, ivArticle, ivTrack, ivProfile;
@@ -138,7 +138,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
         setContentView(R.layout.activity_home);
         Log.d(TAG,"Homeactivity: oncreate");
         sharedPreferences = getSharedPreferences("mypref", Context.MODE_PRIVATE);
-
         init();
 //        getSpinnerData();
         //onclick();
@@ -205,6 +204,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
     protected void onRestart() {
         super.onRestart();
         Log.d(TAG,"Homeactivity: onrestart");
+        Prefs.putString("destination","");
+        setupViewPagerreset();
+       // setupViewPagerHome(viewPager);
     }
 
     @Override
@@ -213,60 +215,74 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
         Log.d(TAG,"Homeactivity: onresume");
         String destination =Prefs.getString("destination","");
         Log.d(TAG, "spvaluerestore" + destination);
-//        if(destination.equals("Remainder")){
-//
-//            ivAddprofile.setVisibility(View.GONE);
-//            tvTitle.setText("Reminder");
-//            ivAdd.setVisibility(View.INVISIBLE);
-//            viewPager.setVisibility(View.VISIBLE);
-//            frameLayout.setVisibility(View.GONE);
-//            tabLayout.setVisibility(View.VISIBLE);
-//            spUser.setVisibility(View.GONE);
-//            adapter.notifyDataSetChanged();
-//            setupViewPagerMedicineReminder(viewPager);
-//            tabLayout.setupWithViewPager(viewPager);
-//            tabLayout.setTabMode(TabLayout.MODE_FIXED);
-//
-//        }else if(destination.equals("Profile"))
-//        {
-//            ivAddprofile.setVisibility(View.VISIBLE);
-//            ivAdd.setVisibility(View.INVISIBLE);
-//            tvTitle.setText("Profile");
-//            viewPager.setVisibility(View.VISIBLE);
-//            frameLayout.setVisibility(View.GONE);
-//            spUser.setVisibility(View.GONE);
-//            tabLayout.setVisibility(View.GONE);
-//            adapter.notifyDataSetChanged();
-//            setupViewPagerProfile(viewPager);
-//            tabLayout.setupWithViewPager(viewPager);
-//        }else if(destination.equals("Track"))
-//        {
-//            ivAddprofile.setVisibility(View.GONE);
-//            tvTitle.setText("Track");
-//            ivAdd.setVisibility(View.INVISIBLE);
-//            viewPager.setVisibility(View.VISIBLE);
-//            frameLayout.setVisibility(View.GONE);
-//            spUser.setVisibility(View.VISIBLE);
-//            tabLayout.setVisibility(View.VISIBLE);
-//            adapter.notifyDataSetChanged();
-//            setupViewPagerTrack(viewPager);
-//            tabLayout.setupWithViewPager(viewPager);
-//            tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-//            tabLayout.setVisibility(View.VISIBLE);
-//        }
-//        else if(destination.equals("Home")){
-//            ivAddprofile.setVisibility(View.GONE);
-//            ivAdd.setVisibility(View.VISIBLE);
-//            //tvTitle.setText("Home");
-//            tvTitle.setVisibility(View.GONE);
-//            viewPager.setVisibility(View.VISIBLE);
-//            frameLayout.setVisibility(View.GONE);
-//            spUser.setVisibility(View.GONE);
-//            tabLayout.setVisibility(View.GONE);
-//            adapter.notifyDataSetChanged();
-//            setupViewPagerHome(viewPager);
-//            tabLayout.setupWithViewPager(viewPager);
-//        }
+        if(destination.equals("Remainder")){
+
+            ivAddprofile.setVisibility(View.GONE);
+            tvTitle.setText("Reminder");
+            ivAdd.setVisibility(View.INVISIBLE);
+            viewPager.setVisibility(View.VISIBLE);
+            frameLayout.setVisibility(View.GONE);
+            tabLayout.setVisibility(View.VISIBLE);
+           // spUser.setVisibility(View.GONE);
+            adapter.notifyDataSetChanged();
+            setupViewPagerMedicineReminder(viewPager);
+            tabLayout.setupWithViewPager(viewPager);
+            tabLayout.setTabMode(TabLayout.MODE_FIXED);
+
+        }else if(destination.equals("Profile"))
+        {
+            ivAddprofile.setVisibility(View.VISIBLE);
+            ivAdd.setVisibility(View.INVISIBLE);
+            tvTitle.setText("Profile");
+            viewPager.setVisibility(View.VISIBLE);
+            frameLayout.setVisibility(View.GONE);
+           // spUser.setVisibility(View.GONE);
+            tabLayout.setVisibility(View.GONE);
+            adapter.notifyDataSetChanged();
+            setupViewPagerProfile(viewPager);
+            tabLayout.setupWithViewPager(viewPager);
+        }else if(destination.equals("Track"))
+        {
+            ivAddprofile.setVisibility(View.GONE);
+            tvTitle.setText("Track");
+            ivAdd.setVisibility(View.INVISIBLE);
+            viewPager.setVisibility(View.VISIBLE);
+            frameLayout.setVisibility(View.GONE);
+            //spUser.setVisibility(View.VISIBLE);
+            tabLayout.setVisibility(View.VISIBLE);
+            adapter.notifyDataSetChanged();
+            setupViewPagerTrack(viewPager);
+            tabLayout.setupWithViewPager(viewPager);
+            tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+            tabLayout.setVisibility(View.VISIBLE);
+        }
+        else if(destination.equals("Home")){
+
+            ivAddprofile.setVisibility(View.GONE);
+            ivAdd.setVisibility(View.VISIBLE);
+            //tvTitle.setText("Home");
+            tvTitle.setVisibility(View.GONE);
+            viewPager.setVisibility(View.VISIBLE);
+            frameLayout.setVisibility(View.GONE);
+            //spUser.setVisibility(View.GONE);
+            tabLayout.setVisibility(View.GONE);
+            adapter.notifyDataSetChanged();
+            setupViewPagerHome(viewPager);
+            tabLayout.setupWithViewPager(viewPager);
+        }else{
+            ivAddprofile.setVisibility(View.GONE);
+            ivAdd.setVisibility(View.VISIBLE);
+            //tvTitle.setText("Home");
+            tvTitle.setVisibility(View.GONE);
+            viewPager.setVisibility(View.VISIBLE);
+            frameLayout.setVisibility(View.GONE);
+            //spUser.setVisibility(View.GONE);
+            tabLayout.setVisibility(View.GONE);
+            adapter.notifyDataSetChanged();
+            setupViewPagerHome(viewPager);
+            tabLayout.setupWithViewPager(viewPager);
+
+        }
         Log.d(TAG,"shared-destination"+destination);
         onclick();
     }
@@ -280,6 +296,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
     protected void onStop() {
         super.onStop();
         Log.d(TAG,"Homeactivity: onStop");
+        //setupViewPagerHome(viewPager);
        // Prefs.putString("destination","");
     }
 
@@ -574,6 +591,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
                            Prefs.putString("destination", "Remainder");
                             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                           // setupViewPagerMedicineReminder(viewPager);
                             startActivity(i);
                         }else {
                             ivAddprofile.setVisibility(View.GONE);
@@ -617,6 +635,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
                             Prefs.putString("destination", "Track");
                             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                           // setupViewPagerTrack(viewPager);
                             startActivity(i);
                         }else {
                             ivAddprofile.setVisibility(View.GONE);
@@ -644,6 +663,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
                             Prefs.putString("destination", "Profile");
                             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                           // setupViewPagerProfile(viewPager);
                             startActivity(i);
                         }else {
                             ivAddprofile.setVisibility(View.VISIBLE);
@@ -745,10 +765,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
 
         adapter = new HomeActivity.ViewPagerAdapter(getSupportFragmentManager());
         adapter.notifyDataSetChanged();
-        viewpager.invalidate();
+//        if(viewPager!=null)
+//        {
+//            viewpager.invalidate();
+//        }
+
     }
-
-
 
     private void setupViewPagerTrack(ViewPager viewPager) {
 

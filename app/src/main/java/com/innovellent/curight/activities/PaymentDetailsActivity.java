@@ -56,10 +56,11 @@ public class PaymentDetailsActivity extends AppCompatActivity implements View.On
     RelativeLayout rlDiscountCode;
     Toolbar toolbar;
     String[]spinner1={"code"};
+    TextView tvParentNamelabel,tvPhoneNo,tvEmailID,tvPayment,tvPayableAmount;
     private Long test_booking_id;
     private String user_id,email,name,mobile,loc;
     private Long uid;
-    TextView tvParentNamelabel,tvPhoneNo,tvEmailID,tvPayment,tvPayableAmount;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -209,7 +210,8 @@ public class PaymentDetailsActivity extends AppCompatActivity implements View.On
                             Bundle bundle = new Bundle();
                             bundle.putString("user_id", user_id);
                             bundle.putString("mobile", mobile);
-                            bundle.putLong("uid", uid);
+
+                           // bundle.putLong("uid", uid);
                             bundle.putString("name", name);
                             bundle.putString("email", email);
                             intent.putExtras(bundle);

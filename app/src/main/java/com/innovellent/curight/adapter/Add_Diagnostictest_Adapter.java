@@ -13,6 +13,7 @@ import com.innovellent.curight.R;
 import com.innovellent.curight.model.TEST_DETAILS;
 import com.innovellent.curight.model.TestDetail;
 import com.innovellent.curight.model.Test_List;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.ArrayList;
 
@@ -22,6 +23,8 @@ import java.util.ArrayList;
 
 public class Add_Diagnostictest_Adapter extends RecyclerView.Adapter<Add_Diagnostictest_Adapter.MyViewHolder>{
 
+  //  RelativeLayout rl_addanthrtest;
+    String test_id_text="",test_name_text="",test_amount_text="";
     private ArrayList<TEST_DETAILS> t_arrayList = new ArrayList<>();
     private Context mContext;
     public Add_Diagnostictest_Adapter(Context context, ArrayList<TEST_DETAILS> arrayList) {
@@ -45,10 +48,29 @@ public class Add_Diagnostictest_Adapter extends RecyclerView.Adapter<Add_Diagnos
         holder.tvtestname.setText(t_arrayList.get(position).getTestName());
         if(t_arrayList.get(position).getTestchoosen().equalsIgnoreCase("Y"))
         {
+
             holder.testCheckBox.setChecked(true);
+            t_arrayList.get(position).setChecked(true);
+
         }else {
             holder.testCheckBox.setChecked(false);
         }
+        holder.testCheckBox.setClickable(false);
+        holder.rl_addanothertest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(holder.testCheckBox.isChecked())
+                {
+                    t_arrayList.get(position).setChecked(false);
+                    holder.testCheckBox.setChecked(false);
+                }else {
+                    t_arrayList.get(position).setChecked(true);
+                    holder.testCheckBox.setChecked(true);
+                }
+
+            }
+        });
         //holder.tvdescription.setText(t_arrayList.get(position).getDescription());
     }
     @Override
@@ -66,17 +88,18 @@ public class Add_Diagnostictest_Adapter extends RecyclerView.Adapter<Add_Diagnos
         TextView tvtestname, tvdescription;
         CheckBox testCheckBox;
         //CardView cardView;
-        RelativeLayout rl_diagnostictest;
+        RelativeLayout rl_addanothertest;
 
         MyViewHolder(View view) {
             super(view);
             tvtestname = (TextView) view.findViewById(R.id.tvtestname);
             tvdescription = (TextView) view.findViewById(R.id.tvdescription);
             testCheckBox = (CheckBox) view.findViewById(R.id.cbDiagnosticTest);
-            rl_diagnostictest = (RelativeLayout) view.findViewById(R.id.rl_diagnostictest);
+            rl_addanothertest = (RelativeLayout) view.findViewById(R.id.rl_addanothertest);
             //      cardView = (CardView) view.findViewById(R.id.card_view2);
             //cardView.setOnClickListener(this);
-            testCheckBox.setClickable(true);
+            testCheckBox.setClickable(false);
+
             //testCheckBox.setOnClickListener(this);
 
         }

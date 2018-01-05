@@ -35,6 +35,7 @@ import com.innovellent.curight.model.Test_List;
 import com.innovellent.curight.utility.Config;
 import com.innovellent.curight.utility.Constants;
 import com.innovellent.curight.utility.Util;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
@@ -75,6 +76,11 @@ public class AddTestActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_test);
         Bundle bundle = getIntent().getExtras();
+
+//        Prefs.putString("addtest_id","");
+//        Prefs.putString("addtest_name","");
+//        Prefs.putString("addtest_amount","");
+
         if (bundle!=null) {
             dc_id = bundle.getLong("dc_id");
             dc_name = bundle.getString("dc_name");
@@ -287,45 +293,51 @@ public class AddTestActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.btnSubmit:
                 Intent i2=new Intent(AddTestActivity.this,SummaryDetailsActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putLong("dc_id",dc_id);
-                bundle.putString("dc_name",dc_name);
-                bundle.putString("location",loc);
-
-                Log.e("TAG","Size is ::  "+tests.size());
 
 
-                ArrayList<TestDetail> testObj = testObjs;
-                String sel_test_names = DiagnosticTestAdapter.sel_test_names;
-                String sel_test_ids = DiagnosticTestAdapter.sel_test_ids;
-                String test_amounts = "";
-                for (int j=0;j<testObj.size();j++) {
-                    if ("Y".equals(testObj.get(j).getTestchoosen())) {
-                        /*sel_test_ids = sel_test_ids + testObj.get(j).getTestid() + ",";
-                        sel_test_names = sel_test_names + testObj.get(j).getTestName() + "^";*/
-                        test_amounts = test_amounts + testObj.get(j).getAmount() + ",";
+
+                String seltestids="",seltestnames="",seltestamounts="";
+
+                for(int i=0;i<t_arraylist.size();i++)
+                {
+                    if(t_arraylist.get(i).isChecked()){
+                        seltestids=seltestids+t_arraylist.get(i).getTestid()+",";
+                        seltestnames=seltestnames+t_arraylist.get(i).getTestName()+",";
+                        seltestamounts=seltestamounts+t_arraylist.get(i).getAmount()+",";
                     }
                 }
-                Log.e("AMOUNTS","Val :: "+test_amounts);
+                if(seltestids.length()==0)
+                {
+                    Toast.makeText(getApplicationContext(),"Please Select atleast one Test",Toast.LENGTH_SHORT).show();
+                }else {
+                    Log.e(TAG,"Add test size::  "+tests.size());
+                    Log.e(TAG,"Add test dcid::  "+dc_id);
+                    Log.e(TAG,"Add test dcname::  "+dc_name);
+                    Log.e(TAG,"Add test location::  "+loc);
 
-                String test_amnt_str = test_amounts;
-                if (test_amnt_str.endsWith(",")) {
-                    test_amnt_str = test_amnt_str.substring(0,test_amnt_str.length()-1);
+                    if (seltestids.endsWith(",")) {
+                        seltestids = seltestids.substring(0,seltestids.length()-1);
+                    }
+                    Log.e(TAG,"Add test seltestid::  "+seltestids);
+                    if (seltestnames.endsWith(",")) {
+                        seltestnames = seltestnames.substring(0,seltestnames.length()-1);
+                    }
+                    Log.e(TAG,"Add test Seltestnames::  "+seltestnames);
+                    if (seltestamounts.endsWith(",")) {
+                        seltestamounts = seltestamounts.substring(0,seltestamounts.length()-1);
+                    }
+                    Log.e(TAG,"Add test seltestamounts::  "+seltestamounts);
+                    bundle.putLong("dc_id",dc_id);
+                    bundle.putString("dc_name",dc_name);
+                    bundle.putString("location",loc);
+                    bundle.putString("sel_test_ids",seltestids);
+                    bundle.putString("test_names",seltestnames);
+                    bundle.putString("test_amounts",seltestamounts);
+                    i2.putExtras(bundle);
+                    startActivity(i2);
+                    finish();
                 }
 
-                Log.e("AMOUNTS","amnt_str :: "+test_amnt_str);
-
-                if (sel_test_names.endsWith("^")) {
-                    sel_test_names = sel_test_names.substring(0,sel_test_names.length()-1);
-                }
-                if (sel_test_ids.endsWith("^")) {
-                    sel_test_ids = sel_test_ids.substring(0,sel_test_ids.length()-1);
-                }
-                bundle.putString("sel_test_ids",sel_test_ids);
-                bundle.putString("test_names",sel_test_names);
-                bundle.putString("test_amounts",test_amnt_str);
-                i2.putExtras(bundle);
-                startActivity(i2);
-                finish();
                 break;
 
 

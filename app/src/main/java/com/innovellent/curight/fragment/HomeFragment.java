@@ -72,11 +72,15 @@ public class HomeFragment extends Fragment  implements View.OnClickListener{
 
             @Override
             public void afterTextChanged(Editable editable) {
-             int count = editable.toString().trim().length();
-                if(count%3==0)
+                int count =0;
+             count = editable.toString().trim().length();
+                if((count%3==0)&&(count>0))
                 {
                     Intent i = new Intent(getActivity(), SearchActivity.class);
                     startActivity(i);
+
+                }else if(count==0){
+                   // Toast.makeText(getActivity(), "no data passed", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -160,6 +164,7 @@ public class HomeFragment extends Fragment  implements View.OnClickListener{
 
 
     }
+
 
 
     public void initonClick(){

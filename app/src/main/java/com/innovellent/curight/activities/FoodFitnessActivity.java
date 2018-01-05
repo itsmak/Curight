@@ -46,7 +46,7 @@ public class FoodFitnessActivity extends AppCompatActivity implements View.OnCli
 
     }
     public void init(){
-               btnSubmit= (Button)findViewById(R.id.btnSubmit);
+       btnSubmit= (Button)findViewById(R.id.btnSubmit);
     }
 
     @Override

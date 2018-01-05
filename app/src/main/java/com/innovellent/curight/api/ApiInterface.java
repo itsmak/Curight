@@ -62,6 +62,7 @@ import com.innovellent.curight.model.ServerResponseExercise;
 import com.innovellent.curight.model.ServerResponseFct;
 import com.innovellent.curight.model.ServerResponseFood;
 import com.innovellent.curight.model.ServerResponseFoodCategory;
+import com.innovellent.curight.model.ServerResponseFoodItem;
 import com.innovellent.curight.model.ServerResponseGetFood;
 import com.innovellent.curight.model.ServerResponseGetTestDetail;
 import com.innovellent.curight.model.ServerResponseLogin;
@@ -91,6 +92,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 
@@ -105,6 +107,9 @@ public interface ApiInterface {
 
     @GET("food/category/get")
     Call<ServerResponseFoodCategory> getcategory();
+
+    @GET("food/getfoodwithmultipleunits/{cat_id}")
+    Call<ServerResponseFoodItem> getfooditem(@Path("cat_id") Long taskId);
 
     @POST("test/gettestbyid")
     Call<ServerResponseTest> getTestById(@Header("x-access-token") String x_access_token, @Body TestingCenter testingCenter);
@@ -254,9 +259,9 @@ public interface ApiInterface {
     Call<ServerResponse<String>> setGoal(@Header("x-access-token") String x_access_token, @Body String requestBody);
 
     //Food APIs
-    @Headers("Content-Type: application/json")
-    @GET("food/getfoodwithmultipleunits")
-    Call<ServerResponse<List<FoodItem>>> getAllFoodItems(@Header("x-access-token") String x_access_token);
+//    @Headers("Content-Type: application/json")
+//    @GET("food/getfoodwithmultipleunits/1")
+//    Call<ServerResponse<List<FoodItem>>> getAllFoodItems(@Header("x-access-token") String x_access_token);
 
     @Headers("Content-Type: application/json")
     @POST("foodconsumption/get")

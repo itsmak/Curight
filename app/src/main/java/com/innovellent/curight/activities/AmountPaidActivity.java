@@ -63,8 +63,10 @@ public class AmountPaidActivity extends AppCompatActivity implements View.OnClic
         tvpatientName =(TextView)findViewById(R.id.tvPatientName);
         tvMobile =(TextView)findViewById(R.id.tvMobileNo);
         tvPaidAmount =(TextView)findViewById(R.id.tvPaidAmount);
-        tvpatientName.setText("Patient name: "+name);
-        tvMobile.setText("Mobile No: "+mobile);
+      //  tvpatientName.setText("Patient name: "+name);
+        tvpatientName.setText("Patient name: Ashish");
+     //   tvMobile.setText("Mobile No: "+mobile);
+        tvMobile.setText("Mobile No: +91 2345678987");
         SharedPreferences sharedPreferences = getSharedPreferences("mypref", Context.MODE_PRIVATE);
         long total_amount = sharedPreferences.getLong("total_amount",0L);
         tvPaidAmount.setText("Paid Amount: "+total_amount);

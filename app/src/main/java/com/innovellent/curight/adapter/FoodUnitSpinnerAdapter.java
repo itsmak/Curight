@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.innovellent.curight.R;
 import com.innovellent.curight.model.FoodUnit;
+import com.innovellent.curight.model.Food_Units;
 
 import java.util.ArrayList;
 
@@ -16,9 +17,9 @@ import java.util.ArrayList;
 public class FoodUnitSpinnerAdapter extends BaseAdapter {
     Context context;
     private LayoutInflater inflater;
-    private ArrayList<FoodUnit> foodUnits;
+    private ArrayList<Food_Units> foodUnits;
 
-    public FoodUnitSpinnerAdapter(Context context, ArrayList<FoodUnit> foodUnits) {
+    public FoodUnitSpinnerAdapter(Context context, ArrayList<Food_Units> foodUnits) {
         this.context = context;
         this.foodUnits = foodUnits;
         inflater = (LayoutInflater.from(context));

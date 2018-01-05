@@ -43,6 +43,7 @@ import com.innovellent.curight.model.ServerResponse;
 import com.innovellent.curight.model.WHR;
 import com.innovellent.curight.utility.Config;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -290,6 +291,8 @@ public class BPFragment extends Fragment implements View.OnClickListener {
 
                         res_dataforbp = response.body().string();
                         List<DataPoint> points = new ArrayList<>();
+                        List<DataPoint> points2 = new ArrayList<>();
+                       // graph.addSeries(series);
                         JSONObject jsonObject = new JSONObject(res_dataforbp);
                         String code = jsonObject.getString("Code");
 
@@ -331,14 +334,30 @@ public class BPFragment extends Fragment implements View.OnClickListener {
 
                             for(int j=0; j<jsonarray_child.length(); j++){
                                 bp_arraylist.add(new BP(jsonArray_parent.getJSONObject(i).getString("date"),jsonarray_child.getJSONObject(j).getInt("bpid"),jsonarray_child.getJSONObject(j).getString("time"),jsonarray_child.getJSONObject(j).getString("graphflag"),jsonarray_child.getJSONObject(j).getInt("pulse"),jsonarray_child.getJSONObject(j).getInt("systolic"),jsonarray_child.getJSONObject(j).getInt("diastolic"),""));
-                                
-                                points.add(new DataPoint(i, Double.parseDouble(String.valueOf(jsonarray_child.getJSONObject(j).getInt("diastolic")))));
+
+//                                LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
+//                                        new DataPoint(0, 1)
+
+//                                });
+                                points.add(new DataPoint(i, Double.parseDouble(String.valueOf(jsonarray_child.getJSONObject(j).getInt("systolic")))));
+                              //  Log.d(TAG, "Systolicvalues", + Double.parseDouble(String.valueOf(jsonarray_child.getJSONObject(j).getInt("systolic"))));
+
+                                points2.add(new DataPoint(i, Double.parseDouble(String.valueOf(jsonarray_child.getJSONObject(j).getInt("diastolic")))));
                             }
                         }
 
                         DataPoint[] pointArray = new DataPoint[points.size()];
+                        DataPoint[] pointArray2 = new DataPoint[points2.size()];
                         lineGraph.removeAllSeries();
+                        lineGraphSeries.setColor(Color.BLACK);
+//                        lineGraphSeries.setThickness(4);
+                        
                         lineGraph.addSeries(new LineGraphSeries<>(points.toArray(pointArray)));
+                        lineGraph.addSeries(new LineGraphSeries<>(points2.toArray(pointArray2)));
+//                        StaticLabelsFormatter staticlebel = new StaticLabelsFormatter(lineGraph);
+//                        staticlebel.setHorizontalLabels(new String[]{"2018/12/12","2018/07/12","2018/10/43","2018/12/11"});
+//                        staticlebel.setVerticalLabels(new String[] {"0","50","100","150"});
+//                        lineGraph.getGridLabelRenderer().setLabelFormatter(staticlebel);
                         // lineGraph = new GraphView(getActivity());
                         lineGraph.getViewport().setMinX(0);
                         lineGraph.getViewport().setMinY(0);

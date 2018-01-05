@@ -8,6 +8,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.innovellent.curight.R;
 import com.innovellent.curight.adapter.SearchAdapter;
@@ -37,9 +39,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SearchActivity extends AppCompatActivity {
 
+    private static final String TAG = "CuRight";
     RecyclerView recycler_view_search;
     ServerSearchPage diagCenterByTest;
     Search search;
+    ImageView iv_searchback;
     SearchingCenter searchingCenter;
     ArrayList<Search> searchingCenterObjcts= new ArrayList<Search>();
     ArrayList<String> searchArrayList = new ArrayList<String>();
@@ -58,10 +62,15 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
 
         recycler_view_search = (RecyclerView)findViewById(R.id.recycler_view_search);
-
+        iv_searchback = (ImageView) findViewById(R.id.iv_searchback);
 
         Search();
-
+        iv_searchback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SearchActivity.super.onBackPressed();
+            }
+        });
         //getTestById();
 
 
@@ -109,33 +118,40 @@ public class SearchActivity extends AppCompatActivity {
         call.enqueue(new Callback<ServerSearchPage>() {
             @Override
             public void onResponse(Call<ServerSearchPage> call, Response<ServerSearchPage> response) {
-                diagCenterByTest =(ServerSearchPage) response.body();
-                String code = diagCenterByTest.getCode();
-                if ("200".equals(code)) {
+              if (response.body() != null) {
+                  diagCenterByTest = (ServerSearchPage) response.body();
+                  String code = String.valueOf(diagCenterByTest.getCode());
+                  Log.d(TAG, "search code::" + code);
+                  if ("200".equals(code)) {
 
-                    for (int j = 0;j < diagCenterByTest.getSearchResults().size(); j++) {
-                        search = diagCenterByTest.getSearchResults().get(j);
-                        Log.d("searchdata===", ""+search.getCategory());
-                        searchingCenterObjcts.add(search);
-                        try{
-                            category = search.getCategory();
-                            Log.d("categorydata===", category);
-                            String name = search.getName();
-                            Log.d("NAME==", name);
-                            searchArrayList.add(name);
-                        }catch (Exception e){
-                            e.printStackTrace();
-                        }
+                      for (int j = 0; j < diagCenterByTest.getSearchResults().size(); j++) {
+                          search = diagCenterByTest.getSearchResults().get(j);
+                          Log.d("searchdata===", "" + search.getCategory());
+                          searchingCenterObjcts.add(search);
+                          try {
+                              category = search.getCategory();
+                              Log.d("categorydata===", category);
+                              String name = search.getName();
+                              Log.d("NAME==", name);
+                              searchArrayList.add(name);
+                          } catch (Exception e) {
+                              e.printStackTrace();
+                          }
 
-                    }
-                    if (searchArrayList.size()!=0) {
-                        searchAdapter = new SearchAdapter(SearchActivity.this, searchArrayList, searchingCenterObjcts,category);
-                        recycler_view_search.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-                        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recycler_view_search.getContext());
-                        recycler_view_search.addItemDecoration(dividerItemDecoration);
-                        recycler_view_search.setAdapter(searchAdapter);
-                    }
-                }
+                      }
+                      if (searchArrayList.size() != 0) {
+                          searchAdapter = new SearchAdapter(SearchActivity.this, searchArrayList, searchingCenterObjcts, category);
+                          recycler_view_search.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+                          DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recycler_view_search.getContext());
+                          recycler_view_search.addItemDecoration(dividerItemDecoration);
+                          recycler_view_search.setAdapter(searchAdapter);
+                      }
+                  } else if ("403".equals(code)) {
+                      Toast.makeText(SearchActivity.this, "No Data Found", Toast.LENGTH_SHORT).show();
+                  }
+              }else {
+                  Toast.makeText(SearchActivity.this, "No Data Found", Toast.LENGTH_SHORT).show();
+              }
             }
 
             @Override

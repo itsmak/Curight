@@ -92,7 +92,7 @@ public class DiagnosticTestAdapter extends RecyclerView.Adapter<DiagnosticTestAd
                             subtext = subtext + String.valueOf(test_id_text.charAt(i));
                         }
                     }
-                      test_id_text = subtext;
+                    test_id_text = subtext;
                     Prefs.putString("test_id",subtext);
                     }
                 } else {
@@ -199,7 +199,7 @@ public class DiagnosticTestAdapter extends RecyclerView.Adapter<DiagnosticTestAd
             tvtestname = (TextView) view.findViewById(R.id.tvtestname);
             tvdescription = (TextView) view.findViewById(R.id.tvdescription);
             testCheckBox = (CheckBox) view.findViewById(R.id.cbDiagnosticTest);
-            rl_diagnostictest = (RelativeLayout) view.findViewById(R.id.rl_diagnostictest);
+            rl_diagnostictest = (RelativeLayout) view.findViewById(R.id.rl_addanothertest);
       //      cardView = (CardView) view.findViewById(R.id.card_view2);
             //cardView.setOnClickListener(this);
             testCheckBox.setClickable(true);
