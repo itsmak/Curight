@@ -94,7 +94,7 @@ public class BPFragment extends Fragment implements View.OnClickListener {
     private Long userId;
     private String accessToken;
     private ProgressDialog progressDialog;
-    //double dates;
+    double dates;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_bp, container, false);
@@ -353,12 +353,12 @@ public class BPFragment extends Fragment implements View.OnClickListener {
                                     points2.add(new DataPoint(i, diastolic1));
                                 }
 
-                                   /* try {
+                                    try {
                                         dates = Double.valueOf(jsonArray_parent.getJSONObject(i).getString("date"));
                                         Log.d("Dates==", ""+dates);
                                     }catch (NumberFormatException e) {
                                         dates = 0;
-                                    }*/
+                                    }
 
 
 
@@ -381,10 +381,9 @@ public class BPFragment extends Fragment implements View.OnClickListener {
                         // lineGraph = new GraphView(getActivity());
 
                         // set date label formatter
-                       // lineGraph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
-                       // lineGraph.getGridLabelRenderer().setNumHorizontalLabels(4);
-                        lineGraph.getViewport().setMinX(0);
-                       // lineGraph.getViewport().setMinX(dates);
+                        lineGraph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
+                        lineGraph.getGridLabelRenderer().setNumHorizontalLabels(3);
+                        lineGraph.getViewport().setMinX(dates);
                         lineGraph.getViewport().setMinY(0);
                         lineGraph.getViewport().setXAxisBoundsManual(true);
                        // lineGraph.getGridLabelRenderer().setHumanRounding(false);
