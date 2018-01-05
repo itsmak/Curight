@@ -43,6 +43,7 @@ import com.innovellent.curight.model.ServerResponse;
 import com.innovellent.curight.model.WHR;
 import com.innovellent.curight.utility.Config;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.DataPoint;
@@ -353,12 +354,12 @@ public class BPFragment extends Fragment implements View.OnClickListener {
                                     points2.add(new DataPoint(i, diastolic1));
                                 }
 
-                                    try {
+                                    /*try {
                                         dates = Double.valueOf(jsonArray_parent.getJSONObject(i).getString("date"));
                                         Log.d("Dates==", ""+dates);
                                     }catch (NumberFormatException e) {
                                         dates = 0;
-                                    }
+                                    }*/
 
 
 
@@ -374,16 +375,22 @@ public class BPFragment extends Fragment implements View.OnClickListener {
                         
                         lineGraph.addSeries(new LineGraphSeries<>(points.toArray(pointArray)));
                         lineGraph.addSeries(new LineGraphSeries<>(points2.toArray(pointArray2)));
-//                        StaticLabelsFormatter staticlebel = new StaticLabelsFormatter(lineGraph);
-//                        staticlebel.setHorizontalLabels(new String[]{"2018/12/12","2018/07/12","2018/10/43","2018/12/11"});
-//                        staticlebel.setVerticalLabels(new String[] {"0","50","100","150"});
-//                        lineGraph.getGridLabelRenderer().setLabelFormatter(staticlebel);
+                       StaticLabelsFormatter staticlebel = new StaticLabelsFormatter(lineGraph);
+                        staticlebel.setHorizontalLabels(new String[]{"2018/12/12","2018/07/12","2018/10/43","2018/12/11"});
+                        //staticlebel.setVerticalLabels(new String[] {"0","50","100","150"});
+                        lineGraph.getGridLabelRenderer().setLabelFormatter(staticlebel);
                         // lineGraph = new GraphView(getActivity());
 
+                        GridLabelRenderer gridLabel = lineGraph.getGridLabelRenderer();
+                        gridLabel.setHorizontalAxisTitle("systolic");
+                        gridLabel.setVerticalAxisTitle("diastolic");
+
+
+
                         // set date label formatter
-                        lineGraph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
-                        lineGraph.getGridLabelRenderer().setNumHorizontalLabels(3);
-                        lineGraph.getViewport().setMinX(dates);
+                        //lineGraph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
+                        //lineGraph.getGridLabelRenderer().setNumHorizontalLabels(3);
+                        lineGraph.getViewport().setMinX(0);
                         lineGraph.getViewport().setMinY(0);
                         lineGraph.getViewport().setXAxisBoundsManual(true);
                        // lineGraph.getGridLabelRenderer().setHumanRounding(false);
