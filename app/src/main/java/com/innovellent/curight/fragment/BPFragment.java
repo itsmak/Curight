@@ -91,11 +91,12 @@ public class BPFragment extends Fragment implements View.OnClickListener {
     JSONArray jsonArray_parent,jsonarray_child;
     int uid,position;
     Spinner spUser;
+    double dates;
     private TextView systolicDiastolic, txt_pulse;
     private Long userId;
     private String accessToken;
     private ProgressDialog progressDialog;
-    double dates;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_bp, container, false);
@@ -375,7 +376,7 @@ public class BPFragment extends Fragment implements View.OnClickListener {
                         
                         lineGraph.addSeries(new LineGraphSeries<>(points.toArray(pointArray)));
                         lineGraph.addSeries(new LineGraphSeries<>(points2.toArray(pointArray2)));
-                       StaticLabelsFormatter staticlebel = new StaticLabelsFormatter(lineGraph);
+                        StaticLabelsFormatter staticlebel = new StaticLabelsFormatter(lineGraph);
                         staticlebel.setHorizontalLabels(new String[]{"2018/12/12","2018/07/12","2018/10/43","2018/12/11"});
                         //staticlebel.setVerticalLabels(new String[] {"0","50","100","150"});
                         lineGraph.getGridLabelRenderer().setLabelFormatter(staticlebel);
@@ -384,8 +385,6 @@ public class BPFragment extends Fragment implements View.OnClickListener {
                         GridLabelRenderer gridLabel = lineGraph.getGridLabelRenderer();
                         gridLabel.setHorizontalAxisTitle("systolic");
                         gridLabel.setVerticalAxisTitle("diastolic");
-
-
 
                         // set date label formatter
                         //lineGraph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));

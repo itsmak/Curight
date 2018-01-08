@@ -1,5 +1,6 @@
 package com.innovellent.curight.activities;
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -12,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -47,6 +49,7 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -75,11 +78,13 @@ public class AddFoodConsumptionActivity extends AppCompatActivity {
     private static final String TAG = "CuRight";
     Category_SpinnerAdapter category_spinneradapter;
     ArrayList<Category_List> categorylist = new ArrayList<Category_List>();
+    EditText et_date;
     private Toolbar toolbar;
     private TextView tvTitle;
     private RecyclerView recyclerView;
     private Spinner itemSpinner, unitSpinner,sp_category;
     private Button btnSubmit, btnAdd;
+    private int mYear, mMonth, mDay;
     private EditText etQuantity;
     private ProgressDialog progressDialog;
     private SharedPrefService sharedPrefService;
@@ -106,6 +111,13 @@ public class AddFoodConsumptionActivity extends AppCompatActivity {
         sharedPrefService = SharedPrefService.getInstance();
         userId = sharedPrefService.getLong(USER_ID);
         accessToken = sharedPrefService.getString(ACCESS_TOKEN);
+
+        et_date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectDate(et_date);
+            }
+        });
        // getFoodItems();
         //getfooditemspinner();
     }
@@ -217,7 +229,7 @@ public class AddFoodConsumptionActivity extends AppCompatActivity {
     private void initReferences() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         tvTitle = (TextView) findViewById(R.id.title);
-
+        et_date = (EditText) findViewById(R.id.et_date);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         sp_category = (Spinner) findViewById(R.id.sp_category);
         itemSpinner = (Spinner) findViewById(R.id.spItem);
@@ -262,7 +274,8 @@ public class AddFoodConsumptionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (!(quantity = etQuantity.getText().toString().trim()).isEmpty())
-                    addFoodConsumption(((FoodItem) itemSpinner.getSelectedItem()).getName(), ((FoodUnit) unitSpinner.getSelectedItem()));
+                    //addFoodConsumption(((FoodItem) itemSpinner.getSelectedItem()).getName(), ((FoodUnit) unitSpinner.getSelectedItem()));
+                addFoodConsumption(((FoodItem_Feed) itemSpinner.getSelectedItem()).getFoodName(), ((Food_Units) unitSpinner.getSelectedItem()));
                 else
                     Toast.makeText(AddFoodConsumptionActivity.this, "Please enter valid quantity", Toast.LENGTH_SHORT).show();
             }
@@ -354,6 +367,46 @@ public class AddFoodConsumptionActivity extends AppCompatActivity {
         }
     }
 
+    public void selectDate(final EditText setedttxt) {
+        final Calendar c = Calendar.getInstance();
+        mYear = c.get(Calendar.YEAR);
+        mMonth = c.get(Calendar.MONTH);
+        mDay = c.get(Calendar.DAY_OF_MONTH);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(AddFoodConsumptionActivity.this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year,
+                                          int monthOfYear, int dayOfMonth) {
+
+
+                        GregorianCalendar GregorianCalendar = new GregorianCalendar(year, monthOfYear, dayOfMonth - 1);
+
+                        int dayOfWeek = GregorianCalendar.get(GregorianCalendar.DAY_OF_WEEK);
+
+                        String day = "", monthYear = "";
+                        int month = monthOfYear + 1;
+                        if (dayOfMonth >= 1 && dayOfMonth <= 9) {
+                            day = "0" + dayOfMonth;
+                        } else {
+                            day = dayOfMonth + "";
+                        }
+                        if (month >= 1 && month <= 9) {
+                            monthYear = "0" + month;
+                        } else {
+                            monthYear = month + "";
+                        }
+
+                        String date = day + "-" + monthYear + "-" + year;
+                        setedttxt.setText(dayOfMonth + "/" + (monthYear) + "/" + year);
+
+
+                    }
+                }, mYear, mMonth, mDay);
+
+
+        datePickerDialog.show();
+    }
+
     public void getCalories(long food_id, String quantity) {
 
         ApiInterface client = ApiClient.getClient();
@@ -380,7 +433,7 @@ public class AddFoodConsumptionActivity extends AppCompatActivity {
 
     }
 
-    public void addFoodConsumption(final String foodItem, final FoodUnit foodUnit) {
+    public void addFoodConsumption(final String foodItem, final Food_Units foodUnit) {
 
         progressDialog = ProgressDialog.show(AddFoodConsumptionActivity.this, "Adding", "please wait", false);
         progressDialog.show();

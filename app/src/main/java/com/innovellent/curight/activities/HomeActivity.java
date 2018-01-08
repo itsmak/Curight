@@ -138,6 +138,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
         setContentView(R.layout.activity_home);
         Log.d(TAG,"Homeactivity: oncreate");
         sharedPreferences = getSharedPreferences("mypref", Context.MODE_PRIVATE);
+        tvTitle.setVisibility(View.VISIBLE);
+        tvTitle.setText("Choose Location");
         init();
 //        getSpinnerData();
         //onclick();
@@ -152,14 +154,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
         }
 
         ivAdd = (ImageView) findViewById(R.id.ivAdd);
-//        searchView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                Toast.makeText(getApplicationContext(),"Select a location",Toast.LENGTH_SHORT).show();
-//
-//            }
-//        });
+
         ivAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -261,7 +256,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
             ivAddprofile.setVisibility(View.GONE);
             ivAdd.setVisibility(View.VISIBLE);
             //tvTitle.setText("Home");
-            tvTitle.setVisibility(View.GONE);
+            tvTitle.setVisibility(View.VISIBLE);
             viewPager.setVisibility(View.VISIBLE);
             frameLayout.setVisibility(View.GONE);
             //spUser.setVisibility(View.GONE);
@@ -273,7 +268,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
             ivAddprofile.setVisibility(View.GONE);
             ivAdd.setVisibility(View.VISIBLE);
             //tvTitle.setText("Home");
-            tvTitle.setVisibility(View.GONE);
+            tvTitle.setVisibility(View.VISIBLE);
             viewPager.setVisibility(View.VISIBLE);
             frameLayout.setVisibility(View.GONE);
             //spUser.setVisibility(View.GONE);
