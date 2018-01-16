@@ -122,7 +122,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
     Fragment currentFragment;
     TabLayout tabLayout;
     NumberPicker numberpicker;
-    ImageView searchView;
+ //   ImageView searchView;
     PROFILE_SPINNER_ADAPTER customSpinnerAdapter3;
     ArrayList<PROFILE> spinnerList=new ArrayList<PROFILE>();
     SharedPreferences sharedPreferences;
@@ -138,8 +138,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
         setContentView(R.layout.activity_home);
         Log.d(TAG,"Homeactivity: oncreate");
         sharedPreferences = getSharedPreferences("mypref", Context.MODE_PRIVATE);
-        tvTitle.setVisibility(View.VISIBLE);
-        tvTitle.setText("Choose Location");
+
         init();
 //        getSpinnerData();
         //onclick();
@@ -417,6 +416,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
                 break;
             case 5:
                 Prefs.putLong("user_id",0);
+                Prefs.putString("location", "");
                 init();
                 Toast.makeText(getApplicationContext(),"You are Sussessfully Logged out",Toast.LENGTH_SHORT).show();
                /* mNavigationDrawerFragment.addItemsToDataList();
@@ -460,44 +460,30 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
         //spUser = (Spinner) findViewById(R.id.spUser);
         tvTitle = (TextView) findViewById(R.id.tvTitle);
         tvTitle.setVisibility(View.VISIBLE);
-        tvTitle.setText("Choose Location");
-        searchView = (ImageView) findViewById(R.id.select_loc);
+//        tvTitle.setText("Location");
+//        searchView = (ImageView) findViewById(R.id.select_loc);
 //        searchView.setVisibility(View.VISIBLE);
 //        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 //        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 //        searchView.setQueryHint("Select City");
-        searchView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                try {
-                    Intent intent =
-                            new PlaceAutocomplete
-                                    .IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
-                                    .build(HomeActivity.this);
-                    startActivityForResult(intent, 1);
-                } catch (GooglePlayServicesRepairableException e) {
-                    // TODO: Handle the error.
-                } catch (GooglePlayServicesNotAvailableException e) {
-                    // TODO: Handle the error.
-                }
-            }
-        });
         tvTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                try {
-                    Intent intent =
-                            new PlaceAutocomplete
-                                    .IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
-                                    .build(HomeActivity.this);
-                    startActivityForResult(intent, 1);
-                } catch (GooglePlayServicesRepairableException e) {
-                    // TODO: Handle the error.
-                } catch (GooglePlayServicesNotAvailableException e) {
-                    // TODO: Handle the error.
-                }
+                Intent loc_int = new Intent(HomeActivity.this,SearchLocations.class);
+                startActivity(loc_int);
+
+//                try {
+//                    Intent intent =
+//                            new PlaceAutocomplete
+//                                    .IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
+//                                    .build(HomeActivity.this);
+//                    startActivityForResult(intent, 1);
+//                } catch (GooglePlayServicesRepairableException e) {
+//                    // TODO: Handle the error.
+//                } catch (GooglePlayServicesNotAvailableException e) {
+//                    // TODO: Handle the error.
+//                }
             }
         });
         //searchView.setIconifiedByDefault(true);
@@ -562,12 +548,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
                 switch (item.getItemId()) {
                     case R.id.action_home:
                         tvTitle.setVisibility(View.VISIBLE);
-                        tvTitle.setText("Choose Location");
+ //                       tvTitle.setText("Location");
                         ivAddprofile.setVisibility(View.GONE);
                         ivAdd.setVisibility(View.VISIBLE);
                         ivBack.setVisibility(View.VISIBLE);
                         ivBack1.setVisibility(View.GONE);
-                        searchView.setVisibility(View.VISIBLE);
+                      //  searchView.setVisibility(View.VISIBLE);
                         //tvTitle.setText("Home");
                         viewPager.setVisibility(View.VISIBLE);
                         frameLayout.setVisibility(View.GONE);
@@ -590,7 +576,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
                             startActivity(i);
                         }else {
                             ivAddprofile.setVisibility(View.GONE);
-                             searchView.setVisibility(View.GONE);
+                           //  searchView.setVisibility(View.GONE);
                             tvTitle.setVisibility(View.VISIBLE);
                             tvTitle.setText("Reminder");
                             ivAdd.setVisibility(View.INVISIBLE);
@@ -608,7 +594,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
                     case R.id.action_article:
 
                             ivAddprofile.setVisibility(View.GONE);
-                            searchView.setVisibility(View.GONE);
+                           // searchView.setVisibility(View.GONE);
                             tvTitle.setVisibility(View.VISIBLE);
                             tvTitle.setText("Article");
                             ivAdd.setVisibility(View.INVISIBLE);
@@ -636,7 +622,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
                             ivAddprofile.setVisibility(View.GONE);
                             tvTitle.setVisibility(View.VISIBLE);
                             tvTitle.setText("Track");
-                           searchView.setVisibility(View.GONE);
+                          // searchView.setVisibility(View.GONE);
                             ivAdd.setVisibility(View.INVISIBLE);
                             viewPager.setVisibility(View.VISIBLE);
                             frameLayout.setVisibility(View.GONE);
@@ -665,7 +651,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
                             ivAdd.setVisibility(View.INVISIBLE);
                             tvTitle.setVisibility(View.VISIBLE);
                             tvTitle.setText("Profile");
-                           searchView.setVisibility(View.GONE);
+                        //   searchView.setVisibility(View.GONE);
                             viewPager.setVisibility(View.VISIBLE);
                             frameLayout.setVisibility(View.GONE);
                            // spUser.setVisibility(View.GONE);

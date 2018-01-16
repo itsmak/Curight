@@ -33,6 +33,7 @@
     <string name="testname">Test Name</string>
     <string name="amount">Amount</string>
     <string name="proccedtopay">Proceed to Pay</string>
+    <string name="reg_text"><u>Register</u></string>
     <string name="paynow">Pay Now</string>
     <string name="totalpaymentrequired">Total Payment Required</string>
     <string name="paymentndone">Payment Done</string>

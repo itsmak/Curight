@@ -28,14 +28,15 @@
                 android:layout_marginLeft="10dp"
                 android:src="@drawable/ic_menu_bar" />
             <ImageView
-                android:id="@+id/ivback1"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
-                android:src="@drawable/ic_arrow_back"
-                android:visibility="gone" />
+            android:id="@+id/ivback1"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/ic_arrow_back"
+            android:visibility="gone" />
+
 
             <TextView
                 android:id="@+id/tvTitle"
@@ -57,7 +58,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@+id/ivback"
                 android:background="@drawable/ic_search_white_24dp"
-                android:visibility="visible"/>
+                android:visibility="gone"/>
 
             <ImageView
                 android:id="@+id/ivAddprofile"

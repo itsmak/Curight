@@ -60,6 +60,13 @@
 
             </LinearLayout>
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view_searchhome"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                />
+
             <!--            android:paddingLeft="10dp"
             android:paddingStart="10dp"
             android:paddingRight="10dp"

@@ -1,5 +1,6 @@
 package com.innovellent.curight.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -50,14 +51,12 @@ public class DiagnosticTestListActivity extends AppCompatActivity{
     ArrayList<Test_List> testlist = new ArrayList<Test_List>();
     ArrayList<String> arrayList=new ArrayList<String>();
     ArrayList<String> testArrayList = new ArrayList<String>();
-
     String sel_test_ids = "";
     String sel_test_names = "";
-
     ServerResponseTest tests;
-
     Test jsonObject;
     ArrayList<Test> testObjs = new ArrayList<Test>();
+    private ProgressDialog progressDialog;
 
     public static ArrayList<Test> getTestObjs(){
 
@@ -199,6 +198,9 @@ public class DiagnosticTestListActivity extends AppCompatActivity{
 
     public  void getalltest()
     {
+        progressDialog = ProgressDialog.show(DiagnosticTestListActivity.this, "Loading", "please wait", true, false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(new Config().SERVER_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -212,6 +214,7 @@ public class DiagnosticTestListActivity extends AppCompatActivity{
             public void onResponse(Call<ServerResponseTest> call, Response<ServerResponseTest> response) {
 
                 if (response.body() != null) {
+                    progressDialog.dismiss();
                     Log.d(TAG, "gettestcentre " + response.body().getCode());
                     ArrayList<Test> result = response.body().getResults();
                     Log.e(TAG, "gettest:  listsize: " + result.size());
@@ -220,6 +223,7 @@ public class DiagnosticTestListActivity extends AppCompatActivity{
                         testlist.add(new Test_List(result.get(i).getTestid(),result.get(i).getTestcode(),result.get(i).getTestname(),result.get(i).getDescription(),result.get(i).getModifiedby()));
                     }
                 }else {
+                    progressDialog.dismiss();
                     Toast.makeText(DiagnosticTestListActivity.this, response.message(), Toast.LENGTH_SHORT).show();
                 }
                 mAdapter = new DiagnosticTestAdapter(DiagnosticTestListActivity.this, testlist);

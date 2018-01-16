@@ -121,10 +121,10 @@ public class LoginActivity extends Activity {
                                  finish();
 
                              } else if ("403".equals(code)) {
-                                 Toast.makeText(LoginActivity.this, "Please enter correct Username", Toast.LENGTH_LONG).show();
+                                 Toast.makeText(LoginActivity.this, "You are not registered", Toast.LENGTH_LONG).show();
                              }
                          }else{
-                             Toast.makeText(LoginActivity.this, "Please enter correct Username", Toast.LENGTH_LONG).show();
+                             Toast.makeText(LoginActivity.this, "You are not registered", Toast.LENGTH_LONG).show();
                          }
                         }
 

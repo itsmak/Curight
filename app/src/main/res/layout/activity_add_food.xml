@@ -87,54 +87,59 @@
                         android:orientation="horizontal"
                         android:weightSum="100">
                         <RelativeLayout
+                            android:id="@+id/rl_fooditem"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="5dp"
                             android:layout_weight="60"
-                            android:background="@drawable/border_rectangle_grey">
-
-                            <Spinner
-                                android:id="@+id/sp_category"
-                                style="?android:attr/spinnerDropDownItemStyle"
+                            android:background="@null">
+                            <EditText
+                                android:id="@+id/et_fooditem"
                                 android:layout_width="fill_parent"
                                 android:layout_height="fill_parent"
                                 android:layout_centerInParent="true"
                                 android:layout_marginLeft="5dp"
-                                android:ellipsize="marquee"
+                                android:background="@null"
+                                android:hint="Select Food"
                                 android:paddingRight="25dp"
                                 android:singleLine="true"
                                 android:textAlignment="inherit"
-                                android:textSize="15sp"
-                                />
+                                android:textSize="15sp"/>
 
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_alignParentBottom="true"
+                            android:background="#adadad"></View>
                         </RelativeLayout>
 
                         <RelativeLayout
+                            android:id="@+id/rl_unit"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:layout_weight="40"
-                            android:background="@drawable/border_rectangle_grey">
-                            <ImageView
-                                android:id="@+id/iv_date"
-                                android:layout_width="15dp"
-                                android:layout_height="15dp"
-                                android:layout_alignLeft="@+id/et_date"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="2dp"
-                                android:background="@mipmap/calendar" />
-                        <EditText
-                            android:id="@+id/et_date"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="5dp"
-                            android:background="@null"
-                            android:editable="false"
-                            android:hint="Enter Date"
-                            android:paddingLeft="20dp"
-                            />
+                            android:background="@null">
 
+                            <EditText
+                                android:id="@+id/et_unit"
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_centerInParent="true"
+                                android:layout_marginLeft="5dp"
+                                android:background="@null"
+                                android:hint="Select unit"
+                                android:paddingRight="25dp"
+                                android:singleLine="true"
+                                android:textAlignment="inherit"
+                                android:textSize="15sp"/>
+
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_alignParentBottom="true"
+                                android:background="#adadad"></View>
                         </RelativeLayout>
 
                     </LinearLayout>
@@ -146,65 +151,68 @@
                         android:layout_below="@+id/llLayout1"
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal"
-                        android:weightSum="99">
+                        android:weightSum="100">
 
                         <RelativeLayout
+                            android:id="@+id/rl_quantity"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="5dp"
-                            android:layout_weight="33"
-                            android:background="@drawable/border_rectangle_grey">
+                            android:layout_marginTop="4dp"
+                            android:layout_weight="60"
+                            android:background="@null">
 
-                            <Spinner
-                                android:id="@+id/spItem"
-                                style="?android:attr/spinnerDropDownItemStyle"
+                            <EditText
+                                android:id="@+id/et_quantity"
                                 android:layout_width="fill_parent"
                                 android:layout_height="fill_parent"
                                 android:layout_centerInParent="true"
-                                android:ellipsize="marquee"
+                                android:layout_marginLeft="5dp"
+                                android:background="@null"
+                                android:hint="Enter Quantity"
+                                android:paddingRight="25dp"
                                 android:singleLine="true"
-                                android:textAlignment="inherit"/>
-
+                                android:textAlignment="inherit"
+                                android:textSize="15sp"/>
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_alignParentBottom="true"
+                                android:background="#adadad"></View>
                         </RelativeLayout>
 
                         <RelativeLayout
+                            android:id="@+id/rl_date"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:layout_weight="33"
-                            android:background="@drawable/border_rectangle_grey">
-                    <Spinner
-                        android:id="@+id/spUnit"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_centerInParent="true"
-                        android:ellipsize="marquee"
-                        android:singleLine="true"
-                        android:textAlignment="inherit"
-                        />
+                            android:layout_weight="50"
+                            android:background="@null">
+                            <ImageView
+                                android:id="@+id/iv_date"
+                                android:layout_width="12dp"
+                                android:layout_height="12dp"
+                                android:layout_alignLeft="@+id/et_date"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="2dp"
+                                android:background="@mipmap/calendar" />
+                            <EditText
+                                android:id="@+id/et_date"
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="5dp"
+                                android:background="@null"
+                                android:editable="false"
+                                android:hint="Enter Date"
+                                android:paddingLeft="20dp"
+                                />
 
-                        </RelativeLayout>
-
-                        <RelativeLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_weight="33"
-                            android:background="@drawable/border_rectangle_grey">
-                        <EditText
-                            android:id="@+id/etQuantity"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_centerVertical="true"
-                            android:background="@null"
-                            android:digits="0123456789"
-                            android:hint="Quantity"
-                            android:inputType="number"
-                            android:lines="1"
-                            android:padding="4dp"
-                            android:textColor="@color/darkgray"
-                            android:textSize="12sp" />
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_alignParentBottom="true"
+                                android:background="#adadad"></View>
                         </RelativeLayout>
 
                     </LinearLayout>

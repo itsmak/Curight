@@ -8,8 +8,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,27 +27,52 @@ import android.widget.Toast;
 
 import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
 import com.innovellent.curight.R;
+import com.innovellent.curight.activities.DiagnosticCentersActivity;
 import com.innovellent.curight.activities.DiagnosticTestListActivity;
 import com.innovellent.curight.activities.DoctorAppointmentActivity;
 import com.innovellent.curight.activities.HomeActivity;
 import com.innovellent.curight.activities.SearchActivity;
 import com.innovellent.curight.activities.YourReportsActivity;
 import com.innovellent.curight.adapter.CustomAdapter;
+import com.innovellent.curight.adapter.SearchAdapter;
 import com.innovellent.curight.adapter.ViewPagerAdapter;
+import com.innovellent.curight.api.ApiInterface;
+import com.innovellent.curight.model.Search;
+import com.innovellent.curight.model.SearchingCenter;
+import com.innovellent.curight.model.ServerSearchPage;
+import com.innovellent.curight.utility.Config;
+import com.innovellent.curight.utility.DividerItemDecoration;
+import com.innovellent.curight.utility.RecyclerItemClickListener;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class HomeFragment extends Fragment  implements View.OnClickListener{
+    private static final String TAG = "CuRight";
     public static EditText editMobileNo;
     ImageView ivHealthPackage,imageView1,imageView2,imageView3,imageView4,imageView5,imageView6,imageView7,imageView8,imageView9;
     ViewPager viewPager;
+    RecyclerView recycler_view_searchhome;
     TextView tvTitle,titleOne,titleThree;
     RelativeLayout rlBookTest,rlFood,rlHealthPackage,rlDoctorAppoinment,rlYoursReports;
     LinearLayout llSliderdotpanel;
    // int[] luckyNumbers = {R.drawable.ic_inst, R.drawable.into_1, R.drawable.into_2,R.drawable.into_3, R.drawable.intro_4,R.drawable.intro_5,R.drawable.into_3,R.drawable.ic_inst};
     int[] luckyNumbers = {R.drawable.into_1, R.drawable.into_1, R.drawable.into_3, R.drawable.into_2, R.drawable.intro_4, R.drawable.intro_5, R.drawable.intro_4};
+    Search search;
+    String category;
+    SearchAdapter searchAdapter;
+    ArrayList<String> searchArrayList = new ArrayList<String>();
+    ArrayList<Search> searchingCenterObjcts= new ArrayList<Search>();
+    ServerSearchPage diagCenterByTest;
     private int   mScrollState;
     private int dotscount;
     private ImageView[] dots;
@@ -59,6 +87,13 @@ public class HomeFragment extends Fragment  implements View.OnClickListener{
         init(rootView);
         initonClick();
         initViewPager();
+        String locationtext = Prefs.getString("location","");
+        if(locationtext.equals("")){
+            tvTitle.setText("Location");
+        }else {
+            tvTitle.setText(locationtext);
+        }
+
         editMobileNo.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -74,16 +109,39 @@ public class HomeFragment extends Fragment  implements View.OnClickListener{
             public void afterTextChanged(Editable editable) {
                 int count =0;
              count = editable.toString().trim().length();
-                if((count%3==0)&&(count>0))
+                if(count>2)
                 {
-                    Intent i = new Intent(getActivity(), SearchActivity.class);
-                    startActivity(i);
+                    recycler_view_searchhome.setVisibility(View.VISIBLE);
+                    Search();
 
                 }else if(count==0){
-                   // Toast.makeText(getActivity(), "no data passed", Toast.LENGTH_SHORT).show();
+                    recycler_view_searchhome.setVisibility(View.GONE);
                 }
             }
         });
+
+        recycler_view_searchhome.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), recycler_view_searchhome, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                //Toast.makeText(SearchActivity.this, "item clicked", Toast.LENGTH_SHORT).show();
+
+                if(searchAdapter.getcatgory(position).equals("DR")) {
+                    Intent intent = new Intent(getActivity(), DoctorAppointmentActivity.class);
+                    startActivity(intent);
+                }else if(searchAdapter.getcatgory(position).equals("DC")){
+                    Intent intent = new Intent(getActivity(), DiagnosticCentersActivity.class);
+                    startActivity(intent);
+                }else if(searchAdapter.getcatgory(position).equals("TE")){
+                    Intent intent = new Intent(getActivity(), DiagnosticTestListActivity.class);
+                    startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onLongItemClick(View view, int position) {
+
+            }
+        }));
       PagerAdapter adapter = new CustomAdapter(getActivity());
        viewPager.setAdapter(adapter);
        // viewPager.setOnPageChangeListener(new CircularViewPagerHandler(viewPager));
@@ -155,17 +213,76 @@ public class HomeFragment extends Fragment  implements View.OnClickListener{
             public void onPageScrolled(final int position, final float positionOffset, final int positionOffsetPixels) {
             }
 
-
         });
 
         return rootView;
 
-
-
-
     }
 
 
+    //search functionality
+    private void Search(){
+        searchAdapter = new SearchAdapter(getActivity(), searchArrayList, searchingCenterObjcts, category);
+        searchArrayList.clear();
+        searchingCenterObjcts.clear();
+        searchAdapter.notifyDataSetChanged();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(new Config().SERVER_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ApiInterface apiInterface = retrofit.create(ApiInterface.class);
+
+
+        final SearchingCenter centre = new SearchingCenter(HomeFragment.editMobileNo.getText().toString().trim());
+
+        Call<ServerSearchPage> call = apiInterface.getSearch(centre);
+
+        call.enqueue(new Callback<ServerSearchPage>() {
+            @Override
+            public void onResponse(Call<ServerSearchPage> call, Response<ServerSearchPage> response) {
+                if (response.body() != null) {
+                    diagCenterByTest = (ServerSearchPage) response.body();
+                    String code = String.valueOf(diagCenterByTest.getCode());
+                    Log.d(TAG, "search code::" + code);
+                    if ("200".equals(code)) {
+
+                        for (int j = 0; j < diagCenterByTest.getSearchResults().size(); j++) {
+                            search = diagCenterByTest.getSearchResults().get(j);
+                            Log.d("searchdata===", "" + search.getCategory());
+                            searchingCenterObjcts.add(search);
+                            try {
+                                category = search.getCategory();
+                                Log.d("categorydata===", category);
+                                String name = search.getName();
+                                Log.d("NAME==", name);
+                                searchArrayList.add(name);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                        if (searchArrayList.size() != 0) {
+                            searchAdapter = new SearchAdapter(getActivity(), searchArrayList, searchingCenterObjcts, category);
+                            recycler_view_searchhome.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+                            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recycler_view_searchhome.getContext());
+                            recycler_view_searchhome.addItemDecoration(dividerItemDecoration);
+                            recycler_view_searchhome.setAdapter(searchAdapter);
+                        }
+                    } else if ("403".equals(code)) {
+                        Toast.makeText(getActivity(), "No Data Found", Toast.LENGTH_SHORT).show();
+                    }
+                }else {
+                    Toast.makeText(getActivity(), "No Data Found", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ServerSearchPage> call, Throwable t) {
+                Log.e("ERROR==", t.getMessage());
+            }
+        });
+    }
 
     public void initonClick(){
 
@@ -176,12 +293,11 @@ public class HomeFragment extends Fragment  implements View.OnClickListener{
         ivHealthPackage.setOnClickListener(this);
         rlDoctorAppoinment.setOnClickListener(this);
         rlYoursReports.setOnClickListener(this);
-
-
-
     }
-public void init(View rootView){
+
+    public void init(View rootView){
     titleOne=(TextView)rootView.findViewById(R.id.titleOne);
+    tvTitle = (TextView) getActivity().findViewById(R.id.tvTitle);
     editMobileNo = (EditText)rootView.findViewById(R.id.editMobileNo);
     titleThree = (TextView)rootView.findViewById(R.id.titleThree);
     viewPager = (ViewPager)rootView.findViewById(R.id.viewPager);
@@ -192,6 +308,7 @@ public void init(View rootView){
     imageView5=(ImageView)rootView.findViewById(R.id.iv_image5);
     imageView6=(ImageView)rootView.findViewById(R.id.iv_image6);
     rlBookTest=(RelativeLayout)rootView.findViewById(R.id.rlBookTest);
+    recycler_view_searchhome = (RecyclerView) rootView.findViewById(R.id.recycler_view_searchhome);
     rlFood=(RelativeLayout)rootView.findViewById(R.id.rlFood);
     rlDoctorAppoinment = (RelativeLayout)rootView.findViewById(R.id.rlDoctorAppointment);
     rlHealthPackage=(RelativeLayout)rootView.findViewById(R.id.rlHealthPackage);
@@ -378,10 +495,6 @@ public void init(View rootView){
             }
 
         }
-
-
-
-
 
     }
 

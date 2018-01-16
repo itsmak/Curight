@@ -105,7 +105,7 @@ public interface ApiInterface {
     @GET("test/getalltest")
     Call<ServerResponseTest> getTest();
 
-    @GET("food/category/get")
+    @GET("food/getfoodwithmultipleunits")
     Call<ServerResponseFoodCategory> getcategory();
 
     @GET("food/getfoodwithmultipleunits/{cat_id}")

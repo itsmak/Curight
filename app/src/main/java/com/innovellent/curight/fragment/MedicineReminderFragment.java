@@ -51,7 +51,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MedicineReminderFragment extends Fragment implements View.OnClickListener{
 
-    private static final String TAG = ".Retro_MainActivity";
+    private static final String TAG = ".Curight";
     private static final String BASE_URL ="http://13.59.209.135:8090/diagnosticAPI/webapi/";
     static String USER_ID,M_YEAR,M_MONTH,M_DAY,FINAL_DATE;
     RecyclerView recyclerView;

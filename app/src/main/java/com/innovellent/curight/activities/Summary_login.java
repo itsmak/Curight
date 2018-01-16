@@ -124,10 +124,10 @@ public class Summary_login extends Activity {
                                 finish();
 
                             }else if ("403".equals(code)) {
-                                Toast.makeText(Summary_login.this, "Please enter correct Username", Toast.LENGTH_LONG).show();
+                                Toast.makeText(Summary_login.this, "You are not registered", Toast.LENGTH_LONG).show();
                             }
                           }else{
-                              Toast.makeText(Summary_login.this, "Please enter correct Username", Toast.LENGTH_LONG).show();
+                              Toast.makeText(Summary_login.this, "You are not registered", Toast.LENGTH_LONG).show();
                           }
                         }
 

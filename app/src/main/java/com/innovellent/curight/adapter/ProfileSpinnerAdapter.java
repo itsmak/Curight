@@ -40,7 +40,20 @@ public class ProfileSpinnerAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = inflater.inflate(R.layout.spinner_string_row, null);
-        ((TextView) view).setText(String.valueOf(profiles.get(position).getName()));
+
+        String name = profiles.get(position).getName();
+        String lastName = "";
+        String firstName= "";
+        if(name.split("\\w+").length>1){
+
+            //lastName = name.substring(name.lastIndexOf(" ")+1);
+            firstName = name.substring(0, name.lastIndexOf(' '));
+        }
+        else{
+            firstName = name;
+        }
+
+        ((TextView) view).setText(String.valueOf(firstName));
         return view;
     }
 }

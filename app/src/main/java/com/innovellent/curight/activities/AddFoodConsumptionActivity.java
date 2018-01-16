@@ -107,7 +107,7 @@ public class AddFoodConsumptionActivity extends AppCompatActivity {
         initReferences();
         setupToolbar();
         initClickListeners();
-        getcategorySpinnerdata();
+  //      getcategorySpinnerdata();
         sharedPrefService = SharedPrefService.getInstance();
         userId = sharedPrefService.getLong(USER_ID);
         accessToken = sharedPrefService.getString(ACCESS_TOKEN);
@@ -164,51 +164,51 @@ public class AddFoodConsumptionActivity extends AppCompatActivity {
         });
     }
 
-    private void getcategorySpinnerdata() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(new Config().SERVER_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        ApiInterface apiInterface = retrofit.create(ApiInterface.class);
-
-        Call<ServerResponseFoodCategory> call = apiInterface.getcategory();
-        call.enqueue(new Callback<ServerResponseFoodCategory>() {
-            @Override
-            public void onResponse(Call<ServerResponseFoodCategory> call, Response<ServerResponseFoodCategory> response) {
-                if (response.body() != null) {
-                    Log.d(TAG, "gettestcentre " + response.body().getCode());
-                    if(response.body().getCode()==200){
-                        ArrayList<Category_Feed> result = response.body().getResults();
-                        for (int i = 0; i < result.size(); i++){
-                            categorylist.add(new Category_List(result.get(i).getFoodcategoryid(),result.get(i).getCategoryname()));
-                        }
-                        setspinneradpter();
-                    }else {
-
-                    }
-                }else {
-
-                }
-            }
-            public void onFailure(Call<ServerResponseFoodCategory> call, Throwable t) {
-                t.getMessage();
-                String message = t.getMessage();
-                Log.e("TAG","error :: "+message);
-                if (!isFinishing()) {
-                    if (Constants.SERVER_DOWN.equals(message)) {
-                        Util.showAlertDialog(AddFoodConsumptionActivity.this, "Server is Down! Please try  again later!", "ERROR");
-                        return;
-                    } else {
-                        Util.showAlertDialog(AddFoodConsumptionActivity.this, message, "ERROR");
-                        return;
-                    }
-                }
-
-
-            }
-        });
-    }
+//    private void getcategorySpinnerdata() {
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl(new Config().SERVER_URL)
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build();
+//
+//        ApiInterface apiInterface = retrofit.create(ApiInterface.class);
+//
+//        Call<ServerResponseFoodCategory> call = apiInterface.getcategory();
+//        call.enqueue(new Callback<ServerResponseFoodCategory>() {
+//            @Override
+//            public void onResponse(Call<ServerResponseFoodCategory> call, Response<ServerResponseFoodCategory> response) {
+//                if (response.body() != null) {
+//                    Log.d(TAG, "gettestcentre " + response.body().getCode());
+//                    if(response.body().getCode()==200){
+//                        ArrayList<Category_Feed> result = response.body().getResults();
+//                        for (int i = 0; i < result.size(); i++){
+//                            categorylist.add(new Category_List(result.get(i).getFoodcategoryid(),result.get(i).getCategoryname()));
+//                        }
+//                        setspinneradpter();
+//                    }else {
+//
+//                    }
+//                }else {
+//
+//                }
+//            }
+//            public void onFailure(Call<ServerResponseFoodCategory> call, Throwable t) {
+//                t.getMessage();
+//                String message = t.getMessage();
+//                Log.e("TAG","error :: "+message);
+//                if (!isFinishing()) {
+//                    if (Constants.SERVER_DOWN.equals(message)) {
+//                        Util.showAlertDialog(AddFoodConsumptionActivity.this, "Server is Down! Please try  again later!", "ERROR");
+//                        return;
+//                    } else {
+//                        Util.showAlertDialog(AddFoodConsumptionActivity.this, message, "ERROR");
+//                        return;
+//                    }
+//                }
+//
+//
+//            }
+//        });
+//    }
 
     private void setspinneradpter() {
         category_spinneradapter = new Category_SpinnerAdapter(getApplicationContext(),categorylist);
@@ -231,8 +231,8 @@ public class AddFoodConsumptionActivity extends AppCompatActivity {
         tvTitle = (TextView) findViewById(R.id.title);
         et_date = (EditText) findViewById(R.id.et_date);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        sp_category = (Spinner) findViewById(R.id.sp_category);
-        itemSpinner = (Spinner) findViewById(R.id.spItem);
+     //   sp_category = (Spinner) findViewById(R.id.sp_fooditem);
+     //   itemSpinner = (Spinner) findViewById(R.id.spItem);
         unitSpinner = (Spinner) findViewById(R.id.spUnit);
         btnSubmit = (Button) findViewById(R.id.btnSubmit);
         btnAdd = (Button) findViewById(R.id.btnAdd);
