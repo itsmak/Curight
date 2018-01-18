@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.innovellent.curight.R;
+import com.innovellent.curight.adapter.AutocompleteAdapter;
 import com.innovellent.curight.adapter.Category_SpinnerAdapter;
 import com.innovellent.curight.adapter.FoodItemSpinnerAdapter;
 import com.innovellent.curight.adapter.FoodUnitSpinnerAdapter;
@@ -32,6 +34,7 @@ import com.innovellent.curight.model.Category_List;
 import com.innovellent.curight.model.FoodItem;
 import com.innovellent.curight.model.FoodItem_Feed;
 import com.innovellent.curight.model.FoodUnit;
+import com.innovellent.curight.model.FoodUnit_Feed;
 import com.innovellent.curight.model.Food_Units;
 import com.innovellent.curight.model.ServerResponse;
 import com.innovellent.curight.model.ServerResponseCalorie;
@@ -79,6 +82,8 @@ public class AddFoodConsumptionActivity extends AppCompatActivity {
     Category_SpinnerAdapter category_spinneradapter;
     ArrayList<Category_List> categorylist = new ArrayList<Category_List>();
     EditText et_date;
+    AutoCompleteTextView countrySearch;
+    AutocompleteAdapter adapter;
     private Toolbar toolbar;
     private TextView tvTitle;
     private RecyclerView recyclerView;
@@ -107,7 +112,7 @@ public class AddFoodConsumptionActivity extends AppCompatActivity {
         initReferences();
         setupToolbar();
         initClickListeners();
-  //      getcategorySpinnerdata();
+        getallfoodSpinnerdata();
         sharedPrefService = SharedPrefService.getInstance();
         userId = sharedPrefService.getLong(USER_ID);
         accessToken = sharedPrefService.getString(ACCESS_TOKEN);
@@ -164,51 +169,56 @@ public class AddFoodConsumptionActivity extends AppCompatActivity {
         });
     }
 
-//    private void getcategorySpinnerdata() {
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl(new Config().SERVER_URL)
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build();
-//
-//        ApiInterface apiInterface = retrofit.create(ApiInterface.class);
-//
-//        Call<ServerResponseFoodCategory> call = apiInterface.getcategory();
-//        call.enqueue(new Callback<ServerResponseFoodCategory>() {
-//            @Override
-//            public void onResponse(Call<ServerResponseFoodCategory> call, Response<ServerResponseFoodCategory> response) {
-//                if (response.body() != null) {
-//                    Log.d(TAG, "gettestcentre " + response.body().getCode());
-//                    if(response.body().getCode()==200){
-//                        ArrayList<Category_Feed> result = response.body().getResults();
-//                        for (int i = 0; i < result.size(); i++){
-//                            categorylist.add(new Category_List(result.get(i).getFoodcategoryid(),result.get(i).getCategoryname()));
-//                        }
-//                        setspinneradpter();
-//                    }else {
-//
-//                    }
-//                }else {
-//
-//                }
-//            }
-//            public void onFailure(Call<ServerResponseFoodCategory> call, Throwable t) {
-//                t.getMessage();
-//                String message = t.getMessage();
-//                Log.e("TAG","error :: "+message);
-//                if (!isFinishing()) {
-//                    if (Constants.SERVER_DOWN.equals(message)) {
-//                        Util.showAlertDialog(AddFoodConsumptionActivity.this, "Server is Down! Please try  again later!", "ERROR");
-//                        return;
-//                    } else {
-//                        Util.showAlertDialog(AddFoodConsumptionActivity.this, message, "ERROR");
-//                        return;
-//                    }
-//                }
-//
-//
-//            }
-//        });
-//    }
+    private void getallfoodSpinnerdata() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(new Config().SERVER_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ApiInterface apiInterface = retrofit.create(ApiInterface.class);
+
+        Call<ServerResponseFoodCategory> call = apiInterface.getcategory();
+        call.enqueue(new Callback<ServerResponseFoodCategory>() {
+            @Override
+            public void onResponse(Call<ServerResponseFoodCategory> call, Response<ServerResponseFoodCategory> response) {
+                if (response.body() != null) {
+                    Log.d(TAG, "gettestcentre " + response.body().getCode());
+                    if(response.body().getCode()==200){
+                        ArrayList<Category_Feed> result = response.body().getResults();
+                        for (int i = 0; i < result.size(); i++){
+                            ArrayList<FoodUnit_Feed> foodUnits = result.get(i).getFoodUnits();
+                            for(int j = 0; j<foodUnits.size();j++)
+                            {
+                                categorylist.add(new Category_List(result.get(i).getFoodName(),foodUnits.get(j).getFoodid(),foodUnits.get(i).getUnit(),foodUnits.get(i).getCarbs(),foodUnits.get(i).getProtein(),foodUnits.get(i).getFat(),foodUnits.get(i).getFiber(),foodUnits.get(i).getCalories()));
+                            }
+                             // categorylist.add(new Category_List(result.get(i).getFoodcategoryid(),result.get(i).getCategoryname()));
+                        }
+                        setspinneradpter();
+                    }else {
+
+                    }
+                }else {
+
+                }
+            }
+            public void onFailure(Call<ServerResponseFoodCategory> call, Throwable t) {
+                t.getMessage();
+                String message = t.getMessage();
+                Log.e("TAG","error :: "+message);
+                if (!isFinishing()) {
+                    if (Constants.SERVER_DOWN.equals(message)) {
+                        Util.showAlertDialog(AddFoodConsumptionActivity.this, "Server is Down! Please try  again later!", "ERROR");
+                        return;
+                    } else {
+                        Util.showAlertDialog(AddFoodConsumptionActivity.this, message, "ERROR");
+                        return;
+                    }
+                }
+
+
+            }
+        });
+    }
 
     private void setspinneradpter() {
         category_spinneradapter = new Category_SpinnerAdapter(getApplicationContext(),categorylist);
@@ -216,12 +226,12 @@ public class AddFoodConsumptionActivity extends AppCompatActivity {
         sp_category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                getfooditemspinner(categorylist.get(i).getFoodcategoryid());
+            //    getfooditemspinner(categorylist.get(i).getFoodcategoryid());
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                getfooditemspinner(categorylist.get(0).getFoodcategoryid());
+             //   getfooditemspinner(categorylist.get(0).getFoodcategoryid());
             }
         });
     }
@@ -231,6 +241,8 @@ public class AddFoodConsumptionActivity extends AppCompatActivity {
         tvTitle = (TextView) findViewById(R.id.title);
         et_date = (EditText) findViewById(R.id.et_date);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        countrySearch = (AutoCompleteTextView) findViewById(R.id.myautocomplete_fooditem);
+        adapter = new AutocompleteAdapter(this,categorylist);
      //   sp_category = (Spinner) findViewById(R.id.sp_fooditem);
      //   itemSpinner = (Spinner) findViewById(R.id.spItem);
         unitSpinner = (Spinner) findViewById(R.id.spUnit);

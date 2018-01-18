@@ -93,18 +93,27 @@
                             android:layout_marginRight="5dp"
                             android:layout_weight="60"
                             android:background="@null">
-                            <EditText
-                                android:id="@+id/et_fooditem"
-                                android:layout_width="fill_parent"
-                                android:layout_height="fill_parent"
-                                android:layout_centerInParent="true"
-                                android:layout_marginLeft="5dp"
+                            <!--<EditText-->
+                                <!--android:id="@+id/et_fooditem"-->
+                                <!--android:layout_width="fill_parent"-->
+                                <!--android:layout_height="fill_parent"-->
+                                <!--android:layout_centerInParent="true"-->
+                                <!--android:layout_marginLeft="5dp"-->
+                                <!--android:background="@null"-->
+                                <!--android:hint="Select Food"-->
+                                <!--android:paddingRight="25dp"-->
+                                <!--android:singleLine="true"-->
+                                <!--android:textAlignment="inherit"-->
+                                <!--android:textSize="15sp"/>-->
+
+
+                            <AutoCompleteTextView
+                                android:id="@+id/myautocomplete_fooditem"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
                                 android:background="@null"
-                                android:hint="Select Food"
-                                android:paddingRight="25dp"
-                                android:singleLine="true"
-                                android:textAlignment="inherit"
-                                android:textSize="15sp"/>
+                                android:hint="enter food item" >
+                            </AutoCompleteTextView>
 
                         <View
                             android:layout_width="match_parent"

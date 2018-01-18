@@ -5,27 +5,109 @@ package com.innovellent.curight.model;
  */
 
 public class Category_List {
-    private Long foodcategoryid;
-    private String categoryname;
 
-    public Category_List(Long foodcategoryid, String categoryname) {
-        this.foodcategoryid = foodcategoryid;
-        this.categoryname = categoryname;
+    private String foodName;
+    private int foodid;
+    private String unit;
+    private int carbs;
+    private int protein;
+    private int fat;
+    private int fiber;
+    private int calories;
+
+    public Category_List(String foodName, int foodid, String unit, int carbs, int protein, int fat, int fiber, int calories) {
+        this.foodName = foodName;
+        this.foodid = foodid;
+        this.unit = unit;
+        this.carbs = carbs;
+        this.protein = protein;
+        this.fat = fat;
+        this.fiber = fiber;
+        this.calories = calories;
     }
 
-    public Long getFoodcategoryid() {
-        return foodcategoryid;
+    public String getFoodName() {
+        return foodName;
     }
 
-    public void setFoodcategoryid(Long foodcategoryid) {
-        this.foodcategoryid = foodcategoryid;
+    public void setFoodName(String foodName) {
+        this.foodName = foodName;
     }
 
-    public String getCategoryname() {
-        return categoryname;
+    public int getFoodid() {
+        return foodid;
     }
 
-    public void setCategoryname(String categoryname) {
-        this.categoryname = categoryname;
+    public void setFoodid(int foodid) {
+        this.foodid = foodid;
     }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public int getCarbs() {
+        return carbs;
+    }
+
+    public void setCarbs(int carbs) {
+        this.carbs = carbs;
+    }
+
+    public int getProtein() {
+        return protein;
+    }
+
+    public void setProtein(int protein) {
+        this.protein = protein;
+    }
+
+    public int getFat() {
+        return fat;
+    }
+
+    public void setFat(int fat) {
+        this.fat = fat;
+    }
+
+    public int getFiber() {
+        return fiber;
+    }
+
+    public void setFiber(int fiber) {
+        this.fiber = fiber;
+    }
+
+    public int getCalories() {
+        return calories;
+    }
+
+    public void setCalories(int calories) {
+        this.calories = calories;
+    }
+
+    //    public Category_List(Long foodcategoryid, String categoryname) {
+//        this.foodcategoryid = foodcategoryid;
+//        this.categoryname = categoryname;
+//    }
+
+//    public Long getFoodcategoryid() {
+//        return foodcategoryid;
+//    }
+//
+//    public void setFoodcategoryid(Long foodcategoryid) {
+//        this.foodcategoryid = foodcategoryid;
+//    }
+//
+//    public String getCategoryname() {
+//        return categoryname;
+//    }
+//
+//    public void setCategoryname(String categoryname) {
+//        this.categoryname = categoryname;
+//    }
 }
