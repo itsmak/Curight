@@ -64,13 +64,15 @@
                     android:layout_height="20dp"
                     android:background="@mipmap/calendar" />
 
-                <TextView
+                <EditText
                     android:id="@+id/tvTextDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="2dp"
-                    android:text="07-Sept-2017" />
+                    android:background="@null"
+                    android:editable="false"
+                    android:hint="Enter Date" />
 
             </LinearLayout>
         </android.support.v7.widget.CardView>
@@ -80,13 +82,13 @@
             android:id="@+id/tvWeight"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="20" />
+            android:layout_weight="10" />
 
         <android.support.v7.widget.CardView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:layout_weight="35"
+            android:layout_weight="45"
             android:background="@drawable/border_rectangle">
 
             <LinearLayout
@@ -100,12 +102,14 @@
                     android:layout_height="20dp"
                     android:background="@mipmap/clock" />
 
-                <TextView
+                <EditText
                     android:id="@+id/tvTextTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:text="12:42" />
+                    android:background="@null"
+                    android:editable="false"
+                    android:hint="Enter Time" />
 
 
             </LinearLayout>
@@ -136,6 +140,7 @@
             android:weightSum="100">
 
             <LinearLayout
+                android:id="@+id/llspeedselecticon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -147,7 +152,7 @@
                     android:layout_width="0dp"
                     android:layout_height="45dp"
                     android:layout_marginRight="20dp"
-                    android:layout_weight="25"
+                    android:layout_weight="33"
                     android:src="@mipmap/ic_slow5" />
 
                 <ImageView
@@ -155,7 +160,7 @@
                     android:layout_width="0dp"
                     android:layout_height="45dp"
                     android:layout_marginRight="20dp"
-                    android:layout_weight="25"
+                    android:layout_weight="33"
                     android:src="@mipmap/ic_medium5" />
 
                 <ImageView
@@ -163,7 +168,7 @@
                     android:layout_width="0dp"
                     android:layout_height="45dp"
                     android:layout_marginRight="20dp"
-                    android:layout_weight="25"
+                    android:layout_weight="33"
                     android:src="@mipmap/ic_fast5" />
                 <ImageView
                     android:id="@+id/ivCustom"
@@ -171,13 +176,15 @@
                     android:layout_height="45dp"
                     android:layout_marginRight="20dp"
                     android:layout_weight="25"
-                    android:src="@mipmap/ic_custom5" />
+                    android:src="@mipmap/ic_custom5"
+                    android:visibility="gone" />
 
 
 
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/llspeedselecttext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:weightSum="100">
@@ -188,7 +195,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="20dp"
-                    android:layout_weight="25"
+                    android:layout_weight="33"
                     android:text="@string/slow"
                     android:textAlignment="center" />
 
@@ -197,16 +204,17 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="20dp"
-                    android:layout_weight="25"
+                    android:layout_weight="33"
                     android:text="@string/medium1"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    />
 
                 <TextView
                     android:id="@+id/tvFast"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="20dp"
-                    android:layout_weight="25"
+                    android:layout_weight="33"
                     android:text="@string/fast"
                     android:textAlignment="center" />
 
@@ -217,17 +225,19 @@
                     android:layout_marginRight="20dp"
                     android:layout_weight="25"
                     android:text="@string/custom"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:visibility="gone" />
 
             </LinearLayout>
 
-            <TextView
+            <EditText
                 android:id="@+id/tvSpeed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="30dp"
-                android:text="Speed - Km/h"
+                android:editable="false"
+                android:hint="Speed - Km/h"
                 android:textAlignment="center"
                 android:textColor="#8a8a8a" />
 
@@ -262,7 +272,7 @@
                     android:layout_weight="50"
                     android:backgroundTint="@color/gray"
                     android:hint="Enter Distance"
-                    android:inputType="text"
+                    android:inputType="number"
                     android:maxLines="1"
                     android:textColor="@color/darkgray"
                     android:textSize="12sp" />
@@ -275,8 +285,8 @@
                     android:layout_marginRight="20dp"
                     android:layout_weight="50"
                     android:backgroundTint="@color/gray"
-                    android:hint="Enter Time"
-                    android:inputType="text"
+                    android:hint="Enter Time Spent"
+                    android:inputType="number"
                     android:maxLines="1"
                     android:textColor="@color/darkgray"
                     android:textSize="12sp" />
@@ -290,7 +300,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_marginTop="20dp"
-                android:text="235"
+                android:text=""
                 android:textAlignment="center"
                 android:textColor="@android:color/holo_red_dark"
                 android:textSize="20sp"

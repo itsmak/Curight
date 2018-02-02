@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:android.support.design="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
@@ -93,33 +96,35 @@
                             android:layout_marginRight="5dp"
                             android:layout_weight="60"
                             android:background="@null">
-                            <!--<EditText-->
-                                <!--android:id="@+id/et_fooditem"-->
-                                <!--android:layout_width="fill_parent"-->
-                                <!--android:layout_height="fill_parent"-->
-                                <!--android:layout_centerInParent="true"-->
-                                <!--android:layout_marginLeft="5dp"-->
-                                <!--android:background="@null"-->
-                                <!--android:hint="Select Food"-->
-                                <!--android:paddingRight="25dp"-->
-                                <!--android:singleLine="true"-->
-                                <!--android:textAlignment="inherit"-->
-                                <!--android:textSize="15sp"/>-->
-
-
-                            <AutoCompleteTextView
-                                android:id="@+id/myautocomplete_fooditem"
+                            <EditText
+                            android:id="@+id/et_fooditem"
+                            android:layout_width="fill_parent"
+                            android:layout_height="35dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginLeft="5dp"
+                            android:background="@null"
+                            android:hint="Select Food"
+                            android:paddingRight="25dp"
+                            android:singleLine="true"
+                            android:textAlignment="inherit"
+                            android:textSize="15sp"/>
+                            <View
+                                android:id="@+id/vw_foodname"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_below="@+id/et_fooditem"
+                                android:background="#adadad"></View>
+                            <android.support.v7.widget.RecyclerView
+                                android:id="@+id/rv_add_food"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:background="@null"
-                                android:hint="enter food item" >
-                            </AutoCompleteTextView>
+                                android:layout_alignLeft="@+id/et_fooditem"
+                                android:layout_alignRight="@+id/et_fooditem"
+                                android:layout_below="@+id/vw_foodname"
+                                android:visibility="gone">
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_alignParentBottom="true"
-                            android:background="#adadad"></View>
+                            </android.support.v7.widget.RecyclerView>
+
                         </RelativeLayout>
 
                         <RelativeLayout
@@ -133,8 +138,8 @@
                             <EditText
                                 android:id="@+id/et_unit"
                                 android:layout_width="fill_parent"
-                                android:layout_height="fill_parent"
-                                android:layout_centerInParent="true"
+                                android:layout_height="35dp"
+                                android:layout_alignParentTop="true"
                                 android:layout_marginLeft="5dp"
                                 android:background="@null"
                                 android:hint="Select unit"
@@ -145,10 +150,23 @@
 
 
                             <View
+                                android:id="@+id/vw_addunit"
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
-                                android:layout_alignParentBottom="true"
+                                android:layout_below="@id/et_unit"
                                 android:background="#adadad"></View>
+
+                            <android.support.v7.widget.RecyclerView
+                                android:id="@+id/rv_add_unit"
+                                android:layout_width="match_parent"
+                                android:layout_height="42dp"
+                                android:layout_alignLeft="@+id/et_unit"
+                                android:layout_alignParentTop="true"
+                                android:layout_alignRight="@+id/et_unit"
+                                android:layout_marginLeft="5dp"
+                                android:visibility="gone">
+
+                            </android.support.v7.widget.RecyclerView>
                         </RelativeLayout>
 
                     </LinearLayout>
@@ -179,6 +197,7 @@
                                 android:layout_marginLeft="5dp"
                                 android:background="@null"
                                 android:hint="Enter Quantity"
+                                android:inputType="number"
                                 android:paddingRight="25dp"
                                 android:singleLine="true"
                                 android:textAlignment="inherit"
@@ -238,43 +257,52 @@
 
                         <RelativeLayout
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="50">
+                            android:layout_height="190dp"
+                            android:layout_weight="65">
 
-                            <TextView
-                                android:id="@+id/tvLeftPercenatage"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginRight="5dp"
-                                android:layout_marginTop="20dp"
-                                android:hint="35%" />
+                            <!--<TextView-->
+                                <!--android:id="@+id/tvLeftPercenatage"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_marginRight="5dp"-->
+                                <!--android:layout_marginTop="20dp"-->
+                                <!--android:hint="35%"-->
+                                <!--android:visibility="gone"/>-->
 
-                            <ImageView
-                                android:id="@+id/ivCirlce"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_toRightOf="@id/tvLeftPercenatage"
-                                android:background="@mipmap/ic_piechart" />
+                            <!--<ImageView-->
+                                <!--android:id="@+id/ivCirlce"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_toRightOf="@id/tvLeftPercenatage"-->
+                                <!--android:background="@mipmap/ic_piechart"-->
+                                <!--android:visibility="gone"/>-->
 
-                            <TextView
-                                android:id="@+id/tvRightPercentage"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@+id/ivCirlce"
-                                android:layout_marginBottom="10dp"
-                                android:layout_marginLeft="20dp"
-                                android:layout_marginTop="5dp"
-                                android:layout_toRightOf="@id/tvLeftPercenatage"
-                                android:hint="20%" />
+                            <com.github.mikephil.charting.charts.PieChart
+                                android:id="@+id/piechart_food"
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"/>
 
-                            <TextView
-                                android:id="@+id/tvBottomPercentage"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:layout_marginTop="20dp"
-                                android:layout_toRightOf="@+id/ivCirlce"
-                                android:hint="45%" />
+                            <!--<TextView-->
+                                <!--android:id="@+id/tvRightPercentage"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_below="@+id/ivCirlce"-->
+                                <!--android:layout_marginBottom="10dp"-->
+                                <!--android:layout_marginLeft="20dp"-->
+                                <!--android:layout_marginTop="5dp"-->
+                                <!--android:visibility="gone"-->
+                                <!--android:layout_toRightOf="@id/tvLeftPercenatage"-->
+                                <!--android:hint="20%" />-->
+
+                            <!--<TextView-->
+                                <!--android:id="@+id/tvBottomPercentage"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_marginLeft="5dp"-->
+                                <!--android:layout_marginTop="20dp"-->
+                                <!--android:visibility="gone"-->
+                                <!--android:layout_toRightOf="@+id/ivCirlce"-->
+                                <!--android:hint="45%" />-->
 
 
                         </RelativeLayout>
@@ -282,42 +310,67 @@
                         <RelativeLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="50">
+                            android:layout_weight="35">
 
                             <TextView
-                                android:id="@+id/tvProtein"
-                                android:layout_width="match_parent"
+                                android:id="@+id/tv_protein"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
                                 android:layout_marginBottom="10dp"
                                 android:layout_marginRight="10dp"
                                 android:gravity="right"
-                                android:hint="Protein: 93.5g"
-                                android:textColorHint="@color/protein"
-                                android:textSize="12sp" />
+                                android:text="Protein:"
+                                android:textColor="#fff78c"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
 
                             <TextView
-                                android:id="@+id/tvCarbs"
-                                android:layout_width="match_parent"
+                                android:id="@+id/tv_carbs"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@id/tvProtein"
-                                android:layout_marginBottom="10dp"
-                                android:layout_marginRight="10dp"
-                                android:gravity="right"
-                                android:hint="Carbs: 76.5g"
-                                android:textColorHint="@color/carbs"
-                                android:textSize="12sp" />
+                                android:layout_alignRight="@+id/tv_protein"
+                                android:layout_below="@id/tv_protein"
+                                android:text="Carbs:"
+                                android:textColor="#c0ff8c"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
 
                             <TextView
-                                android:id="@+id/tvFat"
-                                android:layout_width="match_parent"
+                                android:id="@+id/tv_fat"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@+id/tvCarbs"
-                                android:layout_marginBottom="10dp"
-                                android:layout_marginRight="10dp"
-                                android:gravity="right"
-                                android:hint="Fat: 43.78g"
-                                android:textColorHint="@color/fat"
-                                android:textSize="12sp" />
+                                android:layout_alignRight="@+id/tv_carbs"
+                                android:layout_below="@+id/tv_carbs"
+                                android:layout_marginTop="10dp"
+                                android:text="Fat: "
+                                android:textColor="#ffd08c"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tv_fiber"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignRight="@+id/tv_fat"
+                                android:layout_below="@+id/tv_fat"
+                                android:layout_marginTop="10dp"
+                                android:text="Fiber:"
+                                android:textColor="#8ceaff"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <!--<TextView-->
+                                <!--android:id="@+id/tv_calories"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_below="@+id/tv_fiber"-->
+                                <!--android:layout_marginTop="10dp"-->
+                                <!--android:layout_alignRight="@+id/tv_fiber"-->
+                                <!--android:textStyle="bold"-->
+                                <!--android:text="Calories :"-->
+                                <!--android:textColor="#ff8c9d"-->
+                                <!--android:textSize="14sp" />-->
 
 
                         </RelativeLayout>
@@ -328,8 +381,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/llLayout2"
+                        android:layout_marginRight="10dp"
                         android:gravity="right"
-                        android:text="Total Cal:1.0"
+                        android:text="Total Cal:"
                         android:textColor="@android:color/black"
                         android:textStyle="bold" />
 

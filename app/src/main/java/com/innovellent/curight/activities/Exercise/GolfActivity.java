@@ -1,12 +1,14 @@
-package com.innovellent.curight.activities;
+package com.innovellent.curight.activities.Exercise;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -16,35 +18,50 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.innovellent.curight.R;
-import com.innovellent.curight.adapter.DiagnosticTestAdapter;
+import com.innovellent.curight.api.ApiInterface;
+import com.innovellent.curight.model.AddExerciseResponse;
+import com.innovellent.curight.model.MyCalorieResponse;
+import com.innovellent.curight.model.PostBodyAddExersize;
+import com.innovellent.curight.model.PostBodyCalorie;
+import com.innovellent.curight.model.Result_CAl;
+import com.innovellent.curight.utility.Config;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 /**
- * Created by sagar on 9/8/2017.
+ * Created by Mak on 1/30/2018.
  */
 
-public class WalkingActivity extends AppCompatActivity implements View.OnClickListener {
-    RecyclerView recycler_view;
-    DiagnosticTestAdapter mAdapter;
+public class GolfActivity extends AppCompatActivity implements View.OnClickListener{
+    private static final String TAG = ".Curight";
+    private static String activitytype;
     Button btnSubmit;
     String format;
-    EditText etSpeed;
+    EditText etSpeed,tvTextDate,tvTextTime;
     ArrayList<String> arrayList = new ArrayList<String>();
     LinearLayout llTime, llDate;
-    TextView tvTextTime, tvTextDate;
+    TextView title;
+    Toolbar toolbar;
+    ImageView ivCustom,ivSlow,ivMedium,ivFast;
+    EditText distanceCovered,atTime,tvSpeed;
+    LinearLayout llspeedselecttext,llspeedselecticon;
     private int mYear, mMonth, mDay;
     private StringBuilder date;
-    Toolbar toolbar;
-    private TextView tvSlow,tvMedium,tvFast,tvCustom,tvSpeed;
-    ImageView ivCustom,ivSlow,ivMedium,ivFast;
+    private TextView tvSlow,tvMedium,tvFast,tvCustom;
     private int mHour, mMinute, mhour1, mhour2, mhour3, minute1, minute2, minute3, mSeconds, seconds1, seconds2, seconds3;
-    private EditText atTime;
-    private TextView distanceCovered,calsBurned;
+    private TextView calsBurned,tvBurned;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +69,68 @@ public class WalkingActivity extends AppCompatActivity implements View.OnClickLi
         setContentView(R.layout.activity_walking);
         init();
         iniClick();
+        llspeedselecttext = (LinearLayout) findViewById(R.id.llspeedselecttext);
+        llspeedselecticon = (LinearLayout) findViewById(R.id.llspeedselecticon);
+        llspeedselecttext.setVisibility(View.GONE);
+        llspeedselecticon.setVisibility(View.GONE);
+        tvSpeed.setVisibility(View.GONE);
+        distanceCovered.setVisibility(View.INVISIBLE);
+        activitytype ="golf";
+        title.setText("Golf");
+        atTime.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(editable.length()>0)
+                {
+                    int uid = (int) Prefs.getLong("user_id",0);
+                    Log.d(TAG,"Shared_profile_uid"+uid);
+                    getcaloriesapi(activitytype,uid,editable.toString());
+                }else {
+                    tvBurned.setText("");
+                }
+            }
+        });
+
+    }
+
+    private void getcaloriesapi(String activity, int userid, String duration) {
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(new Config().SERVER_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ApiInterface reditapi = retrofit.create(ApiInterface.class);
+        PostBodyCalorie postcalorie = new PostBodyCalorie(activity,userid,duration);
+        Call<MyCalorieResponse> call = reditapi.getCalorie(postcalorie);
+        call.enqueue(new Callback<MyCalorieResponse>() {
+            @Override
+            public void onResponse(Call<MyCalorieResponse> call, Response<MyCalorieResponse> response) {
+
+                if(response.body()!=null) {
+                    Log.e(TAG, "CalorieResponse: code: " + response.body().getCode());
+                    Result_CAl resultcal = response.body().getResults();
+                    Log.e(TAG, "CalorieResponse: calories: " + resultcal.getCalories());
+                    tvBurned.setText(String.valueOf(resultcal.getCalories()));
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<MyCalorieResponse> call, Throwable t) {
+
+            }
+        });
     }
 
     public void init() {
@@ -62,9 +140,11 @@ public class WalkingActivity extends AppCompatActivity implements View.OnClickLi
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-        tvTextTime = (TextView) findViewById(R.id.tvTextTime);
+        tvTextTime = (EditText) findViewById(R.id.tvTextTime);
+        tvBurned = (TextView) findViewById(R.id.tvBurned);
+        title = (TextView) findViewById(R.id.title);
         llTime = (LinearLayout) findViewById(R.id.llTime);
-        tvTextDate = (TextView) findViewById(R.id.tvTextDate);
+        tvTextDate = (EditText) findViewById(R.id.tvTextDate);
         atTime = (EditText) findViewById(R.id.atTime);
         llDate = (LinearLayout) findViewById(R.id.llDate);
         ivSlow=(ImageView)findViewById(R.id.ivSlow);
@@ -75,7 +155,7 @@ public class WalkingActivity extends AppCompatActivity implements View.OnClickLi
         tvMedium=(TextView)findViewById(R.id.tvMedium);
         tvFast=(TextView)findViewById(R.id.tvFast);
         tvCustom=(TextView)findViewById(R.id.tvCustom);
-        tvSpeed=(TextView)findViewById(R.id.tvSpeed);
+        tvSpeed=(EditText) findViewById(R.id.tvSpeed);
         etSpeed=(EditText)findViewById(R.id.etSpeed);
 
         distanceCovered = (EditText) findViewById(R.id.distanceCovered);
@@ -193,7 +273,7 @@ public class WalkingActivity extends AppCompatActivity implements View.OnClickLi
                             } else {
                                 date = new StringBuilder().append(hourOfDay).append(" : ").append(minute).append(" ").append(format);
                             }
-
+                            // Toast.makeText(WalkingActivity.this,"date",Toast.LENGTH_SHORT).show();
                             tvTextTime.setText(date);
 
 
@@ -217,18 +297,21 @@ public class WalkingActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.ivSlow:
                 setColor();
                 tvSpeed.setVisibility(View.VISIBLE);
+                activitytype ="walkingslow";
                 tvSpeed.setText("1");
                 etSpeed.setVisibility(View.GONE);
                 break;
             case R.id.ivMedium:
                 setColor();
                 tvSpeed.setText("2");
+                activitytype ="walkingmedium";
                 tvSpeed.setVisibility(View.VISIBLE);
                 etSpeed.setVisibility(View.GONE);
                 break;
             case R.id.ivFast:
                 setColor();
                 tvSpeed.setText("3");
+                activitytype ="walkingfast";
                 tvSpeed.setVisibility(View.VISIBLE);
                 etSpeed.setVisibility(View.GONE);
                 break;
@@ -242,9 +325,68 @@ public class WalkingActivity extends AppCompatActivity implements View.OnClickLi
                 break;
             case R.id.btnSubmit:
 //                addExercise();
+                addnewExercise(activitytype);
                 break;
         }
     }
+
+    private void addnewExercise(String activitytype) {
+        String calorie_burn;
+        if(tvTextDate.getText().toString().trim().equals(""))
+        {
+            Toast.makeText(GolfActivity.this,"Please enter Date",Toast.LENGTH_SHORT).show();
+        }else if(tvTextTime.getText().toString().trim().equals("")){
+            Toast.makeText(GolfActivity.this,"Please enter Time",Toast.LENGTH_SHORT).show();
+        }else if(atTime.getText().toString().trim().equals(""))
+        {
+            Toast.makeText(GolfActivity.this,"Please enter Time Spend",Toast.LENGTH_SHORT).show();
+        }else {
+
+            if(calsBurned.getText().toString().trim().equals(""))
+            {
+                calorie_burn = tvBurned.getText().toString();
+                addapicall(activitytype,calorie_burn);
+            }else {
+                calorie_burn = calsBurned.getText().toString();
+                addapicall(activitytype,calorie_burn);
+            }
+        }
+    }
+
+    private void addapicall(String exercisetype,String calorie_burn) {
+
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(new Config().SERVER_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        int uid = (int) Prefs.getLong("user_id",0);
+        ApiInterface reditapi = retrofit.create(ApiInterface.class);
+        PostBodyAddExersize addexersize = new PostBodyAddExersize(String.valueOf(uid),exercisetype,tvTextDate.getText().toString(),atTime.getText().toString(),tvTextTime.getText().toString(),tvSpeed.getText().toString(),distanceCovered.getText().toString(),calorie_burn);
+        Call<AddExerciseResponse> call = reditapi.createCalorie(addexersize);
+        call.enqueue(new Callback<AddExerciseResponse>() {
+            @Override
+            public void onResponse(Call<AddExerciseResponse> call, Response<AddExerciseResponse> response) {
+
+                if(response.body()!=null) {
+                    Log.e(TAG, "ExersizeResponse: code: " + response.body().getCode());
+
+                    if(response.body().getCode()==200)
+                    {
+                        Toast.makeText(GolfActivity.this,"Successfully Added",Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<AddExerciseResponse> call, Throwable t) {
+
+            }
+        });
+
+    }
+
     public void setColor() {
 
 
@@ -299,10 +441,4 @@ public class WalkingActivity extends AppCompatActivity implements View.OnClickLi
 //    }
 
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()==android.R.id.home)
-            finish();
-        return super.onOptionsItemSelected(item);
-    }
 }

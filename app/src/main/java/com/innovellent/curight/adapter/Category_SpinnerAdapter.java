@@ -50,7 +50,7 @@ public class Category_SpinnerAdapter extends BaseAdapter {
 
         view = inflter.inflate(R.layout.category_spinner, null);
         TextView names = (TextView) view.findViewById(R.id.tv_categoryname);
-        names.setText(categoryspinner.get(i).getCategoryname());
+        names.setText(categoryspinner.get(i).getFoodName());
         return view;
     }
 }

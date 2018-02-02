@@ -7,10 +7,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="5dp"
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="5dp"
         android:weightSum="100">
 
         <TextView
@@ -57,8 +57,8 @@
             <TextView
                 android:id="@+id/tvConsumedNumber"
                 android:layout_width="wrap_content"
-                android:layout_centerHorizontal="true"
                 android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="10dp"
@@ -92,8 +92,8 @@
             <TextView
                 android:id="@+id/tvBurnedNumber"
                 android:layout_width="wrap_content"
-                android:layout_centerHorizontal="true"
                 android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="10dp"
@@ -127,8 +127,8 @@
             <TextView
                 android:id="@+id/tvNetNumber"
                 android:layout_width="wrap_content"
-                android:layout_centerHorizontal="true"
                 android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="10dp"
@@ -182,7 +182,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginTop="10dp"
             android:layout_weight="7"
-            android:background="@mipmap/ic_mygoal5" />
+            android:background="@drawable/goal" />
 
         <TextView
             android:id="@+id/tvMyGoal"
@@ -226,7 +226,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginTop="10dp"
             android:layout_weight="7"
-            android:background="@mipmap/ic_consumed5" />
+            android:background="@drawable/ic_mygoal1" />
 
         <TextView
             android:layout_width="0dp"
@@ -268,7 +268,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginTop="10dp"
             android:layout_weight="7"
-            android:background="@mipmap/ic_burned5" />
+            android:background="@drawable/calories" />
 
         <TextView
             android:layout_width="0dp"
@@ -309,7 +309,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginTop="10dp"
             android:layout_weight="7"
-            android:background="@mipmap/ic_fitbit5" />
+            android:background="@drawable/watch" />
 
         <TextView
             android:layout_width="0dp"

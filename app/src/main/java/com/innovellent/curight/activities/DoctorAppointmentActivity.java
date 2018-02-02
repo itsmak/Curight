@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.innovellent.curight.R;
 import com.innovellent.curight.adapter.DoctorAppointmentAdapter;
@@ -33,6 +35,7 @@ public class DoctorAppointmentActivity extends AppCompatActivity {
 
     RecyclerView recycler_view_doctorappointment;
     DoctorAppointmentAdapter doctorAppointmentAdapter;
+    ImageView ivback1;
     ServerResponseDoctorAppointment serverResponseDoctorAppointment;
     ArrayList<String> doctorArrayList = new ArrayList<String>();
 
@@ -45,7 +48,14 @@ public class DoctorAppointmentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_doctorappointment);
 
         recycler_view_doctorappointment = (RecyclerView)findViewById(R.id.recycler_view_doctorappointment);
+        ivback1 = (ImageView) findViewById(R.id.ivback1);
 
+        ivback1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
         getAllDoctors();
 

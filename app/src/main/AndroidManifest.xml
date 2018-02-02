@@ -73,12 +73,102 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"></activity>
         <activity
-            android:name=".activities.WalkingActivity"
+            android:name=".activities.Exercise.WalkingActivity"
             android:configChanges="orientation"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"></activity>
         <activity
+            android:name=".activities.Exercise.RunningActivity"
+            android:configChanges="orientation"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity
+            android:name=".activities.Exercise.BycyclingActivity"
+            android:configChanges="orientation"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity
+            android:name=".activities.Exercise.SwimmingActivity"
+            android:configChanges="orientation"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity
+            android:name=".activities.Exercise.GolfActivity"
+            android:configChanges="orientation"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity
+            android:name=".activities.Exercise.FrisbeeActivity"
+            android:configChanges="orientation"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity
+            android:name=".activities.Exercise.RacquetballActivity"
+            android:configChanges="orientation"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity
+            android:name=".activities.Exercise.RowingActivity"
+            android:configChanges="orientation"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity
+            android:name=".activities.Exercise.SoccerActivity"
+            android:configChanges="orientation"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity
+        android:name=".activities.Exercise.SoftballActivity"
+        android:configChanges="orientation"
+        android:label="@string/app_name"
+        android:screenOrientation="portrait"
+        android:windowSoftInputMode="adjustPan"></activity>
+        <activity
+        android:name=".activities.Exercise.TennisActivity"
+        android:configChanges="orientation"
+        android:label="@string/app_name"
+        android:screenOrientation="portrait"
+        android:windowSoftInputMode="adjustPan"></activity>
+        <activity
+            android:name=".activities.Exercise.TrailBkngActivity"
+            android:configChanges="orientation"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity
+            android:name=".activities.Exercise.VolleyBallActivity"
+            android:configChanges="orientation"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity
+            android:name=".activities.Exercise.WeightliftingActivity"
+            android:configChanges="orientation"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity
+            android:name=".activities.Exercise.WreslingActivity"
+            android:configChanges="orientation"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity
+            android:name=".activities.Exercise.YogaActivity"
+            android:configChanges="orientation"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"></activity>
+                <activity
             android:name=".activities.AmountPaidActivity"
             android:configChanges="orientation"
             android:label="@string/app_name"

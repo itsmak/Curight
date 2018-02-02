@@ -106,7 +106,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/tvWorkout"
+                android:id="@+id/tvWorkout_walking"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/holo_blue_dark"
@@ -133,16 +133,19 @@
                     android:layout_weight="10"
                     android:src="@drawable/add" />
             </LinearLayout>
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/white"/>
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view"
+                android:id="@+id/recycler_view_walking"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvWorkout"
+                android:layout_below="@+id/tvWorkout_walking"
                 android:layout_centerHorizontal="true" />
 
             <LinearLayout
-                android:id="@+id/tvWorkout1"
+                android:id="@+id/tvWorkout_running"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/holo_blue_dark"
@@ -169,16 +172,19 @@
                     android:layout_weight="10"
                     android:src="@drawable/add" />
             </LinearLayout>
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/white"/>
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view1"
+                android:id="@+id/recycler_view_running"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvWorkout"
+                android:layout_below="@+id/tvWorkout_running"
                 android:layout_centerHorizontal="true" />
 
             <LinearLayout
-                android:id="@+id/tvWorkout2"
+                android:id="@+id/tvWorkout_bycycling"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/holo_blue_dark"
@@ -205,16 +211,19 @@
                     android:layout_weight="10"
                     android:src="@drawable/add" />
             </LinearLayout>
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/white"/>
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view2"
+                android:id="@+id/recycler_view_bycycling"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvWorkout"
+                android:layout_below="@+id/tvWorkout_bycycling"
                 android:layout_centerHorizontal="true" />
 
             <LinearLayout
-                android:id="@+id/tvWorkout3"
+                android:id="@+id/tvWorkout_swimming"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/holo_blue_dark"
@@ -241,16 +250,491 @@
                     android:layout_weight="10"
                     android:src="@drawable/add" />
             </LinearLayout>
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/white"/>
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view3"
+                android:id="@+id/recycler_view_swimming"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvWorkout"
+                android:layout_below="@+id/tvWorkout_swimming"
                 android:layout_centerHorizontal="true" />
 
+            <LinearLayout
+                android:id="@+id/tvWorkout_golf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_blue_dark"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp"
+                android:weightSum="100">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="90"
+                    android:text="Golf"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/ivAddgolf"
+                    android:layout_width="0dp"
+                    android:layout_height="20dp"
+                    android:layout_weight="10"
+                    android:src="@drawable/add" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/white"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view_golf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvWorkout_golf"
+                android:layout_centerHorizontal="true" />
+
+            <LinearLayout
+                android:id="@+id/tvWorkout_frisbee"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_blue_dark"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp"
+                android:weightSum="100">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="90"
+                    android:text="Frisbee"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/ivAddfrisbee"
+                    android:layout_width="0dp"
+                    android:layout_height="20dp"
+                    android:layout_weight="10"
+                    android:src="@drawable/add" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/white"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view_frisbee"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvWorkout_frisbee"
+                android:layout_centerHorizontal="true" />
+            <LinearLayout
+                android:id="@+id/tvWorkout_Racquetball"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_blue_dark"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp"
+                android:weightSum="100">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="90"
+                    android:text="Racquetball"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/ivAddracquetball"
+                    android:layout_width="0dp"
+                    android:layout_height="20dp"
+                    android:layout_weight="10"
+                    android:src="@drawable/add" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/white"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view_racquetball"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvWorkout_Racquetball"
+                android:layout_centerHorizontal="true" />
+
+            <LinearLayout
+                android:id="@+id/tvWorkout_rowing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_blue_dark"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp"
+                android:weightSum="100">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="90"
+                    android:text="Rowing"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/ivAddrowing"
+                    android:layout_width="0dp"
+                    android:layout_height="20dp"
+                    android:layout_weight="10"
+                    android:src="@drawable/add" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/white"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view_rowing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvWorkout_rowing"
+                android:layout_centerHorizontal="true" />
+
+            <LinearLayout
+                android:id="@+id/tvWorkout_soccer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_blue_dark"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp"
+                android:weightSum="100">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="90"
+                    android:text="Soccer"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/ivAddsoccer"
+                    android:layout_width="0dp"
+                    android:layout_height="20dp"
+                    android:layout_weight="10"
+                    android:src="@drawable/add" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/white"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view_soccer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvWorkout_soccer"
+                android:layout_centerHorizontal="true" />
+
+            <LinearLayout
+                android:id="@+id/tvWorkout_softball"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_blue_dark"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp"
+                android:weightSum="100">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="90"
+                    android:text="Softball"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/ivAddsoftball"
+                    android:layout_width="0dp"
+                    android:layout_height="20dp"
+                    android:layout_weight="10"
+                    android:src="@drawable/add" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/white"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view_softball"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvWorkout_softball"
+                android:layout_centerHorizontal="true" />
+
+            <LinearLayout
+                android:id="@+id/tvWorkout_tennis"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_blue_dark"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp"
+                android:weightSum="100">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="90"
+                    android:text="Tennis"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/ivAddtennis"
+                    android:layout_width="0dp"
+                    android:layout_height="20dp"
+                    android:layout_weight="10"
+                    android:src="@drawable/add" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/white"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view_tennis"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvWorkout_tennis"
+                android:layout_centerHorizontal="true" />
+
+            <LinearLayout
+                android:id="@+id/tvWorkout_trailbkng"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_blue_dark"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp"
+                android:weightSum="100">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="90"
+                    android:text="TrailBiking"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/ivAddtrailbking"
+                    android:layout_width="0dp"
+                    android:layout_height="20dp"
+                    android:layout_weight="10"
+                    android:src="@drawable/add" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/white"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view_trailbiking"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvWorkout_trailbkng"
+                android:layout_centerHorizontal="true" />
+
+            <LinearLayout
+                android:id="@+id/tvWorkout_volleyball"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_blue_dark"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp"
+                android:weightSum="100">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="90"
+                    android:text="Volleyball"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/ivAddvolleyball"
+                    android:layout_width="0dp"
+                    android:layout_height="20dp"
+                    android:layout_weight="10"
+                    android:src="@drawable/add" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/white"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view_volleyball"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvWorkout_volleyball"
+                android:layout_centerHorizontal="true" />
+
+            <LinearLayout
+                android:id="@+id/tvWorkout_weightlifting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_blue_dark"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp"
+                android:weightSum="100">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="90"
+                    android:text="Weightlifting"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/ivAddweightlifting"
+                    android:layout_width="0dp"
+                    android:layout_height="20dp"
+                    android:layout_weight="10"
+                    android:src="@drawable/add" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/white"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view_weightlifting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvWorkout_weightlifting"
+                android:layout_centerHorizontal="true" />
+
+            <LinearLayout
+                android:id="@+id/tvWorkout_wrestling"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_blue_dark"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp"
+                android:weightSum="100">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="90"
+                    android:text="Wrestling"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/ivAddwrestling"
+                    android:layout_width="0dp"
+                    android:layout_height="20dp"
+                    android:layout_weight="10"
+                    android:src="@drawable/add" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/white"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view_wrestling"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvWorkout_wrestling"
+                android:layout_centerHorizontal="true" />
+
+            <LinearLayout
+                android:id="@+id/tvWorkout_yoga"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_blue_dark"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp"
+                android:weightSum="100">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="90"
+                    android:text="Yoga"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/ivAddyoga"
+                    android:layout_width="0dp"
+                    android:layout_height="20dp"
+                    android:layout_weight="10"
+                    android:src="@drawable/add" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/white"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view_yoga"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvWorkout_yoga"
+                android:layout_centerHorizontal="true" />
 
         </LinearLayout>
+
+
 
     </ScrollView>
 </LinearLayout>

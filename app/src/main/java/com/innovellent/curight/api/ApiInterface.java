@@ -1,5 +1,6 @@
 package com.innovellent.curight.api;
 
+import com.innovellent.curight.model.AddExerciseResponse;
 import com.innovellent.curight.model.Auth;
 import com.innovellent.curight.model.BMIReport;
 import com.innovellent.curight.model.BloodPressureReport;
@@ -25,6 +26,7 @@ import com.innovellent.curight.model.GetTestDetailCenter;
 import com.innovellent.curight.model.Goal;
 import com.innovellent.curight.model.Login;
 import com.innovellent.curight.model.MED_REMAINDER_RESPONSE;
+import com.innovellent.curight.model.MyCalorieResponse;
 import com.innovellent.curight.model.MyProfile_Response;
 import com.innovellent.curight.model.MyServer_Response;
 import com.innovellent.curight.model.OverviewCenterByDC;
@@ -39,6 +41,8 @@ import com.innovellent.curight.model.ParameterPojo;
 import com.innovellent.curight.model.PatientReportsPojo;
 import com.innovellent.curight.model.PhotosCenterByDC;
 import com.innovellent.curight.model.PostAddProfile;
+import com.innovellent.curight.model.PostBodyAddExersize;
+import com.innovellent.curight.model.PostBodyCalorie;
 import com.innovellent.curight.model.PostBodyClass;
 import com.innovellent.curight.model.PostBodyProfile;
 import com.innovellent.curight.model.PostBodyRegister;
@@ -338,5 +342,14 @@ public interface ApiInterface {
     @POST("patientprofile/update")
     Call<Registration_Response> updatefamilyprofile(@Body Post_Family_Update userId);;
 
+    //get calorie
+    @Headers("x-access-token: hjjgkuykg")
+    @POST("exercise/getcalories")
+    Call<MyCalorieResponse> getCalorie(@Body PostBodyCalorie userId);;
+
+    //create calorie
+    @Headers("x-access-token: hjjgkuykg")
+    @POST("exercise/create")
+    Call<AddExerciseResponse> createCalorie(@Body PostBodyAddExersize userId);;
 
 }
