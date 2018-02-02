@@ -22,11 +22,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
+import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
 import com.innovellent.curight.LoginActivity;
 import com.innovellent.curight.R;
 import com.innovellent.curight.adapter.SummaryAdapter;
 import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.ServerResponseTestBooking;
+import com.innovellent.curight.model.SummaryDetails;
 import com.innovellent.curight.model.TestBookingCreate;
 import com.innovellent.curight.model.TestBookingDetail;
 import com.innovellent.curight.model.TestBookingId;
@@ -38,6 +41,7 @@ import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import retrofit2.Call;
@@ -59,11 +63,16 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
     //ArrayList<String> newArrayList = new ArrayList<String>();
     ArrayList<String> arrayList = new ArrayList<String>();
     ArrayList<String> amountList =new ArrayList<String>();
+    ArrayList<String> homepickupList =new ArrayList<String>();
+    ArrayList<SummaryDetails> summarylist = new ArrayList<SummaryDetails>();
+
     Toolbar toolbar;
     String dc_name,loc,test_names;
     String[] tests_arr;
+    String[] picup_arr;
+
     long dc_id;
-    String sel_test_ids,test_amnt_str;
+    String sel_test_ids,test_amnt_str,test_homepickup;
     String[] test_amnts;
     TextView tvTotal;
     boolean updateFlag = false;
@@ -81,19 +90,29 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
             test_names = bundle.getString("test_names");
             sel_test_ids = bundle.getString("sel_test_ids");
             test_amnt_str =  bundle.getString("test_amounts");
+            test_homepickup =  bundle.getString("test_homepickup");
+
             Log.d(TAG,"summery_test_id***"+String.valueOf(dc_id));
             Log.d(TAG,"summery_test_dcname***"+dc_name);
             Log.d(TAG,"summery_test_location***"+loc);
             Log.d(TAG,"summery_test_names***"+test_names);
             Log.d(TAG,"summery_seltestid***"+sel_test_ids);
             Log.d(TAG,"summery_testamnt***"+test_amnt_str);
+            Log.d(TAG,"summery_testpickup***"+test_homepickup);
         }
         init();
         iniClick();
-        getData();
-
         Log.d("arraylistsize***",  ""+arrayList.size());
         Log.d("amountlistsize***",  ""+amountList.size());
+        Log.d("homepickuplistsize***",  ""+homepickupList.size());
+        for(int i=0;i<arrayList.size();i++)
+        {
+            summarylist.add(new SummaryDetails(arrayList.get(i),amountList.get(i),homepickupList.get(i)));
+        }
+        getData();
+
+
+
 
     }
     public void init(){
@@ -127,12 +146,28 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
                 if (!compoundButton.isChecked()) {
                     startDate.setClickable(false);
                     endDate.setClickable(false);
+                    mAdapter = new SummaryAdapter(SummaryDetailsActivity.this, summarylist,false);
+                    recycler_view.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+                    recycler_view.setAdapter(mAdapter);
                 } else {
+                    mAdapter = new SummaryAdapter(SummaryDetailsActivity.this, summarylist,true);
+                    recycler_view.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+                    recycler_view.setAdapter(mAdapter);
                     startDate.setOnClickListener(SummaryDetailsActivity.this);
                     endDate.setOnClickListener(SummaryDetailsActivity.this);
                 }
             }
         });
+        if (!("".equals(test_homepickup))) {
+            picup_arr = test_homepickup.split(",");
+        }
+        if(picup_arr!=null)
+        {
+            for (int i=0;i<picup_arr.length;i++) {
+                homepickupList.add(picup_arr[i]);
+            }
+        }
+
         if (!("".equals(test_names))) {
             tests_arr = test_names.split(",");
         }
@@ -166,7 +201,8 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
     }
 
     public void getData(){
-            mAdapter = new SummaryAdapter(SummaryDetailsActivity.this, arrayList, amountList);
+           // mAdapter = new SummaryAdapter(SummaryDetailsActivity.this, arrayList, amountList);
+            mAdapter = new SummaryAdapter(SummaryDetailsActivity.this, summarylist,false);
             recycler_view.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
             recycler_view.setAdapter(mAdapter);
         //mAdapter.swap(arrayList,amountList);
@@ -224,43 +260,76 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
                 startActivity(i2);
                 break;
             case R.id.startDate:
-                final Calendar c = Calendar.getInstance();
-                mYear = c.get(Calendar.YEAR);
-                mMonth = c.get(Calendar.MONTH);
-                mDay = c.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog datePickerDialog = new DatePickerDialog(SummaryDetailsActivity.this,
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker view, int year,
-                                                  int monthOfYear, int dayOfMonth) {
+//                final Calendar c = Calendar.getInstance();
+//                mYear = c.get(Calendar.YEAR);
+//                mMonth = c.get(Calendar.MONTH);
+//                mDay = c.get(Calendar.DAY_OF_MONTH);
+//                DatePickerDialog datePickerDialog = new DatePickerDialog(SummaryDetailsActivity.this,
+//                        new DatePickerDialog.OnDateSetListener() {
+//                            @Override
+//                            public void onDateSet(DatePicker view, int year,
+//                                                  int monthOfYear, int dayOfMonth) {
+//
+//
+//                                GregorianCalendar GregorianCalendar = new GregorianCalendar(year, monthOfYear, dayOfMonth - 1);
+//
+//                                int dayOfWeek = GregorianCalendar.get(GregorianCalendar.DAY_OF_WEEK);
+//
+//                                String day = "", monthYear = "";
+//                                int month = monthOfYear + 1;
+//                                if (dayOfMonth >= 1 && dayOfMonth <= 9) {
+//                                    day = "0" + dayOfMonth;
+//                                } else {
+//                                    day = dayOfMonth + "";
+//                                }
+//                                if (month >= 1 && month <= 9) {
+//                                    monthYear = "0" + month;
+//                                } else {
+//                                    monthYear = month + "";
+//                                }
+//
+//                                String date = day + "-" + monthYear + "-" + year;
+//                                startDate.setText(dayOfMonth + "-" + (monthYear) + "-" + year);
+//
+//
+//                            }
+//                        }, mYear, mMonth, mDay);
+//
+//
+//                datePickerDialog.show();
+               if(cbHomePickup.isChecked())
+               {
+                   new SingleDateAndTimePickerDialog.Builder(SummaryDetailsActivity.this)
+                           //.bottomSheet()
+                           //.curved()
+                           //.minutesStep(15)
+
+                           //.displayHours(false)
+                           //.displayMinutes(false)
+
+                           //.todayText("aujourd'hui")
+
+                           .displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
+                               @Override
+                               public void onDisplayed(SingleDateAndTimePicker picker) {
+                                   //retrieve the SingleDateAndTimePicker
+                               }
+                           })
+
+                           .title("Simple")
+                           .listener(new SingleDateAndTimePickerDialog.Listener() {
+                               @Override
+                               public void onDateSelected(Date date) {
+                                   startDate.setText(String.valueOf(date));
+                               }
+                           }).display();
+               }else {
+                    Toast.makeText(SummaryDetailsActivity.this,"Select HomepickUp First",Toast.LENGTH_SHORT).show();
+               }
 
 
-                                GregorianCalendar GregorianCalendar = new GregorianCalendar(year, monthOfYear, dayOfMonth - 1);
-
-                                int dayOfWeek = GregorianCalendar.get(GregorianCalendar.DAY_OF_WEEK);
-
-                                String day = "", monthYear = "";
-                                int month = monthOfYear + 1;
-                                if (dayOfMonth >= 1 && dayOfMonth <= 9) {
-                                    day = "0" + dayOfMonth;
-                                } else {
-                                    day = dayOfMonth + "";
-                                }
-                                if (month >= 1 && month <= 9) {
-                                    monthYear = "0" + month;
-                                } else {
-                                    monthYear = month + "";
-                                }
-
-                                String date = day + "-" + monthYear + "-" + year;
-                                startDate.setText(dayOfMonth + "-" + (monthYear) + "-" + year);
 
 
-                            }
-                        }, mYear, mMonth, mDay);
-
-
-                datePickerDialog.show();
                 break;
 
             case R.id.endDate:

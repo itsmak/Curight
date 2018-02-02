@@ -1,5 +1,6 @@
 package com.innovellent.curight.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -45,7 +46,7 @@ public class DiagnosticCentersActivity extends AppCompatActivity implements View
     private String test_ids="";
     private String test_names="";
     private String my_test_id = "",newtext,finaltext_id;
-
+    private ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,6 +105,10 @@ public class DiagnosticCentersActivity extends AppCompatActivity implements View
 
     public void getData(String newtest_id){
 
+        progressDialog = ProgressDialog.show(DiagnosticCentersActivity.this, "Loading", "please wait", true, false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(new Config().SERVER_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -120,6 +125,7 @@ public class DiagnosticCentersActivity extends AppCompatActivity implements View
             @Override
             public void onResponse(Call<ServerResponseDiagCenter> call, Response<ServerResponseDiagCenter> response) {
               if(response.body()!=null) {
+                  progressDialog.dismiss();
                   diagCenterByTest = (ServerResponseDiagCenter) response.body();
                   String code = diagCenterByTest.getCode();
                   if ("200".equals(code)) {
@@ -127,6 +133,7 @@ public class DiagnosticCentersActivity extends AppCompatActivity implements View
                           center = diagCenterByTest.getResults().get(i);
                           //Log.e("TAG","SERVER RESPONSE ::  "+diagCenterByTest.getResults().get(i));;
                           centerObjs.add(center);
+
                       }
                       if (centerObjs.size() != 0) {
                           mAdapter = new DiagnosticCenterAdapter(DiagnosticCentersActivity.this, centerObjs);
@@ -136,11 +143,13 @@ public class DiagnosticCentersActivity extends AppCompatActivity implements View
                   }
               }else {
                   Toast.makeText(getApplicationContext(),"No data",Toast.LENGTH_SHORT).show();
+                  progressDialog.dismiss();
               }
             }
 
             @Override
             public void onFailure(Call<ServerResponseDiagCenter> call, Throwable t) {
+                progressDialog.dismiss();
                 t.getMessage();
                 String s = t.getMessage();
                 Log.e("TAG","error :: "+s);

@@ -7,6 +7,11 @@ package com.innovellent.curight.model;
 public class GetOverviewList {
 
     private String summary;
+    private String diagnosticcentrename;
+    public GetOverviewList(String summary,String diagnosticcentrename) {
+
+        this.summary = summary;
+    }
 
     public String getSummary() {
         return summary;
@@ -16,8 +21,11 @@ public class GetOverviewList {
         this.summary = summary;
     }
 
-    public GetOverviewList(String summary) {
+    public String getDiagnosticcentrename() {
+        return diagnosticcentrename;
+    }
 
-        this.summary = summary;
+    public void setDiagnosticcentrename(String diagnosticcentrename) {
+        this.diagnosticcentrename = diagnosticcentrename;
     }
 }

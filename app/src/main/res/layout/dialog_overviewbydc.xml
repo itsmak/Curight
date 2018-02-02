@@ -1,36 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
         android:layout_gravity="center"
+        android:background="#009bda"
         android:gravity="center_horizontal">
 
 
         <TextView
+            android:id="@+id/toolbar_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Overview"
-            android:typeface="serif"
-            android:textStyle="bold"
             android:layout_gravity="center"
-            android:id="@+id/toolbar_title"
-            android:textSize="20sp"
-            android:textColor="@android:color/white"/>
+            android:text="Overview"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
 
 
         <ImageView
+            android:id="@+id/img_closedialog_overview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:layout_margin="10dp"
-            android:id="@+id/img_closedialog_overview"
             android:background="@drawable/close"
             android:backgroundTint="@color/white"/>
 
@@ -52,13 +51,15 @@
 
 
             <TextView
+                android:id="@+id/tv_summaryoverviewbydc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_summaryoverviewbydc"
+                android:fontFamily="sans-serif"
+                android:padding="15dp"
                 android:text="summary"
-                android:textStyle="normal"
+                android:textColor="#000000"
                 android:textSize="15sp"
-                android:fontFamily="sans-serif"/>
+                android:textStyle="normal"/>
 
         </LinearLayout>
     </ScrollView>

@@ -2,6 +2,7 @@ package com.innovellent.curight.adapter;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -10,9 +11,12 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -62,7 +66,7 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
     private static final String TAG = "CuRight";
     TextView doctorname_doctorbydc,specialization_doctorbydc,tvemail_doctorbydc,tvtime_doctorbydc,tvmobile_doctorbydc,tvaddress_doctorbydc;
     String doctorname,spec,email,normalworkingdays,weekendworkingdays,mobile,address;//strings for getdoctorbydc
-    String summary;
+    String summary,title;
     String testcode,testname,testknownas,dept,desc,testinst;
     ServerResponseDoctorByDC serverResponseDoctorByDC;
     ArrayList<ServerResponseDoctorByDC> serverResponseDoctorByDCArrayList = new ArrayList<ServerResponseDoctorByDC>();
@@ -79,6 +83,7 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
     HashMap<String,String> Hash_file_maps ;
     private ArrayList<Center> arrayList = new ArrayList<Center>();
     private Context mContext;
+    private ProgressDialog progressDialog;
 
     public DiagnosticCenterAdapter(Context context, ArrayList<Center> arrayList) {
         mContext = context;
@@ -160,15 +165,23 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
                     Log.e("TAG","Size is ::  "+arrayList.get(position).getTestDetail().size());
 
                     ArrayList<TestDetail> testObj = arrayList.get(position).getTestDetail();
-                    String test_amounts = "";
+                    String test_amounts = "",homepickupstatus="";
 
                     for (int j=0;j<testObj.size();j++) {
                         if ("Y".equals(testObj.get(j).getTestchoosen())) {
                             test_amounts = test_amounts + testObj.get(j).getAmount() + ",";
+                            homepickupstatus = homepickupstatus + testObj.get(j).getHomePickupFlag()+",";
                             Log.d(TAG, "test_amounts"+ test_amounts);
                         }
                     }
                     Log.d(TAG,"test_amounts :: "+test_amounts);
+                    Log.d(TAG,"test_homepickupstatus :: "+homepickupstatus);
+                    String test_homepickup = homepickupstatus;
+                    if(test_homepickup.endsWith(","))
+                    {
+                        test_homepickup = test_homepickup.substring(0,test_homepickup.length()-1);
+                    }
+                    Log.d(TAG,"test_homepickupstatus :: "+test_homepickup);
 
                     String test_amnt_str = test_amounts;
                     if (test_amnt_str.endsWith(",")) {
@@ -212,9 +225,12 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
                     if (sel_test_ids.endsWith("^")) {
                         sel_test_ids = sel_test_ids.substring(0,sel_test_ids.length()-1);
                     }
+
                     bundle.putString("sel_test_ids",test_id_str);
                     bundle.putString("test_names",test_name_str);
                     bundle.putString("test_amounts",test_amnt_str);
+                    bundle.putString("test_homepickup",test_homepickup);
+
                     i.putExtras(bundle);
                     mContext.startActivity(i);
                 }else {
@@ -415,6 +431,9 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
 
     //overview api
     private void getoverviewbydc(int pos){
+        progressDialog = ProgressDialog.show(mContext, "Loading", "please wait", true, false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(new Config().SERVER_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -432,19 +451,30 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
             public void onResponse(Call<ServerResponseOverviewByDC> call, Response<ServerResponseOverviewByDC> response) {
                 serverResponseOverviewByDC =(ServerResponseOverviewByDC) response.body();
                 String code = serverResponseOverviewByDC.getCode();
-
+                progressDialog.dismiss();
                 if("200".equals(code)){
                 for(int i=0; i<serverResponseOverviewByDC.getResults().size(); i++){
                      summary = serverResponseOverviewByDC.getResults().get(i).getSummary();
+                  //  title = serverResponseDoctorByDC.getResults().get(i).getDiagnosticcentrename();
                     Log.d("Summary==", summary);
                 }
                     final Dialog dialog = new Dialog(mContext);
                     dialog.setContentView(R.layout.dialog_overviewbydc);
 
+                    TextView toolbar_title = (TextView)dialog.findViewById(R.id.toolbar_title);
                     TextView tv_summary = (TextView)dialog.findViewById(R.id.tv_summaryoverviewbydc);
                     ImageView img = (ImageView)dialog.findViewById(R.id.img_closedialog_overview);
 
+                    toolbar_title.setText("CMH Health Care");
                     tv_summary.setText(summary);
+                    Window dialogWindow = dialog.getWindow();
+                    WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+                    dialogWindow.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
+
+                    lp.width = 900; // Width
+                    lp.height = 350; // Height
+                    lp.alpha = 0.7f; // Transparency
+                    dialogWindow.setAttributes(lp);
 
 
                     dialog.show();
@@ -462,13 +492,16 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
 
             @Override
             public void onFailure(Call<ServerResponseOverviewByDC> call, Throwable t) {
-
+                progressDialog.dismiss();
             }
         });
     }
 
     //getphotosbydc api
     private void getphotosbydc(int pos){
+        progressDialog = ProgressDialog.show(mContext, "Loading", "please wait", true, false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(new Config().SERVER_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -486,7 +519,7 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
             public void onResponse(Call<ServerResponsePhotosByDC> call, Response<ServerResponsePhotosByDC> response) {
                 serverResponsePhotosByDC =(ServerResponsePhotosByDC) response.body();
                 String code = serverResponsePhotosByDC.getCode();
-
+                progressDialog.dismiss();
 
 
                     final Dialog dialog = new Dialog(mContext);
@@ -538,6 +571,8 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
 
             @Override
             public void onFailure(Call<ServerResponsePhotosByDC> call, Throwable t) {
+
+                progressDialog.dismiss();
 
             }
         });

@@ -232,7 +232,7 @@ public class DiagnosticTestListActivity extends AppCompatActivity{
             }
             @Override
             public void onFailure(Call<ServerResponseTest> call, Throwable t) {
-
+                progressDialog.dismiss();
                 t.getMessage();
                 String message = t.getMessage();
                 Log.e("TAG","error :: "+message);
