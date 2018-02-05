@@ -289,6 +289,9 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
 
     //getdoctorbydc api
     private void getdoctorbydc(int pos){
+        progressDialog = ProgressDialog.show(mContext, "Loading", "please wait", true, false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(new Config().SERVER_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -307,7 +310,7 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
             public void onResponse(Call<ServerResponseDoctorByDC> call, Response<ServerResponseDoctorByDC> response) {
                 serverResponseDoctorByDC =(ServerResponseDoctorByDC) response.body();
                 String code = serverResponseDoctorByDC.getCode();
-
+                progressDialog.dismiss();
                 Dialog dialog = new Dialog(mContext);
                 dialog.setContentView(R.layout.dialog_doctorbydc_main);
                 recyclerView = (RecyclerView)dialog.findViewById(R.id.recycler_view_doctotbydc);
@@ -332,7 +335,7 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
 
             @Override
             public void onFailure(Call<ServerResponseDoctorByDC> call, Throwable t) {
-
+                progressDialog.dismiss();
             }
         });
     }
@@ -342,6 +345,9 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
 
     //gettestbydc api
     private void gettestbydc(int pos){
+        progressDialog = ProgressDialog.show(mContext, "Loading", "please wait", true, false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(new Config().SERVER_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -359,7 +365,7 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
             public void onResponse(Call<ServerResponseGetTestDetail> call, Response<ServerResponseGetTestDetail> response) {
                 serverResponseGetTestDetail =(ServerResponseGetTestDetail) response.body();
                 String code = serverResponseGetTestDetail.getCode();
-
+                progressDialog.dismiss();
                 ScrollView sv = new ScrollView(mContext);
                 ImageView divider = new ImageView(mContext);
 
@@ -424,7 +430,7 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
 
             @Override
             public void onFailure(Call<ServerResponseGetTestDetail> call, Throwable t) {
-
+                progressDialog.dismiss();
             }
         });
     }

@@ -1,509 +1,520 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_marginTop="55dp"
-    android:paddingBottom="20dp"
-    android:background="@android:color/white"
     android:layout_height="wrap_content"
+    android:layout_marginTop="55dp"
+    android:background="@android:color/white"
+    android:paddingBottom="20dp"
     >
     <LinearLayout
         android:id="@+id/card_header"
-        android:padding="20dp"
-        android:weightSum="100"
-        android:orientation="horizontal"
-        android:background="@color/colorAccent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        android:orientation="horizontal"
+        android:padding="20dp"
+        android:weightSum="100">
         <TextView
             android:id="@+id/tvAbout"
             android:layout_width="0dp"
-            android:layout_weight="90"
             android:layout_height="wrap_content"
-            android:textSize="18dp"
             android:layout_gravity="center"
+            android:layout_weight="90"
             android:gravity="center_vertical|center_horizontal"
             android:text="Enter Blood  Count"
             android:textAllCaps="false"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:textSize="18dp" />
 
         <ImageView
             android:id="@+id/ivCancel"
             android:layout_width="0dp"
-            android:layout_weight="10"
+            android:layout_height="20dp"
             android:layout_gravity="right"
-            android:src="@drawable/ic_cancel"
-            android:layout_height="20dp" />
+            android:layout_weight="10"
+            android:src="@drawable/ic_cancel" />
 
     </LinearLayout>
 
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_marginTop="20dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/card_header">
+        android:layout_below="@id/card_header"
+        android:layout_marginTop="20dp">
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_marginBottom="10dp"
                 android:id="@+id/linear_datedialog"
-                android:layout_height="wrap_content">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp">
                 <ImageView
-                    android:layout_marginLeft="150dp"
                     android:id="@+id/ivCalendar"
-                    android:src="@mipmap/calendar"
-                    android:layout_width="10dp"
-                    android:layout_height="10dp" />
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="150dp"
+                    android:src="@mipmap/calendar" />
                 <TextView
-                    android:layout_marginLeft="5dp"
                     android:id="@+id/tvSelectDate"
-                    android:textSize="10sp"
-                    android:textColor="@color/darkgray"
-                    android:text="@string/selectdate"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="@string/selectdate"
+                    android:textColor="@color/darkgray"
+                    android:textSize="14sp" />
             </LinearLayout>
             <LinearLayout
-                android:weightSum="100"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:weightSum="100">
                 <RelativeLayout
-                    android:layout_weight="33"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_weight="33">
 
                     <ImageView
                         android:id="@+id/ivAntiCPP"
-                        android:gravity="center"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="5dp"
                         android:layout_width="15dp"
-                        android:src="@drawable/profile"
-                        android:layout_height="15dp" />
-                    <EditText
-                        android:layout_marginTop="5dp"
-                        android:layout_marginLeft="5dp"
-                        android:hint="@string/AntiCPP"
-                        android:background="@android:color/white"
-                        android:layout_toRightOf="@+id/ivAntiCPP"
-                        android:textSize="10sp"
-                        android:layout_marginBottom="5dp"
-                        android:id="@+id/et_anticpp"
-                        android:textAlignment="center"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                    <TextView
-                        android:layout_marginTop="2dp"
+                        android:layout_height="15dp"
                         android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center"
+                        android:src="@drawable/profile" />
+                    <EditText
+                        android:id="@+id/et_anticpp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_toRightOf="@+id/ivAntiCPP"
+                        android:background="@android:color/white"
+                        android:hint="@string/AntiCPP"
+                        android:inputType="number"
+                        android:textAlignment="center"
+                        android:textSize="10sp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
                         android:layout_below="@+id/ivAntiCPP"
                         android:layout_marginBottom="10dp"
-                        android:background="@color/gray"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp" />
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="2dp"
+                        android:background="@color/gray" />
                 </RelativeLayout>
 
 
                 <RelativeLayout
-                    android:layout_weight="33"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_weight="33">
 
                     <ImageView
                         android:id="@+id/ivCRP"
-                        android:gravity="center"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="5dp"
                         android:layout_width="15dp"
-                        android:src="@drawable/profile"
-                        android:layout_height="15dp" />
-                    <EditText
-                        android:layout_marginTop="5dp"
-                        android:layout_marginLeft="5dp"
-                        android:hint="@string/CRP"
-                        android:background="@android:color/white"
-                        android:layout_toRightOf="@+id/ivCRP"
-                        android:textSize="10sp"
-                        android:layout_marginBottom="5dp"
-                        android:id="@+id/et_crp"
-                        android:textAlignment="center"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                    <TextView
-                        android:layout_marginTop="2dp"
+                        android:layout_height="15dp"
                         android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center"
+                        android:src="@drawable/profile" />
+                    <EditText
+                        android:id="@+id/et_crp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_toRightOf="@+id/ivCRP"
+                        android:background="@android:color/white"
+                        android:hint="@string/CRP"
+                        android:inputType="number"
+                        android:textAlignment="center"
+                        android:textSize="10sp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
                         android:layout_below="@+id/ivCRP"
                         android:layout_marginBottom="10dp"
-                        android:background="@color/gray"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp" />
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="2dp"
+                        android:background="@color/gray" />
                 </RelativeLayout>
 
 
 
                 <RelativeLayout
-                    android:layout_weight="34"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_weight="34">
 
                     <ImageView
                         android:id="@+id/ivESR"
-                        android:gravity="center"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="5dp"
                         android:layout_width="15dp"
-                        android:src="@drawable/profile"
-                        android:layout_height="15dp" />
-                    <EditText
-                        android:layout_marginTop="5dp"
-                        android:layout_marginLeft="5dp"
-                        android:hint="@string/ESR"
-                        android:background="@android:color/white"
-                        android:layout_toRightOf="@+id/ivESR"
-                        android:textSize="10sp"
-                        android:id="@+id/et_esr"
-                        android:layout_marginBottom="5dp"
-                        android:textAlignment="center"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                    <TextView
-                        android:layout_marginTop="2dp"
+                        android:layout_height="15dp"
                         android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center"
+                        android:src="@drawable/profile" />
+                    <EditText
+                        android:id="@+id/et_esr"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_toRightOf="@+id/ivESR"
+                        android:background="@android:color/white"
+                        android:hint="@string/ESR"
+                        android:inputType="number"
+                        android:textAlignment="center"
+                        android:textSize="10sp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
                         android:layout_below="@+id/ivESR"
                         android:layout_marginBottom="10dp"
-                        android:background="@color/gray"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp" />
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="2dp"
+                        android:background="@color/gray" />
                 </RelativeLayout>
 
 
             </LinearLayout>
 
             <LinearLayout
-                android:weightSum="100"
-                android:layout_marginBottom="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:weightSum="100">
                 <RelativeLayout
-                    android:layout_weight="33"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_weight="33">
 
                     <ImageView
                         android:id="@+id/ivHaemoglobin"
-                        android:gravity="center"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="5dp"
                         android:layout_width="15dp"
-                        android:src="@drawable/profile"
-                        android:layout_height="15dp" />
-                    <EditText
-                        android:layout_marginTop="5dp"
-                        android:layout_marginLeft="5dp"
-                        android:hint="@string/Haemoglobin"
-                        android:background="@android:color/white"
-                        android:layout_toRightOf="@+id/ivHaemoglobin"
-                        android:textSize="10sp"
-                        android:id="@+id/et_hoemoglobin"
-                        android:layout_marginBottom="5dp"
-                        android:textAlignment="center"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                    <TextView
-                        android:layout_marginTop="2dp"
+                        android:layout_height="15dp"
                         android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center"
+                        android:src="@drawable/profile" />
+                    <EditText
+                        android:id="@+id/et_hoemoglobin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_toRightOf="@+id/ivHaemoglobin"
+                        android:background="@android:color/white"
+                        android:hint="@string/Haemoglobin"
+                        android:inputType="number"
+                        android:textAlignment="center"
+                        android:textSize="10sp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
                         android:layout_below="@+id/ivHaemoglobin"
                         android:layout_marginBottom="10dp"
-                        android:background="@color/gray"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp" />
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="2dp"
+                        android:background="@color/gray" />
                 </RelativeLayout>
 
 
                 <RelativeLayout
-                    android:layout_weight="33"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_weight="33">
 
                     <ImageView
                         android:id="@+id/ivHbA1c"
-                        android:gravity="center"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="5dp"
                         android:layout_width="15dp"
-                        android:src="@drawable/profile"
-                        android:layout_height="15dp" />
-                    <EditText
-                        android:layout_marginTop="5dp"
-                        android:layout_marginLeft="5dp"
-                        android:hint="@string/HbA1c"
-                        android:background="@android:color/white"
-                        android:layout_toRightOf="@+id/ivHbA1c"
-                        android:textSize="10sp"
-                        android:id="@+id/et_hbalc"
-                        android:layout_marginBottom="5dp"
-                        android:textAlignment="center"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                    <TextView
-                        android:layout_marginTop="2dp"
+                        android:layout_height="15dp"
                         android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center"
+                        android:src="@drawable/profile" />
+                    <EditText
+                        android:id="@+id/et_hbalc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_toRightOf="@+id/ivHbA1c"
+                        android:background="@android:color/white"
+                        android:hint="@string/HbA1c"
+                        android:inputType="number"
+                        android:textAlignment="center"
+                        android:textSize="10sp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
                         android:layout_below="@+id/ivHbA1c"
                         android:layout_marginBottom="10dp"
-                        android:background="@color/gray"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp" />
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="2dp"
+                        android:background="@color/gray" />
                 </RelativeLayout>
 
 
 
                 <RelativeLayout
-                    android:layout_weight="34"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_weight="34">
 
                     <ImageView
                         android:id="@+id/ivINR"
-                        android:gravity="center"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="5dp"
                         android:layout_width="15dp"
-                        android:src="@drawable/profile"
-                        android:layout_height="15dp" />
-                    <EditText
-                        android:layout_marginTop="5dp"
-                        android:layout_marginLeft="5dp"
-                        android:hint="@string/INR"
-                        android:background="@android:color/white"
-                        android:layout_toRightOf="@+id/ivINR"
-                        android:textSize="10sp"
-                        android:id="@+id/et_inr"
-                        android:layout_marginBottom="5dp"
-                        android:textAlignment="center"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                    <TextView
-                        android:layout_marginTop="2dp"
+                        android:layout_height="15dp"
                         android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center"
+                        android:src="@drawable/profile" />
+                    <EditText
+                        android:id="@+id/et_inr"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_toRightOf="@+id/ivINR"
+                        android:background="@android:color/white"
+                        android:hint="@string/INR"
+                        android:inputType="number"
+                        android:textAlignment="center"
+                        android:textSize="10sp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
                         android:layout_below="@+id/ivINR"
                         android:layout_marginBottom="10dp"
-                        android:background="@color/gray"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp" />
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="2dp"
+                        android:background="@color/gray" />
                 </RelativeLayout>
 
 
             </LinearLayout>
             <LinearLayout
-                android:weightSum="100"
-                android:layout_marginBottom="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:weightSum="100">
                 <RelativeLayout
-                    android:layout_weight="33"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_weight="33">
 
                     <ImageView
                         android:id="@+id/ivPlatelet"
-                        android:gravity="center"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
                         android:layout_marginLeft="20dp"
                         android:layout_marginTop="5dp"
-                        android:layout_width="15dp"
-                        android:src="@drawable/profile"
-                        android:layout_height="15dp" />
+                        android:gravity="center"
+                        android:src="@drawable/profile" />
                     <EditText
-                        android:hint="@string/Platelet"
-                        android:background="@android:color/white"
-                        android:textSize="10sp"
                         android:id="@+id/et_platelet"
-                        android:textAlignment="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@+id/ivPlatelet"
+                        android:layout_toEndOf="@+id/ivPlatelet"
                         android:layout_toRightOf="@+id/ivPlatelet"
-                        android:layout_toEndOf="@+id/ivPlatelet" />
+                        android:background="@android:color/white"
+                        android:hint="@string/Platelet"
+                        android:inputType="number"
+                        android:textAlignment="center"
+                        android:textSize="10sp" />
                     <TextView
-                        android:layout_marginTop="2dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
                         android:layout_below="@+id/ivPlatelet"
                         android:layout_marginBottom="10dp"
-                        android:background="@color/gray"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp" />
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="2dp"
+                        android:background="@color/gray" />
                 </RelativeLayout>
 
 
                 <RelativeLayout
-                    android:layout_weight="33"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_weight="33">
 
                     <ImageView
                         android:id="@+id/ivProlactin"
-                        android:gravity="center"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="5dp"
                         android:layout_width="15dp"
-                        android:src="@drawable/profile"
-                        android:layout_height="15dp" />
-                    <EditText
-                        android:layout_marginTop="5dp"
-                        android:layout_marginLeft="5dp"
-                        android:hint="prolactin"
-                        android:background="@android:color/white"
-                        android:layout_toRightOf="@+id/ivProlactin"
-                        android:textSize="10sp"
-                        android:id="@+id/et_prolactin"
-                        android:layout_marginBottom="5dp"
-                        android:textAlignment="center"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                    <TextView
-                        android:layout_marginTop="2dp"
+                        android:layout_height="15dp"
                         android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center"
+                        android:src="@drawable/profile" />
+                    <EditText
+                        android:id="@+id/et_prolactin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_toRightOf="@+id/ivProlactin"
+                        android:background="@android:color/white"
+                        android:hint="prolactin"
+                        android:inputType="number"
+                        android:textAlignment="center"
+                        android:textSize="10sp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
                         android:layout_below="@+id/ivProlactin"
                         android:layout_marginBottom="10dp"
-                        android:background="@color/gray"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp" />
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="2dp"
+                        android:background="@color/gray" />
                 </RelativeLayout>
 
 
 
                 <RelativeLayout
-                    android:layout_weight="34"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_weight="34">
 
                     <ImageView
                         android:id="@+id/ivRBC"
-                        android:gravity="center"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="5dp"
                         android:layout_width="15dp"
-                        android:src="@drawable/profile"
-                        android:layout_height="15dp" />
-                    <EditText
-                        android:layout_marginTop="5dp"
-                        android:layout_marginLeft="5dp"
-                        android:hint="@string/RBC"
-                        android:background="@android:color/white"
-                        android:layout_toRightOf="@+id/ivRBC"
-                        android:textSize="10sp"
-                        android:id="@+id/et_rbc"
-                        android:layout_marginBottom="5dp"
-                        android:textAlignment="center"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                    <TextView
-                        android:layout_marginTop="2dp"
+                        android:layout_height="15dp"
                         android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center"
+                        android:src="@drawable/profile" />
+                    <EditText
+                        android:id="@+id/et_rbc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_toRightOf="@+id/ivRBC"
+                        android:background="@android:color/white"
+                        android:hint="@string/RBC"
+                        android:inputType="number"
+                        android:textAlignment="center"
+                        android:textSize="10sp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
                         android:layout_below="@+id/ivRBC"
                         android:layout_marginBottom="10dp"
-                        android:background="@color/gray"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp" />
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="2dp"
+                        android:background="@color/gray" />
                 </RelativeLayout>
 
 
             </LinearLayout>
             <LinearLayout
-                android:weightSum="100"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:weightSum="100">
                 <RelativeLayout
-                    android:layout_weight="33"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_weight="33">
 
                     <ImageView
                         android:id="@+id/ivRF"
-                        android:gravity="center"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="5dp"
                         android:layout_width="15dp"
-                        android:src="@drawable/profile"
-                        android:layout_height="15dp" />
-                    <EditText
-                        android:layout_marginTop="5dp"
-                        android:layout_marginLeft="5dp"
-                        android:hint="@string/RF"
-                        android:background="@android:color/white"
-                        android:layout_toRightOf="@+id/ivRF"
-                        android:textSize="10sp"
-                        android:id="@+id/et_rf"
-                        android:layout_marginBottom="5dp"
-                        android:textAlignment="center"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                    <TextView
-                        android:layout_marginTop="2dp"
+                        android:layout_height="15dp"
                         android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center"
+                        android:src="@drawable/profile" />
+                    <EditText
+                        android:id="@+id/et_rf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_toRightOf="@+id/ivRF"
+                        android:background="@android:color/white"
+                        android:hint="@string/RF"
+                        android:inputType="number"
+                        android:textAlignment="center"
+                        android:textSize="10sp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
                         android:layout_below="@+id/ivRF"
                         android:layout_marginBottom="10dp"
-                        android:background="@color/gray"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp" />
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="2dp"
+                        android:background="@color/gray" />
                 </RelativeLayout>
 
 
                 <RelativeLayout
-                    android:layout_weight="33"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_weight="33">
 
                     <ImageView
                         android:id="@+id/ivWBC"
-                        android:gravity="center"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="5dp"
                         android:layout_width="15dp"
-                        android:src="@drawable/profile"
-                        android:layout_height="15dp" />
-                    <EditText
-                        android:layout_marginTop="5dp"
-                        android:layout_marginLeft="5dp"
-                        android:hint="@string/WBC"
-                        android:background="@android:color/white"
-                        android:layout_toRightOf="@+id/ivWBC"
-                        android:textSize="10sp"
-                        android:id="@+id/et_wbc"
-                        android:layout_marginBottom="5dp"
-                        android:textAlignment="center"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                    <TextView
-                        android:layout_marginTop="2dp"
+                        android:layout_height="15dp"
                         android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center"
+                        android:src="@drawable/profile" />
+                    <EditText
+                        android:id="@+id/et_wbc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_toRightOf="@+id/ivWBC"
+                        android:background="@android:color/white"
+                        android:hint="@string/WBC"
+                        android:inputType="number"
+                        android:textAlignment="center"
+                        android:textSize="10sp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
                         android:layout_below="@+id/ivWBC"
                         android:layout_marginBottom="10dp"
-                        android:background="@color/gray"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp" />
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="2dp"
+                        android:background="@color/gray" />
                 </RelativeLayout>
 
 
 
                 <RelativeLayout
-                    android:layout_weight="34"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_weight="34">
 
                 </RelativeLayout>
 
@@ -514,16 +525,16 @@
 
 
             <Button
-                android:background="@color/colorAccent"
                 android:id="@+id/btnSubmit"
-                android:text="OK"
-                android:layout_marginTop="40dp"
-                android:textSize="20dp"
-                android:textColor="@android:color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_marginTop="40dp"
+                android:background="@color/colorAccent"
+                android:text="OK"
+                android:textColor="@android:color/white"
+                android:textSize="20dp" />
         </LinearLayout>
     </ScrollView>
 

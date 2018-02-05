@@ -1,5 +1,8 @@
 package com.innovellent.curight.fragment;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -15,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 import com.innovellent.curight.R;
+import com.innovellent.curight.activities.DiagnosticTestListActivity;
 import com.innovellent.curight.activities.MedicineReminderSetActivity;
 import com.innovellent.curight.activities.ProfileActivity;
 import com.innovellent.curight.adapter.MedicineReminderAdapter;
@@ -35,6 +39,7 @@ import com.innovellent.curight.model.PROFILE_FEED;
 import com.innovellent.curight.model.PostBodyClass;
 import com.innovellent.curight.model.PostBodyProfile;
 import com.innovellent.curight.model.VACCINE_UPDATE_RESPONSE;
+import com.innovellent.curight.utility.Config;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.ArrayList;
@@ -68,8 +73,15 @@ public class MedicineReminderFragment extends Fragment implements View.OnClickLi
     PROFILE_SPINNER_ADAPTER customSpinnerAdapter3;
     int counter= 0;
     int position;
+    Context context;
     MedicineReminderAdapter mAdapter;
+    private ProgressDialog progressDialog;
+    @Override
+    public void onAttach(Activity activity){
+        super.onAttach(activity);
+        context = getActivity();
 
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView=inflater.inflate(R.layout.fragment_medicine_reminder,container,false);
@@ -166,8 +178,11 @@ public class MedicineReminderFragment extends Fragment implements View.OnClickLi
 
     }
     private void getSpinnerData(){
+        progressDialog = ProgressDialog.show(context, "Loading", "please wait", true, false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(new Config().SERVER_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         int uid = (int) Prefs.getLong("user_id",0);
@@ -176,11 +191,11 @@ public class MedicineReminderFragment extends Fragment implements View.OnClickLi
 
         PostBodyProfile postBodyprofile = new PostBodyProfile(uid,"family");
         Call<MyProfile_Response> call = reditapi.getProfile(postBodyprofile);
-
+        progressDialog.dismiss();
         call.enqueue(new Callback<MyProfile_Response>() {
             @Override
             public void onResponse(Call<MyProfile_Response> call, Response<MyProfile_Response> response) {
-
+                progressDialog.dismiss();
 
                 if(response.body()!=null) {
                     Log.e(TAG, "profileResponse: code: " + response.body().getCode());
@@ -219,7 +234,7 @@ public class MedicineReminderFragment extends Fragment implements View.OnClickLi
             }
             @Override
             public void onFailure(Call<MyProfile_Response> call, Throwable t) {
-
+                progressDialog.dismiss();
                 Log.e(TAG,"onFailure: Somethings went wrong"+t.getMessage());
                 Toast.makeText(getActivity(),"Somethings went wrong",Toast.LENGTH_SHORT).show();
 
@@ -267,6 +282,9 @@ public class MedicineReminderFragment extends Fragment implements View.OnClickLi
 
     public void Get_MED_Data(int user_id,String finaldate) {
         Log.d(TAG,"getmedcalled");
+        progressDialog = ProgressDialog.show(context, "Loading", "please wait", true, false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
         clearData();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -279,10 +297,11 @@ public class MedicineReminderFragment extends Fragment implements View.OnClickLi
         POST_MED_CLASS post_med_class = new POST_MED_CLASS(user_id,finaldate);
 
         Call<MED_REMAINDER_RESPONSE> call = reditapi.get_med_remainder(post_med_class);
+        progressDialog.dismiss();
         call.enqueue(new Callback<MED_REMAINDER_RESPONSE>() {
             @Override
             public void onResponse(Call<MED_REMAINDER_RESPONSE> call, Response<MED_REMAINDER_RESPONSE> response) {
-
+                progressDialog.dismiss();
                 if(response.body()!=null) {
 
                     Log.d(TAG, "medResponse: Server Response: " + response);
@@ -391,7 +410,7 @@ public class MedicineReminderFragment extends Fragment implements View.OnClickLi
 
             @Override
             public void onFailure(Call<MED_REMAINDER_RESPONSE> call, Throwable t) {
-
+                progressDialog.dismiss();
                 Log.e(TAG,"onFailure: Somethings went wrong"+t.getMessage());
                 Toast.makeText(getActivity(),"Somethings went wrong",Toast.LENGTH_SHORT).show();
             }
@@ -399,7 +418,9 @@ public class MedicineReminderFragment extends Fragment implements View.OnClickLi
     }
 
     private void timeapical(final Medicine updateditems) {
-
+        progressDialog = ProgressDialog.show(context, "Loading", "please wait", true, false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -416,10 +437,11 @@ public class MedicineReminderFragment extends Fragment implements View.OnClickLi
         POST_TIME_UPDATE_CLASS postTimeUpdateClass = new POST_TIME_UPDATE_CLASS(updateditems.getMedreminderparentid(),updateditems.getMedreminderchildid(),updateditems.getDate(),updateditems.getMorningmedstatus(),updateditems.getNoonmedstatus(),
                 updateditems.getEveninmedstatus(),updateditems.getNightmedstatus());
         Call<VACCINE_UPDATE_RESPONSE> call = reditapi.get_med_update(postTimeUpdateClass);
+        progressDialog.dismiss();
         call.enqueue(new Callback<VACCINE_UPDATE_RESPONSE>() {
             @Override
             public void onResponse(Call<VACCINE_UPDATE_RESPONSE> call, Response<VACCINE_UPDATE_RESPONSE> response) {
-
+                progressDialog.dismiss();
                 if (response.isSuccessful()){
                     Toast.makeText(getActivity(),"Successfully Updated!",Toast.LENGTH_SHORT).show();
 
@@ -435,7 +457,7 @@ public class MedicineReminderFragment extends Fragment implements View.OnClickLi
 
             @Override
             public void onFailure(Call<VACCINE_UPDATE_RESPONSE> call, Throwable t) {
-
+                progressDialog.dismiss();
                 Toast.makeText(getActivity(),"Somethings went wrong",Toast.LENGTH_SHORT).show();
             }
         });

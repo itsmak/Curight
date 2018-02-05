@@ -47,6 +47,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class YourReportsActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
+    private static final String TAG = "CuRight";
     RecyclerView recyclerView_reports;
     Spinner sp_familyforreports;
     EditText et_search;
@@ -170,6 +171,7 @@ public class YourReportsActivity extends AppCompatActivity implements SearchView
                 //bp.getBloodPressureRecords(spinnerList.get(i).getUser_id());
                 Prefs.putLong("spinner_id", Long.parseLong(spinnerList.get(i).getUser_id()));
                 int uid = (int) Prefs.getLong("spinner_id",0);
+                Log.d(TAG,"dynamic spinner id"+uid);
                 getpatientreportsdata(uid);
             }
 
@@ -264,13 +266,14 @@ public class YourReportsActivity extends AppCompatActivity implements SearchView
                 _adpater=new YourReportsAdapter(YourReportsActivity.this,patientReportsDataArrayList);
                 recyclerView_reports.setLayoutManager(new LinearLayoutManager(YourReportsActivity.this, LinearLayoutManager.VERTICAL, false));
                 recyclerView_reports.setAdapter(_adpater);
-
+                progressDialog.dismiss();
 
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
 
+                progressDialog.dismiss();
                 Toast.makeText(YourReportsActivity.this, "Something went wrong please try again", Toast.LENGTH_SHORT).show();
             }
         });

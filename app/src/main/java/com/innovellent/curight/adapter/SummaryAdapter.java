@@ -96,9 +96,9 @@ public class SummaryAdapter  extends RecyclerView.Adapter<SummaryAdapter.MyViewH
     }
 
     private void removeAt(int position) {
-        arrayList.remove(position);
+        summaryList.remove(position);
         notifyItemRemoved(position);
-        notifyItemRangeChanged(position, arrayList.size());
+        notifyItemRangeChanged(position, summaryList.size());
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {

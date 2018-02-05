@@ -112,8 +112,6 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
         getData();
 
 
-
-
     }
     public void init(){
         toolbar=(Toolbar)findViewById(R.id.toolbar);
@@ -158,15 +156,19 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
                 }
             }
         });
-        if (!("".equals(test_homepickup))) {
-            picup_arr = test_homepickup.split(",");
-        }
-        if(picup_arr!=null)
+        if (test_homepickup!=null)
         {
-            for (int i=0;i<picup_arr.length;i++) {
-                homepickupList.add(picup_arr[i]);
+            if (!("".equals(test_homepickup))) {
+                picup_arr = test_homepickup.split(",");
+            }
+            if(picup_arr!=null)
+            {
+                for (int i=0;i<picup_arr.length;i++) {
+                    homepickupList.add(picup_arr[i]);
+                }
             }
         }
+
 
         if (!("".equals(test_names))) {
             tests_arr = test_names.split(",");
