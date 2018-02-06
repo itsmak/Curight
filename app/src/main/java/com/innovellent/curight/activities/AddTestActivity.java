@@ -296,11 +296,12 @@ public class AddTestActivity extends AppCompatActivity implements View.OnClickLi
 
 
 
-                String seltestids="",seltestnames="",seltestamounts="";
+                String seltestids="",seltestnames="",seltestamounts="",seltesthomepickup="";
 
                 for(int i=0;i<t_arraylist.size();i++)
                 {
                     if(t_arraylist.get(i).isChecked()){
+                        seltesthomepickup=seltesthomepickup+t_arraylist.get(i).getHomePickupFlag()+",";
                         seltestids=seltestids+t_arraylist.get(i).getTestid()+",";
                         seltestnames=seltestnames+t_arraylist.get(i).getTestName()+",";
                         seltestamounts=seltestamounts+t_arraylist.get(i).getAmount()+",";
@@ -326,13 +327,19 @@ public class AddTestActivity extends AppCompatActivity implements View.OnClickLi
                     if (seltestamounts.endsWith(",")) {
                         seltestamounts = seltestamounts.substring(0,seltestamounts.length()-1);
                     }
+                    if (seltesthomepickup.endsWith(",")) {
+                        seltesthomepickup = seltesthomepickup.substring(0,seltesthomepickup.length()-1);
+                    }
                     Log.e(TAG,"Add test seltestamounts::  "+seltestamounts);
+                    Log.e(TAG,"Add test seltestpickup::  "+seltesthomepickup);
                     bundle.putLong("dc_id",dc_id);
                     bundle.putString("dc_name",dc_name);
                     bundle.putString("location",loc);
                     bundle.putString("sel_test_ids",seltestids);
                     bundle.putString("test_names",seltestnames);
                     bundle.putString("test_amounts",seltestamounts);
+                    bundle.putString("test_homepickup",seltesthomepickup);
+
                     i2.putExtras(bundle);
                     startActivity(i2);
                     finish();

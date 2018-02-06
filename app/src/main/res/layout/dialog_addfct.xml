@@ -196,6 +196,7 @@
                         android:id="@+id/iv_date"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
+                        android:layout_centerVertical="true"
                         android:layout_marginBottom="5dp"
                         android:background="@mipmap/calendar" />
 
@@ -203,7 +204,10 @@
                         android:id="@+id/tv_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
                         android:layout_toRightOf="@id/iv_date"
+                        android:background="@null"
+                        android:editable="false"
                         android:hint="12/3/2017"
                         android:textSize="15sp" />
 

@@ -268,8 +268,11 @@ public class DiagnosticTestListActivity extends AppCompatActivity{
     call.enqueue(new Callback<ServerResponseTest>() {
         @Override
         public void onResponse(Call<ServerResponseTest> call, Response<ServerResponseTest> response) {
-            tests =(ServerResponseTest) response.body();
+
            // ArrayList<Test> result = response.body().getResults();
+        if (response.body() != null)
+        {
+            tests =(ServerResponseTest) response.body();
             int code = tests.getCode();
             if ("200".equals(code)) {
                 for (int i = 0; i < tests.getResults().size(); i++) {
@@ -289,6 +292,10 @@ public class DiagnosticTestListActivity extends AppCompatActivity{
 //                    recycler_view.setAdapter(mAdapter);
 //                }
             }
+        }else {
+            Toast.makeText(DiagnosticTestListActivity.this, response.message(), Toast.LENGTH_SHORT).show();
+        }
+
         }
 
         @Override

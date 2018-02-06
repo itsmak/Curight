@@ -377,7 +377,7 @@ public class BPFragment extends Fragment implements View.OnClickListener {
                         lineGraph.addSeries(new LineGraphSeries<>(points.toArray(pointArray)));
                         lineGraph.addSeries(new LineGraphSeries<>(points2.toArray(pointArray2)));
                         StaticLabelsFormatter staticlebel = new StaticLabelsFormatter(lineGraph);
-                        staticlebel.setHorizontalLabels(new String[]{"2018/12/12","2018/07/12","2018/10/43","2018/12/11"});
+                       // staticlebel.setHorizontalLabels(new String[]{"2018/12/12","2018/07/12","2018/10/43","2018/12/11"});
                         //staticlebel.setVerticalLabels(new String[] {"0","50","100","150"});
                         lineGraph.getGridLabelRenderer().setLabelFormatter(staticlebel);
                         // lineGraph = new GraphView(getActivity());

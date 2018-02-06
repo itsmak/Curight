@@ -21,11 +21,13 @@ import com.innovellent.curight.adapter.PROFILE_SPINNER_ADAPTER;
 import com.innovellent.curight.adapter.YourReportsAdapter;
 import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.MyProfile_Response;
+import com.innovellent.curight.model.MyReport_Response;
 import com.innovellent.curight.model.PROFILE;
 import com.innovellent.curight.model.PROFILE_FEED;
 import com.innovellent.curight.model.PatientReportsData;
 import com.innovellent.curight.model.PatientReportsPojo;
 import com.innovellent.curight.model.PostBodyProfile;
+import com.innovellent.curight.model.Report_FEED;
 import com.innovellent.curight.utility.Config;
 import com.pixplicity.easyprefs.library.Prefs;
 
@@ -51,6 +53,7 @@ public class YourReportsActivity extends AppCompatActivity implements SearchView
     RecyclerView recyclerView_reports;
     Spinner sp_familyforreports;
     EditText et_search;
+    ArrayList<Report_FEED> reportlist;
     PatientReportsData patientReportsData;
     YourReportsAdapter _adpater;
     ArrayList<PatientReportsData> patientReportsDataArrayList = new ArrayList<PatientReportsData>();
@@ -172,7 +175,8 @@ public class YourReportsActivity extends AppCompatActivity implements SearchView
                 Prefs.putLong("spinner_id", Long.parseLong(spinnerList.get(i).getUser_id()));
                 int uid = (int) Prefs.getLong("spinner_id",0);
                 Log.d(TAG,"dynamic spinner id"+uid);
-                getpatientreportsdata(uid);
+                //getpatientreportsdata(uid);
+                getpatientreport(1);
             }
 
             @Override
@@ -180,113 +184,154 @@ public class YourReportsActivity extends AppCompatActivity implements SearchView
                 int uid = (int) Prefs.getLong("user_id",0);
                 Log.d("user_forwhr", ""+uid);
                 Log.d("TAG", "MyUSER_ID on spinner" + USER_ID);
-                getpatientreportsdata(uid);
+              //  getpatientreportsdata(uid);
+                getpatientreport(1);
             }
         });
 
     }
-
-
-    private void getpatientreportsdata(int user_id){
-
-       /* progressDialog = new ProgressDialog(YourReportsActivity.this);
-        progressDialog.setMessage("Please Wait...");
+    private void getpatientreport(int user_id)
+    {
+        progressDialog = ProgressDialog.show(YourReportsActivity.this, "Loading", "please wait", true, false);
+        progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
-        progressDialog.setCanceledOnTouchOutside(false);*/
-       cleardata();
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(new Config().SERVER_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
-        ApiInterface apiInterface = retrofit.create(ApiInterface.class);
+        ApiInterface reditapi = retrofit.create(ApiInterface.class);
         PatientReportsPojo patientReportsPojo = new PatientReportsPojo(user_id);
-
-        final Call<ResponseBody> call = apiInterface.getpatientreports("abc", patientReportsPojo);
-
-        call.enqueue(new Callback<ResponseBody>() {
+        Call<MyReport_Response> call = reditapi.getpatientreport(patientReportsPojo);
+        call.enqueue(new Callback<MyReport_Response>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if(response.body()!=null){
-                    try{
-//                        progressDialog.dismiss();
+            public void onResponse(Call<MyReport_Response> call, Response<MyReport_Response> response) {
+                progressDialog.dismiss();
 
-                        String res_data = response.body().string();
-                        Log.e("res_data", res_data);
+                if(response.body()!=null) {
+                    reportlist = response.body().getResults();
 
-
-                        JSONObject jsonObject = new JSONObject(res_data);
-
-                        String code = jsonObject.getString("Code");
-                        Log.d("code==", code);
-
-                        if(code.equals("200")){
-
-                            JSONArray jsonArray = jsonObject.getJSONArray("Results");
-                            showProgressDialog("Loading");
-                            for(int i=0; i<jsonArray.length(); i++) {
-                                JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                                patientReportsData = new PatientReportsData();
-                                patientReportsData.setPatientreportid(Integer.parseInt(jsonObject1.getString("patientreportid")));
-                                patientReportsData.setVisitday(jsonObject1.getString("visitday"));
-                                patientReportsData.setVisitmonth(jsonObject1.getString("visitmonth"));
-                                patientReportsData.setDiagnsticcentrename(jsonObject1.getString("diagnsticcentrename"));
-                                patientReportsData.setDoctorname(jsonObject1.getString("doctorname"));
-                                patientReportsData.setDoctornumber(jsonObject1.getString("doctornumber"));
-                                patientReportsData.setReason(jsonObject1.getString("reason"));
-                                patientReportsData.setComments(jsonObject1.getString("comments"));
-                                patientReportsData.setVisitdate(jsonObject1.getString("visitdate"));
-                                patientReportsData.setReportfilename(jsonObject1.getString("reportfilename"));
-
-
-                                patientReportsDataArrayList.add(patientReportsData);
-
-
-                            }
-
-                            progressDialog.dismiss();
-                              //  getSpinnerData();
-
-                        }
-
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-
-                }else{
-                    Toast.makeText(YourReportsActivity.this, "No Records Found", Toast.LENGTH_SHORT).show();
-                    AlertDialog.Builder ab = new AlertDialog.Builder(YourReportsActivity.this);
-                    ab.setMessage("No Records Found");
-                    ab.create();
-                    ab.show();
-                    recyclerView_reports.removeAllViews();
-
+                    Log.d(TAG, "reportlist size" + reportlist.size());
+                    _adpater = new YourReportsAdapter(YourReportsActivity.this, reportlist);
+                    recyclerView_reports.setLayoutManager(new LinearLayoutManager(YourReportsActivity.this, LinearLayoutManager.VERTICAL, false));
+                    recyclerView_reports.setAdapter(_adpater);
                 }
-                _adpater=new YourReportsAdapter(YourReportsActivity.this,patientReportsDataArrayList);
-                recyclerView_reports.setLayoutManager(new LinearLayoutManager(YourReportsActivity.this, LinearLayoutManager.VERTICAL, false));
-                recyclerView_reports.setAdapter(_adpater);
-                progressDialog.dismiss();
+                else
+                {
+                    int i =10;
+                }
+                }
 
-            }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<MyReport_Response> call, Throwable t) {
 
                 progressDialog.dismiss();
-                Toast.makeText(YourReportsActivity.this, "Something went wrong please try again", Toast.LENGTH_SHORT).show();
+
+
             }
         });
     }
 
+//            private void getpatientreportsdata(int user_id){
+//
+//       /* progressDialog = new ProgressDialog(YourReportsActivity.this);
+//        progressDialog.setMessage("Please Wait...");
+//        progressDialog.show();
+//        progressDialog.setCanceledOnTouchOutside(false);*/
+//      // cleardata();
+//
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl(new Config().SERVER_URL)
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build();
+//
+//        ApiInterface apiInterface = retrofit.create(ApiInterface.class);
+//        PatientReportsPojo patientReportsPojo = new PatientReportsPojo(user_id);
+//
+//        final Call<ResponseBody> call = apiInterface.getpatientreports("abc",patientReportsPojo);
+//
+//        call.enqueue(new Callback<ResponseBody>() {
+//            @Override
+//            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                if(response.body()!=null){
+//                    try{
+////                        progressDialog.dismiss();
+//
+//                        String res_data = response.body().string();
+//                        Log.e("res_data", res_data);
+//
+//                        JSONObject jsonObject = new JSONObject(res_data);
+//
+//                        String code = jsonObject.getString("Code");
+//                        Log.d("code==", code);
+//
+//                        if(code.equals("200")){
+//
+//                            JSONArray jsonArray = jsonObject.getJSONArray("Results");
+//                            showProgressDialog("Loading");
+//                            for(int i=0; i<jsonArray.length(); i++) {
+//                                JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+//                                patientReportsData = new PatientReportsData();
+//                                patientReportsData.setPatientreportid(Integer.parseInt(jsonObject1.getString("patientreportid")));
+//                                patientReportsData.setVisitday(jsonObject1.getString("visitday"));
+//                                patientReportsData.setVisitmonth(jsonObject1.getString("visitmonth"));
+//                                patientReportsData.setDiagnsticcentrename(jsonObject1.getString("diagnsticcentrename"));
+//                                patientReportsData.setDoctorname(jsonObject1.getString("doctorname"));
+//                                patientReportsData.setDoctornumber(jsonObject1.getString("doctornumber"));
+//                                patientReportsData.setReason(jsonObject1.getString("reason"));
+//                                patientReportsData.setComments(jsonObject1.getString("comments"));
+//                                patientReportsData.setVisitdate(jsonObject1.getString("visitdate"));
+//                                patientReportsData.setReportfilename(jsonObject1.getString("reportfilename"));
+//
+//
+//                                patientReportsDataArrayList.add(patientReportsData);
+//
+//
+//                            }
+//
+//                            progressDialog.dismiss();
+//                              //  getSpinnerData();
+//
+//                        }
+//
+//                    }catch (Exception e){
+//                        e.printStackTrace();
+//                    }
+//
+//                }else{
+//                    Toast.makeText(YourReportsActivity.this, "No Records Found", Toast.LENGTH_SHORT).show();
+//                    AlertDialog.Builder ab = new AlertDialog.Builder(YourReportsActivity.this);
+//                    ab.setMessage("No Records Found");
+//                    ab.create();
+//                    ab.show();
+//                   // recyclerView_reports.removeAllViews();
+//
+//                }
+//                Log.d(TAG,"Records list size:"+ patientReportsDataArrayList.size());
+//                _adpater=new YourReportsAdapter(YourReportsActivity.this,patientReportsDataArrayList);
+//                recyclerView_reports.setLayoutManager(new LinearLayoutManager(YourReportsActivity.this, LinearLayoutManager.VERTICAL, false));
+//                recyclerView_reports.setAdapter(_adpater);
+//                progressDialog.dismiss();
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ResponseBody> call, Throwable t) {
+//
+//                progressDialog.dismiss();
+//                Toast.makeText(YourReportsActivity.this, "Something went wrong please try again", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
 
-    private void cleardata(){
-        _adpater=new YourReportsAdapter(YourReportsActivity.this,patientReportsDataArrayList);
 
-        patientReportsDataArrayList.clear();
-        _adpater.notifyDataSetChanged();
-
-    }
+//    private void cleardata(){
+//        _adpater=new YourReportsAdapter(YourReportsActivity.this,patientReportsDataArrayList);
+//
+//        patientReportsDataArrayList.clear();
+//        _adpater.notifyDataSetChanged();
+//
+//    }
 
     private void showProgressDialog(String title) {
         progressDialog = ProgressDialog.show(YourReportsActivity.this, title, "please wait", true, false);
@@ -298,9 +343,14 @@ public class YourReportsActivity extends AppCompatActivity implements SearchView
     }
 
     @Override
-    public boolean onQueryTextChange(String newText) {
-        String text = newText;
-        _adpater.filter(text);
+    public boolean onQueryTextChange(String s) {
         return false;
     }
+
+//    @Override
+//    public boolean onQueryTextChange(String newText) {
+//        String text = newText;
+//        _adpater.filter(text);
+//        return false;
+//    }
 }

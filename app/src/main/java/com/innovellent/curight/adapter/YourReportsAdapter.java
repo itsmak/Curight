@@ -23,6 +23,7 @@ import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.DeleteParameterpatientreport;
 import com.innovellent.curight.model.PatientReportsData;
 import com.innovellent.curight.model.PatientReportsPojo;
+import com.innovellent.curight.model.Report_FEED;
 import com.innovellent.curight.model.WHR_LIST;
 import com.innovellent.curight.model.WHR_LIST_DATE;
 import com.innovellent.curight.utility.Config;
@@ -47,18 +48,24 @@ public class YourReportsAdapter extends RecyclerView.Adapter<YourReportsAdapter.
 
     private static final int MAX_LINES =1;
     Context mContext;
+    ArrayList<Report_FEED> reportlist = new ArrayList<Report_FEED>();
     ArrayList<PatientReportsData> patientReportsDatas =new ArrayList<PatientReportsData>();
     ArrayList<PatientReportsData> model;
     PatientReportsData patientReportsData;
     String doctorno;
     ProgressDialog progressDialog;
 
-    public YourReportsAdapter(Context context, ArrayList<PatientReportsData> patientReportsDatas) {
-        mContext = context;
-        this.patientReportsDatas = patientReportsDatas;
-        this.model = new ArrayList<PatientReportsData>();
-        this.model.addAll(patientReportsDatas);
+//    public YourReportsAdapter(Context context, ArrayList<PatientReportsData> patientReportsDatas) {
+//        mContext = context;
+//        this.patientReportsDatas = patientReportsDatas;
+//        this.model = new ArrayList<PatientReportsData>();
+//        this.model.addAll(patientReportsDatas);
+//
+//    }
 
+    public YourReportsAdapter(Context context, ArrayList<Report_FEED> reportlist) {
+        mContext = context;
+        this.reportlist = reportlist;
     }
 
     @Override
@@ -70,10 +77,10 @@ public class YourReportsAdapter extends RecyclerView.Adapter<YourReportsAdapter.
     @Override
     public void onBindViewHolder(final YourReportsAdapter.MyViewHolder holder, final int position) {
 
-        patientReportsData = patientReportsDatas.get(position);
+      //  reportlist = reportlist.get(position);
 
-        holder.txt_day.setText(patientReportsData.getVisitday());
-        holder.txt_month.setText(patientReportsData.getVisitmonth());
+        holder.txt_day.setText(reportlist.get(position).getVisitday());
+        holder.txt_month.setText(reportlist.get(position).getVisitmonth());
         if(holder.txt_month.getText().toString().equals("Jaunary")){
             holder.txt_month.setText("JAN");
         }else if(holder.txt_month.getText().toString().equals("Febuary")){
@@ -99,16 +106,16 @@ public class YourReportsAdapter extends RecyclerView.Adapter<YourReportsAdapter.
         } else if(holder.txt_month.getText().toString().equals("December")){
             holder.txt_month.setText("DEC");
         }
-        holder.txt_diagonsticname.setText(patientReportsData.getDiagnsticcentrename());
-        holder.txt_reason.setText(patientReportsData.getReason());
-        holder.txt_doctorname.setText(patientReportsData.getDoctorname());
-        doctorno = patientReportsData.getDoctornumber();
+        holder.txt_diagonsticname.setText(reportlist.get(position).getDiagnosticcentrename());
+        holder.txt_reason.setText(reportlist.get(position).getReason());
+        holder.txt_doctorname.setText(reportlist.get(position).getDoctorname());
+        doctorno = reportlist.get(position).getDoctornumber();
        // holder.txt_doctornumber.setText(patientReportsData.getDoctornumber());
-        holder.txt_comments.setText(patientReportsData.getComments());
+        holder.txt_comments.setText(reportlist.get(position).getComments());
         //holder.txt_visitdate.setText(patientReportsData.getVisitdate());
 
 
-       ResizableCustomTextView.doResizeTextView(holder.txt_comments, MAX_LINES, "View More", true);
+//       ResizableCustomTextView.doResizeTextView(holder.txt_comments, MAX_LINES, "View More", true);
 
 
         holder.img_calldoctor_fromreport.setOnClickListener(new View.OnClickListener() {
@@ -142,10 +149,10 @@ public class YourReportsAdapter extends RecyclerView.Adapter<YourReportsAdapter.
                 ab.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        patientReportsData = patientReportsDatas.get(position);
+                     //   patientReportsData = patientReportsDatas.get(position);
 
                         showProgressDialog("Deleting item");
-                        deletepatientreport(patientReportsData.getPatientreportid());
+                        deletepatientreport(reportlist.get(position).getPatientreportid());
                         removeAt(position);
                     }
                 });
@@ -169,9 +176,10 @@ public class YourReportsAdapter extends RecyclerView.Adapter<YourReportsAdapter.
 
 
     private void removeAt(int position) {
-        patientReportsDatas.remove(position);
+     //   patientReportsDatas.remove(position);
+        reportlist.remove(position);
         notifyItemRemoved(position);
-        notifyItemRangeChanged(position, patientReportsDatas.size());
+        notifyItemRangeChanged(position, reportlist.size());
     }
 
 
@@ -182,24 +190,24 @@ public class YourReportsAdapter extends RecyclerView.Adapter<YourReportsAdapter.
 
     @Override
     public int getItemCount() {
-        return patientReportsDatas.size();
+        return reportlist.size();
     }
 
     // Filter Class
-    public void filter(String charText) {
-        charText = charText.toLowerCase(Locale.getDefault());
-        patientReportsDatas.clear();
-        if (charText.length() == 0) {
-            patientReportsDatas.addAll(model);
-        } else {
-            for (PatientReportsData wp : model) {
-                if (wp.getReason().toLowerCase(Locale.getDefault()).contains(charText)|| wp.getDiagnsticcentrename().toLowerCase(Locale.getDefault()).contains(charText)|| wp.getDoctorname().toLowerCase(Locale.getDefault()).contains(charText)) {
-                   patientReportsDatas.add(wp);
-                }
-            }
-        }
-        notifyDataSetChanged();
-    }
+//    public void filter(String charText) {
+//        charText = charText.toLowerCase(Locale.getDefault());
+//        reportlist.clear();
+//        if (charText.length() == 0) {
+//            patientReportsDatas.addAll(model);
+//        } else {
+//            for (PatientReportsData wp : model) {
+//                if (wp.getReason().toLowerCase(Locale.getDefault()).contains(charText)|| wp.getDiagnsticcentrename().toLowerCase(Locale.getDefault()).contains(charText)|| wp.getDoctorname().toLowerCase(Locale.getDefault()).contains(charText)) {
+//                   patientReportsDatas.add(wp);
+//                }
+//            }
+//        }
+//        notifyDataSetChanged();
+//    }
 
     private void deletepatientreport(int patientreportid){
 
@@ -268,7 +276,5 @@ public class YourReportsAdapter extends RecyclerView.Adapter<YourReportsAdapter.
             img_delete_parentreport =(ImageView)itemView.findViewById(R.id.img_delete_parentreport);
         }
     }
-
-
 
 }

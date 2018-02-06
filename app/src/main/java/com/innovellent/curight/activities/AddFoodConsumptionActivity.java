@@ -574,6 +574,7 @@ public class AddFoodConsumptionActivity extends AppCompatActivity {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+               Toast.makeText(AddFoodConsumptionActivity.this,"Successfull added",Toast.LENGTH_SHORT).show();
                 finish();
             }
         });

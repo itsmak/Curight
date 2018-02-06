@@ -28,6 +28,7 @@ import com.innovellent.curight.model.Login;
 import com.innovellent.curight.model.MED_REMAINDER_RESPONSE;
 import com.innovellent.curight.model.MyCalorieResponse;
 import com.innovellent.curight.model.MyProfile_Response;
+import com.innovellent.curight.model.MyReport_Response;
 import com.innovellent.curight.model.MyServer_Response;
 import com.innovellent.curight.model.OverviewCenterByDC;
 import com.innovellent.curight.model.POST_CREATE_CLASS;
@@ -182,6 +183,10 @@ public interface ApiInterface {
     @Headers("Content-Type: application/json")
     @POST("whr/create")
     Call<ServerResponse<String>> addWHRRecord(@Header("x-access-token") String accessToken, @Body String requestBody);
+
+    @Headers("x-access-token: hjjgkuykg")
+    @POST("patientreports/get")
+    Call<MyReport_Response> getpatientreport(@Body PatientReportsPojo patientReportsPojo);
 
     @Headers("Content-Type: application/json")
     @POST("patientreports/get")

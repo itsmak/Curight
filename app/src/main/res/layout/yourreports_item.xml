@@ -13,8 +13,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:orientation="vertical"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:padding="10dp">
 
 
@@ -25,39 +25,41 @@
                 android:layout_weight="100">
 
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="50dp"
                     android:layout_height="70dp"
-                    android:orientation="vertical"
-                    android:padding="5dp"
                     android:layout_gravity="center_horizontal"
-                    android:background="@drawable/square_box">
+                    android:background="@drawable/square_box"
+                    android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/txt_day"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="7dp"
                         android:text="day"
-                        android:id="@+id/txt_day"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="10dp"
                         android:textStyle="bold"/>
 
                     <TextView
+                        android:id="@+id/txt_month"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textAllCaps="true"
-                        android:id="@+id/txt_month"
-                        android:layout_margin="5dp"
-                        android:text="month"/>
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="5dp"
+                        android:text="month"
+                        android:textAllCaps="true"/>
 
 
-                </LinearLayout>
+                </RelativeLayout>
 
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:orientation="vertical"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -66,21 +68,21 @@
 
 
                         <TextView
+                            android:id="@+id/txt_reason"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
                             android:layout_margin="5dp"
-                            android:id="@+id/txt_reason"
-                            android:text="Reason"/>
+                            android:text="Reason"
+                            android:textSize="14sp"
+                            android:textStyle="bold"/>
 
 
                         <ImageView
+                            android:id="@+id/img_delete_parentreport"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:id="@+id/img_delete_parentreport"
-                            android:background="@drawable/error"
-                            android:layout_alignParentRight="true"/>
+                            android:layout_alignParentRight="true"
+                            android:background="@drawable/error"/>
 
 
 
@@ -89,12 +91,12 @@
 
 
                     <TextView
+                        android:id="@+id/txt_diagonsticname"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
                         android:text="@string/diagnosticenter"
-                        android:id="@+id/txt_diagonsticname"
-                        android:textStyle="normal"
-                        android:layout_margin="5dp"/>
+                        android:textStyle="normal"/>
 
 
 
@@ -111,45 +113,52 @@
                             android:id="@+id/txt_doctornumber"
                             android:layout_margin="5dp"/>-->
                         <TextView
+                            android:id="@+id/txt_doctorname"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
                             android:text="doctorname"
                             android:textSize="14sp"
-                            android:textStyle="normal"
-                            android:id="@+id/txt_doctorname"
-                            android:layout_margin="5dp"/>
+                            android:textStyle="normal"/>
 
-
+                        <TextView
+                            android:id="@+id/txt_comments"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignLeft="@+id/txt_doctorname"
+                            android:layout_below="@+id/txt_doctorname"
+                            android:layout_marginTop="5dp"
+                            android:maxWidth="240dip"
+                            android:singleLine="false"
+                            android:text="comments"
+                            android:textStyle="normal"/>
 
                         <ImageView
+                            android:id="@+id/img_calldoctor_fromreport"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:id="@+id/img_calldoctor_fromreport"
                             android:background="@drawable/callimage"
                             />
 
+                        <ImageView
+                            android:id="@+id/img_reportfiledownload"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_below="@+id/img_calldoctor_fromreport"
+                            android:layout_marginTop="10dp"
+                            android:src="@drawable/ic_insert_drive_file_black_24dp"/>
 
 
                     </RelativeLayout>
 
 
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="comments"
-                        android:textStyle="normal"
-                        android:id="@+id/txt_comments"
-                        android:layout_margin="5dp"/>
 
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_insert_drive_file_black_24dp"
-                        android:layout_gravity="end"
-                        android:id="@+id/img_reportfiledownload"/>
+
+
 
                    <!-- <TextView
                         android:layout_width="wrap_content"
