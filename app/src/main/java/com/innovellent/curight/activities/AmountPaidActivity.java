@@ -51,6 +51,16 @@ public class AmountPaidActivity extends AppCompatActivity implements View.OnClic
         iniClick();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i1=new Intent(AmountPaidActivity.this,HomeActivity.class);
+//                i1.putExtra("flag","home");
+//                i1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i1);
+        finish();
+    }
+
     public void init(){
         toolbar=(Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -101,8 +111,8 @@ public class AmountPaidActivity extends AppCompatActivity implements View.OnClic
 
             case R.id.btnSubmit:
                 Intent i1=new Intent(AmountPaidActivity.this,HomeActivity.class);
-                i1.putExtra("flag","home");
-                i1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                i1.putExtra("flag","home");
+//                i1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(i1);
                 finish();
                 break;

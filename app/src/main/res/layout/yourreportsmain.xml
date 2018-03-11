@@ -46,23 +46,39 @@
 
 
 
-
-
-    <SearchView
-        android:id="@+id/search"
-        android:layout_width="fill_parent"
+    <RelativeLayout
+        android:id="@+id/rl_search"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ll_profilespinner"
-        android:iconifiedByDefault="false">
+        android:layout_below="@+id/ll_profilespinner">
+        <EditText
+            android:id="@+id/search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/iv_search"
+            android:background="@null"
+            >
+            <requestFocus />
+        </EditText>
+        <ImageView
+            android:id="@+id/iv_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="3dp"
+            android:background="@drawable/ic_search2"/>
+    </RelativeLayout>
 
-        <requestFocus />
-    </SearchView>
+
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_viewforreport"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/search">
+        android:layout_below="@+id/rl_search">
 
 
     </android.support.v7.widget.RecyclerView>

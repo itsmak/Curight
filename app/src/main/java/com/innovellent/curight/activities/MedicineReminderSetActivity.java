@@ -39,6 +39,7 @@ import com.innovellent.curight.adapter.MedicineAdpater;
 import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.Post_MedReminderAdd;
 import com.innovellent.curight.model.Registration_Response;
+import com.innovellent.curight.utility.Config;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.ArrayList;
@@ -53,6 +54,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class MedicineReminderSetActivity extends AppCompatActivity implements View.OnClickListener {
+    private static final String TAG = "CuRight";
     RecyclerView recycler_view;
     MedicineAdpater mAdapter;
     Button btnSubmitmed;
@@ -60,23 +62,23 @@ public class MedicineReminderSetActivity extends AppCompatActivity implements Vi
     TextView tvSelectMedicine, tvTimeMorning,tvDate;
     RadioButton rbDuration, rbDurationLifetime;
     Spinner spDays, spPeriod, spHow;
-    private int mYear, mMonth, mDay;
     ImageView ivBack, ivMorning, ivNoon, ivEvening, ivNight;
     boolean ismorningselected, isnoonselected, iseveningsselected, isnightselected;
     RelativeLayout rlMorning, rlNoon, rlEvening, rlNight;
     LinearLayout llMedicineName;
-    private StringBuilder date;
     Toolbar toolbar;
-    private static final String TAG = "CuRight";
-    private static final String BASE_URL = "http://13.59.209.135:8090/diagnosticAPI/webapi/";
+//    private static final String BASE_URL = "http://13.59.209.135:8090/diagnosticAPI/webapi/";
     DiagnosticTestAdapter mAdapter1;
-    private int mHour, mMinute, mhour1, mhour2, mhour3, minute1, minute2, minute3, mSeconds, seconds1, seconds2, seconds3;
     TextView tvTime, tvMorninglabel, tvTimeNoon, tvNoonlabel, tvTimeEvening, tvEveninglabel, tvTimetNight, tvNightlabel;
     ArrayList<String> arrayList = new ArrayList<String>();
     String[] spinner1 = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
     String[] spinner2 = {"days", "Daily", "Weekly", "Monthly", "Yealy"};
     String[] spinner3 = {"How", "Injection", "External Use", "Oral"};
     String format;
+    private int mYear, mMonth, mDay;
+    private StringBuilder date;
+    private int mHour, mMinute, mhour1, mhour2, mhour3, minute1, minute2, minute3, mSeconds, seconds1, seconds2, seconds3;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -504,7 +506,7 @@ public class MedicineReminderSetActivity extends AppCompatActivity implements Vi
 //                Log.d(TAG,"submit: eveningtime"+tvTimeEvening.getText().toString());
 //                Log.d(TAG,"submit: nighttime"+tvTimetNight.getText().toString());
                 Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl(BASE_URL)
+                        .baseUrl(new Config().SERVER_URL)
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
 
@@ -574,7 +576,7 @@ public class MedicineReminderSetActivity extends AppCompatActivity implements Vi
 //                    Log.d(TAG,"submit: eveningtime"+tvTimeEvening.getText().toString());
 //                    Log.d(TAG,"submit: nighttime"+tvTimetNight.getText().toString());
                     Retrofit retrofit = new Retrofit.Builder()
-                            .baseUrl(BASE_URL)
+                            .baseUrl(new Config().SERVER_URL)
                             .addConverterFactory(GsonConverterFactory.create())
                             .build();
 

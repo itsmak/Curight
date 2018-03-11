@@ -1,7 +1,9 @@
 package com.innovellent.curight.fragment;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -65,11 +67,13 @@ import static com.innovellent.curight.utility.Constants.USER_ID;
 
 
 public class FoodFragment extends Fragment implements View.OnClickListener {
+    private static final String TAG = "CuRight";
     RecyclerView recycler_view, recycler_view1, recycler_view2, recycler_view3;
     ArrayList<String> arrayList = new ArrayList<String>();
     TrackAdapter mAdapter;
     Spinner spQuestion1;
     RelativeLayout rlDate;
+    String finaldate;
     ArrayList<Walking> arraywalkingList = new ArrayList<>();
     ArrayList<Bicycling> arraybicycleList = new ArrayList<>();
     ArrayList<Swimming> arrayswimList = new ArrayList<>();
@@ -78,6 +82,7 @@ public class FoodFragment extends Fragment implements View.OnClickListener {
     ImageView ivBreakfast, ivLunch, ivSnacks, ivDinner, ivback, ivback1;
     TextView tvDate, tvTitle;
     String[] spinner1 = {"John", "Jobby", "Suresh", "Mahesh"};
+    Context context;
     private int mYear, mMonth, mDay;
     private SharedPrefService sharedPrefService;
     private long userId;
@@ -85,6 +90,12 @@ public class FoodFragment extends Fragment implements View.OnClickListener {
     private ProgressDialog progressDialog;
     private int progressBarCounter = 2;
     private List<FamilyProfile> familyProfiles;
+
+    public void onAttach(Activity activity){
+        super.onAttach(activity);
+        context = getActivity();
+
+    }
 
     @Nullable
     @Override
@@ -96,6 +107,23 @@ public class FoodFragment extends Fragment implements View.OnClickListener {
 
         init(rootView);
         iniClick();
+        String month,day;
+        final Calendar c = Calendar.getInstance();
+        int monthnumbr = c.get(Calendar.MONTH)+1;
+        int daynumber = c.get(Calendar.DATE);
+
+        if (monthnumbr >= 1 && monthnumbr <= 9) {
+            month = "0" + monthnumbr;
+        } else {
+            month = monthnumbr + "";
+        }
+        if (daynumber >= 1 && daynumber <= 9) {
+            day = "0" + daynumber;
+        } else {
+            day = daynumber + "";
+        }
+        finaldate = c.get(Calendar.YEAR) +"-"+month+"-" +day;
+        tvDate.setText(finaldate);
 
         sharedPrefService = SharedPrefService.getInstance();
         userId = sharedPrefService.getLong(USER_ID);
@@ -173,7 +201,7 @@ public class FoodFragment extends Fragment implements View.OnClickListener {
         rlDate.setOnClickListener(this);
     }
 
-    public void getFoodConsumptions() {
+    public void getFoodConsumptions(String selecteddate) {
 
         ApiInterface client = ApiClient.getClient();
 
@@ -182,15 +210,16 @@ public class FoodFragment extends Fragment implements View.OnClickListener {
         try {
 
             JSONObject paramObject = new JSONObject();
+            Log.d(TAG,"selected date ::"+selecteddate);
             paramObject.put(USER_ID, userId);
-            paramObject.put(DATE, new SimpleDateFormat(getString(R.string.date_format), Locale.ENGLISH).format(calendar.getTime()));
+            paramObject.put(DATE, selecteddate);
 
             Call<ServerResponseFood> call = client.getFood(accessToken, paramObject.toString());
 
             call.enqueue(new Callback<ServerResponseFood>() {
                 @Override
                 public void onResponse(Call<ServerResponseFood> call, Response<ServerResponseFood> response) {
-
+                    progressDialog.dismiss();
                     if (getActivity() != null) {
                         closeProgressDialog();
                         if (response.isSuccessful()) {
@@ -202,7 +231,7 @@ public class FoodFragment extends Fragment implements View.OnClickListener {
                             lunches = _food.getLunch();
                             snacks = _food.getSnacks();
                             dinners = _food.getDinner();
-
+                         //   Log.d(TAG,"calories consumed :"+breakfasts.)
                             breakfastAdapter = new LunchAdapter(getActivity(), R.layout.list_row_exercise, breakfasts);
                             recycler_view.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
                             recycler_view.setAdapter(breakfastAdapter);
@@ -224,6 +253,7 @@ public class FoodFragment extends Fragment implements View.OnClickListener {
 
                 @Override
                 public void onFailure(Call<ServerResponseFood> call, Throwable t) {
+
                     if (getActivity() != null) closeProgressDialog();
                 }
             });
@@ -313,10 +343,10 @@ public class FoodFragment extends Fragment implements View.OnClickListener {
                             monthYear = month + "";
                         }
 
-                        String date = year + "-" + monthYear + "-" + dayOfMonth;
-                        tvDate.setText(year + "-" + monthYear + "-" + dayOfMonth);
+                        String date = year + "-" + monthYear + "-" + day;
+                        tvDate.setText(year + "-" + monthYear + "-" + day);
 
-                        getFoodConsumptions();
+                        getFoodConsumptions(date);
 
                     }
                 }, mYear, mMonth, mDay);
@@ -361,7 +391,8 @@ public class FoodFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
-        getFoodConsumptions();
+        Log.d(TAG,"final date::"+finaldate);
+         getFoodConsumptions(finaldate);
     }
 }
 

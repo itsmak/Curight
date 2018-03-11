@@ -34,48 +34,20 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Created by sagar on 9/13/2017.
+ * Created by Mak on 9/13/2017.
  */
 
 public class VaccineAdapter  extends RecyclerView.Adapter<VaccineAdapter.MyViewHolder> {
 
+    private static final String BASE_URL ="http://13.59.209.135:8090/diagnosticAPI/webapi/";
+    private final OnItemClickListener listener;
+    private final int position;
+    RecyclerView remainder_rclrvw;
+    VaccineReminderYearDialog vaccineReminderYearDialog;
+    AddRemainder_FRAGMENT_DAILOG vaccineadddailog;
     private ArrayList<Vaccine> arrayList = new ArrayList<>();
     private Context mContext;
     private String state;
-    private final OnItemClickListener listener;
-    private final int position;
-
-    RecyclerView remainder_rclrvw;
-    VaccineReminderYearDialog vaccineReminderYearDialog;
-    private static final String BASE_URL ="http://13.59.209.135:8090/diagnosticAPI/webapi/";
-    AddRemainder_FRAGMENT_DAILOG vaccineadddailog;
-    public interface OnItemClickListener {
-
-        void onItemClick(Vaccine item,int position);
-        void onItemClick_modify(Vaccine myitem, int position);
-    }
-
-    // VaccineAdapter mAdapter;
-    class MyViewHolder extends RecyclerView.ViewHolder {
-
-        TextView tvVaccine;
-        TextView tvDate,duration_txtvw;
-        ImageView ivTaken,add_medcn_imgvw;
-        LinearLayout   llVaccince,duration_layout;
-        MyViewHolder(View view) {
-            super(view);
-        //    remainder_rclrvw = (RecyclerView) view.findViewById(R.id.remainder_rclrvw);
-            duration_layout = (LinearLayout) view.findViewById(R.id.duration_layout);
-            tvVaccine = (TextView) view.findViewById(R.id.tvVaccine);
-            tvDate = (TextView) view.findViewById(R.id.tv_date);
-            duration_txtvw = (TextView) view.findViewById(R.id.duration_txtvw);
-            llVaccince=(LinearLayout)view.findViewById(R.id.llVaccince);
-            ivTaken=(ImageView)view.findViewById(R.id.ivTaken);
-            add_medcn_imgvw =(ImageView)view.findViewById(R.id.add_medcn_imgvw);
-
-        }
-    }
-
     public VaccineAdapter(Context context,ArrayList<Vaccine> arrayList,int position,OnItemClickListener listener) {
         mContext = context;
         this.arrayList = arrayList;
@@ -146,10 +118,36 @@ public class VaccineAdapter  extends RecyclerView.Adapter<VaccineAdapter.MyViewH
        });
     }
 
-
     @Override
     public int getItemCount() {
         return arrayList.size();
+    }
+
+    public interface OnItemClickListener {
+
+        void onItemClick(Vaccine item,int position);
+        void onItemClick_modify(Vaccine myitem, int position);
+    }
+
+    // VaccineAdapter mAdapter;
+    class MyViewHolder extends RecyclerView.ViewHolder {
+
+        TextView tvVaccine;
+        TextView tvDate,duration_txtvw;
+        ImageView ivTaken,add_medcn_imgvw;
+        LinearLayout   llVaccince,duration_layout;
+        MyViewHolder(View view) {
+            super(view);
+        //    remainder_rclrvw = (RecyclerView) view.findViewById(R.id.remainder_rclrvw);
+            duration_layout = (LinearLayout) view.findViewById(R.id.duration_layout);
+            tvVaccine = (TextView) view.findViewById(R.id.tvVaccine);
+            tvDate = (TextView) view.findViewById(R.id.tv_date);
+            duration_txtvw = (TextView) view.findViewById(R.id.duration_txtvw);
+            llVaccince=(LinearLayout)view.findViewById(R.id.llVaccince);
+            ivTaken=(ImageView)view.findViewById(R.id.ivTaken);
+            add_medcn_imgvw =(ImageView)view.findViewById(R.id.add_medcn_imgvw);
+
+        }
     }
 
 }

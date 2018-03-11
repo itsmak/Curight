@@ -24,6 +24,7 @@ import com.innovellent.curight.R;
 import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.PostAddProfile;
 import com.innovellent.curight.model.Registration_Response;
+import com.innovellent.curight.utility.Config;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.Calendar;
@@ -42,7 +43,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Add_Profile_Activity extends AppCompatActivity implements View.OnClickListener{
 
     private static final String TAG = "CuRight";
-    private static final String BASE_URL = "http://13.59.209.135:8090/diagnosticAPI/webapi/";
+//    private static final String BASE_URL = "http://13.59.209.135:8090/diagnosticAPI/webapi/";
     EditText etFirstName,etLastName,etEmail,etMobileNo,etAddress,etdateOfBirth,etpincd;
     ImageView ivBack;
     Spinner spGender,sprelationship,spBloodGroup,spCity,spState;
@@ -161,7 +162,7 @@ public class Add_Profile_Activity extends AppCompatActivity implements View.OnCl
             else {
                 String uid = String.valueOf(Prefs.getLong("user_id",0));
                 Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl(BASE_URL)
+                        .baseUrl(new Config().SERVER_URL)
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
 

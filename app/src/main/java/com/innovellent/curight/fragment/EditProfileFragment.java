@@ -39,6 +39,7 @@ import com.innovellent.curight.model.Post_Family_Update;
 import com.innovellent.curight.model.Post_Profile_Update;
 import com.innovellent.curight.model.Profile_Response;
 import com.innovellent.curight.model.Registration_Response;
+import com.innovellent.curight.utility.Config;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.ArrayList;
@@ -58,7 +59,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class EditProfileFragment extends Fragment implements View.OnClickListener{
 
     private static final String TAG = "CuRight";
-    private static final String BASE_URL = "http://13.59.209.135:8090/diagnosticAPI/webapi/";
+ //   private static final String BASE_URL = "http://13.59.209.135:8090/diagnosticAPI/webapi/";
     Spinner spGender,sprelationship,spBloodGroup,spCity,spState;
     EditText etFullName,etEmail,etMobileNo,etAddress,etdateOfBirth,etpincd;
     TextView tvDateOfBirth,tvGender,tvMartialStatus,tvInterest,tvBloodGroup,tvCity,tvState,tvPin;
@@ -161,7 +162,7 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
     private void getProfileData(int userid) {
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(new Config().SERVER_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         ApiInterface reditapi = retrofit.create(ApiInterface.class);
@@ -270,7 +271,7 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
                     if(relationship.equalsIgnoreCase("Self"))
                     {
                         Retrofit retrofit = new Retrofit.Builder()
-                                .baseUrl(BASE_URL)
+                                .baseUrl(new Config().SERVER_URL)
                                 .addConverterFactory(GsonConverterFactory.create())
                                 .build();
 
@@ -340,7 +341,7 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
                             Log.d(TAG,"update: state"+spState.getSelectedItem().toString());
 
                             Retrofit retrofit = new Retrofit.Builder()
-                                    .baseUrl(BASE_URL)
+                                    .baseUrl(new Config().SERVER_URL)
                                     .addConverterFactory(GsonConverterFactory.create())
                                     .build();
 

@@ -55,6 +55,34 @@
         android:imeOptions="actionSearch"
         android:inputType="text"
         android:textSize="15sp" />
+    <RelativeLayout
+        android:id="@+id/rl_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="15dp"
+            android:background="@drawable/location"/>
+
+        <TextView
+            android:id="@+id/tv_currentlocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/iv_location"
+            android:text="Set my current Location"
+            android:textColor="#0387d2"
+            android:textSize="14sp"
+            />
+
+    </RelativeLayout>
+
     <TextView
         android:id="@+id/searched_address"
         android:layout_width="match_parent"

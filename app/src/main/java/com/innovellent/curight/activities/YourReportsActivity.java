@@ -1,12 +1,21 @@
 package com.innovellent.curight.activities;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.util.Log;
@@ -28,6 +37,7 @@ import com.innovellent.curight.model.PatientReportsData;
 import com.innovellent.curight.model.PatientReportsPojo;
 import com.innovellent.curight.model.PostBodyProfile;
 import com.innovellent.curight.model.Report_FEED;
+import com.innovellent.curight.model.Test_List;
 import com.innovellent.curight.utility.Config;
 import com.pixplicity.easyprefs.library.Prefs;
 
@@ -62,24 +72,41 @@ public class YourReportsActivity extends AppCompatActivity implements SearchView
     ArrayList<PROFILE> spinnerList=new ArrayList<PROFILE>();
     String USER_ID;
     ProgressDialog progressDialog;
-    SearchView editsearch;
+    EditText editsearch;
     ImageView ivback;
+    String phnum;
+    int position;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.yourreportsmain);
-
         recyclerView_reports = (RecyclerView)findViewById(R.id.recycler_viewforreport);
         sp_familyforreports = (Spinner)findViewById(R.id.spUser);
         ivback = (ImageView)findViewById(R.id.ivback_patientreport);
         //et_search = (EditText)findViewById(R.id.search_forreports);
-        editsearch = (SearchView) findViewById(R.id.search);
-        editsearch.setOnQueryTextListener(this);
-
-
+        editsearch = (EditText) findViewById(R.id.search);
         spinnerList.clear();
         getSpinnerData();
+        editsearch.setClickable(true);
+        editsearch.clearFocus();
 
+        editsearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                filter(editable.toString());
+
+            }
+        });
 
         ivback.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,7 +120,17 @@ public class YourReportsActivity extends AppCompatActivity implements SearchView
 
     }
 
+    private void filter(String text){
 
+        ArrayList<Report_FEED> filteredlist = new ArrayList<>();
+        for(Report_FEED item : reportlist){
+            if(item.getReason().toLowerCase().contains(text.toLowerCase()))
+            {
+                filteredlist.add(item);
+            }
+        }
+        _adpater.filterlist(filteredlist);
+    }
 
     private void getSpinnerData() {
         Retrofit retrofit = new Retrofit.Builder()
@@ -103,6 +140,7 @@ public class YourReportsActivity extends AppCompatActivity implements SearchView
 
         ApiInterface reditapi = retrofit.create(ApiInterface.class);
         int uid = (int) Prefs.getLong("user_id",0);
+        Log.d(TAG,"Shared_profile_uid"+uid);
         PostBodyProfile postBodyprofile = new PostBodyProfile(uid, "family");
         Call<MyProfile_Response> call = reditapi.getProfile(postBodyprofile);
 
@@ -137,6 +175,9 @@ public class YourReportsActivity extends AppCompatActivity implements SearchView
                     }
                     getData2();
                     USER_ID = result.get(0).getUserid();
+                    Log.d(TAG, "Myuserid default" + USER_ID);
+                    getpatientreport(Integer.parseInt(USER_ID));
+
                     // GetData(result.get(1).getUserid());
                 } else {
 
@@ -174,18 +215,18 @@ public class YourReportsActivity extends AppCompatActivity implements SearchView
                 //bp.getBloodPressureRecords(spinnerList.get(i).getUser_id());
                 Prefs.putLong("spinner_id", Long.parseLong(spinnerList.get(i).getUser_id()));
                 int uid = (int) Prefs.getLong("spinner_id",0);
-                Log.d(TAG,"dynamic spinner id"+uid);
+                Log.d(TAG,"Shared_profile_spinnerid"+uid);
                 //getpatientreportsdata(uid);
-                getpatientreport(1);
+                getpatientreport(uid);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                int uid = (int) Prefs.getLong("user_id",0);
-                Log.d("user_forwhr", ""+uid);
-                Log.d("TAG", "MyUSER_ID on spinner" + USER_ID);
-              //  getpatientreportsdata(uid);
-                getpatientreport(1);
+//                int uid = (int) Prefs.getLong("user_id",0);
+//                Log.d("user_forwhr", ""+uid);
+//                Log.d("TAG", "MyUSER_ID on spinner" + USER_ID);
+//              //  getpatientreportsdata(uid);
+//                getpatientreport(1);
             }
         });
 
@@ -202,6 +243,7 @@ public class YourReportsActivity extends AppCompatActivity implements SearchView
         ApiInterface reditapi = retrofit.create(ApiInterface.class);
         PatientReportsPojo patientReportsPojo = new PatientReportsPojo(user_id);
         Call<MyReport_Response> call = reditapi.getpatientreport(patientReportsPojo);
+        progressDialog.dismiss();
         call.enqueue(new Callback<MyReport_Response>() {
             @Override
             public void onResponse(Call<MyReport_Response> call, Response<MyReport_Response> response) {
@@ -211,7 +253,18 @@ public class YourReportsActivity extends AppCompatActivity implements SearchView
                     reportlist = response.body().getResults();
 
                     Log.d(TAG, "reportlist size" + reportlist.size());
-                    _adpater = new YourReportsAdapter(YourReportsActivity.this, reportlist);
+                    _adpater = new YourReportsAdapter(YourReportsActivity.this, reportlist, position, new YourReportsAdapter.OnItemClickListener() {
+                        @SuppressLint("MissingPermission")
+                        @Override
+                        public void onItemClick(Report_FEED item, int position) {
+                            if(isPermissionGranted()){
+                                phnum = item.getDoctornumber();
+                                Intent callIntent = new Intent(Intent.ACTION_CALL);
+                                callIntent.setData(Uri.parse("tel:" + phnum));
+                                startActivity(callIntent);
+                            }
+                        }
+                    });
                     recyclerView_reports.setLayoutManager(new LinearLayoutManager(YourReportsActivity.this, LinearLayoutManager.VERTICAL, false));
                     recyclerView_reports.setAdapter(_adpater);
                 }
@@ -230,6 +283,49 @@ public class YourReportsActivity extends AppCompatActivity implements SearchView
 
             }
         });
+    }
+    public  boolean isPermissionGranted() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (checkSelfPermission(android.Manifest.permission.CALL_PHONE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                Log.v("TAG","Permission is granted");
+                return true;
+            } else {
+
+                Log.v("TAG","Permission is revoked");
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, 1);
+                return false;
+            }
+        }
+        else { //permission is automatically granted on sdk<23 upon installation
+            Log.v("TAG","Permission is granted");
+            return true;
+        }
+    }
+    @SuppressLint("MissingPermission")
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+
+            case 1: {
+
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(getApplicationContext(), "Permission granted", Toast.LENGTH_SHORT).show();
+
+                    Intent callIntent = new Intent(Intent.ACTION_CALL);
+                    callIntent.setData(Uri.parse("tel:" + phnum));
+                    startActivity(callIntent);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Permission denied", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
     }
 
 //            private void getpatientreportsdata(int user_id){

@@ -46,7 +46,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by Mak on 12/5/2017.
  */
 public class AddRemainder_FRAGMENT_DAILOG extends Dialog {
-    private static final String BASE_URL = "http://13.59.209.135:8090/diagnosticAPI/webapi/";
+ //   private static final String BASE_URL = "http://13.59.209.135:8090/diagnosticAPI/webapi/";
     public AddRemainder_FRAGMENT_DAILOG.AddRemainder_FRAGMENT_DAILOGClickListener listener;
     Context context;
  //   int userid;

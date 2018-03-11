@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.innovellent.curight.R;
 import com.innovellent.curight.activities.DiagnosticTestListActivity;
@@ -57,7 +58,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MedicineReminderFragment extends Fragment implements View.OnClickListener{
 
     private static final String TAG = ".Curight";
-    private static final String BASE_URL ="http://13.59.209.135:8090/diagnosticAPI/webapi/";
+ //   private static final String BASE_URL ="http://13.59.209.135:8090/diagnosticAPI/webapi/";
     static String USER_ID,M_YEAR,M_MONTH,M_DAY,FINAL_DATE;
     RecyclerView recyclerView;
     HorizontalCalendar horizontalCalendar;
@@ -67,6 +68,7 @@ public class MedicineReminderFragment extends Fragment implements View.OnClickLi
     ChangeNightPrefrenseDialog nightPreferenceDialog;
     ArrayList<Medicine> arrayList=new ArrayList<Medicine>();
     Spinner spItem;
+    TextView tv_locationtxt,tv_locationsymbl,tvTitle;
     ImageView ivReminder;
     String[]spinner1={"John","Jobby","Suresh","Mahesh"};
     ArrayList<PROFILE> spinnerList=new ArrayList<PROFILE>();
@@ -171,7 +173,12 @@ public class MedicineReminderFragment extends Fragment implements View.OnClickLi
         spItem=(Spinner)rootView.findViewById(R.id.spYear);
         ivReminder=(ImageView)rootView.findViewById(R.id.ivReminder);
         recyclerView=(RecyclerView)rootView.findViewById(R.id.recycler_view);
-
+        tv_locationtxt = (TextView) getActivity().findViewById(R.id.tv_locationtxt);
+        tv_locationsymbl = (TextView) getActivity().findViewById(R.id.tv_locationsymbl);
+        tvTitle = (TextView) getActivity().findViewById(R.id.tvTitle);
+        tvTitle.setText("Remainder");
+        tv_locationtxt.setVisibility(View.GONE);
+        tv_locationsymbl.setVisibility(View.GONE);
     }
     public void initRegister(){
        ivReminder.setOnClickListener(this);
@@ -287,7 +294,7 @@ public class MedicineReminderFragment extends Fragment implements View.OnClickLi
         progressDialog.show();
         clearData();
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(new Config().SERVER_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         // Toast.makeText(getActivity(),"I am getting called",Toast.LENGTH_SHORT).show();
@@ -422,7 +429,7 @@ public class MedicineReminderFragment extends Fragment implements View.OnClickLi
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(new Config().SERVER_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         ApiInterface reditapi = retrofit.create(ApiInterface.class);

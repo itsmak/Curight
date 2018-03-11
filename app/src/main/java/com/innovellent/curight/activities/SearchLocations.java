@@ -4,19 +4,32 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +40,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.identity.intents.Address;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceLikelihood;
@@ -34,11 +48,17 @@ import com.google.android.gms.location.places.PlaceLikelihoodBuffer;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.location.places.ui.PlacePicker;
-import com.innovellent.curight.R;
 
+
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.innovellent.curight.GPS_Services;
+import com.innovellent.curight.R;
 import com.pixplicity.easyprefs.library.Prefs;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
@@ -48,11 +68,21 @@ import static com.google.firebase.crash.FirebaseCrash.log;
  * Created by Mak on 1/2/2018.
  */
 
-public class SearchLocations extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener{
+public class SearchLocations extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
+    private static final String TAG = "Curight";
+    private static final int PERMISSION_REQUEST_CODE = 200;
     TextView tvLocation;
     EditText et_searchloctn;
-   GoogleApiClient mGoogleApiClient;
+    ImageView iv_location_back;
+    RelativeLayout rl_location;
+    double latitude, longitude;
+    String street1, street2, street3;
+    double final_latitude;
+    double final_longitude;
+    private GoogleApiClient mGoogleApiClient;
+
+    //   BroadcastReceiver broadcastreceiver;
 //    int permissionCheck = ContextCompat.checkSelfPermission(SearchLocations.this, Manifest.permission.ACCESS_FINE_LOCATION);
 
     @Override
@@ -61,6 +91,9 @@ public class SearchLocations extends AppCompatActivity implements GoogleApiClien
         setContentView(R.layout.location_search);
         tvLocation = (TextView) findViewById(R.id.tvLocation);
         et_searchloctn = (EditText) findViewById(R.id.et_searchloctn);
+        iv_location_back = (ImageView) findViewById(R.id.iv_location_back);
+        rl_location = (RelativeLayout) findViewById(R.id.rl_location);
+        requestPermission();
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(SearchLocations.this)
                 .addApi(Places.PLACE_DETECTION_API)
@@ -70,14 +103,77 @@ public class SearchLocations extends AppCompatActivity implements GoogleApiClien
         tvLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
-                Prefs.putString("location", "Kudlu gate");
-                Intent mhome = new Intent(SearchLocations.this,HomeActivity.class);
-                startActivity(mhome);
-
+//                Log.d(TAG,"location cord lat:"+latitude);
+//                Log.d(TAG,"location cord long:"+longitude);
+//                Log.d(TAG,"location cord 1:"+street1);
+//                Log.d(TAG,"location cord 2:"+street2);
+//                Log.d(TAG,"location cord 3:"+street3);
+//                if(street1==null)
+//                {
+//                    if(street2==null){
+//                        if(street3==null){
+//                            Toast.makeText(SearchLocations.this,"Cant find Location!! Please Search",Toast.LENGTH_SHORT).show();
+//                        }else {
+//                            Prefs.putString("location",street3);
+//                            tvLocation.setText(street3);
+//                        }
+//                    }else {
+//                        Prefs.putString("location",street2);
+//                        tvLocation.setText(street2);
+//                    }
+//
+//                }else {
+//                    Prefs.putString("location",street1);
+//                    tvLocation.setText(street1);
+//                }
             }
         });
+        iv_location_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                Intent stp = new Intent(getApplicationContext(),GPS_Services.class);
+//                stopService(stp);
+                Intent mhome = new Intent(SearchLocations.this, HomeActivity.class);
+                startActivity(mhome);
+                finish();
+            }
+        });
+        rl_location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "final latitude : " + final_latitude);
+                Log.d(TAG, "final latitude : " + final_longitude);
+                Geocoder geoCoder = new Geocoder(SearchLocations.this);
+                List<android.location.Address> matches = null;
+                try {
+                    matches = geoCoder.getFromLocation(final_latitude, final_longitude, 1);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                android.location.Address bestMatch = (matches.isEmpty() ? null : matches.get(0));
+//                street1 = bestMatch.getLocality();
+//                street2 = bestMatch.getThoroughfare();
+//                street3 = bestMatch.getPostalCode();
+//                Log.d(TAG,"final street1 : "+street1);
+//                Log.d(TAG,"final street2 : "+street2);
+//                Log.d(TAG,"final street3 : "+street3);
+                Log.d(TAG, "final street4 : " + bestMatch.getSubLocality());
+                Log.d(TAG, "final street5 : " + bestMatch.getAdminArea());
+                Log.d(TAG, "final street5 : " + bestMatch.getPremises());
+                Log.d(TAG, "final street5 : " + bestMatch.getAdminArea());
+                Prefs.putString("location", bestMatch.getSubLocality());
+                tvLocation.setText(bestMatch.getSubLocality());
+                Intent mhome = new Intent(SearchLocations.this, HomeActivity.class);
+                startActivity(mhome);
+                finish();
+            }
+        });
+//        if(!runtime_purmission())
+//        {
+//            configure_button();
+//        }
+
+
         et_searchloctn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,7 +182,9 @@ public class SearchLocations extends AppCompatActivity implements GoogleApiClien
                     Intent intent =
                             new PlaceAutocomplete
                                     .IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
+                                    .setBoundsBias(new LatLngBounds(new LatLng(-33.880490, 151.184363), new LatLng(-33.858754, 151.229596)))
                                     .build(SearchLocations.this);
+
                     startActivityForResult(intent, 1);
                 } catch (GooglePlayServicesRepairableException e) {
                     // TODO: Handle the error.
@@ -99,6 +197,52 @@ public class SearchLocations extends AppCompatActivity implements GoogleApiClien
 
     }
 
+//    private Boolean runtime_purmission() {
+//
+//        if(Build.VERSION.SDK_INT >=23 && ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION)!= PackageManager.PERMISSION_GRANTED)
+//        {
+//            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION},100);
+//            return true;
+//        }
+//            return false;
+//    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //       setUpMapIfNeeded();
+        mGoogleApiClient.connect();
+//        if(broadcastreceiver==null)
+//        {
+//            broadcastreceiver = new BroadcastReceiver() {
+//                @Override
+//                public void onReceive(Context context, Intent intent) {
+//                    latitude = (double) intent.getExtras().get("latitude");
+//                    longitude = (double) intent.getExtras().get("latitude");
+//                    Geocoder geoCoder = new Geocoder(SearchLocations.this);
+//                List<android.location.Address> matches = null;
+//                try {
+//                    matches = geoCoder.getFromLocation(latitude, longitude, 1);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//                android.location.Address bestMatch = (matches.isEmpty() ? null : matches.get(0));
+//                    street1 = bestMatch.getLocality();
+//                    street2 = bestMatch.getThoroughfare();
+//                    street3 = bestMatch.getPostalCode();
+//                }
+//            };
+//        }
+//        registerReceiver(broadcastreceiver,new IntentFilter("Location_update"));
+    }
 
 
     @Override
@@ -109,7 +253,7 @@ public class SearchLocations extends AppCompatActivity implements GoogleApiClien
                 Place place = PlaceAutocomplete.getPlace(this, data);
                 Log.e("Tag", "Place: " + place.getAddress() + place.getPhoneNumber());
                 Prefs.putString("location", String.valueOf(place.getName()));
-                Intent home = new Intent(SearchLocations.this,HomeActivity.class);
+                Intent home = new Intent(SearchLocations.this, HomeActivity.class);
                 startActivity(home);
 //                ((TextView) findViewById(R.id.searched_address))
 //                        .setText(place.getName()+",\n"+
@@ -130,36 +274,77 @@ public class SearchLocations extends AppCompatActivity implements GoogleApiClien
     @Override
     protected void onStart() {
         super.onStart();
-//        if( mGoogleApiClient != null )
-//            mGoogleApiClient.connect();
+        if (mGoogleApiClient != null)
+            mGoogleApiClient.connect();
     }
 
     @Override
     protected void onStop() {
-//        if( mGoogleApiClient != null && mGoogleApiClient.isConnected() ) {
-//            mGoogleApiClient.disconnect();
-//        }
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
+        }
         super.onStop();
     }
 
-        @Override
-        protected void onDestroy() {
-            super.onDestroy();
-        }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
+        Log.i(TAG, "Location services connected.");
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }else{
+            requestPermission();
+        }
+        Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+
+        if (location == null) {
+            // Blank for a moment...
+        }
+        else {
+            handleNewLocation(location);
+        };
+    }
+    private void handleNewLocation(Location location) {
+        Log.d(TAG, "my new lat :"+String.valueOf(location.getLatitude()));
+        Log.d(TAG, "my new long :"+String.valueOf(location.getLongitude()));
+        final_latitude = location.getLatitude();
+        final_longitude = location.getLongitude();
+            //    Toast.makeText(SearchLocations.this,"lat : "+String.valueOf(location.getLatitude())+" and longitude ::"+String.valueOf(location.getLongitude()),Toast.LENGTH_SHORT).show();
 
     }
-
     @Override
     public void onConnectionSuspended(int i) {
-
+        Log.i(TAG, "Location services suspended. Please reconnect.");
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
+
+
+    private void requestPermission() {
+
+        ActivityCompat.requestPermissions(SearchLocations.this, new String[]{ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_CODE);
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }
 

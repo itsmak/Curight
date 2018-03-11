@@ -31,6 +31,7 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.innovellent.curight.R;
+import com.innovellent.curight.activities.AddTestActivity;
 import com.innovellent.curight.activities.DiagnosticCentersActivity;
 import com.innovellent.curight.activities.SummaryDetailsActivity;
 import com.innovellent.curight.api.ApiInterface;
@@ -122,6 +123,7 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
 
         holder.tvCenterName.setText(arrayList.get(position).getDiagnosticcentrename());
         holder.rbSpec.setText(arrayList.get(position).getSpecializationname());
+        Log.d(TAG,"adapter :::"+arrayList.get(position).getSpecializationname());
         holder.startTime.setText(arrayList.get(position).getNormalworkingschedule());
         holder.rbTag.setText(arrayList.get(position).getTagline());
         holder.endTime.setText(arrayList.get(position).getWeekendworkingschedule());
@@ -257,8 +259,33 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
         holder.btnTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ArrayList<TestDetail> testObj = arrayList.get(position).getTestDetail();
+                String sel_test_id="";
+                for (int j=0;j<testObj.size();j++) {
+                    if ("Y".equals(testObj.get(j).getTestchoosen())) {
+                        sel_test_id = sel_test_id + testObj.get(j).getTestid()+",";
+                    }
+                }
+                String test_id_str = sel_test_id;
+                if (test_id_str.endsWith(",")) {
+                    test_id_str = test_id_str.substring(0,test_id_str.length()-1);
+                }
+                Log.e(TAG,"test_id_final:: "+test_id_str);
 
-                gettestbydc(position);
+                Intent i2 = new Intent(mContext, AddTestActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("dc_name",arrayList.get(position).getDiagnosticcentrename());
+                bundle.putString("loc",arrayList.get(position).getAddress());
+                bundle.putLong("dc_id",arrayList.get(position).getDiagnosticcentreid());
+                bundle.putString("sel_test_ids",test_id_str);
+
+                Log.d(TAG,"final seltest id ::"+test_id_str);
+                Log.d(TAG,"final seldiagnostic ::"+arrayList.get(position).getDiagnosticcentreid());
+                i2.putExtras(bundle);
+                mContext.startActivity(i2);
+                //   bundle.putString("loc",);
+
+             //   gettestbydc(position);
             }
         });
 

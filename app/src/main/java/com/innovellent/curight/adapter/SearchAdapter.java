@@ -18,11 +18,11 @@ import java.util.ArrayList;
 
 public class SearchAdapter extends  RecyclerView.Adapter<SearchAdapter.ViewHolder>{
 
+    Context mContext;
+    String doctorname,categoryname,id,DOCTORNAME,categoryid;
+    String tvcategory,name;
     private ArrayList<String> arrayList = new ArrayList<>();
     private ArrayList<Search> searchListArrayList;
-    Context mContext;
-    String doctorname,categoryname,id,DOCTORNAME;
-    String tvcategory,name;
     public SearchAdapter(Context context, ArrayList<String> arrayList, ArrayList<Search> testObjs, String tvcategory) {
         mContext = context;
         this.arrayList = arrayList;
@@ -67,6 +67,10 @@ public class SearchAdapter extends  RecyclerView.Adapter<SearchAdapter.ViewHolde
     public String getcatgory(int pos){
         categoryname = searchListArrayList.get(pos).getCategory();
         return categoryname;
+    }
+    public String getsearchedid(int pos){
+        categoryid = searchListArrayList.get(pos).getId();
+        return categoryid;
     }
 
 

@@ -57,6 +57,7 @@ public class TrackDataFragment extends Fragment implements View.OnClickListener,
     ImageView ivAdd, ivback, ivback1;
     LinearLayout llCalariesBurned, llCaloriesConsumed;
     int goal_val = 0;
+    TextView tv_locationtxt,tv_locationsymbl;
     int goal_change_val = 0;
     int goal_id;
     ImageView iv_search;
@@ -155,6 +156,10 @@ public class TrackDataFragment extends Fragment implements View.OnClickListener,
         spUser = (Spinner) rootView.findViewById(R.id.spUser);
         llCalariesBurned = (LinearLayout) rootView.findViewById(R.id.llCalariesBurned);
         llCaloriesConsumed = (LinearLayout) rootView.findViewById(R.id.llCaloriesConsumed);
+        tv_locationtxt = (TextView) getActivity().findViewById(R.id.tv_locationtxt);
+        tv_locationsymbl = (TextView) getActivity().findViewById(R.id.tv_locationsymbl);
+        tv_locationtxt.setVisibility(View.GONE);
+        tv_locationsymbl.setVisibility(View.GONE);
         iv_search.setVisibility(View.GONE);
         tvTitle.setVisibility(View.VISIBLE);
         tvTitle.setText("Food & Fitness");

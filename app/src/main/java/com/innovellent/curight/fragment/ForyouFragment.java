@@ -4,6 +4,8 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Point;
@@ -12,6 +14,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,10 +28,16 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.innovellent.curight.R;
 import com.innovellent.curight.adapter.MyOfferingAdapter;
+import com.innovellent.curight.adapter.VaccineAdapter;
 import com.innovellent.curight.api.ApiInterface;
+import com.innovellent.curight.model.Article_FEED;
+import com.innovellent.curight.model.MyProfile_Response;
 import com.innovellent.curight.model.Offer;
+import com.innovellent.curight.model.Post_Body_Article;
 import com.innovellent.curight.model.ServerResponseOffer;
+import com.innovellent.curight.model.Vaccine;
 import com.innovellent.curight.utility.Config;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.ArrayList;
 
@@ -41,26 +50,40 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ForyouFragment  extends Fragment {
 
-    ArrayList<Offer> arrayList=new ArrayList<Offer>();
+    private static final String TAG = ".Curight";
+    ArrayList<Article_FEED> arrayList=new ArrayList<Article_FEED>();
     MyOfferingAdapter myOfferAdapter;
     TextView tvOffer,tvFromDate,tvOfferDescription,tvToDate,tvOfferTitle;
     RecyclerView recyclerView;
     RelativeLayout container;
-
-    private Animator mCurrentAnimator;
+    TextView tv_locationtxt,tv_locationsymbl,tvTitle;
     ImageView expandedImageView;
+    Context context;
+    private ProgressDialog progressDialog;
+    private Animator mCurrentAnimator;
     // The system "short" animation time duration, in milliseconds. This
     // duration is ideal for subtle animations or animations that occur
     // very frequently.
     private int mShortAnimationDuration;
     public ForyouFragment() {
     }
+    @Override
+    public void onAttach(Activity activity){
+        super.onAttach(activity);
+        context = getActivity();
 
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_foryou, container, false);
+        tv_locationtxt = (TextView) getActivity().findViewById(R.id.tv_locationtxt);
+        tv_locationsymbl = (TextView) getActivity().findViewById(R.id.tv_locationsymbl);
+        tvTitle = (TextView) getActivity().findViewById(R.id.tvTitle);
+        tvTitle.setText("Article");
+        tv_locationtxt.setVisibility(View.GONE);
+        tv_locationsymbl.setVisibility(View.GONE);
         initClickListner(rootView);
         getOffer();
         mShortAnimationDuration = getResources().getInteger(
@@ -78,24 +101,31 @@ public class ForyouFragment  extends Fragment {
     }
 
     public void getOffer() {
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("mypref", Context.MODE_PRIVATE);
-        String token = sharedPreferences.getString("token", "");
-        String userid = sharedPreferences.getString("userid", "108");
-
-
+        progressDialog = ProgressDialog.show(context, "Loading", "please wait", true, false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
+        clearData();
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(new Config().ROOT_URL)
+                .baseUrl(new Config().SERVER_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        ApiInterface iUser = retrofit.create(ApiInterface.class);
-        Call<ServerResponseOffer> call = iUser.getOffer(userid);
+        int uid = (int) Prefs.getLong("user_id",0);
+        Log.d(TAG,"Shared_profile_uid"+uid);
+        ApiInterface reditapi = retrofit.create(ApiInterface.class);
+        Post_Body_Article post_body_article = new Post_Body_Article(1,"all");
+        Call<ServerResponseOffer> call = reditapi.getArticle(post_body_article);
         call.enqueue(new Callback<ServerResponseOffer>() {
             @Override
             public void onResponse(Call<ServerResponseOffer> call, Response<ServerResponseOffer> response) {
+                progressDialog.dismiss();
+                Log.d(TAG,"Article response :"+response);
+                Log.d(TAG,"Article response body :"+response.body());
                 ServerResponseOffer  serverResponseOffer = response.body();
-                String code = serverResponseOffer.getCode();
-                if (code.equals("200")) {
+                int code = serverResponseOffer.getCode();
+                if (code==200) {
+                    Log.d(TAG,"Article response cd:"+response.body().getCode());
                     arrayList = serverResponseOffer.getResults();
+                    Log.d(TAG,"Article size :"+arrayList.size());
                     myOfferAdapter = new MyOfferingAdapter(getActivity(),arrayList,"Y",ForyouFragment.this);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
                     recyclerView.setAdapter(myOfferAdapter);
@@ -106,6 +136,7 @@ public class ForyouFragment  extends Fragment {
             public void onFailure(Call<ServerResponseOffer> call, Throwable t) {
                 t.getMessage();
                 String s = t.getMessage();
+                progressDialog.dismiss();
             }
         });
 
@@ -254,5 +285,12 @@ public class ForyouFragment  extends Fragment {
                 mCurrentAnimator = set;
             }
         });
+    }
+
+    public void clearData() {
+        myOfferAdapter = new MyOfferingAdapter(context, arrayList,"Y",ForyouFragment.this);
+        arrayList.clear(); //clear list
+        myOfferAdapter.notifyDataSetChanged();//let your adapter know about the changes and reload view.
+
     }
 }

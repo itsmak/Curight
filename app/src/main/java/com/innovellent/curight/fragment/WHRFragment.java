@@ -88,7 +88,7 @@ import static com.innovellent.curight.utility.Constants.CURIGHT_TAG;
 public class WHRFragment extends Fragment implements View.OnClickListener{
 
     private static final String TAG = "CuRight";
-    private static final String BASE_URL = "http://13.59.209.135:8090/diagnosticAPI/webapi/";
+//    private static final String BASE_URL = "http://13.59.209.135:8090/diagnosticAPI/webapi/";
     public ImageView ivCancel;
     TextView tvBP,tvList,tvTrends;
     ImageView ivWhr,ivAdd,ivGraph;

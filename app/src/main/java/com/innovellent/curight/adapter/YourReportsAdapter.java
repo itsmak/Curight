@@ -1,15 +1,20 @@
 package com.innovellent.curight.adapter;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +29,7 @@ import com.innovellent.curight.model.DeleteParameterpatientreport;
 import com.innovellent.curight.model.PatientReportsData;
 import com.innovellent.curight.model.PatientReportsPojo;
 import com.innovellent.curight.model.Report_FEED;
+import com.innovellent.curight.model.Test_List;
 import com.innovellent.curight.model.WHR_LIST;
 import com.innovellent.curight.model.WHR_LIST_DATE;
 import com.innovellent.curight.utility.Config;
@@ -47,6 +53,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class YourReportsAdapter extends RecyclerView.Adapter<YourReportsAdapter.MyViewHolder>  {
 
     private static final int MAX_LINES =1;
+    private final OnItemClickListener listener;
+    private final int position;
     Context mContext;
     ArrayList<Report_FEED> reportlist = new ArrayList<Report_FEED>();
     ArrayList<PatientReportsData> patientReportsDatas =new ArrayList<PatientReportsData>();
@@ -54,6 +62,13 @@ public class YourReportsAdapter extends RecyclerView.Adapter<YourReportsAdapter.
     PatientReportsData patientReportsData;
     String doctorno;
     ProgressDialog progressDialog;
+
+    public YourReportsAdapter(Context context, ArrayList<Report_FEED> reportlist,int position, OnItemClickListener listener) {
+        mContext = context;
+        this.reportlist = reportlist;
+        this.listener = listener;
+        this.position = position;
+    }
 
 //    public YourReportsAdapter(Context context, ArrayList<PatientReportsData> patientReportsDatas) {
 //        mContext = context;
@@ -63,9 +78,9 @@ public class YourReportsAdapter extends RecyclerView.Adapter<YourReportsAdapter.
 //
 //    }
 
-    public YourReportsAdapter(Context context, ArrayList<Report_FEED> reportlist) {
-        mContext = context;
-        this.reportlist = reportlist;
+    public void filterlist(ArrayList<Report_FEED> filteredlist) {
+        reportlist=filteredlist;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -78,6 +93,10 @@ public class YourReportsAdapter extends RecyclerView.Adapter<YourReportsAdapter.
     public void onBindViewHolder(final YourReportsAdapter.MyViewHolder holder, final int position) {
 
       //  reportlist = reportlist.get(position);
+        // add PhoneStateListener
+        PhoneCallListener phoneListener = new PhoneCallListener();
+        TelephonyManager telephonyManager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
+        telephonyManager.listen(phoneListener,PhoneStateListener.LISTEN_CALL_STATE);
 
         holder.txt_day.setText(reportlist.get(position).getVisitday());
         holder.txt_month.setText(reportlist.get(position).getVisitmonth());
@@ -121,22 +140,33 @@ public class YourReportsAdapter extends RecyclerView.Adapter<YourReportsAdapter.
         holder.img_calldoctor_fromreport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_CALL);
-                intent.setData(Uri.parse("tel:" + doctorno));
-                if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                    // TODO: Consider calling
-                    //    ActivityCompat#requestPermissions
-                    // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for ActivityCompat#requestPermissions for more details.
-                    return;
-                }
-                mContext.startActivity(intent);
+                listener.onItemClick(reportlist.get(position),position);
+//                Intent intent = new Intent(Intent.ACTION_CALL);
+//                intent.setData(Uri.parse("tel:" + doctorno));
+//                if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+//                    // TODO: Consider calling
+//                    //    ActivityCompat#requestPermissions
+//                    // here to request the missing permissions, and then overriding
+//                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//                    //                                          int[] grantResults)
+//                    // to handle the case where the user grants the permission. See the documentation
+//                    // for ActivityCompat#requestPermissions for more details.
+//                    return;
+//                }
+
+
             }
         });
-
+        holder.img_reportfiledownload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Curight");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "I am Curight!! You can view my report from this app :)");
+                mContext.startActivity(Intent.createChooser(sharingIntent, "Share via"));
+            }
+        });
 
         holder.img_delete_parentreport.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -174,14 +204,12 @@ public class YourReportsAdapter extends RecyclerView.Adapter<YourReportsAdapter.
 
     }
 
-
     private void removeAt(int position) {
      //   patientReportsDatas.remove(position);
         reportlist.remove(position);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, reportlist.size());
     }
-
 
     private void showProgressDialog(String title) {
         progressDialog = ProgressDialog.show(mContext, title, "please wait", true, false);
@@ -192,22 +220,6 @@ public class YourReportsAdapter extends RecyclerView.Adapter<YourReportsAdapter.
     public int getItemCount() {
         return reportlist.size();
     }
-
-    // Filter Class
-//    public void filter(String charText) {
-//        charText = charText.toLowerCase(Locale.getDefault());
-//        reportlist.clear();
-//        if (charText.length() == 0) {
-//            patientReportsDatas.addAll(model);
-//        } else {
-//            for (PatientReportsData wp : model) {
-//                if (wp.getReason().toLowerCase(Locale.getDefault()).contains(charText)|| wp.getDiagnsticcentrename().toLowerCase(Locale.getDefault()).contains(charText)|| wp.getDoctorname().toLowerCase(Locale.getDefault()).contains(charText)) {
-//                   patientReportsDatas.add(wp);
-//                }
-//            }
-//        }
-//        notifyDataSetChanged();
-//    }
 
     private void deletepatientreport(int patientreportid){
 
@@ -256,14 +268,38 @@ public class YourReportsAdapter extends RecyclerView.Adapter<YourReportsAdapter.
 
     }
 
+
+
+        // Filter Class
+//    public void filter(String charText) {
+//        charText = charText.toLowerCase(Locale.getDefault());
+//        reportlist.clear();
+//        if (charText.length() == 0) {
+//            patientReportsDatas.addAll(model);
+//        } else {
+//            for (PatientReportsData wp : model) {
+//                if (wp.getReason().toLowerCase(Locale.getDefault()).contains(charText)|| wp.getDiagnsticcentrename().toLowerCase(Locale.getDefault()).contains(charText)|| wp.getDoctorname().toLowerCase(Locale.getDefault()).contains(charText)) {
+//                   patientReportsDatas.add(wp);
+//                }
+//            }
+//        }
+//        notifyDataSetChanged();
+//    }
+
+    public interface OnItemClickListener {
+
+        void onItemClick(Report_FEED item,int position);
+
+    }
+
     class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView txt_day,txt_month,txt_diagonsticname,txt_reason,txt_doctorname,txt_doctornumber,txt_comments,txt_visitdate;
-        ImageView img_calldoctor_fromreport,img_delete_parentreport;
+        ImageView img_calldoctor_fromreport,img_delete_parentreport,img_reportfiledownload;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-
+            img_reportfiledownload = (ImageView)itemView.findViewById(R.id.img_reportfiledownload);
             txt_day = (TextView)itemView.findViewById(R.id.txt_day);
             txt_month = (TextView)itemView.findViewById(R.id.txt_month);
             txt_diagonsticname = (TextView)itemView.findViewById(R.id.txt_diagonsticname);
@@ -276,5 +312,49 @@ public class YourReportsAdapter extends RecyclerView.Adapter<YourReportsAdapter.
             img_delete_parentreport =(ImageView)itemView.findViewById(R.id.img_delete_parentreport);
         }
     }
+
+    private class PhoneCallListener extends PhoneStateListener {
+
+        String LOG_TAG = "LOGGING 123";
+        private boolean isPhoneCalling = false;
+
+        @Override
+        public void onCallStateChanged(int state, String incomingNumber) {
+
+            if (TelephonyManager.CALL_STATE_RINGING == state) {
+                // phone ringing
+                Log.i(LOG_TAG, "RINGING, number: " + incomingNumber);
+            }
+
+            if (TelephonyManager.CALL_STATE_OFFHOOK == state) {
+                // active
+                Log.i(LOG_TAG, "OFFHOOK");
+
+                isPhoneCalling = true;
+            }
+
+            if (TelephonyManager.CALL_STATE_IDLE == state) {
+                // run when class initial and phone call ended,
+                // need detect flag from CALL_STATE_OFFHOOK
+                Log.i(LOG_TAG, "IDLE");
+
+                if (isPhoneCalling) {
+
+                    Log.i(LOG_TAG, "restart app");
+
+                    // restart app
+                    Intent i = mContext.getPackageManager()
+                            .getLaunchIntentForPackage(
+                                    mContext.getPackageName());
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    mContext.startActivity(i);
+
+                    isPhoneCalling = false;
+                }
+
+            }
+        }
+    }
+
 
 }

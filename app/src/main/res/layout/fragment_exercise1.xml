@@ -50,7 +50,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
                         android:layout_toRightOf="@id/iv_date"
-                        android:hint="12/3/2017"
+                        android:hint="date"
                         android:textSize="15sp" />
 
                     <TextView

@@ -79,6 +79,7 @@ public class BPFragment extends Fragment implements View.OnClickListener {
     RecyclerView recyclerView;
     BPAdapter mAdapter;
     GraphView lineGraph;
+    TextView tv_locationtxt,tv_locationsymbl,tvTitle;
     LineGraphSeries lineGraphSeries;
     List<Object> arrayList = new ArrayList<>();
     ArrayList<BP> bp_arraylist = new ArrayList<BP>();
@@ -163,6 +164,12 @@ public class BPFragment extends Fragment implements View.OnClickListener {
         cvCard = (CardView) rootView.findViewById(R.id.cvCard);
         lineGraph = (GraphView) rootView.findViewById(R.id.graphLine);
         spUser = (Spinner) rootView.findViewById(R.id.spUser);
+        tv_locationtxt = (TextView) getActivity().findViewById(R.id.tv_locationtxt);
+        tv_locationsymbl = (TextView) getActivity().findViewById(R.id.tv_locationsymbl);
+        tvTitle = (TextView) getActivity().findViewById(R.id.tvTitle);
+        tvTitle.setText("Track");
+        tv_locationtxt.setVisibility(View.GONE);
+        tv_locationsymbl.setVisibility(View.GONE);
     }
 
     public void initOnClick() {

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Center {
     private Long diagnosticcentreid;
     private String diagnosticcentrename;
-    private String specializationname;
+    private String specialization;
     private String tests;
     private String tagline;
     private String address;
@@ -23,10 +23,10 @@ public class Center {
     private Long mobile;
     private ArrayList<TestDetail> testDetail;
 
-    public Center(Long diagnosticcentreid, String diagnosticcentrename, String specializationname, String tests, String tagline, String address, String city, String photourl, String accredition, String count, String normalworkingschedule, String logourl, String weekendworkingschedule, Long mobile, ArrayList<TestDetail> testDetail) {
+    public Center(Long diagnosticcentreid, String diagnosticcentrename, String specialization, String tests, String tagline, String address, String city, String photourl, String accredition, String count, String normalworkingschedule, String logourl, String weekendworkingschedule, Long mobile, ArrayList<TestDetail> testDetail) {
         this.diagnosticcentreid = diagnosticcentreid;
         this.diagnosticcentrename = diagnosticcentrename;
-        this.specializationname = specializationname;
+        this.specialization = specialization;
         this.tests = tests;
         this.tagline = tagline;
         this.address = address;
@@ -58,11 +58,11 @@ public class Center {
     }
 
     public String getSpecializationname() {
-        return specializationname;
+        return specialization;
     }
 
     public void setSpecializationname(String specializationname) {
-        this.specializationname = specializationname;
+        this.specialization = specializationname;
     }
 
     public String getTests() {

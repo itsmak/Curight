@@ -10,70 +10,69 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 
 import com.innovellent.curight.R;
 import com.innovellent.curight.fragment.ForyouFragment;
 import com.innovellent.curight.fragment.WishListFragment;
 import com.innovellent.curight.model.Article_FEED;
-import com.innovellent.curight.model.Offer;
+import com.innovellent.curight.model.WishList_Model;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 import at.blogc.android.views.ExpandableTextView;
 
+/**
+ * Created by Mak on 3/2/2018.
+ */
 
-public class MyOfferingAdapter extends RecyclerView.Adapter<MyOfferingAdapter.MyViewHolder> {
+public class WishList_Adapter  extends RecyclerView.Adapter<WishList_Adapter.MyViewHolder> {
 
 static final int NONE = 0;
 static final int DRAG = 1;
 static final int ZOOM = 2;
     public Double num;
     public boolean isWishlist=true;
-    ArrayList<Article_FEED> arrayList;
+    ArrayList<WishList_Model> arrayList;
     AdapterView.OnItemClickListener mItemClickListener;
     Matrix matrix = new Matrix();
     Matrix savedMatrix = new Matrix();
     PointF startPoint = new PointF();
     PointF midPoint = new PointF(); float oldDist = 1f;
-    int mode = NONE;     ForyouFragment fragment;
-        WishListFragment fragment1;     MyViewHolder.ZoomImageListener zoomListener;
-    private Context mContext;
+    int mode = NONE;     WishListFragment fragment1;
+        MyOfferingAdapter.MyViewHolder.ZoomImageListener zoomListener;     private Context mContext;
     private SharedPreferences sharedPreferences;
     private String wish, month,wishlistflag;
-    public MyOfferingAdapter(Context context, ArrayList<Article_FEED> arrayList, String wishlist, ForyouFragment fragment) {
+    public WishList_Adapter(Context context, ArrayList<WishList_Model> arrayList, String wishlist, WishListFragment fragment) {
         mContext = context;
         this.wish = wishlist;
         this.arrayList = arrayList;
-        this.fragment=fragment;
+        this.fragment1=fragment;
     }
 
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public WishList_Adapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_row_articles, parent, false);
-        return new MyViewHolder(itemView);
+        return new WishList_Adapter.MyViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, final int position) {
+    public void onBindViewHolder(final WishList_Adapter.MyViewHolder holder, final int position) {
         try {
 
-                holder.tvOfferTitle.setText(arrayList.get(position).getTitle());
-                holder.expandableTextView.setText(arrayList.get(position).getDescription());
-                Picasso.with(mContext)
+            holder.tvOfferTitle.setText(arrayList.get(position).getTitle());
+            holder.expandableTextView.setText(arrayList.get(position).getDescription());
+            Picasso.with(mContext)
                     .load(arrayList.get(position).getImageurl())
                     /*.placeholder(R.drawable.bitmap)*/ //this is optional the image to display while the url image is downloading
                     //this is also optional if some error has occurred in downloading the image this image would be displayed
                     .into(holder.ivBanner_article);
 
         }catch (Exception e){}
-
         holder.tv_readMore_article.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -82,7 +81,7 @@ static final int ZOOM = 2;
                 if (holder.expandableTextView.isExpanded())
                 {
                     holder.expandableTextView.collapse();
-                    holder.tv_readMore_article.setText("Show More . . .");
+                    holder.tv_readMore_article.setText("Show More . .");
                 }
                 else
                 {
@@ -91,7 +90,6 @@ static final int ZOOM = 2;
                 }
             }
         });
-
     }
 
     public String dateFormate(String date) {
@@ -132,20 +130,23 @@ static final int ZOOM = 2;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        final ExpandableTextView expandableTextView;
         public TextView tvOfferTitle,tvdate_article,tv_readMore_article;
         public ImageView ivBanner_article,ivWishlist_article,ivLike_article;
+        ExpandableTextView expandableTextView;
+
         LinearLayout listitem11relativeLayout7,listitem11relativeLayout8;
         public MyViewHolder(View view) {
             super(view);
-            expandableTextView = (ExpandableTextView) view.findViewById(R.id.expandableTextView);
+
             tvOfferTitle = (TextView) view.findViewById(R.id.tvOfferTitle);
             tvdate_article = (TextView) view.findViewById(R.id.tvdate_article);
- //           tvOfferDescription = (TextView) view.findViewById(R.id.tvOfferDescription);
+  //          tvOfferDescription = (TextView) view.findViewById(R.id.tvOfferDescription);
             tv_readMore_article = (TextView) view.findViewById(R.id.tv_readMore_article);
             ivBanner_article = (ImageView) view.findViewById(R.id.ivBanner_article);
+            expandableTextView = (ExpandableTextView) view.findViewById(R.id.expandableTextView);
             ivWishlist_article = (ImageView) view.findViewById(R.id.ivWishlist_article);
             ivLike_article= (ImageView) view.findViewById(R.id.ivLike_article);
+
             // set animation duration via code, but preferable in your layout files by using the animation_duration attribute
             expandableTextView.setAnimationDuration(750L);
             // set interpolators for both expanding and collapsing animations
@@ -153,6 +154,8 @@ static final int ZOOM = 2;
             // or set them separately
             expandableTextView.setExpandInterpolator(new OvershootInterpolator());
             expandableTextView.setCollapseInterpolator(new OvershootInterpolator());
+
+
         }
         public interface ZoomImageListener {
             void zoomImage(ImageView imageView);

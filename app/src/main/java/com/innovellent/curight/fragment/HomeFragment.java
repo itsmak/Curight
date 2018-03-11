@@ -24,7 +24,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
 import com.innovellent.curight.R;
 import com.innovellent.curight.activities.DiagnosticCentersActivity;
@@ -62,7 +61,7 @@ public class HomeFragment extends Fragment  implements View.OnClickListener{
     ImageView ivHealthPackage,imageView1,imageView2,imageView3,imageView4,imageView5,imageView6,imageView7,imageView8,imageView9;
     ViewPager viewPager;
     RecyclerView recycler_view_searchhome;
-    TextView tvTitle,titleOne,titleThree;
+    TextView tvTitle,titleOne,titleThree,tv_locationtxt,tv_locationsymbl;
     RelativeLayout rlBookTest,rlFood,rlHealthPackage,rlDoctorAppoinment,rlYoursReports;
     LinearLayout llSliderdotpanel;
    // int[] luckyNumbers = {R.drawable.ic_inst, R.drawable.into_1, R.drawable.into_2,R.drawable.into_3, R.drawable.intro_4,R.drawable.intro_5,R.drawable.into_3,R.drawable.ic_inst};
@@ -124,15 +123,18 @@ public class HomeFragment extends Fragment  implements View.OnClickListener{
             @Override
             public void onItemClick(View view, int position) {
                 //Toast.makeText(SearchActivity.this, "item clicked", Toast.LENGTH_SHORT).show();
-
+                Log.d(TAG,"searched id "+searchAdapter.getsearchedid(position));
                 if(searchAdapter.getcatgory(position).equals("DR")) {
                     Intent intent = new Intent(getActivity(), DoctorAppointmentActivity.class);
+                    intent.putExtra("testid",searchAdapter.getsearchedid(position));
                     startActivity(intent);
                 }else if(searchAdapter.getcatgory(position).equals("DC")){
                     Intent intent = new Intent(getActivity(), DiagnosticCentersActivity.class);
+                    intent.putExtra("testid",searchAdapter.getsearchedid(position));
                     startActivity(intent);
                 }else if(searchAdapter.getcatgory(position).equals("TE")){
                     Intent intent = new Intent(getActivity(), DiagnosticTestListActivity.class);
+                    intent.putExtra("testid",searchAdapter.getsearchedid(position));
                     startActivity(intent);
                 }
             }
@@ -218,7 +220,6 @@ public class HomeFragment extends Fragment  implements View.OnClickListener{
         return rootView;
 
     }
-
 
     //search functionality
     private void Search(){
@@ -314,6 +315,10 @@ public class HomeFragment extends Fragment  implements View.OnClickListener{
     rlHealthPackage=(RelativeLayout)rootView.findViewById(R.id.rlHealthPackage);
     ivHealthPackage=(ImageView)rootView.findViewById(R.id.ivHealthPackage);
     rlYoursReports= (RelativeLayout)rootView.findViewById(R.id.rlYoursReports);
+    tv_locationtxt = (TextView) getActivity().findViewById(R.id.tv_locationtxt);
+    tv_locationsymbl = (TextView) getActivity().findViewById(R.id.tv_locationsymbl);
+    tv_locationtxt.setVisibility(View.VISIBLE);
+    tv_locationsymbl.setVisibility(View.VISIBLE);
   // llSliderdotpanel=(LinearLayout)rootView.findViewById(R.id.llSliderDots);
 
 
@@ -490,7 +495,6 @@ public class HomeFragment extends Fragment  implements View.OnClickListener{
                 Intent i_yourreports = new Intent(getActivity(), YourReportsActivity.class);
                 startActivity(i_yourreports);
                 break;
-
 
             }
 

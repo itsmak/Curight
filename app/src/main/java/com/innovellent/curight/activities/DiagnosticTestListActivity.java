@@ -15,8 +15,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-
 import com.google.gson.JsonObject;
 import com.innovellent.curight.R;
 import com.innovellent.curight.adapter.DiagnosticTestAdapter;
@@ -25,6 +23,7 @@ import com.innovellent.curight.fragment.Medicine_list;
 import com.innovellent.curight.model.ServerResponseTest;
 import com.innovellent.curight.model.Test;
 import com.innovellent.curight.model.Test_List;
+import com.innovellent.curight.model.TestingCenter;
 import com.innovellent.curight.utility.Config;
 import com.innovellent.curight.utility.Constants;
 import com.innovellent.curight.utility.Util;
@@ -48,6 +47,7 @@ public class DiagnosticTestListActivity extends AppCompatActivity{
     Button btnSubmit;
     EditText etSearch;
     Toolbar toolbar;
+    int testid;
     ArrayList<Test_List> testlist = new ArrayList<Test_List>();
     ArrayList<String> arrayList=new ArrayList<String>();
     ArrayList<String> testArrayList = new ArrayList<String>();
@@ -104,7 +104,19 @@ public class DiagnosticTestListActivity extends AppCompatActivity{
         setContentView(R.layout.activity_diagnostic_test_list);
         Prefs.putString("test_id","");
         Prefs.putInt("test_length",0);
-        getalltest();
+        Bundle b = new Bundle();
+        b = getIntent().getExtras();
+
+        Log.d(TAG,"test bundle :"+b);
+        if(b==null)
+        {
+             testid = 0;//Integer.parseInt(b.getString("testid"));
+            Log.d(TAG,"test bundle :"+testid);
+        }else {
+            testid = Integer.parseInt(b.getString("testid"));
+        }
+        //String name = b.getString("name");
+        getalltest(testid);
         getData();
         init();
         iniClick();
@@ -196,7 +208,7 @@ public class DiagnosticTestListActivity extends AppCompatActivity{
         });
     }
 
-    public  void getalltest()
+    public  void getalltest(int testid)
     {
         progressDialog = ProgressDialog.show(DiagnosticTestListActivity.this, "Loading", "please wait", true, false);
         progressDialog.setCanceledOnTouchOutside(false);
@@ -207,8 +219,8 @@ public class DiagnosticTestListActivity extends AppCompatActivity{
                 .build();
 
         ApiInterface apiInterface = retrofit.create(ApiInterface.class);
-
-        Call<ServerResponseTest> call = apiInterface.getTest();
+        TestingCenter testcentre = new TestingCenter(testid);
+        Call<ServerResponseTest> call = apiInterface.getTestByTestID(testcentre);
         call.enqueue(new Callback<ServerResponseTest>() {
             @Override
             public void onResponse(Call<ServerResponseTest> call, Response<ServerResponseTest> response) {

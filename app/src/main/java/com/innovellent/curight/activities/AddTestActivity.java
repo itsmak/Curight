@@ -427,10 +427,11 @@ public class AddTestActivity extends AppCompatActivity implements View.OnClickLi
     }
     @Override
     public void onBackPressed() {
-        Intent i=new Intent(AddTestActivity.this,DiagnosticCentersActivity.class);
-        //i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(i);
-        finish();
+//        Intent i=new Intent(AddTestActivity.this,DiagnosticCentersActivity.class);
+//        //i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        startActivity(i);
+//        finish();
+
         super.onBackPressed();
     }
 }

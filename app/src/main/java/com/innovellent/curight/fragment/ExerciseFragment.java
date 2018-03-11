@@ -128,6 +128,7 @@ public class ExerciseFragment extends Fragment  implements View.OnClickListener 
         ivback=(ImageView)getActivity().findViewById(R.id.ivback);
         tvTitle=(TextView)getActivity().findViewById(R.id.tvTitle);
         tvBurned=(TextView)rootview.findViewById(R.id.tvBurned);
+        tvDate = (TextView) rootview.findViewById(R.id.tv_date);
         ivback1=(ImageView)getActivity().findViewById(R.id.ivback1);
         rlDate=(RelativeLayout)rootview.findViewById(R.id.date_layout);
         spQuestion1= (Spinner)rootview.findViewById(R.id.spQuestion1);

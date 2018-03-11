@@ -48,6 +48,8 @@ import com.innovellent.curight.model.Vaccine;
 import com.innovellent.curight.model.VaccineAddReminderDialog;
 import com.innovellent.curight.model.VaccineList;
 import com.innovellent.curight.model.VaccineReminderYearDialog;
+import com.innovellent.curight.utility.Config;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -65,9 +67,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class VaccineFragment extends Fragment implements View.OnClickListener {
     //ImageView ivAdd1,ivAdd2,ivAdd3,ivBack;
     private static final String TAG = "CuRight";
-    private static final String BASE_URL = "http://13.59.209.135:8090/diagnosticAPI/webapi/";
+ //   private static final String BASE_URL = "http://13.59.209.135:8090/diagnosticAPI/webapi/";
     RecyclerView remainder_rclrvw;
     VaccineAdapter mAdapter;
+    TextView tv_locationtxt,tv_locationsymbl,tvTitle;
     Spinner spYear;
     EditText spAge;
     RelativeLayout rlDate;
@@ -110,8 +113,13 @@ public class VaccineFragment extends Fragment implements View.OnClickListener {
         spAge = (EditText) rootview.findViewById(R.id.spAge);
         rlDate = (RelativeLayout) rootview.findViewById(R.id.date_layout);
         tvDate = (TextView) rootview.findViewById(R.id.tv_date);
+        tv_locationtxt = (TextView) getActivity().findViewById(R.id.tv_locationtxt);
+        tv_locationsymbl = (TextView) getActivity().findViewById(R.id.tv_locationsymbl);
+        tvTitle = (TextView) getActivity().findViewById(R.id.tvTitle);
         spAge.setEnabled(false);
-
+        tvTitle.setText("Remainder");
+        tv_locationtxt.setVisibility(View.GONE);
+        tv_locationsymbl.setVisibility(View.GONE);
         //   remainder_rclrvw.addOnItemTouchListener();
 
     }
@@ -154,13 +162,14 @@ public class VaccineFragment extends Fragment implements View.OnClickListener {
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(new Config().SERVER_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         ApiInterface reditapi = retrofit.create(ApiInterface.class);
-
-        PostBodyProfile postBodyprofile = new PostBodyProfile(1, "family");
+        int uid = (int) Prefs.getLong("user_id",0);
+        Log.d(TAG,"Shared_profile_uid"+uid);
+        PostBodyProfile postBodyprofile = new PostBodyProfile(uid, "family");
         Call<MyProfile_Response> call = reditapi.getProfile(postBodyprofile);
         progressDialog.dismiss();
         call.enqueue(new Callback<MyProfile_Response>() {
@@ -169,7 +178,6 @@ public class VaccineFragment extends Fragment implements View.OnClickListener {
                 progressDialog.dismiss();
 
                 if (response.body() != null) {
-
 
                     Log.e(TAG, "profileResponse: code: " + response.body().getCode());
                     ArrayList<PROFILE_FEED> result = response.body().getResults();
@@ -219,7 +227,7 @@ public class VaccineFragment extends Fragment implements View.OnClickListener {
         progressDialog.show();
         clearData();
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(new Config().SERVER_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         //      Toast.makeText(getActivity(),"I am getting called",Toast.LENGTH_SHORT).show();
@@ -337,7 +345,7 @@ public class VaccineFragment extends Fragment implements View.OnClickListener {
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(new Config().SERVER_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         ApiInterface reditapi = retrofit.create(ApiInterface.class);
@@ -374,7 +382,7 @@ public class VaccineFragment extends Fragment implements View.OnClickListener {
     private void apical_modify(Vaccine item,String REMAINDER1,String REMAINDER2) {
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(new Config().SERVER_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         ApiInterface reditapi = retrofit.create(ApiInterface.class);

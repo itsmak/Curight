@@ -20,6 +20,7 @@ import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.MyProfile_Response;
 import com.innovellent.curight.model.PostBodyRegister;
 import com.innovellent.curight.model.Registration_Response;
+import com.innovellent.curight.utility.Config;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,11 +33,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class RegistrationActivity extends Activity {
+    private static final String TAG = ".Retro_MainActivity";
     private Button btContinue;
     private EditText etName, etEmail, etMobileNumber,etPassword,etConfirmedPassword;
     private AwesomeValidation awesomeValidation;
-    private static final String TAG = ".Retro_MainActivity";
-    private static final String BASE_URL = "http://13.59.209.135:8090/diagnosticAPI/webapi/";
+
+//    private static final String BASE_URL = "http://13.59.209.135:8090/diagnosticAPI/webapi/";
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,7 +85,7 @@ public class RegistrationActivity extends Activity {
                 etConfirmedPassword.setError("Confirm Password doesn't match Password");
             }else {
                 Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl(BASE_URL)
+                        .baseUrl(new Config().SERVER_URL)
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
 

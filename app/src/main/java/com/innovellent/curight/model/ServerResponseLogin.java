@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 public class ServerResponseLogin {
     private String Code;
+
     private ArrayList<User> Results=new ArrayList<>();
 
     public String getCode() {

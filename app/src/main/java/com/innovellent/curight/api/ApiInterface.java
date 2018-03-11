@@ -2,14 +2,10 @@ package com.innovellent.curight.api;
 
 import com.innovellent.curight.model.AddExerciseResponse;
 import com.innovellent.curight.model.Auth;
-import com.innovellent.curight.model.BMIReport;
-import com.innovellent.curight.model.BloodPressureReport;
 import com.innovellent.curight.model.BloodSugarDeletePojo;
 import com.innovellent.curight.model.BloodcountPojo;
 import com.innovellent.curight.model.BloodsugarPojo;
 import com.innovellent.curight.model.Calorie;
-import com.innovellent.curight.model.CholesterolReport;
-import com.innovellent.curight.model.CreateExercise;
 import com.innovellent.curight.model.DeleteBMIRecord;
 import com.innovellent.curight.model.DeleteBPRecordParameter;
 import com.innovellent.curight.model.DeleteCholesterolRecordParameter;
@@ -20,8 +16,6 @@ import com.innovellent.curight.model.DiagnosticCenterDoctorByDC;
 import com.innovellent.curight.model.DiagnosticCentre;
 import com.innovellent.curight.model.FamilyProfile;
 import com.innovellent.curight.model.FctPojo;
-import com.innovellent.curight.model.FoodCreate;
-import com.innovellent.curight.model.FoodItem;
 import com.innovellent.curight.model.GetTestDetailCenter;
 import com.innovellent.curight.model.Goal;
 import com.innovellent.curight.model.Login;
@@ -47,6 +41,9 @@ import com.innovellent.curight.model.PostBodyCalorie;
 import com.innovellent.curight.model.PostBodyClass;
 import com.innovellent.curight.model.PostBodyProfile;
 import com.innovellent.curight.model.PostBodyRegister;
+import com.innovellent.curight.model.Post_Body_Article;
+import com.innovellent.curight.model.Post_Body_DoctorList;
+import com.innovellent.curight.model.Post_Body_calorie;
 import com.innovellent.curight.model.Post_Family_Update;
 import com.innovellent.curight.model.Post_MedReminderAdd;
 import com.innovellent.curight.model.Post_Profile_Update;
@@ -68,25 +65,21 @@ import com.innovellent.curight.model.ServerResponseFct;
 import com.innovellent.curight.model.ServerResponseFood;
 import com.innovellent.curight.model.ServerResponseFoodCategory;
 import com.innovellent.curight.model.ServerResponseFoodItem;
-import com.innovellent.curight.model.ServerResponseGetFood;
 import com.innovellent.curight.model.ServerResponseGetTestDetail;
 import com.innovellent.curight.model.ServerResponseLogin;
 import com.innovellent.curight.model.ServerResponseOffer;
 import com.innovellent.curight.model.ServerResponseOverviewByDC;
 import com.innovellent.curight.model.ServerResponsePhotosByDC;
 import com.innovellent.curight.model.ServerResponseTest;
-import com.innovellent.curight.model.ServerResponseWHRGet;
+import com.innovellent.curight.model.ServerResponse_getCalories;
 import com.innovellent.curight.model.ServerResponsemedicine;
 import com.innovellent.curight.model.ServerSearchPage;
 import com.innovellent.curight.model.TestBookingCreate;
 import com.innovellent.curight.model.TestBookingDetail;
 import com.innovellent.curight.model.TestBookingId;
 import com.innovellent.curight.model.TestingCenter;
-import com.innovellent.curight.model.UserId;
 import com.innovellent.curight.model.UserIdStr;
 import com.innovellent.curight.model.VACCINE_UPDATE_RESPONSE;
-import com.innovellent.curight.model.WHRGetCenter;
-import com.innovellent.curight.model.WhrList;
 
 import java.util.List;
 
@@ -110,8 +103,14 @@ public interface ApiInterface {
     @GET("test/getalltest")
     Call<ServerResponseTest> getTest();
 
+    @POST("test/gettestbyid")
+    Call<ServerResponseTest> getTestByTestID(@Body TestingCenter testid);
+
     @GET("food/getfoodwithmultipleunits")
     Call<ServerResponseFoodCategory> getcategory();
+
+    @POST("food/getaloriesbyfood")
+    Call<ServerResponse_getCalories> getcaloriesbyid(@Body Post_Body_calorie doctorid);
 
     @GET("food/getfoodwithmultipleunits/{cat_id}")
     Call<ServerResponseFoodItem> getfooditem(@Path("cat_id") Long taskId);
@@ -119,8 +118,13 @@ public interface ApiInterface {
     @POST("test/gettestbyid")
     Call<ServerResponseTest> getTestById(@Header("x-access-token") String x_access_token, @Body TestingCenter testingCenter);
 
+
+
     @GET("diagnosticcentre/getalldoctor")
     Call<ServerResponseDoctorAppointment> getAllDoctor();
+
+    @POST("diagnosticcentre/getalldoctorbyid")
+    Call<ServerResponseDoctorAppointment> getAllDoctorbyid(@Body Post_Body_DoctorList doctorid);
 
     @POST("search/get")
     Call<ServerSearchPage> getSearch(@Body SearchingCenter searchingCenter );
@@ -279,6 +283,10 @@ public interface ApiInterface {
     @Headers("Content-Type: application/json")
     @POST("foodconsumption/create")
     Call<ServerResponse<String>> createFood(@Header("x-access-token") String x_access_token, @Body String createFood);
+
+    @Headers("x-access-token: hjjgkuykg")
+    @POST("article/get")
+    Call<ServerResponseOffer> getArticle(@Body Post_Body_Article userId);;
 
     @Headers("Content-Type: application/json")
     @POST("food/getaloriesbyfood")

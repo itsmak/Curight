@@ -3,10 +3,11 @@ package com.innovellent.curight.model;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by Pramod on 16-Nov-2017.
+ * Created by Mak on 3/6/2018.
  */
 
-public class CalorieRes {
+public class CalorieList {
+
     @SerializedName("foodid")
     private int foodid;
     @SerializedName("quantity")
@@ -22,7 +23,7 @@ public class CalorieRes {
     @SerializedName("calories")
     private int calories;
 
-    public CalorieRes(int foodid, int quantity, int carbs, int protein, int fat, int fiber, int calories) {
+    public CalorieList(int foodid, int quantity, int carbs, int protein, int fat, int fiber, int calories) {
         this.foodid = foodid;
         this.quantity = quantity;
         this.carbs = carbs;

@@ -52,18 +52,30 @@ public class SummaryAdapter  extends RecyclerView.Adapter<SummaryAdapter.MyViewH
     public void onBindViewHolder(final SummaryAdapter.MyViewHolder holder, final int position) {
 
         Log.e("onBindView", "Size :: "+arrayList.size() + " position :: "+position+ "  JJJ : " +holder.getAdapterPosition());
+
         if(flag)
         {
             if(summaryList.get(position).getHomepickup().equalsIgnoreCase("Y")){
+
                 holder.ivHome.setImageResource(R.mipmap.ic_homegreen);
                 holder.ivBasic.setImageResource(R.mipmap.ic_basic_gray);
+                holder.tv_homepickup.setText("Home pickup Available");
             }else {
                 holder.ivHome.setImageResource(R.mipmap.ic_home);
                 holder.ivBasic.setImageResource(R.mipmap.ic_basicgreen);
+                holder.tv_homepickup.setText("");
             }
 
 
         }else {
+
+            if(summaryList.get(position).getHomepickup().equalsIgnoreCase("Y")){
+
+                holder.tv_homepickup.setText("Home pickup Available");
+
+            }else {
+                holder.tv_homepickup.setText("");
+            }
             holder.ivHome.setImageResource(R.mipmap.ic_home);
             holder.ivBasic.setImageResource(R.mipmap.ic_basicgreen);
         }
@@ -103,7 +115,7 @@ public class SummaryAdapter  extends RecyclerView.Adapter<SummaryAdapter.MyViewH
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvHealthDetails;
+        TextView tvHealthDetails,tv_homepickup;
         TextView tvRupee;
         ImageView deleteBtn,ivHome,ivBasic;
 
@@ -114,6 +126,7 @@ public class SummaryAdapter  extends RecyclerView.Adapter<SummaryAdapter.MyViewH
             deleteBtn = (ImageView) view.findViewById(R.id.ivClose);
             ivHome = (ImageView) view.findViewById(R.id.ivHome);
             ivBasic = (ImageView) view.findViewById(R.id.ivBasic);
+            tv_homepickup = (TextView) view.findViewById(R.id.tv_homepickup);
         }
     }
 }

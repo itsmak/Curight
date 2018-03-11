@@ -1,75 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="10dp"
-    android:background="@android:color/white"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:padding="10dp">
     <LinearLayout
-        android:orientation="horizontal"
-        android:weightSum="100"
         android:id="@+id/llBasic"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="100">
         <TextView
             android:id="@+id/tvHealthDetails"
-            android:textSize="12sp"
-            android:textColor="@color/darkgray"
-            android:text="Lipid Profile Basic"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="79"
-            android:layout_height="wrap_content" />
+            android:text="Lipid Profile Basic"
+            android:textColor="@color/darkgray"
+            android:textSize="12sp" />
 
         <ImageView
             android:id="@+id/ivRupee"
-            android:layout_marginTop="2dp"
-            android:background="@mipmap/ic_rupee"
             android:layout_width="0dp"
-            android:layout_weight="5"
+            android:layout_height="12dp"
             android:layout_marginLeft="15dp"
-            android:layout_height="12dp" />
+            android:layout_marginTop="2dp"
+            android:layout_weight="5"
+            android:background="@mipmap/ic_rupee" />
         <TextView
-            android:layout_toRightOf="@+id/tvRupeelabel"
-            android:text="100"
-            android:gravity="center"
-            android:textColor="@color/darkgray"
-            android:textSize="12sp"
-            android:layout_marginLeft="5dp"
             android:id="@+id/tvRupee"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/tvRupeelabel"
             android:layout_weight="14"
-            android:layout_height="wrap_content" />
+            android:gravity="center"
+            android:text="100"
+            android:textColor="@color/darkgray"
+            android:textSize="12sp" />
         <ImageView
             android:id="@+id/ivClose"
-            android:layout_toRightOf="@id/tvRupee"
-            android:background="@mipmap/ic_close"
             android:layout_width="18dp"
+            android:layout_height="18dp"
             android:layout_marginLeft="15dp"
-            android:layout_height="18dp" />
+            android:layout_toRightOf="@id/tvRupee"
+            android:background="@mipmap/ic_close" />
     </LinearLayout>
 
 
     <ImageView
         android:id="@+id/ivHome"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="20dp"
-        android:layout_below="@id/llBasic"
-        android:background="@mipmap/ic_home"
         android:layout_width="15dp"
-        android:layout_height="15dp" />
+        android:layout_height="15dp"
+        android:layout_below="@id/llBasic"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@mipmap/ic_home" />
     <ImageView
         android:id="@+id/ivBasic"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_below="@id/llBasic"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@id/ivHome"
-        android:layout_marginLeft="20dp"
+        android:background="@mipmap/ic_basicgreen" />
+
+    <TextView
+        android:id="@+id/tv_homepickup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/llBasic"
-        android:background="@mipmap/ic_basicgreen"
-        android:layout_width="15dp"
-        android:layout_height="15dp" />
+        android:layout_centerInParent="true"
+        android:text=""
+        android:textColor="@color/darkgray"
+        android:textSize="11sp"/>
+
+
     <View
+        android:id="@+id/v1"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:id="@+id/v1"
         android:layout_below="@+id/ivBasic"
         android:layout_marginTop="10dp"
         android:background="@color/gray" />

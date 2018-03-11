@@ -2,6 +2,7 @@ package com.innovellent.curight.activities;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -14,6 +15,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -39,6 +41,7 @@ import com.innovellent.curight.adapter.SwimmingAdapter;
 import com.innovellent.curight.api.ApiClient;
 import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.Calorie;
+import com.innovellent.curight.model.CalorieRes;
 import com.innovellent.curight.model.Category_Feed;
 import com.innovellent.curight.model.Category_List;
 import com.innovellent.curight.model.FoodItem;
@@ -156,6 +159,31 @@ public class AddFoodConsumptionActivity extends AppCompatActivity {
             }
         });
         getallfoodSpinnerdata();
+//        etQuantity.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable editable) {
+//                if(editable.length()>0)
+//                {
+//                    if(et_unit.getText().toString().equalsIgnoreCase(""))
+//                    {
+//                        Toast.makeText(AddFoodConsumptionActivity.this,"Unit Cannot be Blank",Toast.LENGTH_SHORT).show();
+//                    }else {
+//                        getcaloriesbyid_apicall();
+//                    }
+//                }
+//
+//            }
+//        });
        // getFoodItems();
 //        getfooditemspinner();
         et_fooditem.setClickable(true);
@@ -206,7 +234,9 @@ public class AddFoodConsumptionActivity extends AppCompatActivity {
                         et_unit.setError("Required");
                     }else {
                         int foodid = Prefs.getInt("FOODID",0);
-                        getCalories(foodid, quantity);
+                        InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        mgr.hideSoftInputFromWindow(etQuantity.getWindowToken(), 0);
+                        getCalories(foodid, editable.toString());
 
                     }
                 }
@@ -313,6 +343,7 @@ public class AddFoodConsumptionActivity extends AppCompatActivity {
                                 }else if(foodUnits.size()==1)
                                 {
                                     et_unit.setText(foodUnits.get(0).getUnit());
+                                    Prefs.putInt("FOODID",foodUnits.get(0).getFoodid());
                                     rv_add_unit.setVisibility(View.GONE);
                                     yvalues = new ArrayList<Entry>();
                                     yvalues.add(new Entry(foodUnits.get(0).getCarbs(), 0));
@@ -699,8 +730,12 @@ public class AddFoodConsumptionActivity extends AppCompatActivity {
     }
 
     public void getCalories(long food_id, String quantity) {
-
+        progressDialog = ProgressDialog.show(AddFoodConsumptionActivity.this, "Loading", "please wait", true, false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
         ApiInterface client = ApiClient.getClient();
+        Log.d(TAG,"Calories foodid:"+food_id);
+        Log.d(TAG,"Calories foodquantity:"+quantity);
 
         Calorie cal = new Calorie(food_id + "", quantity);
 
@@ -709,15 +744,57 @@ public class AddFoodConsumptionActivity extends AppCompatActivity {
         call.enqueue(new Callback<ServerResponseCalorie>() {
             @Override
             public void onResponse(Call<ServerResponseCalorie> call, Response<ServerResponseCalorie> response) {
-
+                progressDialog.dismiss();
                 if (response.isSuccessful()) {
-                    Log.e(TAG, "Response ::  " + response.code() + "   message ::  " + response.message());
+                    Log.e(TAG, "Calories Response ::  " + response.code() + "   message ::  " + response.message());
+                    ArrayList<CalorieRes> result = response.body().getResults();
+                    yvalues = new ArrayList<Entry>();
+                    yvalues.add(new Entry(result.get(0).getCarbs(), 0));
+                    yvalues.add(new Entry(result.get(0).getProtein(), 1));
+                    yvalues.add(new Entry(result.get(0).getFat(), 2));
+                    yvalues.add(new Entry(result.get(0).getFiber(), 3));
+                    yvalues.add(new Entry(result.get(0).getCalories(), 4));
+
+                    PieDataSet dataSet = new PieDataSet(yvalues, "Calorie Results");
+                    xVals = new ArrayList<String>();
+
+                    xVals.add("Carbs");
+                    xVals.add("Protien");
+                    xVals.add("Fat");
+                    xVals.add("Fiber");
+                    xVals.add("Calorie");
+
+                    PieData data = new PieData(xVals, dataSet);
+                    // In percentage Term
+                    data.setValueFormatter(new PercentFormatter());
+                    // Default value
+                    //data.setValueFormatter(new DefaultValueFormatter(0));
+                    dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
+                    dataSet.setValueTextSize(10f);
+                    dataSet.setValueTextColor(Color.DKGRAY);
+                    pieChart_food.setDrawHoleEnabled(false);
+                    pieChart_food.setRotationAngle(0);
+                    pieChart_food.setRotationEnabled(true);
+                    pieChart_food.setCenterTextSize(8f);
+                    pieChart_food.setData(data);
+                    pieChart_food.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                        }
+                    });
+                    tv_protein.setText("Protien : "+String.valueOf(result.get(0).getProtein()));
+                    tv_carbs.setText("Carbs : "+String.valueOf(result.get(0).getCarbs()));
+                    tv_fat.setText("Fat : "+String.valueOf(result.get(0).getFat()));
+                    tv_fiber.setText("Fiber : "+String.valueOf(result.get(0).getFiber()));
+                    tvTotalCal.setText("Total Calories : "+String.valueOf(result.get(0).getCalories()));
+
                 }
             }
 
             @Override
             public void onFailure(Call<ServerResponseCalorie> call, Throwable t) {
-
+                progressDialog.dismiss();
             }
         });
 

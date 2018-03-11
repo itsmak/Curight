@@ -72,41 +72,40 @@
         android:id="@+id/ll_location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/tvFullTimeDateTime"
+        android:layout_alignLeft="@+id/rbFullTime"
+        android:layout_alignStart="@+id/rbFullTime"
         android:layout_below="@+id/tvFullTimeDateTime"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
 
-    <ImageView
-        android:id="@+id/ivLocation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:background="@drawable/ic_location"
-        />
+        <ImageView
+            android:id="@+id/ivLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/ic_location" />
 
-    <TextView
-        android:id="@+id/tvLocation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/ivLocation"
-        android:text="Jaynagar Bangalore"
-        android:textColor="#bdbdbd"
-        android:textSize="12sp" />
+        <TextView
+            android:id="@+id/tvLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/ivLocation"
+            android:text="Jaynagar Bangalore"
+            android:textColor="#bdbdbd"
+            android:textSize="12sp" />
 
         <Button
             android:id="@+id/btnBookTest"
             android:layout_width="wrap_content"
-            android:layout_height="25dp"
+            android:layout_height="48dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:background="@drawable/rounder_button"
             android:bottomLeftRadius="10dp"
             android:bottomRightRadius="10dp"
+            android:padding="16dp"
             android:text="BOOK TEST"
             android:textAllCaps="false"
             android:textColor="@android:color/white"

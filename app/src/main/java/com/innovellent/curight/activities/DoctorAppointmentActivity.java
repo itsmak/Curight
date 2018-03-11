@@ -14,6 +14,7 @@ import com.innovellent.curight.R;
 import com.innovellent.curight.adapter.DoctorAppointmentAdapter;
 import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.DoctorList;
+import com.innovellent.curight.model.Post_Body_DoctorList;
 import com.innovellent.curight.model.ServerResponseDoctorAppointment;
 import com.innovellent.curight.utility.Config;
 import com.innovellent.curight.utility.Constants;
@@ -34,9 +35,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class DoctorAppointmentActivity extends AppCompatActivity {
 
+    private static final String TAG = "CuRight";
     RecyclerView recycler_view_doctorappointment;
     DoctorAppointmentAdapter doctorAppointmentAdapter;
     ImageView ivback1;
+    int testid;
     ServerResponseDoctorAppointment serverResponseDoctorAppointment;
     ArrayList<String> doctorArrayList = new ArrayList<String>();
     ArrayList<DoctorList> arrayList_doctorlist = new ArrayList<DoctorList>();
@@ -57,8 +60,18 @@ public class DoctorAppointmentActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+        Bundle b = new Bundle();
+        b = getIntent().getExtras();
 
-        getAllDoctors();
+        Log.d(TAG,"test bundle :"+b);
+        if(b==null)
+        {
+            testid = 0;//Integer.parseInt(b.getString("testid"));
+            Log.d(TAG,"test bundle :"+testid);
+        }else {
+            testid = Integer.parseInt(b.getString("testid"));
+        }
+        getAllDoctors(testid);
 
 
        /* recycler_view_doctorappointment.addOnItemTouchListener(new RecyclerItemClickListener(DoctorAppointmentActivity.this, recycler_view_doctorappointment, new RecyclerItemClickListener.OnItemClickListener() {
@@ -77,7 +90,7 @@ public class DoctorAppointmentActivity extends AppCompatActivity {
     }
 
 
-    private void getAllDoctors(){
+    private void getAllDoctors(int doctorid){
         progressDialog = ProgressDialog.show(DoctorAppointmentActivity.this, "Loading", "please wait", true, false);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
@@ -87,9 +100,8 @@ public class DoctorAppointmentActivity extends AppCompatActivity {
                 .build();
 
         ApiInterface apiInterface = retrofit.create(ApiInterface.class);
-
-        Call<ServerResponseDoctorAppointment> call = apiInterface.getAllDoctor();
-
+        Post_Body_DoctorList doctorlist = new Post_Body_DoctorList(doctorid);
+        Call<ServerResponseDoctorAppointment> call = apiInterface.getAllDoctorbyid(doctorlist);
 
         call.enqueue(new Callback<ServerResponseDoctorAppointment>() {
             @Override

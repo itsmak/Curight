@@ -44,6 +44,8 @@ public class DiagnosticCentersActivity extends AppCompatActivity implements View
     char newtest_id [];
     ArrayList<Center> centerObjs = new ArrayList<Center>();
     private String test_ids="";
+    private String dianosticcentre_id;
+    private int integer_diagnostic_id;
     private String test_names="";
     private String my_test_id = "",newtext,finaltext_id;
     private ProgressDialog progressDialog;
@@ -53,6 +55,7 @@ public class DiagnosticCentersActivity extends AppCompatActivity implements View
         setContentView(R.layout.activity_diagnostic_centers);
         Bundle bundle = getIntent().getExtras();
         if (bundle!=null) {
+            dianosticcentre_id = bundle.getString("testid");
             test_ids = bundle.getString("test_id");
             test_names = bundle.getString("test_names");
         }
@@ -82,9 +85,18 @@ public class DiagnosticCentersActivity extends AppCompatActivity implements View
         }
         Log.d(TAG,"test_Id_old:"+my_test_id);
         Log.d(TAG,"test_Id_new"+finaltext_id);
+        Log.d(TAG,"Diagnostic_Id"+dianosticcentre_id);
+
         testcount();
         init();
-        getData(finaltext_id);
+        if(dianosticcentre_id==null)
+        {
+            integer_diagnostic_id = 0;
+        }else {
+            integer_diagnostic_id = Integer.parseInt(dianosticcentre_id);
+            finaltext_id ="0";
+        }
+        getData(integer_diagnostic_id,finaltext_id);
     }
         public int testcount()
         {
@@ -103,7 +115,7 @@ public class DiagnosticCentersActivity extends AppCompatActivity implements View
         recycler_view=(RecyclerView)findViewById(R.id.recycler_view);
     }
 
-    public void getData(String newtest_id){
+    public void getData(int integer_diagnostic_id, String newtest_id){
 
         progressDialog = ProgressDialog.show(DiagnosticCentersActivity.this, "Loading", "please wait", true, false);
         progressDialog.setCanceledOnTouchOutside(false);
@@ -114,10 +126,10 @@ public class DiagnosticCentersActivity extends AppCompatActivity implements View
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-
         ApiInterface apiInterface = retrofit.create(ApiInterface.class);
-        Log.d(TAG,"summery_param"+newtest_id);
-        final DiagnosticCentre centre = new DiagnosticCentre(0,newtest_id);
+        Log.d(TAG,"summery_param diagnostic"+integer_diagnostic_id);
+        Log.d(TAG,"summery_param test"+newtest_id);
+        final DiagnosticCentre centre = new DiagnosticCentre(integer_diagnostic_id,newtest_id);
 
         Call<ServerResponseDiagCenter> call = apiInterface.getDcTest(centre);
 

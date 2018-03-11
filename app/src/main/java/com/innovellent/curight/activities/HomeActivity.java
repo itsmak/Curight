@@ -1,11 +1,14 @@
 package com.innovellent.curight.activities;
 
+import android.Manifest;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -40,6 +43,7 @@ import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
+import com.innovellent.curight.GPS_Services;
 import com.innovellent.curight.LoginActivity;
 import com.innovellent.curight.R;
 import com.innovellent.curight.adapter.CustomDrawerAdapter;
@@ -460,6 +464,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
         //spUser = (Spinner) findViewById(R.id.spUser);
         tvTitle = (TextView) findViewById(R.id.tvTitle);
         tvTitle.setVisibility(View.VISIBLE);
+//        if(!runtime_purmission())
+//        {
+//            configure_service_button();
+//        }
 //        tvTitle.setText("Location");
 //        searchView = (ImageView) findViewById(R.id.select_loc);
 //        searchView.setVisibility(View.VISIBLE);
@@ -511,6 +519,35 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
         ivAdd = (ImageView) findViewById(R.id.ivAdd);
 
     }
+//    private Boolean runtime_purmission() {
+//
+//        if(Build.VERSION.SDK_INT >=23 && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION)!= PackageManager.PERMISSION_GRANTED)
+//        {
+//            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION},100);
+//            return true;
+//        }
+//        return false;
+//    }
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode,permissions,grantResults);
+//        if(requestCode==100)
+//        {
+//            if(grantResults[0]== PackageManager.PERMISSION_GRANTED && grantResults[1]== PackageManager.PERMISSION_GRANTED)
+//            {
+//                configure_service_button();
+//            }else {
+//                runtime_purmission();
+//            }
+//
+//        }
+//    }
+//    private void configure_service_button() {
+//
+//        Intent si = new Intent(getApplicationContext(), GPS_Services.class);
+//        startService(si);
+//
+//    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1) {
