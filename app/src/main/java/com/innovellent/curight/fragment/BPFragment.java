@@ -68,8 +68,9 @@ import static com.innovellent.curight.utility.Constants.CURIGHT_TAG;
 
 
 public class BPFragment extends Fragment implements View.OnClickListener {
-
     private static final String TAG = ".Retro_MainActivity";
+    ImageView iv_home_icon,iv_remainder_icon,iv_article_icon,iv_track_icon,iv_profile_icon;
+    TextView tv_home_txt,tv_remainder_txt,tv_article_txt,tv_track_txt,tv_profile_txt;
     TextView tvBP, tvList, tvTrends;
     ImageView ivBmi;
     ImageView ivAdd;
@@ -113,6 +114,17 @@ public class BPFragment extends Fragment implements View.OnClickListener {
 */
        // showProgressDialog("Loading");
        // getBloodPressureRecords(USER_ID);
+        iv_home_icon.setImageResource(R.drawable.home_grey);
+        iv_remainder_icon.setImageResource(R.drawable.reminder_grey);
+        iv_article_icon.setImageResource(R.drawable.article_grey);
+        iv_track_icon.setImageResource(R.drawable.track_blue);
+        iv_profile_icon.setImageResource(R.drawable.profile_grey);
+
+        tv_home_txt.setTextColor(Color.parseColor("#54666E"));
+        tv_remainder_txt.setTextColor(Color.parseColor("#54666E"));
+        tv_article_txt.setTextColor(Color.parseColor("#54666E"));
+        tv_track_txt.setTextColor(Color.parseColor("#0B63F8"));
+        tv_profile_txt.setTextColor(Color.parseColor("#54666E"));
 
         return rootView;
     }
@@ -150,6 +162,18 @@ public class BPFragment extends Fragment implements View.OnClickListener {
     }
 
     public void initReferences(View rootView) {
+
+        iv_home_icon = (ImageView) getActivity().findViewById(R.id.iv_home_icon);
+        iv_remainder_icon = (ImageView) getActivity().findViewById(R.id.iv_remainder_icon);
+        iv_article_icon = (ImageView) getActivity().findViewById(R.id.iv_article_icon);
+        iv_track_icon = (ImageView) getActivity().findViewById(R.id.iv_track_icon);
+        iv_profile_icon = (ImageView) getActivity().findViewById(R.id.iv_profile_icon);
+        tv_home_txt = (TextView) getActivity().findViewById(R.id.tv_home_txt);
+        tv_remainder_txt = (TextView) getActivity().findViewById(R.id.tv_remainder_txt);
+        tv_article_txt = (TextView) getActivity().findViewById(R.id.tv_article_txt);
+        tv_track_txt = (TextView) getActivity().findViewById(R.id.tv_track_txt);
+        tv_profile_txt = (TextView) getActivity().findViewById(R.id.tv_profile_txt);
+
         systolicDiastolic = (TextView) rootView.findViewById(R.id.systolic_diastolic);
         txt_pulse = (TextView) rootView.findViewById(R.id.pulse);
         //tvBP = (TextView) rootView.findViewById(R.id.tvBP);

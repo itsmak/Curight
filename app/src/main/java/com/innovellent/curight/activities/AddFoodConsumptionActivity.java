@@ -1,8 +1,10 @@
 package com.innovellent.curight.activities;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -22,6 +24,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -92,7 +95,7 @@ import static com.innovellent.curight.utility.Constants.TIME;
 import static com.innovellent.curight.utility.Constants.TITLE;
 import static com.innovellent.curight.utility.Constants.USER_ID;
 
-public class AddFoodConsumptionActivity extends AppCompatActivity {
+public class AddFoodConsumptionActivity extends Activity {
 
     private static final String TAG = "CuRight";
     Category_SpinnerAdapter category_spinneradapter;
@@ -111,6 +114,8 @@ public class AddFoodConsumptionActivity extends AppCompatActivity {
     ArrayList<String> xVals;
     private Toolbar toolbar;
     private TextView tvTitle,tv_protein,tv_carbs,tv_fat,tv_fiber,tvTotalCal;
+    private ImageView ivback1_consumption;
+
     private RecyclerView recyclerView;
     private Spinner itemSpinner, unitSpinner,sp_category;
     private Button btnSubmit, btnAdd;
@@ -516,6 +521,7 @@ public class AddFoodConsumptionActivity extends AppCompatActivity {
     private void initReferences() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         tvTitle = (TextView) findViewById(R.id.title);
+        ivback1_consumption = (ImageView) findViewById(R.id.ivback1_consumption);
         tvTotalCal = (TextView) findViewById(R.id.tvTotalCal);
         et_unit = (EditText) findViewById(R.id.et_unit);
         et_date = (EditText) findViewById(R.id.et_date);
@@ -542,12 +548,7 @@ public class AddFoodConsumptionActivity extends AppCompatActivity {
     }
 
     private void setupToolbar() {
-        setSupportActionBar(toolbar);
-        ActionBar actionBar;
-        if ((actionBar = getSupportActionBar()) != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setDisplayShowTitleEnabled(false);
-        }
+
         title = getIntent().getStringExtra(TITLE);
         if (title != null) {
             switch (title) {
@@ -590,7 +591,14 @@ public class AddFoodConsumptionActivity extends AppCompatActivity {
                 }
             }
         });
-
+        ivback1_consumption.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent hm = new Intent(AddFoodConsumptionActivity.this,HomeActivity.class);
+                hm.putExtra("source", "consumption");
+                startActivity(hm);
+            }
+        });
 //        btnAdd.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -845,5 +853,14 @@ public class AddFoodConsumptionActivity extends AppCompatActivity {
             e.printStackTrace();
             progressDialog.dismiss();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent hm = new Intent(AddFoodConsumptionActivity.this,HomeActivity.class);
+        hm.putExtra("source", "consumption");
+        startActivity(hm);
+
+    //    super.onBackPressed();
     }
 }

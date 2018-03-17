@@ -18,6 +18,7 @@ import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,7 +56,8 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
     private static final String TAG = "CuRight";
     RecyclerView recycler_view;
     SummaryAdapter mAdapter;
-    ImageView ivBack;
+    ImageView ivBack,ivCalendar1,ivCalendar;
+    RelativeLayout rl_startDate,rl_enddate;
     TextView tvCenterName,tvLoc;
     EditText startDate,endDate;
     Button btnProcceed,btnAddTest;
@@ -115,8 +117,12 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
     }
     public void init(){
         toolbar=(Toolbar)findViewById(R.id.toolbar);
+        ivCalendar1 = (ImageView) findViewById(R.id.ivCalendar1);
+        ivCalendar = (ImageView) findViewById(R.id.ivCalendar);
         startDate =(EditText)findViewById(R.id.startDate);
         endDate = (EditText) findViewById(R.id.endDate);
+        rl_enddate = (RelativeLayout) findViewById(R.id.rl_enddate);
+        rl_startDate = (RelativeLayout) findViewById(R.id.rl_startDate);
         cbHomePickup = (CheckBox) findViewById(R.id.cbHomePickUp);
         tvCenterName = (TextView) findViewById(R.id.tvClinicName);
         tvLoc = (TextView) findViewById(R.id.tvAddress);
@@ -138,6 +144,9 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
         btnAddTest.setOnClickListener(this);
         startDate.setOnClickListener(this);
         endDate.setOnClickListener(this);
+        ivCalendar1.setOnClickListener(this);
+        ivCalendar.setOnClickListener(this);
+        rl_enddate.setOnClickListener(this);
         cbHomePickup.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -230,7 +239,7 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
 //                }
                 if((startDate.getText().toString().trim().equals(""))&&(endDate.getText().toString().trim().equals("")))
                 {
-                    Toast.makeText(getApplicationContext(),"Select start or end time",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"Please Select your visit time",Toast.LENGTH_SHORT).show();
                 }else {
 
                     Long uid = Prefs.getLong("user_id",0);
@@ -263,44 +272,75 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
                 i2.putExtras(bundle);
                 startActivity(i2);
                 break;
-            case R.id.startDate:
-//                final Calendar c = Calendar.getInstance();
-//                mYear = c.get(Calendar.YEAR);
-//                mMonth = c.get(Calendar.MONTH);
-//                mDay = c.get(Calendar.DAY_OF_MONTH);
-//                DatePickerDialog datePickerDialog = new DatePickerDialog(SummaryDetailsActivity.this,
-//                        new DatePickerDialog.OnDateSetListener() {
-//                            @Override
-//                            public void onDateSet(DatePicker view, int year,
-//                                                  int monthOfYear, int dayOfMonth) {
-//
-//
-//                                GregorianCalendar GregorianCalendar = new GregorianCalendar(year, monthOfYear, dayOfMonth - 1);
-//
-//                                int dayOfWeek = GregorianCalendar.get(GregorianCalendar.DAY_OF_WEEK);
-//
-//                                String day = "", monthYear = "";
-//                                int month = monthOfYear + 1;
-//                                if (dayOfMonth >= 1 && dayOfMonth <= 9) {
-//                                    day = "0" + dayOfMonth;
-//                                } else {
-//                                    day = dayOfMonth + "";
-//                                }
-//                                if (month >= 1 && month <= 9) {
-//                                    monthYear = "0" + month;
-//                                } else {
-//                                    monthYear = month + "";
-//                                }
-//
-//                                String date = day + "-" + monthYear + "-" + year;
-//                                startDate.setText(dayOfMonth + "-" + (monthYear) + "-" + year);
-//
-//
-//                            }
-//                        }, mYear, mMonth, mDay);
-//
-//
-//                datePickerDialog.show();
+            case R.id.ivCalendar:
+                if(cbHomePickup.isChecked())
+                {
+                    new SingleDateAndTimePickerDialog.Builder(SummaryDetailsActivity.this)
+                            //.bottomSheet()
+                            //.curved()
+                            .minutesStep(15)
+
+                            //.displayHours(false)
+                            //.displayMinutes(false)
+
+                            //.todayText("aujourd'hui")
+
+                            .displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
+                                @Override
+                                public void onDisplayed(SingleDateAndTimePicker picker) {
+                                    //retrieve the SingleDateAndTimePicker
+                                }
+                            })
+
+                            .title("Start Date")
+                            .listener(new SingleDateAndTimePickerDialog.Listener() {
+                                @Override
+                                public void onDateSelected(Date date) {
+                                    startDate.setText(String.valueOf(date));
+                                }
+                            }).display();
+                }else {
+                    Toast.makeText(SummaryDetailsActivity.this,"Select HomepickUp First",Toast.LENGTH_SHORT).show();
+                }
+
+                break;
+           case R.id.startDate:
+                if(cbHomePickup.isChecked())
+                {
+                    new SingleDateAndTimePickerDialog.Builder(SummaryDetailsActivity.this)
+                            //.bottomSheet()
+                            //.curved()
+                            .minutesStep(15)
+
+                            //.displayHours(false)
+                            //.displayMinutes(false)
+
+                            //.todayText("aujourd'hui")
+
+                            .displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
+                                @Override
+                                public void onDisplayed(SingleDateAndTimePicker picker) {
+                                    //retrieve the SingleDateAndTimePicker
+                                }
+                            })
+
+                            .title("Start Date")
+                            .listener(new SingleDateAndTimePickerDialog.Listener() {
+                                @Override
+                                public void onDateSelected(Date date) {
+                                    startDate.setText(String.valueOf(date));
+                                }
+                            }).display();
+                }else {
+                    Toast.makeText(SummaryDetailsActivity.this,"Select HomepickUp First",Toast.LENGTH_SHORT).show();
+                }
+
+
+
+
+                break;
+            case R.id.rl_startDate:
+
                if(cbHomePickup.isChecked())
                {
                    new SingleDateAndTimePickerDialog.Builder(SummaryDetailsActivity.this)
@@ -335,45 +375,102 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
 
 
                 break;
-
             case R.id.endDate:
-//                final Calendar c1 = Calendar.getInstance();
-//                mYear = c1.get(Calendar.YEAR);
-//                mMonth = c1.get(Calendar.MONTH);
-//                mDay = c1.get(Calendar.DAY_OF_MONTH);
-//                DatePickerDialog datePickerDialog1 = new DatePickerDialog(SummaryDetailsActivity.this,
-//                        new DatePickerDialog.OnDateSetListener() {
-//                            @Override
-//                            public void onDateSet(DatePicker view, int year,
-//                                                  int monthOfYear, int dayOfMonth) {
-//
-//
-//                                GregorianCalendar GregorianCalendar = new GregorianCalendar(year, monthOfYear, dayOfMonth - 1);
-//
-//                                int dayOfWeek = GregorianCalendar.get(GregorianCalendar.DAY_OF_WEEK);
-//
-//                                String day = "", monthYear = "";
-//                                int month = monthOfYear + 1;
-//                                if (dayOfMonth >= 1 && dayOfMonth <= 9) {
-//                                    day = "0" + dayOfMonth;
-//                                } else {
-//                                    day = dayOfMonth + "";
-//                                }
-//                                if (month >= 1 && month <= 9) {
-//                                    monthYear = "0" + month;
-//                                } else {
-//                                    monthYear = month + "";
-//                                }
-//
-//                                String date = day + "-" + monthYear + "-" + year;
-//                                endDate.setText(dayOfMonth + "-" + (monthYear) + "-" + year);
-//
-//
-//                            }
-//                        }, mYear, mMonth, mDay);
-//
-//
-//                datePickerDialog1.show();
+                if(cbHomePickup.isChecked())
+                {
+                    new SingleDateAndTimePickerDialog.Builder(SummaryDetailsActivity.this)
+                            //.bottomSheet()
+                            //.curved()
+                            .minutesStep(15)
+
+                            //.displayHours(false)
+                            //.displayMinutes(false)
+
+                            //.todayText("aujourd'hui")
+
+                            .displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
+                                @Override
+                                public void onDisplayed(SingleDateAndTimePicker picker) {
+                                    //retrieve the SingleDateAndTimePicker
+                                }
+                            })
+
+                            .title("End Date")
+                            .listener(new SingleDateAndTimePickerDialog.Listener() {
+                                @Override
+                                public void onDateSelected(Date date) {
+                                    int date1 = date.getDate();
+                                    int date2 = date.getMonth();
+                                    int date3 = date.getYear();
+                                    int date4 = date.getHours();
+                                    int date5 = date.getMinutes();
+                                    int date6 = date.getSeconds();
+                                    long date7 = date.getTime();
+                                    Log.d(TAG,"date e1 ::"+date1);
+                                    Log.d(TAG,"date e2 ::"+date2);
+                                    Log.d(TAG,"date e3 ::"+date3);
+                                    Log.d(TAG,"date e4 ::"+date4);
+                                    Log.d(TAG,"date e5 ::"+date5);
+                                    Log.d(TAG,"date e6 ::"+date6);
+                                    Log.d(TAG,"date e7 ::"+date7);
+
+                                    endDate.setText(String.valueOf(date));
+                                }
+                            }).display();
+                }else {
+                    Toast.makeText(SummaryDetailsActivity.this,"Select HomepickUp First",Toast.LENGTH_SHORT).show();
+                }
+                break;
+
+            case R.id.ivCalendar1:
+                if(cbHomePickup.isChecked())
+                {
+                    new SingleDateAndTimePickerDialog.Builder(SummaryDetailsActivity.this)
+                            //.bottomSheet()
+                            //.curved()
+                            .minutesStep(15)
+
+                            //.displayHours(false)
+                            //.displayMinutes(false)
+
+                            //.todayText("aujourd'hui")
+
+                            .displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
+                                @Override
+                                public void onDisplayed(SingleDateAndTimePicker picker) {
+                                    //retrieve the SingleDateAndTimePicker
+                                }
+                            })
+
+                            .title("End Date")
+                            .listener(new SingleDateAndTimePickerDialog.Listener() {
+                                @Override
+                                public void onDateSelected(Date date) {
+                                    int date1 = date.getDate();
+                                    int date2 = date.getMonth();
+                                    int date3 = date.getYear();
+                                    int date4 = date.getHours();
+                                    int date5 = date.getMinutes();
+                                    int date6 = date.getSeconds();
+                                    long date7 = date.getTime();
+                                    Log.d(TAG,"date e1 ::"+date1);
+                                    Log.d(TAG,"date e2 ::"+date2);
+                                    Log.d(TAG,"date e3 ::"+date3);
+                                    Log.d(TAG,"date e4 ::"+date4);
+                                    Log.d(TAG,"date e5 ::"+date5);
+                                    Log.d(TAG,"date e6 ::"+date6);
+                                    Log.d(TAG,"date e7 ::"+date7);
+
+                                    endDate.setText(String.valueOf(date));
+                                }
+                            }).display();
+                }else {
+                    Toast.makeText(SummaryDetailsActivity.this,"Select HomepickUp First",Toast.LENGTH_SHORT).show();
+                }
+                break;
+
+            case R.id.rl_enddate:
+
                 if(cbHomePickup.isChecked())
                 {
                 new SingleDateAndTimePickerDialog.Builder(SummaryDetailsActivity.this)
@@ -404,13 +501,13 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
                                int date5 = date.getMinutes();
                                int date6 = date.getSeconds();
                                long date7 = date.getTime();
-                               Log.d(TAG,"date 1 ::"+date1);
-                               Log.d(TAG,"date 2 ::"+date2);
-                               Log.d(TAG,"date 3 ::"+date3);
-                               Log.d(TAG,"date 4 ::"+date4);
-                               Log.d(TAG,"date 5 ::"+date5);
-                               Log.d(TAG,"date 6 ::"+date6);
-                               Log.d(TAG,"date 7 ::"+date7);
+                               Log.d(TAG,"date e1 ::"+date1);
+                               Log.d(TAG,"date e2 ::"+date2);
+                               Log.d(TAG,"date e3 ::"+date3);
+                               Log.d(TAG,"date e4 ::"+date4);
+                               Log.d(TAG,"date e5 ::"+date5);
+                               Log.d(TAG,"date e6 ::"+date6);
+                               Log.d(TAG,"date e7 ::"+date7);
 
                                 endDate.setText(String.valueOf(date));
                             }

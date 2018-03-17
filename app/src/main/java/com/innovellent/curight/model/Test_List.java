@@ -11,24 +11,27 @@ public class Test_List {
     private String testname;
     private String description;
     private Long modifiedby;
+    private boolean checked;
   //  private boolean isSelected;
 
-    public Test_List(Long testid, String testcode, String testname, String description, Long modifiedby) {
+
+    public Test_List(Long testid, String testcode, String testname, String description, Long modifiedby, boolean checked) {
         this.testid = testid;
         this.testcode = testcode;
         this.testname = testname;
         this.description = description;
         this.modifiedby = modifiedby;
-  //      this.isSelected = isSelected;
+        this.checked = checked;
+
     }
 
-//    public boolean isSelected() {
-//        return isSelected;
-//    }
-//
-//    public void setSelected(boolean selected) {
-//        isSelected = selected;
-//    }
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
 
     public Long getTestid() {
         return testid;

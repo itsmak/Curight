@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.TabLayout;
@@ -34,6 +35,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,6 +59,8 @@ import com.innovellent.curight.fragment.BPFragment;
 import com.innovellent.curight.fragment.BloodCountListFragment;
 import com.innovellent.curight.fragment.BloodSugarFragment;
 import com.innovellent.curight.fragment.CholesterolFragment;
+import com.innovellent.curight.fragment.ExerciseFragment;
+import com.innovellent.curight.fragment.FoodFragment;
 import com.innovellent.curight.fragment.ForyouFragment;
 import com.innovellent.curight.fragment.HomeFragment;
 import com.innovellent.curight.fragment.ListBloodSugarFragment;
@@ -64,6 +68,7 @@ import com.innovellent.curight.fragment.MedicineReminderFragment;
 import com.innovellent.curight.fragment.NavigationDrawerFragment;
 import com.innovellent.curight.fragment.ProfileFragment;
 import com.innovellent.curight.fragment.FemaleCycleFragment;
+import com.innovellent.curight.fragment.TrackDataFragment;
 import com.innovellent.curight.fragment.VaccineFragment;
 import com.innovellent.curight.fragment.WHRFragment;
 import com.innovellent.curight.fragment.WishListFragment;
@@ -101,8 +106,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
     public static int uid;
     public boolean activityStartup = true;
     public CustomDrawerAdapter mDrawerAdapter;
+    RelativeLayout rl_home,rl_remainder,rl_article,rl_track,rl_profile;
     DrawerLayout drawer;
-    BottomNavigationView bottomNavigationView;
+
+
+//    BottomNavigationView bottomNavigationView;
     RecyclerView recycler_view;
     DiagnosticTestAdapter mAdapter;
     Toolbar toolbar;
@@ -119,10 +127,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
     AddBloodSugarDialog addBloodSugarDialog;
     FrameLayout frameontainer;
     LinearLayout button_panel, llList, button_track, button_profile, button_article, button_reminder, button_home, button_report, button_bmi, button_bloodsugar, button_excercise;
+    RelativeLayout rl_location;
     String[] spinner1 = {"John", "Jobby", "Suresh", "Mahesh"};
     ArrayList<String> arrayList = new ArrayList<String>();
     FrameLayout frameLayout;
     ImageView ivBack, ivBack1, ivAdd,ivAddprofile;
+    TextView tv_locality;
     Fragment currentFragment;
     TabLayout tabLayout;
     NumberPicker numberpicker;
@@ -130,6 +140,27 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
     PROFILE_SPINNER_ADAPTER customSpinnerAdapter3;
     ArrayList<PROFILE> spinnerList=new ArrayList<PROFILE>();
     SharedPreferences sharedPreferences;
+    String source="";
+    /*private void AddBloodSugarRecords() {
+        addBloodSugarDialog = new AddBloodSugarDialog(this, new AddBloodSugarDialog.AddBloodSugarDialogClickListener() {
+
+
+            @Override
+            public void onSubmit() {
+                addBloodSugarDialog.dismiss();
+            }
+
+            @Override
+            public void onCancel() {
+                addBloodSugarDialog.dismiss();
+            }
+        });
+
+        addBloodSugarDialog.show();
+
+    }
+*/
+    boolean doubleBackToExitPressedOnce = false;
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private CharSequence mTitle;
     private int i = 0;
@@ -139,13 +170,28 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_home_nw);
         Log.d(TAG,"Homeactivity: oncreate");
         sharedPreferences = getSharedPreferences("mypref", Context.MODE_PRIVATE);
-
+        Bundle b = new Bundle();
+        b = getIntent().getExtras();
         init();
-//        getSpinnerData();
-        //onclick();
+        if(b!=null)
+        {
+            source = b.getString("source");
+         if(source!=null)
+         {
+             if(source.equalsIgnoreCase("consumption"))
+             {
+                 Prefs.putString("source","consumption");
+             }else {
+                 Prefs.putString("source","exersize");
+             }
+         }
+
+        }else{
+            Prefs.putString("source","");
+        }
 
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -166,9 +212,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
         });
 
 
-        ivBack = (ImageView) findViewById(R.id.ivback);
-        ivAddprofile = (ImageView) findViewById(R.id.ivAddprofile);
-        ivBack1 = (ImageView) findViewById(R.id.ivback1);
+
 
         ivAddprofile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -210,6 +254,27 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
     @Override
     protected void onResume() {
         super.onResume();
+
+        ivBack1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                android.support.v4.app.Fragment fragment= getSupportFragmentManager().findFragmentById(R.id.rlMainFragment);
+                if(fragment instanceof TrackDataFragment)
+                {
+                    tvTitle.setVisibility(View.GONE);
+                    ivAddprofile.setVisibility(View.GONE);
+                    ivAdd.setVisibility(View.VISIBLE);
+                    ivBack.setVisibility(View.VISIBLE);
+                    ivBack1.setVisibility(View.GONE);
+                    viewPager.setVisibility(View.VISIBLE);
+                    frameLayout.setVisibility(View.GONE);
+                    tabLayout.setVisibility(View.GONE);
+                    adapter.notifyDataSetChanged();
+                    setupViewPagerHome(viewPager);
+                    tabLayout.setupWithViewPager(viewPager);
+                }
+            }
+        });
         Log.d(TAG,"Homeactivity: onresume");
         String destination =Prefs.getString("destination","");
         Log.d(TAG, "spvaluerestore" + destination);
@@ -259,7 +324,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
             ivAddprofile.setVisibility(View.GONE);
             ivAdd.setVisibility(View.VISIBLE);
             //tvTitle.setText("Home");
-            tvTitle.setVisibility(View.VISIBLE);
+            tvTitle.setVisibility(View.GONE);
             viewPager.setVisibility(View.VISIBLE);
             frameLayout.setVisibility(View.GONE);
             //spUser.setVisibility(View.GONE);
@@ -267,23 +332,135 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
             adapter.notifyDataSetChanged();
             setupViewPagerHome(viewPager);
             tabLayout.setupWithViewPager(viewPager);
-        }else{
+        }
+
+ else{
             ivAddprofile.setVisibility(View.GONE);
             ivAdd.setVisibility(View.VISIBLE);
-            //tvTitle.setText("Home");
-            tvTitle.setVisibility(View.VISIBLE);
+//tvTitle.setText("Home");
+            tvTitle.setVisibility(View.GONE);
             viewPager.setVisibility(View.VISIBLE);
             frameLayout.setVisibility(View.GONE);
-            //spUser.setVisibility(View.GONE);
+//spUser.setVisibility(View.GONE);
             tabLayout.setVisibility(View.GONE);
             adapter.notifyDataSetChanged();
             setupViewPagerHome(viewPager);
             tabLayout.setupWithViewPager(viewPager);
-
         }
         Log.d(TAG,"shared-destination"+destination);
-        onclick();
+        new_onclick();
     }
+
+    private void new_onclick() {
+     //   android.support.v4.app.Fragment fragment= getSupportFragmentManager().findFragmentById(R.id.rlMainFragment);
+        rl_home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tvTitle.setVisibility(View.GONE);
+                ivAdd.setVisibility(View.VISIBLE);
+                ivBack.setVisibility(View.VISIBLE);
+                ivBack1.setVisibility(View.GONE);
+                viewPager.setVisibility(View.VISIBLE);
+                frameLayout.setVisibility(View.GONE);
+                tabLayout.setVisibility(View.GONE);
+                adapter.notifyDataSetChanged();
+                setupViewPagerHome(viewPager);
+                tabLayout.setupWithViewPager(viewPager);
+            }
+        });
+        rl_remainder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (uid==0) {
+                    Intent i = new Intent(HomeActivity.this, LoginActivity.class);
+                    Prefs.putString("destination", "Remainder");
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    // setupViewPagerMedicineReminder(viewPager);
+                    startActivity(i);
+                }else {
+                    ivAddprofile.setVisibility(View.GONE);
+                    tvTitle.setVisibility(View.VISIBLE);
+                    tvTitle.setText("Reminder");
+                    ivAdd.setVisibility(View.INVISIBLE);
+                    viewPager.setVisibility(View.VISIBLE);
+                    frameLayout.setVisibility(View.GONE);
+                    setupViewPagerMedicineReminder(viewPager);
+                    tabLayout.setupWithViewPager(viewPager);
+                    tabLayout.setTabMode(TabLayout.MODE_FIXED);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
+        rl_article.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                ivAddprofile.setVisibility(View.GONE);
+                tvTitle.setVisibility(View.VISIBLE);
+                tvTitle.setText("Article");
+                ivAdd.setVisibility(View.INVISIBLE);
+                viewPager.setVisibility(View.VISIBLE);
+                frameLayout.setVisibility(View.GONE);
+                tabLayout.setVisibility(View.VISIBLE);
+                adapter.notifyDataSetChanged();
+                setupViewPagerArticle(viewPager);
+                tabLayout.setupWithViewPager(viewPager);
+                tabLayout.setTabMode(TabLayout.MODE_FIXED);
+            }
+        });
+        rl_track.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (uid==0) {
+                    Intent i = new Intent(HomeActivity.this, LoginActivity.class);
+                    Prefs.putString("destination", "Remainder");
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    // setupViewPagerMedicineReminder(viewPager);
+                    startActivity(i);
+                }else {
+                    ivAddprofile.setVisibility(View.GONE);
+                    tvTitle.setVisibility(View.VISIBLE);
+                    tvTitle.setText("Track");
+                    ivAdd.setVisibility(View.INVISIBLE);
+                    viewPager.setVisibility(View.VISIBLE);
+                    frameLayout.setVisibility(View.GONE);
+                    tabLayout.setVisibility(View.VISIBLE);
+                    adapter.notifyDataSetChanged();
+                    setupViewPagerTrack(viewPager);
+                    tabLayout.setupWithViewPager(viewPager);
+                    tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+                    tabLayout.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+         rl_profile.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+//                 if (uid==0) {
+//                     Intent i = new Intent(HomeActivity.this, LoginActivity.class);
+//                     Prefs.putString("destination", "Remainder");
+//                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                     // setupViewPagerMedicineReminder(viewPager);
+//                     startActivity(i);
+//                 }else {
+                     ivAddprofile.setVisibility(View.VISIBLE);
+                     ivAdd.setVisibility(View.INVISIBLE);
+                     tvTitle.setVisibility(View.VISIBLE);
+                     tvTitle.setText("Profile");
+                     viewPager.setVisibility(View.VISIBLE);
+                     frameLayout.setVisibility(View.GONE);
+                     tabLayout.setVisibility(View.GONE);
+                     adapter.notifyDataSetChanged();
+                     setupViewPagerProfile(viewPager);
+                     tabLayout.setupWithViewPager(viewPager);
+              //   }
+             }
+         });
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -296,12 +473,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
         Log.d(TAG,"Homeactivity: onStop");
         //setupViewPagerHome(viewPager);
        // Prefs.putString("destination","");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d(TAG,"Homeactivity: onDestroy");
     }
 
    /* public void getData2() {
@@ -381,6 +552,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
 
 */
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG,"Homeactivity: onDestroy");
+    }
 
     private void fragmentChange(String name) {
         SharedPreferences sharedPreferences = getSharedPreferences("mypref", Context.MODE_PRIVATE);
@@ -404,7 +580,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
         fragmentManager.beginTransaction()
                 .replace(R.id.frame_container, currentFragment).commit();
     }
-
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
@@ -455,26 +630,26 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
-        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
+        tv_locality = (TextView)findViewById(R.id.tv_locality);
+        rl_location = (RelativeLayout) findViewById(R.id.rl_location);
+        ivBack = (ImageView) findViewById(R.id.ivback);
+        ivAddprofile = (ImageView) findViewById(R.id.ivAddprofile);
+        ivBack1 = (ImageView) findViewById(R.id.ivback1);
+//        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
+//        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPagerHome(viewPager);
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
         //spUser = (Spinner) findViewById(R.id.spUser);
         tvTitle = (TextView) findViewById(R.id.tvTitle);
-        tvTitle.setVisibility(View.VISIBLE);
-//        if(!runtime_purmission())
-//        {
-//            configure_service_button();
-//        }
-//        tvTitle.setText("Location");
-//        searchView = (ImageView) findViewById(R.id.select_loc);
-//        searchView.setVisibility(View.VISIBLE);
-//        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-//        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-//        searchView.setQueryHint("Select City");
-        tvTitle.setOnClickListener(new View.OnClickListener() {
+        tvTitle.setVisibility(View.GONE);
+        rl_home = (RelativeLayout) findViewById(R.id.rl_home);
+        rl_remainder = (RelativeLayout) findViewById(R.id.rl_remainder);
+        rl_article = (RelativeLayout) findViewById(R.id.rl_article);
+        rl_track = (RelativeLayout) findViewById(R.id.rl_track);
+        rl_profile = (RelativeLayout) findViewById(R.id.rl_profile);
+        rl_location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -519,35 +694,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
         ivAdd = (ImageView) findViewById(R.id.ivAdd);
 
     }
-//    private Boolean runtime_purmission() {
-//
-//        if(Build.VERSION.SDK_INT >=23 && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION)!= PackageManager.PERMISSION_GRANTED)
-//        {
-//            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION},100);
-//            return true;
-//        }
-//        return false;
-//    }
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode,permissions,grantResults);
-//        if(requestCode==100)
-//        {
-//            if(grantResults[0]== PackageManager.PERMISSION_GRANTED && grantResults[1]== PackageManager.PERMISSION_GRANTED)
-//            {
-//                configure_service_button();
-//            }else {
-//                runtime_purmission();
-//            }
-//
-//        }
-//    }
-//    private void configure_service_button() {
-//
-//        Intent si = new Intent(getApplicationContext(), GPS_Services.class);
-//        startService(si);
-//
-//    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1) {
@@ -572,146 +719,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
             }
         }
     }
-    public void onclick() {
-        ivAdd.setOnClickListener(this);
-        //searchView.setOnClickListener(this);
-//        spUser.setVisibility(View.GONE);
-        tabLayout.setVisibility(View.GONE);
-        //ivAdd.setVisibility(View.INVISIBLE);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Long uid = Prefs.getLong("user_id",0);
-                switch (item.getItemId()) {
-                    case R.id.action_home:
-                        tvTitle.setVisibility(View.VISIBLE);
- //                       tvTitle.setText("Location");
-                        ivAddprofile.setVisibility(View.GONE);
-                        ivAdd.setVisibility(View.VISIBLE);
-                        ivBack.setVisibility(View.VISIBLE);
-                        ivBack1.setVisibility(View.GONE);
-                      //  searchView.setVisibility(View.VISIBLE);
-                        //tvTitle.setText("Home");
-                        viewPager.setVisibility(View.VISIBLE);
-                        frameLayout.setVisibility(View.GONE);
-                        //spUser.setVisibility(View.GONE);
-                        tabLayout.setVisibility(View.GONE);
-                        adapter.notifyDataSetChanged();
-                        setupViewPagerHome(viewPager);
-                        tabLayout.setupWithViewPager(viewPager);
-
-                        return true;
-                    case R.id.action_reminder:
-
-                       Log.d("TAG","Shared userid"+uid);
-                        if (uid==0) {
-                            Intent i = new Intent(HomeActivity.this, LoginActivity.class);
-                           Prefs.putString("destination", "Remainder");
-                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                           // setupViewPagerMedicineReminder(viewPager);
-                            startActivity(i);
-                        }else {
-                            ivAddprofile.setVisibility(View.GONE);
-                           //  searchView.setVisibility(View.GONE);
-                            tvTitle.setVisibility(View.VISIBLE);
-                            tvTitle.setText("Reminder");
-                            ivAdd.setVisibility(View.INVISIBLE);
-                            viewPager.setVisibility(View.VISIBLE);
-                            frameLayout.setVisibility(View.GONE);
-                            tabLayout.setVisibility(View.VISIBLE);
-                            //spUser.setVisibility(View.GONE);
-                            adapter.notifyDataSetChanged();
-                            setupViewPagerMedicineReminder(viewPager);
-                            tabLayout.setupWithViewPager(viewPager);
-                            tabLayout.setTabMode(TabLayout.MODE_FIXED);
-                        }
-
-                        return true;
-                    case R.id.action_article:
-
-                            ivAddprofile.setVisibility(View.GONE);
-                           // searchView.setVisibility(View.GONE);
-                            tvTitle.setVisibility(View.VISIBLE);
-                            tvTitle.setText("Article");
-                            ivAdd.setVisibility(View.INVISIBLE);
-                            viewPager.setVisibility(View.VISIBLE);
-                            frameLayout.setVisibility(View.GONE);
-                            tabLayout.setVisibility(View.VISIBLE);
-                            //spUser.setVisibility(View.GONE);
-                            adapter.notifyDataSetChanged();
-                            setupViewPagerArticle(viewPager);
-                            tabLayout.setupWithViewPager(viewPager);
-                            tabLayout.setTabMode(TabLayout.MODE_FIXED);
-                       // }
-
-                        return true;
-                    case R.id.action_track:
-
-                        if (uid==0) {
-                            Intent i = new Intent(HomeActivity.this, LoginActivity.class);
-                            Prefs.putString("destination", "Track");
-                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                           // setupViewPagerTrack(viewPager);
-                            startActivity(i);
-                        }else {
-                            ivAddprofile.setVisibility(View.GONE);
-                            tvTitle.setVisibility(View.VISIBLE);
-                            tvTitle.setText("Track");
-                          // searchView.setVisibility(View.GONE);
-                            ivAdd.setVisibility(View.INVISIBLE);
-                            viewPager.setVisibility(View.VISIBLE);
-                            frameLayout.setVisibility(View.GONE);
-                            //spUser.setVisibility(View.VISIBLE);
-                            tabLayout.setVisibility(View.VISIBLE);
-                            adapter.notifyDataSetChanged();
-                            setupViewPagerTrack(viewPager);
-                            tabLayout.setupWithViewPager(viewPager);
-                            tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-                            tabLayout.setVisibility(View.VISIBLE);
-                        }
-
-                        return true;
-
-                    case R.id.action_profile:
-                       // Long uid = Prefs.getLong("user_id",0);
-                        if (uid==0) {
-                            Intent i = new Intent(HomeActivity.this, LoginActivity.class);
-                            Prefs.putString("destination", "Profile");
-                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                           // setupViewPagerProfile(viewPager);
-                            startActivity(i);
-                        }else {
-                            ivAddprofile.setVisibility(View.VISIBLE);
-                            ivAdd.setVisibility(View.INVISIBLE);
-                            tvTitle.setVisibility(View.VISIBLE);
-                            tvTitle.setText("Profile");
-                        //   searchView.setVisibility(View.GONE);
-                            viewPager.setVisibility(View.VISIBLE);
-                            frameLayout.setVisibility(View.GONE);
-                           // spUser.setVisibility(View.GONE);
-                            tabLayout.setVisibility(View.GONE);
-                            adapter.notifyDataSetChanged();
-                            setupViewPagerProfile(viewPager);
-                            tabLayout.setupWithViewPager(viewPager);
-
-                        }
-                        return true;
-                }
-                return false;
-            }
-        });
-
-    }
-
-
-    // Get Login State
-    public boolean isLoggedIn(){
-        Log.d("SPVALUE", ""+sharedPreferences.getBoolean(IS_LOGIN, false));
-        return sharedPreferences.getBoolean(IS_LOGIN, false);
-    }
 
    /* public void getData() {
 
@@ -730,6 +737,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
         });
 
     }*/
+
+    // Get Login State
+    public boolean isLoggedIn(){
+        Log.d("SPVALUE", ""+sharedPreferences.getBoolean(IS_LOGIN, false));
+        return sharedPreferences.getBoolean(IS_LOGIN, false);
+    }
 
     private void setupViewPagerArticle(ViewPager viewPager) {
         adapter = new HomeActivity.ViewPagerAdapter(getSupportFragmentManager());
@@ -835,9 +848,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
 
     }
 
-
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -853,33 +863,231 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
         viewPager.setAdapter(adapter);
     }
 
-    /*private void AddBloodSugarRecords() {
-        addBloodSugarDialog = new AddBloodSugarDialog(this, new AddBloodSugarDialog.AddBloodSugarDialogClickListener() {
-
-
-            @Override
-            public void onSubmit() {
-                addBloodSugarDialog.dismiss();
-            }
-
-            @Override
-            public void onCancel() {
-                addBloodSugarDialog.dismiss();
-            }
-        });
-
-        addBloodSugarDialog.show();
-
-    }
-*/
     @Override
     public void onBackPressed() {
 
-        if (i == 0) {
-            i++;
-        } else {
-            super.onBackPressed();
-            finish();
+        android.support.v4.app.Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.rlMainFragment);
+        if(fragment instanceof TrackDataFragment)
+        {
+            tvTitle.setVisibility(View.GONE);
+            ivAddprofile.setVisibility(View.GONE);
+            ivAdd.setVisibility(View.VISIBLE);
+            ivBack.setVisibility(View.VISIBLE);
+            ivBack1.setVisibility(View.GONE);
+            viewPager.setVisibility(View.VISIBLE);
+            frameLayout.setVisibility(View.GONE);
+            tabLayout.setVisibility(View.GONE);
+            adapter.notifyDataSetChanged();
+            setupViewPagerHome(viewPager);
+            tabLayout.setupWithViewPager(viewPager);
+        }else if(fragment instanceof MedicineReminderFragment){
+            tvTitle.setVisibility(View.GONE);
+            ivAddprofile.setVisibility(View.GONE);
+            ivAdd.setVisibility(View.VISIBLE);
+            ivBack.setVisibility(View.VISIBLE);
+            ivBack1.setVisibility(View.GONE);
+            viewPager.setVisibility(View.VISIBLE);
+            frameLayout.setVisibility(View.GONE);
+            tabLayout.setVisibility(View.GONE);
+            adapter.notifyDataSetChanged();
+            setupViewPagerHome(viewPager);
+            tabLayout.setupWithViewPager(viewPager);
+        }else if(fragment instanceof VaccineFragment){
+            tvTitle.setVisibility(View.GONE);
+            ivAddprofile.setVisibility(View.GONE);
+            ivAdd.setVisibility(View.VISIBLE);
+            ivBack.setVisibility(View.VISIBLE);
+            ivBack1.setVisibility(View.GONE);
+            viewPager.setVisibility(View.VISIBLE);
+            frameLayout.setVisibility(View.GONE);
+            tabLayout.setVisibility(View.GONE);
+            adapter.notifyDataSetChanged();
+            setupViewPagerHome(viewPager);
+            tabLayout.setupWithViewPager(viewPager);
+        }else if(fragment instanceof BPFragment){
+            tvTitle.setVisibility(View.GONE);
+            ivAddprofile.setVisibility(View.GONE);
+            ivAdd.setVisibility(View.VISIBLE);
+            ivBack.setVisibility(View.VISIBLE);
+            ivBack1.setVisibility(View.GONE);
+            viewPager.setVisibility(View.VISIBLE);
+            frameLayout.setVisibility(View.GONE);
+            tabLayout.setVisibility(View.GONE);
+            adapter.notifyDataSetChanged();
+            setupViewPagerHome(viewPager);
+            tabLayout.setupWithViewPager(viewPager);
+        }else if(fragment instanceof CholesterolFragment){
+            tvTitle.setVisibility(View.GONE);
+            ivAddprofile.setVisibility(View.GONE);
+            ivAdd.setVisibility(View.VISIBLE);
+            ivBack.setVisibility(View.VISIBLE);
+            ivBack1.setVisibility(View.GONE);
+            viewPager.setVisibility(View.VISIBLE);
+            frameLayout.setVisibility(View.GONE);
+            tabLayout.setVisibility(View.GONE);
+            adapter.notifyDataSetChanged();
+            setupViewPagerHome(viewPager);
+            tabLayout.setupWithViewPager(viewPager);
+        }else if(fragment instanceof BMIFragment){
+            tvTitle.setVisibility(View.GONE);
+            ivAddprofile.setVisibility(View.GONE);
+            ivAdd.setVisibility(View.VISIBLE);
+            ivBack.setVisibility(View.VISIBLE);
+            ivBack1.setVisibility(View.GONE);
+            viewPager.setVisibility(View.VISIBLE);
+            frameLayout.setVisibility(View.GONE);
+            tabLayout.setVisibility(View.GONE);
+            adapter.notifyDataSetChanged();
+            setupViewPagerHome(viewPager);
+            tabLayout.setupWithViewPager(viewPager);
+        }else if(fragment instanceof WHRFragment){
+            tvTitle.setVisibility(View.GONE);
+            ivAddprofile.setVisibility(View.GONE);
+            ivAdd.setVisibility(View.VISIBLE);
+            ivBack.setVisibility(View.VISIBLE);
+            ivBack1.setVisibility(View.GONE);
+            viewPager.setVisibility(View.VISIBLE);
+            frameLayout.setVisibility(View.GONE);
+            tabLayout.setVisibility(View.GONE);
+            adapter.notifyDataSetChanged();
+            setupViewPagerHome(viewPager);
+            tabLayout.setupWithViewPager(viewPager);
+        }else if(fragment instanceof BloodSugarFragment){
+            tvTitle.setVisibility(View.GONE);
+            ivAddprofile.setVisibility(View.GONE);
+            ivAdd.setVisibility(View.VISIBLE);
+            ivBack.setVisibility(View.VISIBLE);
+            ivBack1.setVisibility(View.GONE);
+            viewPager.setVisibility(View.VISIBLE);
+            frameLayout.setVisibility(View.GONE);
+            tabLayout.setVisibility(View.GONE);
+            adapter.notifyDataSetChanged();
+            setupViewPagerHome(viewPager);
+            tabLayout.setupWithViewPager(viewPager);
+        }else if(fragment instanceof BloodCountListFragment){
+            tvTitle.setVisibility(View.GONE);
+            ivAddprofile.setVisibility(View.GONE);
+            ivAdd.setVisibility(View.VISIBLE);
+            ivBack.setVisibility(View.VISIBLE);
+            ivBack1.setVisibility(View.GONE);
+            viewPager.setVisibility(View.VISIBLE);
+            frameLayout.setVisibility(View.GONE);
+            tabLayout.setVisibility(View.GONE);
+            adapter.notifyDataSetChanged();
+            setupViewPagerHome(viewPager);
+            tabLayout.setupWithViewPager(viewPager);
+        }else if(fragment instanceof FemaleCycleFragment){
+            tvTitle.setVisibility(View.GONE);
+            ivAddprofile.setVisibility(View.GONE);
+            ivAdd.setVisibility(View.VISIBLE);
+            ivBack.setVisibility(View.VISIBLE);
+            ivBack1.setVisibility(View.GONE);
+            viewPager.setVisibility(View.VISIBLE);
+            frameLayout.setVisibility(View.GONE);
+            tabLayout.setVisibility(View.GONE);
+            adapter.notifyDataSetChanged();
+            setupViewPagerHome(viewPager);
+            tabLayout.setupWithViewPager(viewPager);
+        }else if(fragment instanceof ProfileFragment){
+            tvTitle.setVisibility(View.GONE);
+            ivAddprofile.setVisibility(View.GONE);
+            ivAdd.setVisibility(View.VISIBLE);
+            ivBack.setVisibility(View.VISIBLE);
+            ivBack1.setVisibility(View.GONE);
+            viewPager.setVisibility(View.VISIBLE);
+            frameLayout.setVisibility(View.GONE);
+            tabLayout.setVisibility(View.GONE);
+            adapter.notifyDataSetChanged();
+            setupViewPagerHome(viewPager);
+            tabLayout.setupWithViewPager(viewPager);
+        }else if(fragment instanceof ArticleFragment){
+            tvTitle.setVisibility(View.GONE);
+            ivAddprofile.setVisibility(View.GONE);
+            ivAdd.setVisibility(View.VISIBLE);
+            ivBack.setVisibility(View.VISIBLE);
+            ivBack1.setVisibility(View.GONE);
+            viewPager.setVisibility(View.VISIBLE);
+            frameLayout.setVisibility(View.GONE);
+            tabLayout.setVisibility(View.GONE);
+            adapter.notifyDataSetChanged();
+            setupViewPagerHome(viewPager);
+            tabLayout.setupWithViewPager(viewPager);
+        }else if(fragment instanceof ForyouFragment){
+            tvTitle.setVisibility(View.GONE);
+            ivAddprofile.setVisibility(View.GONE);
+            ivAdd.setVisibility(View.VISIBLE);
+            ivBack.setVisibility(View.VISIBLE);
+            ivBack1.setVisibility(View.GONE);
+            viewPager.setVisibility(View.VISIBLE);
+            frameLayout.setVisibility(View.GONE);
+            tabLayout.setVisibility(View.GONE);
+            adapter.notifyDataSetChanged();
+            setupViewPagerHome(viewPager);
+            tabLayout.setupWithViewPager(viewPager);
+        }else if(fragment instanceof WishListFragment){
+            tvTitle.setVisibility(View.GONE);
+            ivAddprofile.setVisibility(View.GONE);
+            ivAdd.setVisibility(View.VISIBLE);
+            ivBack.setVisibility(View.VISIBLE);
+            ivBack1.setVisibility(View.GONE);
+            viewPager.setVisibility(View.VISIBLE);
+            frameLayout.setVisibility(View.GONE);
+            tabLayout.setVisibility(View.GONE);
+            adapter.notifyDataSetChanged();
+            setupViewPagerHome(viewPager);
+            tabLayout.setupWithViewPager(viewPager);
+        }else if(fragment instanceof FoodFragment){
+            android.support.v4.app.Fragment fragment1 = new TrackDataFragment();
+            android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.rlMainFragment, fragment1);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }else if(fragment instanceof ExerciseFragment){
+            android.support.v4.app.Fragment fragment1 = new TrackDataFragment();
+            android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.rlMainFragment, fragment1);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }
+        else if(fragment instanceof HomeFragment)
+        {
+            if (doubleBackToExitPressedOnce) {
+               /* super.onBackPressed();
+                return;*/
+                Intent a = new Intent(Intent.ACTION_MAIN);
+                a.addCategory(Intent.CATEGORY_HOME);
+                a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(a);
+            }
+
+            this.doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce = false;
+                }
+            }, 5000);
+          } else {
+            if (doubleBackToExitPressedOnce) {
+                super.onBackPressed();
+                return;
+            }
+
+            this.doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce = false;
+                }
+            }, 2000);
         }
     }
 

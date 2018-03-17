@@ -1,7 +1,9 @@
 package com.innovellent.curight.activities.Exercise;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +23,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.innovellent.curight.R;
+import com.innovellent.curight.activities.HomeActivity;
 import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.AddExerciseResponse;
 import com.innovellent.curight.model.MyCalorieResponse;
@@ -44,7 +47,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by Mak on 1/30/2018.
  */
 
-public class SwimmingActivity extends AppCompatActivity implements View.OnClickListener{
+public class SwimmingActivity extends Activity implements View.OnClickListener{
 
     private static final String TAG = ".Curight";
     private static String activitytype;
@@ -55,7 +58,7 @@ public class SwimmingActivity extends AppCompatActivity implements View.OnClickL
     LinearLayout llTime, llDate;
     TextView title;
     Toolbar toolbar;
-    ImageView ivCustom,ivSlow,ivMedium,ivFast;
+    ImageView ivCustom,ivSlow,ivMedium,ivFast,ivback1_exersize;
     EditText distanceCovered,atTime,tvSpeed;
     LinearLayout llspeedselecttext,llspeedselecticon;
     private int mYear, mMonth, mDay;
@@ -136,11 +139,12 @@ public class SwimmingActivity extends AppCompatActivity implements View.OnClickL
 
     public void init() {
         toolbar=(Toolbar)findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        if(getSupportActionBar()!=null){
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
+//        setSupportActionBar(toolbar);
+//        if(getSupportActionBar()!=null){
+//            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//            getSupportActionBar().setDisplayShowHomeEnabled(true);
+//        }
+        ivback1_exersize = (ImageView) findViewById(R.id.ivback1_exersize);
         tvTextTime = (EditText) findViewById(R.id.tvTextTime);
         tvBurned = (TextView) findViewById(R.id.tvBurned);
         title = (TextView) findViewById(R.id.title);
@@ -176,6 +180,7 @@ public class SwimmingActivity extends AppCompatActivity implements View.OnClickL
         tvFast.setOnClickListener(this);
         tvCustom.setOnClickListener(this);
         btnSubmit.setOnClickListener(this);
+        ivback1_exersize.setOnClickListener(this);
 
         arrayList.add("New York,NY");
         arrayList.add("Los Angeles,CA");
@@ -328,6 +333,12 @@ public class SwimmingActivity extends AppCompatActivity implements View.OnClickL
 //                addExercise();
                 addnewExercise(activitytype);
                 break;
+            case R.id.ivback1_exersize:
+//                addExercise();
+                Intent hm = new Intent(this,HomeActivity.class);
+                hm.putExtra("source", "exersize");
+                startActivity(hm);
+                break;
         }
     }
 
@@ -399,55 +410,17 @@ public class SwimmingActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
-//    public void addExercise() {
-//
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl(new Config().SERVER_URL)
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build();
-//
-//        ApiInterface apiInterface = retrofit.create(ApiInterface.class);
-//
-//        SharedPreferences sharedPreferences = getSharedPreferences("mypref", Context.MODE_PRIVATE);
-//        String x_access_token = sharedPreferences.getString("access_token","");
-//        long user_id = sharedPreferences.getLong("user_id",0L);
-//
-//        CreateExercise createExercise = new CreateExercise(user_id+"","Walking",tvTextDate.getText().toString(),tvTextTime.getText().toString(),atTime.getText().toString(),tvSpeed.getText().toString(),distanceCovered.getText().toString(),calsBurned.getText().toString());
-//
-//        Call<ServerResponseCreateExercise> call = apiInterface.createExercise(x_access_token,createExercise);
-//
-//        Log.e("CR_EXERCISE","Request URL :: "+call.request().url());
-//
-//        call.enqueue(new Callback<ServerResponseCreateExercise>() {
-//            @Override
-//            public void onResponse(Call<ServerResponseCreateExercise> call, Response<ServerResponseCreateExercise> response) {
-//
-//                if (response.isSuccessful()) {
-//
-//                    ServerResponseCreateExercise res = response.body();
-//
-//                    Log.e("CR_EXERCISE","Results ::  "+res.getResults() + "  ## Code ##   "+res.getCode());
-//
-//                    finish();
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ServerResponseCreateExercise> call, Throwable t) {
-//
-//            }
-//        });
-//
-//    }
+
+@Override
+public void onBackPressed() {
+    Intent hm = new Intent(this,HomeActivity.class);
+    hm.putExtra("source", "exersize");
+    startActivity(hm);
+
+    //    super.onBackPressed();
+}
 
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()==android.R.id.home)
-            finish();
-        return super.onOptionsItemSelected(item);
-    }
 }
 
 

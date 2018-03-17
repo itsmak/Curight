@@ -33,6 +33,7 @@ import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.innovellent.curight.R;
 import com.innovellent.curight.activities.AddTestActivity;
 import com.innovellent.curight.activities.DiagnosticCentersActivity;
+import com.innovellent.curight.activities.Diagnostic_mapTracking;
 import com.innovellent.curight.activities.SummaryDetailsActivity;
 import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.Center;
@@ -240,7 +241,13 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
                 }
             }
         });
-
+        holder.ivLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent mapint = new Intent(mContext, Diagnostic_mapTracking.class);
+                mContext.startActivity(mapint);
+            }
+        });
 
         holder.btnDoctors.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -327,7 +334,7 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
 
         ApiInterface apiInterface = retrofit.create(ApiInterface.class);
 
-
+        Log.d(TAG,"diagnosticcenytreid:"+arrayList.get(pos).getDiagnosticcentreid());
         final DiagnosticCenterDoctorByDC centre = new DiagnosticCenterDoctorByDC(arrayList.get(pos).getDiagnosticcentreid(),"0");
 
         Call<ServerResponseDoctorByDC> call = apiInterface.getDoctorByDC(centre);
@@ -625,6 +632,7 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
         TextView startTime;
         RadioButton rbTag;
         TextView endTime;
+        ImageView ivLocation;
         TextView location;
         TextView testCount;
         Button btnOverview,btnDoctors,btnTest;
@@ -636,6 +644,7 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
             btnBookTest=(Button)view.findViewById(R.id.btnBookTest);
             rbSpec = (RadioButton) view.findViewById(R.id.rbSpec);
             startTime = (TextView) view.findViewById(R.id.tvDateTime);
+            ivLocation = (ImageView) view.findViewById(R.id.ivLocation);
             rbTag = (RadioButton) view.findViewById(R.id.rbFullTime);
             endTime = (TextView) view.findViewById(R.id.tvFullTimeDateTime);
             location = (TextView) view.findViewById(R.id.tvLocation);

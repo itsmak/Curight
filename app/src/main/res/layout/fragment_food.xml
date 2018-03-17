@@ -6,6 +6,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:orientation="vertical">
 
         <LinearLayout
@@ -75,6 +76,7 @@
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
+
                 <TextView
                     android:id="@+id/tvBurnedlabel"
                     android:layout_width="wrap_content"
@@ -130,22 +132,23 @@
                 android:textColor="@android:color/white" />
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/tvWorkout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
             android:background="@android:color/holo_blue_dark"
             android:orientation="horizontal"
             android:paddingBottom="5dp"
             android:paddingLeft="10dp"
             android:paddingRight="5dp"
             android:paddingTop="5dp"
-            android:weightSum="100">
+            >
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="90"
+                android:layout_alignParentLeft="true"
                 android:text="@string/breakfast"
                 android:textColor="@android:color/white"
                 android:textSize="15sp"
@@ -153,11 +156,11 @@
 
             <ImageView
                 android:id="@+id/ivBreakfast"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="20dp"
-                android:layout_weight="10"
+                android:layout_alignParentRight="true"
                 android:src="@drawable/add" />
-        </LinearLayout>
+        </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"
@@ -166,22 +169,23 @@
             android:layout_below="@+id/tvWorkout"
             android:layout_centerHorizontal="true" />
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/tvWorkout1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
             android:background="@android:color/holo_blue_dark"
             android:orientation="horizontal"
             android:paddingBottom="5dp"
             android:paddingLeft="10dp"
             android:paddingRight="5dp"
             android:paddingTop="5dp"
-            android:weightSum="100">
+            >
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="90"
+                android:layout_alignParentLeft="true"
                 android:text="@string/lunch"
                 android:textColor="@android:color/white"
                 android:textSize="15sp"
@@ -189,11 +193,11 @@
 
             <ImageView
                 android:id="@+id/ivLunch"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="20dp"
-                android:layout_weight="10"
+                android:layout_alignParentRight="true"
                 android:src="@drawable/add" />
-        </LinearLayout>
+        </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view1"
@@ -202,22 +206,23 @@
             android:layout_below="@+id/tvWorkout"
             android:layout_centerHorizontal="true" />
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/tvWorkout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
             android:background="@android:color/holo_blue_dark"
             android:orientation="horizontal"
             android:paddingBottom="5dp"
             android:paddingLeft="10dp"
             android:paddingRight="5dp"
             android:paddingTop="5dp"
-            android:weightSum="100">
+            >
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="90"
+                android:layout_alignParentLeft="true"
                 android:text="@string/snack"
                 android:textColor="@android:color/white"
                 android:textSize="15sp"
@@ -225,11 +230,11 @@
 
             <ImageView
                 android:id="@+id/ivSnacks"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="20dp"
-                android:layout_weight="10"
+                android:layout_alignParentRight="true"
                 android:src="@drawable/add" />
-        </LinearLayout>
+        </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view2"
@@ -239,22 +244,23 @@
             android:layout_centerHorizontal="true"
             android:scrollbars="none" />
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/tvWorkout3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
             android:background="@android:color/holo_blue_dark"
             android:orientation="horizontal"
             android:paddingBottom="5dp"
             android:paddingLeft="10dp"
             android:paddingRight="5dp"
             android:paddingTop="5dp"
-            android:weightSum="100">
+            >
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="90"
+                android:layout_alignParentLeft="true"
                 android:text="@string/dinner"
                 android:textColor="@android:color/white"
                 android:textSize="15sp"
@@ -262,11 +268,11 @@
 
             <ImageView
                 android:id="@+id/ivDinner"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="20dp"
-                android:layout_weight="10"
+                android:layout_alignParentRight="true"
                 android:src="@drawable/add" />
-        </LinearLayout>
+        </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view3"

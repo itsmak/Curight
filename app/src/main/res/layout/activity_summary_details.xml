@@ -49,7 +49,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvClinicName"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="2dp"
         android:text="JP Nagar"
         android:textAlignment="center"
         android:textColor="@color/graylight"
@@ -61,7 +61,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvAddress"
         android:orientation="vertical"
-        android:paddingBottom="10dp">
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp">
 
         <Button
             android:id="@+id/btnAddTest"
@@ -182,6 +183,7 @@
             android:orientation="horizontal"
             android:weightSum="100">
             <RelativeLayout
+                android:id="@+id/rl_startDate"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
@@ -202,12 +204,14 @@
                 android:layout_toRightOf="@+id/ivCalendar"
                 android:background="@null"
                 android:editable="false"
+
                 android:hint="Select Date and Time"
                 android:padding="5dp"
                 android:textSize="12sp" />
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/rl_enddate"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
@@ -228,6 +232,7 @@
                     android:layout_toRightOf="@+id/ivCalendar1"
                     android:background="@null"
                     android:editable="false"
+
                     android:hint="Select Date and Time"
                     android:padding="5dp"
                     android:textSize="12sp" />

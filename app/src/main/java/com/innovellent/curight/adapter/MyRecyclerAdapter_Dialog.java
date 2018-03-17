@@ -29,7 +29,6 @@ public class MyRecyclerAdapter_Dialog extends RecyclerView.Adapter<MyRecyclerAda
         mContext = context;
         this.serverResponseDoctorByDCs=serverResponseDoctorByDCs;
 
-
     }
     @Override
     public DialogViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

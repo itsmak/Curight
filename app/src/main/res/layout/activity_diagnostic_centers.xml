@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@android:color/white"
-    android:layout_height="match_parent">
+    android:orientation="vertical">
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
         app:contentInsetEnd="0dp"
         app:contentInsetLeft="5dp"
         app:contentInsetRight="0dp"
         app:contentInsetStart="0dp"
-        android:layout_width="match_parent"
-        app:theme="@style/ToolbarStyle"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary">
+        app:theme="@style/ToolbarStyle">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -23,10 +23,10 @@
 
             <TextView
                 android:id="@+id/title"
-                android:layout_marginLeft="50dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:layout_marginLeft="50dp"
                 android:text="Diagnostic Centers"
                 android:textColor="@android:color/white"
                 android:textSize="20sp" />
@@ -36,16 +36,40 @@
 
     </android.support.v7.widget.Toolbar>
 
+    <RelativeLayout
+        android:id="@+id/rl_sortby"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/toolbar"
+        android:layout_marginRight="15dp">
+        <TextView
+            android:id="@+id/tv_sortby"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="Sort By:"
+            android:textColor="#505254"
+            android:textSize="14sp"
+            />
+        <Spinner
+            android:id="@+id/nice_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/tv_sortby"
+            android:paddingRight="10dp"/>
+    </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
-        android:layout_below="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_sortby"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="10dp"
         android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
         />
 
 

@@ -33,13 +33,32 @@
         </RelativeLayout>
 
     </android.support.v7.widget.Toolbar>
+    <TextView
+        android:id="@+id/tv_selectedTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:layout_centerHorizontal="true"
+        android:background="@color/white"
+        android:text="Selected Test"
+        android:textColor="@color/darkgray"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_selectedtest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_selectedTest">
+
+    </android.support.v7.widget.RecyclerView>
 
 
             <EditText
                 android:id="@+id/etSearch_diagnostic"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_below="@+id/toolbar"
+                android:layout_below="@+id/rv_selectedtest"
                 android:layout_margin="10dp"
                 android:background="@drawable/logine_edit_search"
                 android:drawableLeft="@drawable/ic_search2"

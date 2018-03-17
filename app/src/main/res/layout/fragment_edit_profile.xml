@@ -270,48 +270,33 @@
                     android:layout_marginTop="5dp"
                     android:orientation="horizontal">
 
-                    <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_weight="50">
-
-                        <TextView
-                            android:id="@+id/tvState"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="12dp"
-                            android:text="@string/state"
-                            android:textColor="#717171"
-                            android:textSize="12sp"
-                            android:visibility="visible" />
-
-                        <Spinner
-                            android:id="@+id/spState"
-                            style="@style/Widget.AppCompat.Spinner.Underlined"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:backgroundTint="@color/gray"
-                            android:drawSelectorOnTop="true"
-                            android:entries="@array/array_state" />
-                    </RelativeLayout>
-
-
                     <EditText
                         android:id="@+id/etpincd"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="50"
+                        android:backgroundTint="@color/gray"
+                        android:hint="@string/pincd"
+                        android:inputType="number"
+                        android:maxLength="6"
+                        android:singleLine="true"
+                        android:textColor="@color/darkgray"
+                        android:textSize="12sp">
+
+                    </EditText>
+
+                    <EditText
+                        android:id="@+id/et_state"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="10dp"
                         android:layout_weight="50"
                         android:backgroundTint="@color/gray"
-                        android:hint="@string/pincd"
-                        android:inputType="number"
-                        android:maxLines="1"
+                        android:hint="State"
+                        android:singleLine="true"
                         android:textColor="@color/darkgray"
-                        android:textSize="12sp">
-
-                    </EditText>
+                        android:textSize="12sp"/>
 
                 </LinearLayout>
 

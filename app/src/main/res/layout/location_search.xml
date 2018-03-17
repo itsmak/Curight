@@ -82,12 +82,80 @@
             />
 
     </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/searched_address"
+        android:layout_margin="20dp">
 
+        <TextView
+            android:id="@+id/tv_recent_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Recent Searches"
+            android:textColor="#0387d2"
+            android:textSize="14sp"
+            />
+        <TextView
+            android:id="@+id/tv_recent1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_recent_search"
+
+            android:layout_below="@+id/tv_recent_search"
+            android:layout_marginTop="5dp"
+            android:text=""
+            android:textColor="#ABABAB"
+            android:textSize="13sp"/>
+        <TextView
+            android:id="@+id/tv_recent2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_recent_search"
+            android:layout_below="@+id/tv_recent1"
+            android:layout_marginTop="5dp"
+            android:text=""
+            android:textColor="#ABABAB"
+            android:textSize="13sp"/>
+        <TextView
+            android:id="@+id/tv_recent3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_recent_search"
+            android:layout_below="@+id/tv_recent2"
+            android:layout_marginTop="5dp"
+            android:text=""
+            android:textColor="#ABABAB"
+            android:textSize="13sp"/>
+        <TextView
+            android:id="@+id/tv_recent4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_recent_search"
+            android:layout_below="@+id/tv_recent3"
+            android:layout_marginTop="5dp"
+            android:text=""
+            android:textColor="#ABABAB"
+            android:textSize="13sp"/>
+        <TextView
+            android:id="@+id/tv_recent5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_recent_search"
+            android:layout_below="@+id/tv_recent4"
+            android:layout_marginTop="5dp"
+            android:text=""
+            android:textColor="#ABABAB"
+            android:textSize="13sp"/>
+    </RelativeLayout>
     <TextView
         android:id="@+id/searched_address"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="20dp"
         android:textSize="22dp"/>
+
+
+
 
 </LinearLayout>

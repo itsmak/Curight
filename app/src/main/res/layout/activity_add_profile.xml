@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@android:color/white"
-    android:layout_height="match_parent">
+    android:orientation="vertical">
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
         app:contentInsetEnd="0dp"
         app:contentInsetLeft="5dp"
         app:contentInsetRight="0dp"
-        app:contentInsetStart="0dp"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary">
+        app:contentInsetStart="0dp">
 
 
         <RelativeLayout
@@ -22,20 +22,20 @@
 
             <ImageView
                 android:id="@+id/ivBack"
-                android:padding="12dp"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:paddingRight="15dp"
                 android:layout_marginLeft="10dp"
+                android:padding="12dp"
+                android:paddingRight="15dp"
                 android:src="@drawable/ic_arrow_back" />
 
             <TextView
                 android:id="@+id/title"
-                android:textAlignment="center"
                 android:layout_width="170dp"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="Profile"
+                android:textAlignment="center"
                 android:textColor="@android:color/white"
                 android:textSize="20sp" />
 
@@ -46,10 +46,10 @@
     </android.support.v7.widget.Toolbar>
 
     <ScrollView
-        android:layout_below="@+id/toolbar"
-        android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:layout_marginBottom="10dp"
         android:paddingBottom="10dp">
     <LinearLayout
         android:layout_width="match_parent"
@@ -57,17 +57,17 @@
         android:orientation="vertical">
     <LinearLayout
         android:id="@+id/llProfile"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
         <ImageView
 
-            android:layout_gravity="center_horizontal"
-            android:background="@mipmap/profilepic"
-            android:layout_marginLeft="150dp"
             android:layout_width="60dp"
-            android:layout_height="60dp" />
+            android:layout_height="60dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="150dp"
+            android:background="@mipmap/profilepic" />
 
     </LinearLayout>
 
@@ -86,13 +86,13 @@
 
                 <EditText
                     android:id="@+id/etFirstName"
-                    android:inputType="text"
-                    android:maxLines="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
                     android:backgroundTint="@color/gray"
                     android:hint="@string/firstname"
+                    android:inputType="text"
+                    android:maxLines="1"
                     android:textColor="#717171"
                     android:textSize="12sp" />
 
@@ -107,13 +107,13 @@
 
                 <EditText
                     android:id="@+id/etLastName"
-                    android:inputType="text"
-                    android:maxLines="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
                     android:backgroundTint="@color/gray"
                     android:hint="@string/lastname"
+                    android:inputType="text"
+                    android:maxLines="1"
                     android:textColor="@color/darkgray"
                     android:textSize="12sp" />
 
@@ -128,13 +128,13 @@
 
                 <EditText
                     android:id="@+id/etEmail"
-                    android:inputType="text"
-                    android:maxLines="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
                     android:backgroundTint="@color/gray"
                     android:hint="@string/emailid"
+                    android:inputType="text"
+                    android:maxLines="1"
                     android:textColor="@color/darkgray"
                     android:textSize="12sp" />
 
@@ -144,63 +144,63 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:weightSum="100"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:weightSum="100">
 
                 <RelativeLayout
                     android:layout_width="0dp"
-                    android:layout_weight="50"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_weight="50">
                     <TextView
                         android:id="@+id/tvGender"
                         android:layout_width="wrap_content"
-                        android:text="Gender"
-                        android:visibility="visible"
-                        android:textSize="12sp"
+                        android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
                         android:layout_marginLeft="12dp"
+                        android:text="Gender"
                         android:textColor="#717171"
-                        android:layout_height="wrap_content" />
+                        android:textSize="12sp"
+                        android:visibility="visible" />
 
                     <Spinner
                         android:id="@+id/spGender"
-                        android:layout_width="fill_parent"
                         style="@style/Widget.AppCompat.Spinner.Underlined"
-                        android:backgroundTint="@color/gray"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
+                        android:backgroundTint="@color/gray"
                         android:drawSelectorOnTop="true"
                         android:entries="@array/array_gender"
-                        android:layout_height="wrap_content"
                         />
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_width="0dp"
-                    android:layout_weight="50"
+                    android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
-                    android:layout_height="wrap_content">
+                    android:layout_weight="50">
                     <TextView
                         android:id="@+id/tvMartialStatus"
                         android:layout_width="wrap_content"
-                        android:text="@string/relation"
-                        android:visibility="visible"
-                        android:textSize="12sp"
+                        android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
                         android:layout_marginLeft="12dp"
+                        android:text="@string/relation"
                         android:textColor="#717171"
-                        android:layout_height="wrap_content" />
+                        android:textSize="12sp"
+                        android:visibility="visible" />
 
                     <Spinner
                         android:id="@+id/sprelationship"
                         style="@style/Widget.AppCompat.Spinner.Underlined"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:drawSelectorOnTop="true"
-                        android:entries="@array/array_relationship"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:backgroundTint="@color/gray" />
+                        android:backgroundTint="@color/gray"
+                        android:drawSelectorOnTop="true"
+                        android:entries="@array/array_relationship" />
                 </RelativeLayout>
             </LinearLayout>
 
@@ -211,20 +211,20 @@
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/MobileNo"
                     android:layout_width="0dp"
-                    android:layout_weight="50"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
+                    android:layout_weight="50"
                     >
 
                     <EditText
                         android:id="@+id/etMobileNo"
-                        android:inputType="text"
-                        android:maxLines="1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="10dp"
                         android:backgroundTint="@color/gray"
                         android:hint="@string/mobileno"
+                        android:inputType="text"
+                        android:maxLines="1"
                         android:textColor="@color/darkgray"
                         android:textSize="12sp" />
 
@@ -232,31 +232,31 @@
 
                 <RelativeLayout
                     android:layout_width="0dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_weight="50"
+                    android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
-                    android:layout_height="wrap_content">
+                    android:layout_marginTop="2dp"
+                    android:layout_weight="50">
                     <TextView
                         android:id="@+id/tvBloodGroup"
                         android:layout_width="wrap_content"
-                        android:text="@string/bloodgroup"
-                        android:visibility="visible"
-                        android:textSize="12sp"
+                        android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
                         android:layout_marginLeft="12dp"
+                        android:text="@string/bloodgroup"
                         android:textColor="#717171"
-                        android:layout_height="wrap_content" />
+                        android:textSize="12sp"
+                        android:visibility="visible" />
 
                     <Spinner
                         android:id="@+id/spBloodGroup"
-                        android:layout_width="fill_parent"
                         style="@style/Widget.AppCompat.Spinner.Underlined"
-                        android:drawSelectorOnTop="true"
-                        android:entries="@array/array_bloodgroup"
-                        android:backgroundTint="@color/gray"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="5dp"
+                        android:backgroundTint="@color/gray"
+                        android:drawSelectorOnTop="true"
+                        android:entries="@array/array_bloodgroup"
                         />
                 </RelativeLayout>
 
@@ -272,19 +272,19 @@
 
                 <RelativeLayout
                     android:layout_width="0dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginLeft="10dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="2dp"
                     android:layout_weight="50">
 
                     <EditText
                         android:id="@+id/etdateOfBirth"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:editable="false"
-                        android:maxLines="1"
                         android:backgroundTint="@color/gray"
+                        android:editable="false"
                         android:hint="@string/dob_hint"
+                        android:maxLines="1"
                         android:textColor="@color/darkgray"
                         android:textSize="12sp"
                         />
@@ -292,29 +292,29 @@
 
                 <RelativeLayout
                     android:layout_width="0dp"
-                    android:layout_weight="50"
+                    android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
-                    android:layout_height="wrap_content">
+                    android:layout_weight="50">
                     <TextView
                         android:id="@+id/tvCity"
                         android:layout_width="wrap_content"
-                        android:text="@string/city"
-                        android:visibility="visible"
-                        android:textSize="12sp"
+                        android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
                         android:layout_marginLeft="12dp"
+                        android:text="@string/city"
                         android:textColor="#717171"
-                        android:layout_height="wrap_content" />
+                        android:textSize="12sp"
+                        android:visibility="visible" />
 
                     <Spinner
                         android:id="@+id/spCity"
-                        android:layout_width="fill_parent"
                         style="@style/Widget.AppCompat.Spinner.Underlined"
-                        android:backgroundTint="@color/gray"
-                        android:entries="@array/location"
-                        android:drawSelectorOnTop="true"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
+                        android:backgroundTint="@color/gray"
+                        android:drawSelectorOnTop="true"
+                        android:entries="@array/location"
                         />
                 </RelativeLayout>
 
@@ -329,13 +329,13 @@
 
                 <EditText
                     android:id="@+id/etAddress"
-                    android:inputType="text"
-                    android:maxLines="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
                     android:backgroundTint="@color/gray"
                     android:hint="@string/address"
+                    android:inputType="text"
+                    android:maxLines="1"
                     android:textColor="@color/darkgray"
                     android:textSize="12sp" />
 
@@ -345,63 +345,51 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:orientation="horizontal">
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="50"
-                    android:layout_marginLeft="5dp"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:id="@+id/tvState"
-                        android:layout_width="wrap_content"
-                        android:text="@string/state"
-                        android:visibility="visible"
-                        android:textSize="12sp"
-                        android:layout_marginLeft="12dp"
-                        android:textColor="#717171"
-                        android:layout_height="wrap_content" />
-
-                    <Spinner
-                        android:id="@+id/spState"
-                        android:layout_width="fill_parent"
-                        style="@style/Widget.AppCompat.Spinner.Underlined"
-                        android:backgroundTint="@color/gray"
-                        android:entries="@array/array_state"
-                        android:drawSelectorOnTop="true"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                       />
-                </RelativeLayout>
+                
 
 
                 <EditText
                     android:id="@+id/etpincd"
                     android:layout_width="0dp"
-                    android:layout_weight="50"
-                    android:layout_marginRight="10dp"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="50"
                     android:backgroundTint="@color/gray"
                     android:hint="@string/pincd"
-                    android:textSize="12sp"
+                    android:inputType="number"
+                    android:maxLength="6"
+                    android:singleLine="true"
                     android:textColor="@color/darkgray"
-                    android:maxLines="1">
+                    android:textSize="12sp">
 
                 </EditText>
 
+                <EditText
+                    android:id="@+id/et_state"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="50"
+                    android:backgroundTint="@color/gray"
+                    android:hint="State"
+                    android:singleLine="true"
+                    android:textColor="@color/darkgray"
+                    android:textSize="12sp"/>
+
             </LinearLayout>
           <Button
-              android:layout_marginTop="10dp"
               android:id="@+id/btn_save"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:textColor="@color/white"
-              android:background="@color/colorPrimary"
-              android:paddingTop="7dp"
-              android:paddingBottom="7dp"
-              android:paddingRight="30dp"
-              android:paddingLeft="30dp"
               android:layout_gravity="center_horizontal"
-              android:text="@string/save"/>
+              android:layout_marginTop="10dp"
+              android:background="@color/colorPrimary"
+              android:paddingBottom="7dp"
+              android:paddingLeft="30dp"
+              android:paddingRight="30dp"
+              android:paddingTop="7dp"
+              android:text="@string/save"
+              android:textColor="@color/white"/>
             
         </LinearLayout>
 

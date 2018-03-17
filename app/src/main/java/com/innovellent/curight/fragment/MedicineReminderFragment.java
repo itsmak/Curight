@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,6 +61,9 @@ public class MedicineReminderFragment extends Fragment implements View.OnClickLi
     private static final String TAG = ".Curight";
  //   private static final String BASE_URL ="http://13.59.209.135:8090/diagnosticAPI/webapi/";
     static String USER_ID,M_YEAR,M_MONTH,M_DAY,FINAL_DATE;
+    ImageView iv_home_icon,iv_remainder_icon,iv_article_icon,iv_track_icon,iv_profile_icon;
+    TextView tv_home_txt,tv_remainder_txt,tv_article_txt,tv_track_txt,tv_profile_txt;
+    RelativeLayout rl_location;
     RecyclerView recyclerView;
     HorizontalCalendar horizontalCalendar;
     ChangeMorningPreferenceDialog morningPreferenceDialog;
@@ -97,6 +101,19 @@ public class MedicineReminderFragment extends Fragment implements View.OnClickLi
         addCalendar(rootView);
         Log.d(TAG,"final date:"+FINAL_DATE);
         getSpinnerData();
+        rl_location.setVisibility(View.GONE);
+        iv_home_icon.setImageResource(R.drawable.home_grey);
+        iv_remainder_icon.setImageResource(R.drawable.remander_blue);
+        iv_article_icon.setImageResource(R.drawable.article_grey);
+        iv_track_icon.setImageResource(R.drawable.track_grey);
+        iv_profile_icon.setImageResource(R.drawable.profile_grey);
+
+        tv_home_txt.setTextColor(Color.parseColor("#54666E"));
+        tv_remainder_txt.setTextColor(Color.parseColor("#0B63F8"));
+        tv_article_txt.setTextColor(Color.parseColor("#54666E"));
+        tv_track_txt.setTextColor(Color.parseColor("#54666E"));
+        tv_profile_txt.setTextColor(Color.parseColor("#54666E"));
+
         return rootView;
     }
 
@@ -170,6 +187,18 @@ public class MedicineReminderFragment extends Fragment implements View.OnClickLi
     }
 
     public void init(View rootView){
+        rl_location = (RelativeLayout) getActivity().findViewById(R.id.rl_location);
+        iv_home_icon = (ImageView) getActivity().findViewById(R.id.iv_home_icon);
+        iv_remainder_icon = (ImageView) getActivity().findViewById(R.id.iv_remainder_icon);
+        iv_article_icon = (ImageView) getActivity().findViewById(R.id.iv_article_icon);
+        iv_track_icon = (ImageView) getActivity().findViewById(R.id.iv_track_icon);
+        iv_profile_icon = (ImageView) getActivity().findViewById(R.id.iv_profile_icon);
+        tv_home_txt = (TextView) getActivity().findViewById(R.id.tv_home_txt);
+        tv_remainder_txt = (TextView) getActivity().findViewById(R.id.tv_remainder_txt);
+        tv_article_txt = (TextView) getActivity().findViewById(R.id.tv_article_txt);
+        tv_track_txt = (TextView) getActivity().findViewById(R.id.tv_track_txt);
+        tv_profile_txt = (TextView) getActivity().findViewById(R.id.tv_profile_txt);
+
         spItem=(Spinner)rootView.findViewById(R.id.spYear);
         ivReminder=(ImageView)rootView.findViewById(R.id.ivReminder);
         recyclerView=(RecyclerView)rootView.findViewById(R.id.recycler_view);

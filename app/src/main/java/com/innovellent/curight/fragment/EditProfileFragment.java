@@ -1,16 +1,20 @@
 package com.innovellent.curight.fragment;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -60,8 +64,8 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
 
     private static final String TAG = "CuRight";
  //   private static final String BASE_URL = "http://13.59.209.135:8090/diagnosticAPI/webapi/";
-    Spinner spGender,sprelationship,spBloodGroup,spCity,spState;
-    EditText etFullName,etEmail,etMobileNo,etAddress,etdateOfBirth,etpincd;
+    Spinner spGender,sprelationship,spBloodGroup,spCity;
+    EditText etFullName,etEmail,etMobileNo,etAddress,etdateOfBirth,etpincd,et_state;
     TextView tvDateOfBirth,tvGender,tvMartialStatus,tvInterest,tvBloodGroup,tvCity,tvState,tvPin;
     Button btn_submit;
     SpinnerAdapter mAdapter;
@@ -84,6 +88,114 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
             sprelationship.setEnabled(true);
         }
         initClick();
+        etpincd.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                if(editable.length()==6)
+                {
+                    InputMethodManager mgr = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    mgr.hideSoftInputFromWindow(etpincd.getWindowToken(), 0);
+                    String substring3 = editable.toString().substring(0,3);
+                    int pin_3digit = Integer.parseInt(substring3);
+                    Log.d(TAG,"pincd s3"+pin_3digit);
+                    if(pin_3digit==688)
+                    {
+                        et_state.setText("Lakshadweep");
+                    }else if(pin_3digit==799)
+                    {
+                        et_state.setText("Tripura");
+                    }else if(pin_3digit==744)
+                    {
+                        et_state.setText("Andaman & Nicobar");
+                    }else{
+                        String substring2 = editable.toString().substring(0,2);
+                        int pin_2digit = Integer.parseInt(substring2);
+                        Log.d(TAG,"pincd s2"+pin_2digit);
+                        if(pin_2digit==11)
+                        {
+                            et_state.setText("Delhi");
+                        }else if((pin_2digit==12)||(pin_2digit==13))
+                        {
+                            et_state.setText("Haryana");
+                        }else if((pin_2digit==14)||(pin_2digit==15)||(pin_2digit==16))
+                        {
+                            et_state.setText("Punjab");
+                        }else if(pin_2digit==17)
+                        {
+                            et_state.setText("Himachal Pradesh");
+                        }else if((pin_2digit==18)||(pin_2digit==19))
+                        {
+                            et_state.setText("Jammu & Kashmir");
+                        }else if((pin_2digit>19)&&(pin_2digit<29))
+                        {
+                            et_state.setText("Uttar Pradesh");
+                        }else if((pin_2digit >29)&&(pin_2digit < 35))
+                        {
+                            et_state.setText("Rajasthan");
+                        }else if((pin_2digit>36)&&(pin_2digit<39))
+                        {
+                            et_state.setText("Gujrat");
+                        }else if((pin_2digit > 40)&&(pin_2digit < 44))
+                        {
+                            et_state.setText("Maharashtra");
+                        }else if((pin_2digit > 45)&&(pin_2digit < 49))
+                        {
+                            et_state.setText("Madhya Pradesh");
+                        }else if(pin_2digit==49)
+                        {
+                            et_state.setText("Chhattisgarh");
+                        }else if((pin_2digit > 49)&&(pin_2digit< 54))
+                        {
+                            et_state.setText("Andhra Pradesh");
+                        }else if(pin_2digit==54)
+                        {
+                            et_state.setText("Telangana");
+                        }else if((pin_2digit > 55)&&(pin_2digit < 60))
+                        {
+                            et_state.setText("Karnataka");
+                        }else if((pin_2digit >59)&&(pin_2digit < 65))
+                        {
+                            et_state.setText("Tamil Nadu");
+                        }else if((pin_2digit > 66)&&(pin_2digit < 69))
+                        {
+                            et_state.setText("Kerala");
+
+                        }else if((pin_2digit > 69)&&(pin_2digit < 75))
+                        {
+                            et_state.setText("West Bengal");
+                        }else if((pin_2digit > 75)&&(pin_2digit < 78))
+                        {
+                            et_state.setText("Orissa");
+                        }else if(pin_2digit==78)
+                        {
+                            et_state.setText("Assam");
+                        }else if((pin_2digit >79)&&(pin_2digit < 86))
+                        {
+                            et_state.setText("Bihar");
+                        }else if((pin_2digit==92))
+                        {
+                            et_state.setText("Jharkhand");
+                        }else if((pin_2digit==79))
+                        {
+                            et_state.setText("Arunachal Pradesh");
+                        }
+                    }
+                }
+            }
+        });
+
+
         return rootView;
     }
     public void init(View rootView){
@@ -96,7 +208,7 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
         spGender = (Spinner) rootView.findViewById(R.id.spGender);
         sprelationship = (Spinner) rootView.findViewById(R.id.sprelationship);
         spBloodGroup = (Spinner) rootView.findViewById(R.id.spBloodGroup);
-        spState = (Spinner) rootView.findViewById(R.id.spState);
+        et_state = (EditText) rootView.findViewById(R.id.et_state);
         spCity = (Spinner) rootView.findViewById(R.id.spCity);
         btn_submit = (Button) rootView.findViewById(R.id.btn_submit);
 
@@ -192,12 +304,11 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
                         gender_txt = (TextView)spGender.getSelectedView();
                         relation_txt = (TextView)sprelationship.getSelectedView();
                         bloodgrp_txt = (TextView)spBloodGroup.getSelectedView();
-                        state_txt = (TextView)spState.getSelectedView();
+                        et_state.setText(result.get(i).getState());
                         city_txt = (TextView)spCity.getSelectedView();
                         gender_txt.setText(result.get(i).getGender());
                         relation_txt.setText(result.get(i).getRelationship());
                         bloodgrp_txt.setText(result.get(i).getBloodgroup());
-                        state_txt.setText(result.get(i).getState());
                         city_txt.setText(result.get(i).getCity());
 
                     }
@@ -252,12 +363,10 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
             {
                 etAddress.setError("Enter your Date of birth");
                 etAddress.requestFocus();
-            }else if(spState.getSelectedItem().toString().trim().equals(""))
+            }else if(et_state.getText().toString().trim().equals(""))
             {
-                TextView errorText = (TextView)spState.getSelectedView();
-                errorText.setError("");
-                errorText.setTextColor(Color.RED);//just to highlight that this is an error
-                errorText.setText("Select State");//changes the selected item text to this
+                et_state.setError("Enter your Date of birth");
+                et_state.requestFocus();
             }else if(etpincd.getText().toString().length()<6)
             {
                 etpincd.setError("Enter Valid Pincode");
@@ -338,7 +447,7 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
                             Log.d(TAG,"update: pin"+Integer.parseInt(etpincd.getText().toString()));
                             Log.d(TAG,"update: address"+etAddress.getText().toString());
                             Log.d(TAG,"update: city"+spCity.getSelectedItem().toString());
-                            Log.d(TAG,"update: state"+spState.getSelectedItem().toString());
+                            Log.d(TAG,"update: state"+et_state.getText().toString());
 
                             Retrofit retrofit = new Retrofit.Builder()
                                     .baseUrl(new Config().SERVER_URL)
@@ -348,7 +457,7 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
                             ApiInterface apiInterface = retrofit.create(ApiInterface.class);
                             Post_Family_Update postfamilyupdate = new Post_Family_Update(uid,family_id,etFullName.getText().toString(),spGender.getSelectedItem().toString(),
                    etEmail.getText().toString(),spBloodGroup.getSelectedItem().toString(),etdateOfBirth.getText().toString(),Integer.parseInt(etpincd.getText().toString()),
-                   etAddress.getText().toString(),spCity.getSelectedItem().toString(),spState.getSelectedItem().toString(),"",sprelationship.getSelectedItem().toString());
+                   etAddress.getText().toString(),spCity.getSelectedItem().toString(),et_state.getText().toString(),"",sprelationship.getSelectedItem().toString());
 
                             Call<Registration_Response> call = apiInterface.updatefamilyprofile(postfamilyupdate);
                             call.enqueue(new Callback<Registration_Response>(){

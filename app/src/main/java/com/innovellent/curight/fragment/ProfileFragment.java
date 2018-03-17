@@ -2,6 +2,7 @@ package com.innovellent.curight.fragment;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,9 +51,13 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     LinearLayout linearLayoutLottery;
     RecyclerView recyclerView, recyclerViewKids;
     ImageView ivEdit;
+    //bottom navgtn
+    ImageView iv_home_icon,iv_remainder_icon,iv_article_icon,iv_track_icon,iv_profile_icon;
+    TextView tv_home_txt,tv_remainder_txt,tv_article_txt,tv_track_txt,tv_profile_txt;
     TextView tv_locationtxt,tv_locationsymbl,tvTitle;
     TextView tvprofile_name,tv_patient_id,tvWeight,tvBloodPressure,tvBMI,tvCholestrol,tvHDL,tvLDL,tvMyHeight;
     Spinner spUser;
+    RelativeLayout rl_location;
     ArrayList<PROFILE> spinnerList = new ArrayList<PROFILE>();
     PROFILE_SPINNER_ADAPTER customSpinnerAdapter2;
     //String[] spinner1 = {"John", "Jobby", "Suresh", "Mahesh"};
@@ -74,17 +80,45 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         initReferences(rootView);
         getSpinnerData();
         initOnClick();
+        rl_location.setVisibility(View.GONE);
+        tv_profile_txt.setTextColor(Color.parseColor("#0B63F8"));
+        iv_profile_icon.setImageResource(R.drawable.profile_blue);
+
+        iv_home_icon.setImageResource(R.drawable.home_grey);
+        iv_remainder_icon.setImageResource(R.drawable.reminder_grey);
+        iv_article_icon.setImageResource(R.drawable.article_grey);
+        iv_track_icon.setImageResource(R.drawable.track_grey);
+
+        tv_home_txt.setTextColor(Color.parseColor("#54666E"));
+        tv_remainder_txt.setTextColor(Color.parseColor("#54666E"));
+        tv_article_txt.setTextColor(Color.parseColor("#54666E"));
+        tv_track_txt.setTextColor(Color.parseColor("#54666E"));
         //getData();
         return rootView;
 
     }
 
     public void initReferences(View rootView) {
+        rl_location = (RelativeLayout) getActivity().findViewById(R.id.rl_location);
+        iv_home_icon = (ImageView) getActivity().findViewById(R.id.iv_home_icon);
+        iv_remainder_icon = (ImageView) getActivity().findViewById(R.id.iv_remainder_icon);
+        iv_article_icon = (ImageView) getActivity().findViewById(R.id.iv_article_icon);
+        iv_track_icon = (ImageView) getActivity().findViewById(R.id.iv_track_icon);
+        iv_profile_icon = (ImageView) getActivity().findViewById(R.id.iv_profile_icon);
+
+        tv_home_txt = (TextView) getActivity().findViewById(R.id.tv_home_txt);
+        tv_remainder_txt = (TextView) getActivity().findViewById(R.id.tv_remainder_txt);
+        tv_article_txt = (TextView) getActivity().findViewById(R.id.tv_article_txt);
+        tv_track_txt = (TextView) getActivity().findViewById(R.id.tv_track_txt);
+        tv_profile_txt = (TextView) getActivity().findViewById(R.id.tv_profile_txt);
+
         ivEdit = (ImageView) rootView.findViewById(R.id.ivEdit);
         spUser = (Spinner) rootView.findViewById(R.id.spUser);
         tv_locationtxt = (TextView) getActivity().findViewById(R.id.tv_locationtxt);
         tv_locationsymbl = (TextView) getActivity().findViewById(R.id.tv_locationsymbl);
         tvTitle = (TextView) getActivity().findViewById(R.id.tvTitle);
+
+
         tvTitle.setText("Profile");
         tv_locationtxt.setVisibility(View.GONE);
         tv_locationsymbl.setVisibility(View.GONE);

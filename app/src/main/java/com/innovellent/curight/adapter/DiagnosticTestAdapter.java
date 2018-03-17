@@ -2,16 +2,13 @@ package com.innovellent.curight.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import  android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.innovellent.curight.R;
 import com.innovellent.curight.model.Test;
@@ -27,6 +24,8 @@ public class DiagnosticTestAdapter extends RecyclerView.Adapter<DiagnosticTestAd
 
     public static String sel_test_names = "";
     public static String sel_test_ids = "";
+    private final OnTestClickListener listener;
+    private final int position;
     String test_id_text="";
     private ArrayList<String> arrayList = new ArrayList<>();
     private ArrayList<Test_List> t_arrayList = new ArrayList<>();
@@ -35,16 +34,12 @@ public class DiagnosticTestAdapter extends RecyclerView.Adapter<DiagnosticTestAd
     private ArrayList<Test> testObjs;
     //private onRecyclerViewItemClickListener mItemClickListener;
 
-    public DiagnosticTestAdapter(Context context,ArrayList<Test_List> arrayList) {
+    public DiagnosticTestAdapter(Context context, ArrayList<Test_List> arrayList, int position,OnTestClickListener listener) {
+        this.listener = listener;
+        this.position = position;
         mContext = context;
         this.t_arrayList = arrayList;
 
-    }
-
-   public DiagnosticTestAdapter(Context context,ArrayList<Test_List> arrayList,ArrayList<Test> testObjs) {
-       mContext = context;
-       this.t_arrayList = arrayList;
-       this.testObjs = testObjs;
     }
 
     @Override
@@ -54,11 +49,10 @@ public class DiagnosticTestAdapter extends RecyclerView.Adapter<DiagnosticTestAd
         //itemView.setOnClickListener(this);
         return new DiagnosticTestAdapter.MyViewHolder(itemView);
     }
-
-//    private void addItem(String test_name,Test test) {
-//        this.arrayList.add(test_name);
-//        this.testObjs.add(test);
-//        notifyDataSetChanged();
+//   public DiagnosticTestAdapter(Context context,ArrayList<Test_List> arrayList,ArrayList<Test> testObjs) {
+//       mContext = context;
+//       this.t_arrayList = arrayList;
+//       this.testObjs = testObjs;
 //    }
 
     @Override
@@ -66,6 +60,12 @@ public class DiagnosticTestAdapter extends RecyclerView.Adapter<DiagnosticTestAd
 
         holder.tvtestname.setText(t_arrayList.get(position).getTestname());
         holder.tvdescription.setText(t_arrayList.get(position).getDescription());
+        if(t_arrayList.get(position).isChecked())
+        {
+            holder.testCheckBox.setChecked(true);
+        }else {
+            holder.testCheckBox.setChecked(false);
+        }
 
         Log.d(TAG, "gettest:  desc "+ holder.tvdescription.getText().toString());
         Log.d(TAG, "gettest:  name "+ holder.tvtestname.getText().toString());
@@ -77,77 +77,7 @@ public class DiagnosticTestAdapter extends RecyclerView.Adapter<DiagnosticTestAd
         holder.rl_diagnostictest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (holder.testCheckBox.isChecked()) {
-                    holder.testCheckBox.setChecked(false);
-                    test_id_text=Prefs.getString("test_id","");
-                    if(test_id_text.length()>0)
-                    {
-                    String subtext="";
-                    for(int i=0;i<test_id_text.length();i++)
-                    {
-                        if(String.valueOf(test_id_text.charAt(i)).equals(String.valueOf(t_arrayList.get(position).getTestid())))
-                        {
-
-                        }else {
-                            subtext = subtext + String.valueOf(test_id_text.charAt(i));
-                        }
-                    }
-                    test_id_text = subtext;
-                    Prefs.putString("test_id",subtext);
-                    }
-                } else {
-                    holder.testCheckBox.setChecked(true);
-                    //Toast.makeText(mContext.getApplicationContext(),"checked id="+t_arrayList.get(position).getTestid(),Toast.LENGTH_SHORT).show();
-                    test_id_text=Prefs.getString("test_id","");
-                    if(test_id_text.length()>0)
-                    {
-
-                        test_id_text=test_id_text+t_arrayList.get(position).getTestid();
-                        Prefs.putString("test_id",test_id_text);
-                    }else {
-
-                        test_id_text=test_id_text+t_arrayList.get(position).getTestid();
-                        Prefs.putString("test_id",test_id_text);
-                    }
-
-                }
-
-            }
-        });
-
-        holder.tvtestname.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (holder.testCheckBox.isChecked()) {
-                    holder.testCheckBox.setChecked(false);
-                    test_id_text=Prefs.getString("test_id","");
-                    if(test_id_text.length()>0)
-                    {
-                        String subtext="";
-                        for(int i=0;i<test_id_text.length();i++)
-                        {
-                            if(String.valueOf(test_id_text.charAt(i)).equals(String.valueOf(t_arrayList.get(position).getTestid())))
-                            {
-
-                            }else {
-                                subtext = subtext + String.valueOf(test_id_text.charAt(i));
-                            }
-                        }
-                        test_id_text = subtext;
-                        Prefs.putString("test_id",subtext);
-                    }
-                } else {
-                    holder.testCheckBox.setChecked(true);
-                   // Toast.makeText(mContext.getApplicationContext(),"checked id="+t_arrayList.get(position).getTestid(),Toast.LENGTH_SHORT).show();
-                    test_id_text=Prefs.getString("test_id","");
-                    test_id_text=test_id_text+t_arrayList.get(position).getTestid();
-                    Prefs.putString("test_id",test_id_text);
-                }
-            }
-        });
-//        holder.testCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                listener.testselected(t_arrayList.get(position),position);
 //                if (holder.testCheckBox.isChecked()) {
 //                    holder.testCheckBox.setChecked(false);
 //                    test_id_text=Prefs.getString("test_id","");
@@ -168,15 +98,105 @@ public class DiagnosticTestAdapter extends RecyclerView.Adapter<DiagnosticTestAd
 //                    }
 //                } else {
 //                    holder.testCheckBox.setChecked(true);
-//                    Toast.makeText(mContext.getApplicationContext(),"checked id="+t_arrayList.get(position).getTestid(),Toast.LENGTH_SHORT).show();
+//                    //Toast.makeText(mContext.getApplicationContext(),"checked id="+t_arrayList.get(position).getTestid(),Toast.LENGTH_SHORT).show();
+//                    test_id_text=Prefs.getString("test_id","");
+//                    if(test_id_text.length()>0)
+//                    {
+//
+//                        test_id_text=test_id_text+t_arrayList.get(position).getTestid();
+//                        Prefs.putString("test_id",test_id_text);
+//                    }else {
+//
+//                        test_id_text=test_id_text+t_arrayList.get(position).getTestid();
+//                        Prefs.putString("test_id",test_id_text);
+//                    }
+//
+//                }
+
+            }
+        });
+
+        holder.rl_diagnostictest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.testselected(t_arrayList.get(position),position);
+//                if (holder.testCheckBox.isChecked()) {
+//                    holder.testCheckBox.setChecked(false);
+//                    test_id_text=Prefs.getString("test_id","");
+//                    if(test_id_text.length()>0)
+//                    {
+//                    String subtext="";
+//                    for(int i=0;i<test_id_text.length();i++)
+//                    {
+//                        if(String.valueOf(test_id_text.charAt(i)).equals(String.valueOf(t_arrayList.get(position).getTestid())))
+//                        {
+//
+//                        }else {
+//                            subtext = subtext + String.valueOf(test_id_text.charAt(i));
+//                        }
+//                    }
+//                    test_id_text = subtext;
+//                    Prefs.putString("test_id",subtext);
+//                    }
+//                } else {
+//                    holder.testCheckBox.setChecked(true);
+//                    //Toast.makeText(mContext.getApplicationContext(),"checked id="+t_arrayList.get(position).getTestid(),Toast.LENGTH_SHORT).show();
+//                    test_id_text=Prefs.getString("test_id","");
+//                    if(test_id_text.length()>0)
+//                    {
+//
+//                        test_id_text=test_id_text+t_arrayList.get(position).getTestid();
+//                        Prefs.putString("test_id",test_id_text);
+//                    }else {
+//
+//                        test_id_text=test_id_text+t_arrayList.get(position).getTestid();
+//                        Prefs.putString("test_id",test_id_text);
+//                    }
+//
+//                }
+
+            }
+        });
+
+        holder.tvtestname.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                if (holder.testCheckBox.isChecked()) {
+//                    holder.testCheckBox.setChecked(false);
+//                    test_id_text=Prefs.getString("test_id","");
+//                    if(test_id_text.length()>0)
+//                    {
+//                        String subtext="";
+//                        for(int i=0;i<test_id_text.length();i++)
+//                        {
+//                            if(String.valueOf(test_id_text.charAt(i)).equals(String.valueOf(t_arrayList.get(position).getTestid())))
+//                            {
+//
+//                            }else {
+//                                subtext = subtext + String.valueOf(test_id_text.charAt(i));
+//                            }
+//                        }
+//                        test_id_text = subtext;
+//                        Prefs.putString("test_id",subtext);
+//                    }
+//                } else {
+//                    holder.testCheckBox.setChecked(true);
+//                   // Toast.makeText(mContext.getApplicationContext(),"checked id="+t_arrayList.get(position).getTestid(),Toast.LENGTH_SHORT).show();
 //                    test_id_text=Prefs.getString("test_id","");
 //                    test_id_text=test_id_text+t_arrayList.get(position).getTestid();
 //                    Prefs.putString("test_id",test_id_text);
 //                }
-//            }
-//        });
+            }
+        });
+
 
     }
+
+//    private void addItem(String test_name,Test test) {
+//        this.arrayList.add(test_name);
+//        this.testObjs.add(test);
+//        notifyDataSetChanged();
+//    }
 
     @Override
     public int getItemCount() {
@@ -186,6 +206,10 @@ public class DiagnosticTestAdapter extends RecyclerView.Adapter<DiagnosticTestAd
     public void filterlist(ArrayList<Test_List> filteredlist) {
         t_arrayList=filteredlist;
         notifyDataSetChanged();
+    }
+
+    public interface OnTestClickListener {
+        void testselected(Test_List item_m,int position);
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {

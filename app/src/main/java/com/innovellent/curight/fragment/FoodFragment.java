@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -80,9 +81,10 @@ public class FoodFragment extends Fragment implements View.OnClickListener {
     ArrayList<Lunch> breakfasts, lunches, snacks, dinners;
     LunchAdapter breakfastAdapter, lunchAdaoter, snacksAdapter, dinnerAdapter;
     ImageView ivBreakfast, ivLunch, ivSnacks, ivDinner, ivback, ivback1;
-    TextView tvDate, tvTitle;
+    TextView tvDate, tvTitle,tv_locationtxt,tv_locationsymbl;
     String[] spinner1 = {"John", "Jobby", "Suresh", "Mahesh"};
     Context context;
+    private RelativeLayout tvWorkout,tvWorkout1,tvWorkout2,tvWorkout3;
     private int mYear, mMonth, mDay;
     private SharedPrefService sharedPrefService;
     private long userId;
@@ -107,6 +109,8 @@ public class FoodFragment extends Fragment implements View.OnClickListener {
 
         init(rootView);
         iniClick();
+        tv_locationtxt.setVisibility(View.GONE);
+        tv_locationsymbl.setVisibility(View.GONE);
         String month,day;
         final Calendar c = Calendar.getInstance();
         int monthnumbr = c.get(Calendar.MONTH)+1;
@@ -139,6 +143,12 @@ public class FoodFragment extends Fragment implements View.OnClickListener {
         tvTitle = (TextView) getActivity().findViewById(R.id.tvTitle);
         ivback = (ImageView) getActivity().findViewById(R.id.ivback);
         ivback1 = (ImageView) getActivity().findViewById(R.id.ivback1);
+        tvWorkout = (RelativeLayout) rootview.findViewById(R.id.tvWorkout);
+        tvWorkout1 = (RelativeLayout) rootview.findViewById(R.id.tvWorkout1);
+        tvWorkout2 = (RelativeLayout) rootview.findViewById(R.id.tvWorkout2);
+        tvWorkout3 = (RelativeLayout) rootview.findViewById(R.id.tvWorkout3);
+        tv_locationtxt = (TextView) getActivity().findViewById(R.id.tv_locationtxt);
+        tv_locationsymbl = (TextView) getActivity().findViewById(R.id.tv_locationsymbl);
         recycler_view = (RecyclerView) rootview.findViewById(R.id.recycler_view);
         recycler_view1 = (RecyclerView) rootview.findViewById(R.id.recycler_view1);
         recycler_view2 = (RecyclerView) rootview.findViewById(R.id.recycler_view2);
@@ -149,6 +159,7 @@ public class FoodFragment extends Fragment implements View.OnClickListener {
         ivLunch = (ImageView) rootview.findViewById(R.id.ivLunch);
         ivSnacks = (ImageView) rootview.findViewById(R.id.ivSnacks);
         ivDinner = (ImageView) rootview.findViewById(R.id.ivDinner);
+
     }
 
     public void iniClick() {
@@ -171,6 +182,10 @@ public class FoodFragment extends Fragment implements View.OnClickListener {
         ivLunch.setOnClickListener(this);
         ivSnacks.setOnClickListener(this);
         ivDinner.setOnClickListener(this);
+        tvWorkout.setOnClickListener(this);
+        tvWorkout1.setOnClickListener(this);
+        tvWorkout2.setOnClickListener(this);
+        tvWorkout3.setOnClickListener(this);
 
         arrayList.add("BMI");
         arrayList.add("WHR");
@@ -365,9 +380,20 @@ public class FoodFragment extends Fragment implements View.OnClickListener {
             case R.id.date_layout:
                 selectDate();
                 break;
+            case R.id.tvWorkout:
+                intent = new Intent(getActivity(), AddFoodConsumptionActivity.class);
+                intent.putExtra(TITLE, BREAKFAST);
+                startActivity(intent);
+                break;
             case R.id.ivBreakfast:
                 intent = new Intent(getActivity(), AddFoodConsumptionActivity.class);
                 intent.putExtra(TITLE, BREAKFAST);
+                startActivity(intent);
+                break;
+
+            case R.id.tvWorkout1:
+                intent = new Intent(getActivity(), AddFoodConsumptionActivity.class);
+                intent.putExtra(TITLE, LUNCH);
                 startActivity(intent);
                 break;
             case R.id.ivLunch:
@@ -375,12 +401,24 @@ public class FoodFragment extends Fragment implements View.OnClickListener {
                 intent.putExtra(TITLE, LUNCH);
                 startActivity(intent);
                 break;
+
+            case R.id.tvWorkout3:
+                intent = new Intent(getActivity(), AddFoodConsumptionActivity.class);
+                intent.putExtra(TITLE, DINNER);
+                startActivity(intent);
+                break;
             case R.id.ivDinner:
                 intent = new Intent(getActivity(), AddFoodConsumptionActivity.class);
                 intent.putExtra(TITLE, DINNER);
                 startActivity(intent);
                 break;
+
             case R.id.ivSnacks:
+                intent = new Intent(getActivity(), AddFoodConsumptionActivity.class);
+                intent.putExtra(TITLE, SNACKS);
+                startActivity(intent);
+                break;
+            case R.id.tvWorkout2:
                 intent = new Intent(getActivity(), AddFoodConsumptionActivity.class);
                 intent.putExtra(TITLE, SNACKS);
                 startActivity(intent);

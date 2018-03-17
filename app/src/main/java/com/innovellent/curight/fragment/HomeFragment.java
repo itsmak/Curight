@@ -1,6 +1,7 @@
 package com.innovellent.curight.fragment;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -58,10 +59,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class HomeFragment extends Fragment  implements View.OnClickListener{
     private static final String TAG = "CuRight";
     public static EditText editMobileNo;
+    RelativeLayout rl_location;
     ImageView ivHealthPackage,imageView1,imageView2,imageView3,imageView4,imageView5,imageView6,imageView7,imageView8,imageView9;
     ViewPager viewPager;
+    ImageView iv_home_icon,iv_remainder_icon,iv_article_icon,iv_track_icon,iv_profile_icon;
+    TextView tv_home_txt,tv_remainder_txt,tv_article_txt,tv_track_txt,tv_profile_txt;
     RecyclerView recycler_view_searchhome;
-    TextView tvTitle,titleOne,titleThree,tv_locationtxt,tv_locationsymbl;
+    TextView tvTitle,titleOne,titleThree,tv_locationtxt,tv_locationsymbl,tv_locality;
     RelativeLayout rlBookTest,rlFood,rlHealthPackage,rlDoctorAppoinment,rlYoursReports;
     LinearLayout llSliderdotpanel;
    // int[] luckyNumbers = {R.drawable.ic_inst, R.drawable.into_1, R.drawable.into_2,R.drawable.into_3, R.drawable.intro_4,R.drawable.intro_5,R.drawable.into_3,R.drawable.ic_inst};
@@ -85,138 +89,169 @@ public class HomeFragment extends Fragment  implements View.OnClickListener{
         View rootView=inflater.inflate(R.layout.home_fragment,container,false);
         init(rootView);
         initonClick();
-        initViewPager();
-        String locationtext = Prefs.getString("location","");
-        if(locationtext.equals("")){
-            tvTitle.setText("Location");
-        }else {
-            tvTitle.setText(locationtext);
+        String source = Prefs.getString("source","");
+        if(source.equalsIgnoreCase("consumption"))
+        {
+            ((HomeActivity)getActivity()).foodfitness();
+            Fragment fragment = new FoodFragment();
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.rlMainFragment, fragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }else if(source.equalsIgnoreCase("exersize"))
+        {
+            ((HomeActivity)getActivity()).foodfitness();
+            Fragment fragment = new ExerciseFragment();
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.rlMainFragment, fragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }else{
+            initViewPager();
+            String locationtext = Prefs.getString("location","");
+            if(locationtext.equals("")){
+                tv_locality.setText("Location");
+            }else {
+                tv_locality.setText(locationtext);
+            }
+
+            editMobileNo.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    int count =0;
+                    count = editable.toString().trim().length();
+                    if(count>2)
+                    {
+                        recycler_view_searchhome.setVisibility(View.VISIBLE);
+                        Search();
+
+                    }else if(count==0){
+                        recycler_view_searchhome.setVisibility(View.GONE);
+                    }
+                }
+            });
+
+            recycler_view_searchhome.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), recycler_view_searchhome, new RecyclerItemClickListener.OnItemClickListener() {
+                @Override
+                public void onItemClick(View view, int position) {
+                    //Toast.makeText(SearchActivity.this, "item clicked", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG,"searched id "+searchAdapter.getsearchedid(position));
+                    if(searchAdapter.getcatgory(position).equals("DR")) {
+                        Intent intent = new Intent(getActivity(), DoctorAppointmentActivity.class);
+                        intent.putExtra("testid",searchAdapter.getsearchedid(position));
+                        startActivity(intent);
+                    }else if(searchAdapter.getcatgory(position).equals("DC")){
+                        Intent intent = new Intent(getActivity(), DiagnosticCentersActivity.class);
+                        intent.putExtra("testid",searchAdapter.getsearchedid(position));
+                        startActivity(intent);
+                    }else if(searchAdapter.getcatgory(position).equals("TE")){
+                        Intent intent = new Intent(getActivity(), DiagnosticTestListActivity.class);
+                        intent.putExtra("testid",searchAdapter.getsearchedid(position));
+                        startActivity(intent);
+                    }
+                }
+
+                @Override
+                public void onLongItemClick(View view, int position) {
+
+                }
+            }));
+            PagerAdapter adapter = new CustomAdapter(getActivity());
+            viewPager.setAdapter(adapter);
+            // viewPager.setOnPageChangeListener(new CircularViewPagerHandler(viewPager));
+            viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+                @Override
+                public void onPageSelected(int position) {
+                    mCurrentPosition = position;
+
+                    if((position%6)==0){
+                        // btnSkip.setVisibility(View.VISIBLE);
+                        setbackgrounImage();
+                        imageView1.setImageResource(R.drawable.circular_blue);
+
+                    }else if((position%6) == 1){
+                        //  btnSkip.setVisibility(View.VISIBLE);
+                        setbackgrounImage();
+                        imageView2.setImageResource(R.drawable.circular_blue);
+                    }else if((position%6) == 2){
+                        // btnSkip.setVisibility(View.VISIBLE);
+                        setbackgrounImage();
+                        imageView3.setImageResource(R.drawable.circular_blue);
+                    }else if((position%6) == 3){
+                        setbackgrounImage();
+                        imageView4.setImageResource(R.drawable.circular_blue);
+                    }else if((position%6) == 4){
+                        // btnSkip.setVisibility(View.VISIBLE);
+                        setbackgrounImage();
+                        imageView5.setImageResource(R.drawable.circular_blue);
+                    }else if((position%6) == 5){
+                        setbackgrounImage();
+                        imageView6.setImageResource(R.drawable.circular_blue);
+
+                    }
+                    if (position == 0) {
+                        viewPager.setCurrentItem(lastPageIndex - 1, false);
+                    }
+                    if (mCurrentPosition == lastPageIndex) {
+                        viewPager.setCurrentItem(1, false);
+                    }
+                }
+
+
+                @Override
+                public void onPageScrollStateChanged(final int state) {
+                    handleScrollState(state);
+                    mScrollState = state;
+                }
+
+                private void handleScrollState(final int state) {
+                    if (state == ViewPager.SCROLL_STATE_IDLE) {
+                        setNextItemIfNeeded();
+                    }
+                }
+
+                private void setNextItemIfNeeded() {
+                    if (!isScrollStateSettling()) {
+                        //  handleSetNextItem();
+                    }
+                }
+
+                private boolean isScrollStateSettling() {
+                    return mScrollState == ViewPager.SCROLL_STATE_SETTLING;
+                }
+
+                @Override
+                public void onPageScrolled(final int position, final float positionOffset, final int positionOffsetPixels) {
+                }
+
+            });
         }
+        tvTitle.setVisibility(View.GONE);
+        rl_location.setVisibility(View.VISIBLE);
+        iv_home_icon.setImageResource(R.drawable.home_blue);
+        iv_remainder_icon.setImageResource(R.drawable.reminder_grey);
+        iv_article_icon.setImageResource(R.drawable.article_grey);
+        iv_track_icon.setImageResource(R.drawable.track_grey);
+        iv_profile_icon.setImageResource(R.drawable.profile_grey);
 
-        editMobileNo.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                int count =0;
-             count = editable.toString().trim().length();
-                if(count>2)
-                {
-                    recycler_view_searchhome.setVisibility(View.VISIBLE);
-                    Search();
-
-                }else if(count==0){
-                    recycler_view_searchhome.setVisibility(View.GONE);
-                }
-            }
-        });
-
-        recycler_view_searchhome.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), recycler_view_searchhome, new RecyclerItemClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                //Toast.makeText(SearchActivity.this, "item clicked", Toast.LENGTH_SHORT).show();
-                Log.d(TAG,"searched id "+searchAdapter.getsearchedid(position));
-                if(searchAdapter.getcatgory(position).equals("DR")) {
-                    Intent intent = new Intent(getActivity(), DoctorAppointmentActivity.class);
-                    intent.putExtra("testid",searchAdapter.getsearchedid(position));
-                    startActivity(intent);
-                }else if(searchAdapter.getcatgory(position).equals("DC")){
-                    Intent intent = new Intent(getActivity(), DiagnosticCentersActivity.class);
-                    intent.putExtra("testid",searchAdapter.getsearchedid(position));
-                    startActivity(intent);
-                }else if(searchAdapter.getcatgory(position).equals("TE")){
-                    Intent intent = new Intent(getActivity(), DiagnosticTestListActivity.class);
-                    intent.putExtra("testid",searchAdapter.getsearchedid(position));
-                    startActivity(intent);
-                }
-            }
-
-            @Override
-            public void onLongItemClick(View view, int position) {
-
-            }
-        }));
-      PagerAdapter adapter = new CustomAdapter(getActivity());
-       viewPager.setAdapter(adapter);
-       // viewPager.setOnPageChangeListener(new CircularViewPagerHandler(viewPager));
-      viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-            @Override
-            public void onPageSelected(int position) {
-                mCurrentPosition = position;
-
-                if((position%6)==0){
-                   // btnSkip.setVisibility(View.VISIBLE);
-                    setbackgrounImage();
-                    imageView1.setImageResource(R.drawable.circular_blue);
-
-                }else if((position%6) == 1){
-                  //  btnSkip.setVisibility(View.VISIBLE);
-                    setbackgrounImage();
-                    imageView2.setImageResource(R.drawable.circular_blue);
-                }else if((position%6) == 2){
-                   // btnSkip.setVisibility(View.VISIBLE);
-                    setbackgrounImage();
-                    imageView3.setImageResource(R.drawable.circular_blue);
-                }else if((position%6) == 3){
-                  setbackgrounImage();
-                    imageView4.setImageResource(R.drawable.circular_blue);
-                }else if((position%6) == 4){
-                   // btnSkip.setVisibility(View.VISIBLE);
-                    setbackgrounImage();
-                    imageView5.setImageResource(R.drawable.circular_blue);
-                }else if((position%6) == 5){
-                    setbackgrounImage();
-                    imageView6.setImageResource(R.drawable.circular_blue);
-
-                }
-                if (position == 0) {
-                    viewPager.setCurrentItem(lastPageIndex - 1, false);
-                }
-                if (mCurrentPosition == lastPageIndex) {
-                    viewPager.setCurrentItem(1, false);
-                }
-            }
-
-
-            @Override
-            public void onPageScrollStateChanged(final int state) {
-                handleScrollState(state);
-                mScrollState = state;
-            }
-
-            private void handleScrollState(final int state) {
-                if (state == ViewPager.SCROLL_STATE_IDLE) {
-                    setNextItemIfNeeded();
-                }
-            }
-
-            private void setNextItemIfNeeded() {
-                if (!isScrollStateSettling()) {
-                  //  handleSetNextItem();
-                }
-            }
-
-            private boolean isScrollStateSettling() {
-                return mScrollState == ViewPager.SCROLL_STATE_SETTLING;
-            }
-
-
-
-            @Override
-            public void onPageScrolled(final int position, final float positionOffset, final int positionOffsetPixels) {
-            }
-
-        });
-
+        tv_home_txt.setTextColor(Color.parseColor("#0B63F8"));
+        tv_remainder_txt.setTextColor(Color.parseColor("#54666E"));
+        tv_article_txt.setTextColor(Color.parseColor("#54666E"));
+        tv_track_txt.setTextColor(Color.parseColor("#54666E"));
+        tv_profile_txt.setTextColor(Color.parseColor("#54666E"));
         return rootView;
 
     }
@@ -297,7 +332,20 @@ public class HomeFragment extends Fragment  implements View.OnClickListener{
     }
 
     public void init(View rootView){
-    titleOne=(TextView)rootView.findViewById(R.id.titleOne);
+        rl_location = (RelativeLayout) getActivity().findViewById(R.id.rl_location);
+        iv_home_icon = (ImageView) getActivity().findViewById(R.id.iv_home_icon);
+        iv_remainder_icon = (ImageView) getActivity().findViewById(R.id.iv_remainder_icon);
+        iv_article_icon = (ImageView) getActivity().findViewById(R.id.iv_article_icon);
+        iv_track_icon = (ImageView) getActivity().findViewById(R.id.iv_track_icon);
+        iv_profile_icon = (ImageView) getActivity().findViewById(R.id.iv_profile_icon);
+        tv_home_txt = (TextView) getActivity().findViewById(R.id.tv_home_txt);
+        tv_remainder_txt = (TextView) getActivity().findViewById(R.id.tv_remainder_txt);
+        tv_article_txt = (TextView) getActivity().findViewById(R.id.tv_article_txt);
+        tv_track_txt = (TextView) getActivity().findViewById(R.id.tv_track_txt);
+        tv_profile_txt = (TextView) getActivity().findViewById(R.id.tv_profile_txt);
+
+        tv_locality  = (TextView) getActivity().findViewById(R.id.tv_locality);
+        titleOne=(TextView)rootView.findViewById(R.id.titleOne);
     tvTitle = (TextView) getActivity().findViewById(R.id.tvTitle);
     editMobileNo = (EditText)rootView.findViewById(R.id.editMobileNo);
     titleThree = (TextView)rootView.findViewById(R.id.titleThree);
@@ -317,8 +365,9 @@ public class HomeFragment extends Fragment  implements View.OnClickListener{
     rlYoursReports= (RelativeLayout)rootView.findViewById(R.id.rlYoursReports);
     tv_locationtxt = (TextView) getActivity().findViewById(R.id.tv_locationtxt);
     tv_locationsymbl = (TextView) getActivity().findViewById(R.id.tv_locationsymbl);
+
     tv_locationtxt.setVisibility(View.VISIBLE);
-    tv_locationsymbl.setVisibility(View.VISIBLE);
+    tv_locationsymbl.setVisibility(View.GONE);
   // llSliderdotpanel=(LinearLayout)rootView.findViewById(R.id.llSliderDots);
 
 

@@ -10,7 +10,10 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.innovellent.curight.R;
@@ -23,7 +26,12 @@ import com.innovellent.curight.model.TestDetail;
 import com.innovellent.curight.utility.Config;
 import com.pixplicity.easyprefs.library.Prefs;
 
+
+
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,12 +51,14 @@ public class DiagnosticCentersActivity extends AppCompatActivity implements View
     Center center;
     char newtest_id [];
     ArrayList<Center> centerObjs = new ArrayList<Center>();
+    String list[]={"None","Low to High","High to Low","Rating"};
     private String test_ids="";
     private String dianosticcentre_id;
     private int integer_diagnostic_id;
     private String test_names="";
     private String my_test_id = "",newtext,finaltext_id;
     private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,11 +102,17 @@ public class DiagnosticCentersActivity extends AppCompatActivity implements View
         if(dianosticcentre_id==null)
         {
             integer_diagnostic_id = 0;
+            finaltext_id = test_ids;
         }else {
             integer_diagnostic_id = Integer.parseInt(dianosticcentre_id);
             finaltext_id ="0";
         }
+        Spinner niceSpinner = (Spinner) findViewById(R.id.nice_spinner);
+        final List<String> dataset = new LinkedList<>(Arrays.asList("None", "Low to High", "High to Low", "Popularity"));
+        //niceSpinner.setAdapter();
         getData(integer_diagnostic_id,finaltext_id);
+
+
     }
         public int testcount()
         {

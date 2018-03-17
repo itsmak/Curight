@@ -14,6 +14,7 @@
     android:layout_alignParentLeft="true"
     android:layout_alignParentTop="true"
     android:layout_marginLeft="10dp"
+    android:layout_marginTop="5dp"
     android:text="Five steps to boosting your thyroid fucntion almost immediately"
     android:textColor="@color/colorPrimary"
     android:textSize="15sp"
@@ -52,9 +53,10 @@
        android:layout_alignParentRight="true"
        android:layout_below="@+id/expandableTextView"
        android:layout_marginRight="20dp"
-       android:text="...Read More"
+       android:text=""
        android:textColor="@color/colorPrimary"
-       android:textSize="13dp" />
+       android:textSize="13dp"
+       android:visibility="invisible" />
    <ImageView
        android:id="@+id/ivBanner_article"
        android:layout_width="fill_parent"
@@ -78,7 +80,7 @@
         android:layout_below="@+id/tv_readMore_article"
         android:layout_marginRight="10dp"
         android:layout_toLeftOf="@+id/ivShare_article"
-        android:background="@mipmap/ic_whishlist5"
+        android:background="@drawable/heart"
         />
 
     <ImageView
@@ -89,7 +91,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginRight="10dp"
         android:layout_toLeftOf="@+id/ivWishlist_article"
-        android:background="@mipmap/ic_like5"
+        android:background="@drawable/like"
         />
 
 </RelativeLayout>

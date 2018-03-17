@@ -15,11 +15,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import com.google.gson.JsonObject;
+
 import com.innovellent.curight.R;
 import com.innovellent.curight.adapter.DiagnosticTestAdapter;
+import com.innovellent.curight.adapter.Selected_Test_Adapter;
 import com.innovellent.curight.api.ApiInterface;
-import com.innovellent.curight.fragment.Medicine_list;
+import com.innovellent.curight.model.SelectedTest;
 import com.innovellent.curight.model.ServerResponseTest;
 import com.innovellent.curight.model.Test;
 import com.innovellent.curight.model.Test_List;
@@ -28,8 +29,6 @@ import com.innovellent.curight.utility.Config;
 import com.innovellent.curight.utility.Constants;
 import com.innovellent.curight.utility.Util;
 import com.pixplicity.easyprefs.library.Prefs;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -42,12 +41,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class DiagnosticTestListActivity extends AppCompatActivity{
     private static final String TAG = "CuRight";
-    RecyclerView recycler_view;
+    RecyclerView recycler_view,rv_selectedtest;
     DiagnosticTestAdapter mAdapter;
+    Selected_Test_Adapter sAdapter;
+    ArrayList<SelectedTest> selectedlist;
     Button btnSubmit;
     EditText etSearch;
     Toolbar toolbar;
     int testid;
+    int position;
     ArrayList<Test_List> testlist = new ArrayList<Test_List>();
     ArrayList<String> arrayList=new ArrayList<String>();
     ArrayList<String> testArrayList = new ArrayList<String>();
@@ -117,6 +119,7 @@ public class DiagnosticTestListActivity extends AppCompatActivity{
         }
         //String name = b.getString("name");
         getalltest(testid);
+
         getData();
         init();
         iniClick();
@@ -174,6 +177,7 @@ public class DiagnosticTestListActivity extends AppCompatActivity{
         }
         etSearch=(EditText)findViewById(R.id.etSearch_diagnostic);
         recycler_view=(RecyclerView)findViewById(R.id.recycler_view);
+        rv_selectedtest=(RecyclerView) findViewById(R.id.rv_selectedtest);
         btnSubmit=(Button)findViewById(R.id.btnSubmit);
     }
 
@@ -181,28 +185,54 @@ public class DiagnosticTestListActivity extends AppCompatActivity{
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i=new Intent(DiagnosticTestListActivity.this,DiagnosticCentersActivity.class);
-                Bundle bundle = new Bundle();
-                sel_test_ids = DiagnosticTestAdapter.sel_test_ids;
-                if(sel_test_ids.endsWith(","))
+
+
+//                sel_test_ids = DiagnosticTestAdapter.sel_test_ids;
+//                if(sel_test_ids.endsWith(","))
+//                {
+//                    sel_test_ids = sel_test_ids.substring(0,sel_test_ids.length()-1);
+//                }
+//                Log.d(TAG, "String ID"+sel_test_ids);
+//                bundle.putString("test_id",sel_test_ids);
+//                bundle.putString("test_names",sel_test_names);
+//                i.putExtras(bundle);
+//                String mystring = Prefs.getString("test_id","");
+//                Log.d(TAG,"selected ids text:"+mystring);
+                if(selectedlist!=null)
                 {
-                    sel_test_ids = sel_test_ids.substring(0,sel_test_ids.length()-1);
-                }
-                Log.d(TAG, "String ID"+sel_test_ids);
-                bundle.putString("test_id",sel_test_ids);
-                bundle.putString("test_names",sel_test_names);
-                i.putExtras(bundle);
-                String mystring = Prefs.getString("test_id","");
-                Log.d(TAG,"selected ids text:"+mystring);
-                if (mystring.length()==0)
-                {
-                    Toast.makeText(getApplicationContext(),"Select atleast One test",Toast.LENGTH_SHORT).show();
+                    if (selectedlist.size()==0)
+                    {
+                        Toast.makeText(getApplicationContext(),"Please! Select atleast One test",Toast.LENGTH_SHORT).show();
+                    }else {
+                        String selected_test_id="",selected_test_names="";
+                        for(int j=0;j<selectedlist.size();j++)
+                        {
+                            selected_test_id = selected_test_id + selectedlist.get(j).getTestid()+",";
+                            selected_test_names = selected_test_names + selectedlist.get(j).getTestname()+",";
+                        }
+                        if(selected_test_id.endsWith(","))
+                        {
+                            selected_test_id = selected_test_id.substring(0,selected_test_id.length()-1);
+                        }
+                        if(selected_test_names.endsWith(","))
+                        {
+                            selected_test_names = selected_test_names.substring(0,selected_test_names.length()-1);
+                        }
+                        Intent i=new Intent(DiagnosticTestListActivity.this,DiagnosticCentersActivity.class);
+                        Bundle bundle = new Bundle();
+                        Log.d(TAG,"selected ids::"+selected_test_id);
+                        Log.d(TAG, "selected names::"+selected_test_names);
+                        bundle.putString("test_id",selected_test_id);
+                        bundle.putString("test_names",selected_test_names);
+                        Prefs.putInt("test_length",selectedlist.size());
+                        i.putExtras(bundle);
+                         startActivity(i);
+                        finish();
+                    }
                 }else {
-                    Log.d(TAG,"mytestlength"+mystring.length());
-                    Prefs.putInt("test_length",mystring.length());
-                    startActivity(i);
-                    //finish();
+                    Toast.makeText(getApplicationContext(),"Please! Select atleast One test",Toast.LENGTH_SHORT).show();
                 }
+
                 //
             }
         });
@@ -232,15 +262,55 @@ public class DiagnosticTestListActivity extends AppCompatActivity{
                     Log.e(TAG, "gettest:  listsize: " + result.size());
                     for (int i = 0; i < result.size(); i++){
                         Log.e(TAG, "gettest:  testname " + result.get(i).getTestname());
-                        testlist.add(new Test_List(result.get(i).getTestid(),result.get(i).getTestcode(),result.get(i).getTestname(),result.get(i).getDescription(),result.get(i).getModifiedby()));
+                        testlist.add(new Test_List(result.get(i).getTestid(),result.get(i).getTestcode(),result.get(i).getTestname(),result.get(i).getDescription(),result.get(i).getModifiedby(),false));
                     }
                 }else {
                     progressDialog.dismiss();
                     Toast.makeText(DiagnosticTestListActivity.this, response.message(), Toast.LENGTH_SHORT).show();
                 }
-                mAdapter = new DiagnosticTestAdapter(DiagnosticTestListActivity.this, testlist);
+                mAdapter = new DiagnosticTestAdapter(DiagnosticTestListActivity.this, testlist, position, new DiagnosticTestAdapter.OnTestClickListener() {
+                    @Override
+                    public void testselected(Test_List item_m, int position) {
+                        if (item_m.isChecked())
+                        {
+                            item_m.setChecked(false);
+                        }else {
+                            item_m.setChecked(true);
+
+                        }
+                        recycler_view.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+                        recycler_view.setAdapter(mAdapter);
+                        selectedlist = new ArrayList<SelectedTest>();
+                        for(int i=0;i<testlist.size();i++)
+                        {
+                            if (testlist.get(i).isChecked())
+                            {
+                                selectedlist.add(new SelectedTest(testlist.get(i).getTestid(),testlist.get(i).getTestname()));
+                            }
+                        }
+                        sAdapter = new Selected_Test_Adapter(DiagnosticTestListActivity.this, selectedlist, position, new Selected_Test_Adapter.OnTestClickListener() {
+                            @Override
+                            public void closeclicked(Test_List item_m, int position) {
+                                //   Toast.makeText(Teacher_Feed_post.this,hashtag_list.get(position).getHashtext()+" is selected",Toast.LENGTH_SHORT).show();
+                                //   hashtext = hashtag_list.get(position).getHashtext();
+                            }
+                        });
+                        rv_selectedtest.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
+                        rv_selectedtest.setAdapter(sAdapter);
+                    }
+                });
                 recycler_view.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
                 recycler_view.setAdapter(mAdapter);
+
+//                sAdapter = new Selected_Test_Adapter(DiagnosticTestListActivity.this, testlist, position, new Selected_Test_Adapter.OnTestClickListener() {
+//                    @Override
+//                    public void closeclicked(Test_List item_m, int position) {
+//                     //   Toast.makeText(Teacher_Feed_post.this,hashtag_list.get(position).getHashtext()+" is selected",Toast.LENGTH_SHORT).show();
+//                     //   hashtext = hashtag_list.get(position).getHashtext();
+//                    }
+//                });
+//                rv_selectedtest.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
+//                rv_selectedtest.setAdapter(sAdapter);
             }
             @Override
             public void onFailure(Call<ServerResponseTest> call, Throwable t) {

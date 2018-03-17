@@ -1,22 +1,12 @@
 package com.innovellent.curight.activities;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.net.Uri;
-import android.os.Build;
+
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -42,6 +32,8 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.identity.intents.Address;
 import com.google.android.gms.location.LocationServices;
+
+import com.google.android.gms.location.places.AutocompleteFilter;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceLikelihood;
 import com.google.android.gms.location.places.PlaceLikelihoodBuffer;
@@ -72,7 +64,7 @@ public class SearchLocations extends AppCompatActivity implements GoogleApiClien
 
     private static final String TAG = "Curight";
     private static final int PERMISSION_REQUEST_CODE = 200;
-    TextView tvLocation;
+    TextView tvLocation,tv_recent1,tv_recent2,tv_recent3,tv_recent4,tv_recent5;
     EditText et_searchloctn;
     ImageView iv_location_back;
     RelativeLayout rl_location;
@@ -90,6 +82,13 @@ public class SearchLocations extends AppCompatActivity implements GoogleApiClien
         super.onCreate(savedInstanceState);
         setContentView(R.layout.location_search);
         tvLocation = (TextView) findViewById(R.id.tvLocation);
+
+        tv_recent1 = (TextView) findViewById(R.id.tv_recent1);
+        tv_recent2 = (TextView) findViewById(R.id.tv_recent2);
+        tv_recent3 = (TextView) findViewById(R.id.tv_recent3);
+        tv_recent4 = (TextView) findViewById(R.id.tv_recent4);
+        tv_recent5 = (TextView) findViewById(R.id.tv_recent5);
+
         et_searchloctn = (EditText) findViewById(R.id.et_searchloctn);
         iv_location_back = (ImageView) findViewById(R.id.iv_location_back);
         rl_location = (RelativeLayout) findViewById(R.id.rl_location);
@@ -100,6 +99,22 @@ public class SearchLocations extends AppCompatActivity implements GoogleApiClien
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
+        String recent1 = Prefs.getString("recent1","");
+        String recent2 = Prefs.getString("recent2","");
+        String recent3 = Prefs.getString("recent3","");
+        String recent4 = Prefs.getString("recent4","");
+        String recent5 = Prefs.getString("recent5","");
+        Log.d(TAG,"recent r1:"+recent1);
+        Log.d(TAG,"recent r2:"+recent2);
+        Log.d(TAG,"recent r3:"+recent3);
+        Log.d(TAG,"recent r4:"+recent4);
+        Log.d(TAG,"recent r5:"+recent5);
+        tv_recent1.setText(Prefs.getString("recent1",""));
+        tv_recent2.setText(Prefs.getString("recent2",""));
+        tv_recent3.setText(Prefs.getString("recent3",""));
+        tv_recent4.setText(Prefs.getString("recent4",""));
+        tv_recent5.setText(Prefs.getString("recent5",""));
+
         tvLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -143,29 +158,34 @@ public class SearchLocations extends AppCompatActivity implements GoogleApiClien
             public void onClick(View view) {
                 Log.d(TAG, "final latitude : " + final_latitude);
                 Log.d(TAG, "final latitude : " + final_longitude);
-                Geocoder geoCoder = new Geocoder(SearchLocations.this);
-                List<android.location.Address> matches = null;
-                try {
-                    matches = geoCoder.getFromLocation(final_latitude, final_longitude, 1);
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if(final_latitude==0.0)
+                {
+                  Toast.makeText(SearchLocations.this,"Please Switch on GPS and try again",Toast.LENGTH_SHORT).show();
+                    Intent mhome = new Intent(SearchLocations.this, HomeActivity.class);
+                    startActivity(mhome);
+                    finish();
+                }else {
+                    Geocoder geoCoder = new Geocoder(SearchLocations.this);
+                    List<android.location.Address> matches = null;
+                    try {
+                        matches = geoCoder.getFromLocation(final_latitude, final_longitude, 1);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    android.location.Address bestMatch = (matches.isEmpty() ? null : matches.get(0));
+
+                    Log.d(TAG, "final street4 : " + bestMatch.getSubLocality());
+                    Log.d(TAG, "final street5 : " + bestMatch.getAdminArea());
+                    Log.d(TAG, "final street5 : " + bestMatch.getPremises());
+                    Log.d(TAG, "final street5 : " + bestMatch.getAdminArea());
+                    Prefs.putString("location", bestMatch.getSubLocality());
+
+                    tvLocation.setText(bestMatch.getSubLocality());
+                    Intent mhome = new Intent(SearchLocations.this, HomeActivity.class);
+                    startActivity(mhome);
+                    finish();
                 }
-                android.location.Address bestMatch = (matches.isEmpty() ? null : matches.get(0));
-//                street1 = bestMatch.getLocality();
-//                street2 = bestMatch.getThoroughfare();
-//                street3 = bestMatch.getPostalCode();
-//                Log.d(TAG,"final street1 : "+street1);
-//                Log.d(TAG,"final street2 : "+street2);
-//                Log.d(TAG,"final street3 : "+street3);
-                Log.d(TAG, "final street4 : " + bestMatch.getSubLocality());
-                Log.d(TAG, "final street5 : " + bestMatch.getAdminArea());
-                Log.d(TAG, "final street5 : " + bestMatch.getPremises());
-                Log.d(TAG, "final street5 : " + bestMatch.getAdminArea());
-                Prefs.putString("location", bestMatch.getSubLocality());
-                tvLocation.setText(bestMatch.getSubLocality());
-                Intent mhome = new Intent(SearchLocations.this, HomeActivity.class);
-                startActivity(mhome);
-                finish();
+
             }
         });
 //        if(!runtime_purmission())
@@ -179,10 +199,12 @@ public class SearchLocations extends AppCompatActivity implements GoogleApiClien
             public void onClick(View view) {
 
                 try {
+                    AutocompleteFilter typeFilter = new AutocompleteFilter.Builder().
+                            setTypeFilter(Place.TYPE_COUNTRY).setCountry("IN").build();
                     Intent intent =
                             new PlaceAutocomplete
                                     .IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
-                                    .setBoundsBias(new LatLngBounds(new LatLng(-33.880490, 151.184363), new LatLng(-33.858754, 151.229596)))
+                                    .setFilter(typeFilter)
                                     .build(SearchLocations.this);
 
                     startActivityForResult(intent, 1);
@@ -213,6 +235,13 @@ public class SearchLocations extends AppCompatActivity implements GoogleApiClien
         if (mGoogleApiClient.isConnected()) {
             mGoogleApiClient.disconnect();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent mhome = new Intent(SearchLocations.this, HomeActivity.class);
+        startActivity(mhome);
+        finish();
     }
 
     @Override
@@ -253,6 +282,59 @@ public class SearchLocations extends AppCompatActivity implements GoogleApiClien
                 Place place = PlaceAutocomplete.getPlace(this, data);
                 Log.e("Tag", "Place: " + place.getAddress() + place.getPhoneNumber());
                 Prefs.putString("location", String.valueOf(place.getName()));
+                //Prefs.putString("recent1",String.valueOf(place.getName()));
+                String recent1 = Prefs.getString("recent1","");
+                String recent2 = Prefs.getString("recent2","");
+                String recent3 = Prefs.getString("recent3","");
+                String recent4 = Prefs.getString("recent4","");
+                String recent5 = Prefs.getString("recent5","");
+                Log.d(TAG,"recent s1:"+recent1);
+                Log.d(TAG,"recent s2:"+recent2);
+                Log.d(TAG,"recent s3:"+recent3);
+                Log.d(TAG,"recent s2:"+recent4);
+                Log.d(TAG,"recent s2:"+recent5);
+                if (recent1.equalsIgnoreCase(""))
+                {
+                    Prefs.putString("recent1",String.valueOf(place.getName()));
+                    recent1 = Prefs.getString("recent1","");
+
+
+                }else if(recent2.equalsIgnoreCase("")){
+                    Prefs.putString("recent1",String.valueOf(place.getName()));
+                    Prefs.putString("recent2",recent1);
+                    recent2 = Prefs.getString("recent2","");
+                   // tv_recent2.setText(recent2);
+                }else if(recent3.equalsIgnoreCase(""))
+                {
+                    Prefs.putString("recent2",Prefs.getString("recent1",""));
+                    Prefs.putString("recent1",String.valueOf(place.getName()));
+                    Prefs.putString("recent3",recent2);
+                    recent3 = Prefs.getString("recent3","");
+                }else if(recent4.equalsIgnoreCase(""))
+                {
+                    Prefs.putString("recent3",Prefs.getString("recent2",""));
+                    Prefs.putString("recent2",Prefs.getString("recent1",""));
+                    Prefs.putString("recent1",String.valueOf(place.getName()));
+
+                    Prefs.putString("recent4",recent3);
+                    recent4 = Prefs.getString("recent4","");
+                }else if(recent5.equalsIgnoreCase(""))
+                {
+                    Prefs.putString("recent4",Prefs.getString("recent3",""));
+                    Prefs.putString("recent3",Prefs.getString("recent2",""));
+                    Prefs.putString("recent2",Prefs.getString("recent1",""));
+                    Prefs.putString("recent1",String.valueOf(place.getName()));
+
+                    Prefs.putString("recent5",recent4);
+                    recent5 = Prefs.getString("recent5","");
+                }else {
+                    Prefs.putString("recent5",Prefs.getString("recent4",""));
+                    Prefs.putString("recent4",Prefs.getString("recent3",""));
+                    Prefs.putString("recent3",Prefs.getString("recent2",""));
+                    Prefs.putString("recent2",Prefs.getString("recent1",""));
+
+                    Prefs.putString("recent1",String.valueOf(place.getName()));
+                }
                 Intent home = new Intent(SearchLocations.this, HomeActivity.class);
                 startActivity(home);
 //                ((TextView) findViewById(R.id.searched_address))
@@ -344,7 +426,15 @@ public class SearchLocations extends AppCompatActivity implements GoogleApiClien
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch(requestCode){
+
+            case 200:
+
+
+                break;
+
+
+        }
     }
 }
 
