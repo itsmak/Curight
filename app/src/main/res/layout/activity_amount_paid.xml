@@ -104,7 +104,7 @@
         android:layout_below="@+id/search_panel"
         android:layout_marginLeft="20dp"
         android:layout_weight="50"
-        android:text="Discount Amount: rs 1000"
+        android:text="Discount Amount: rs "
         android:textColor="@color/darkgray"
         android:textSize="12sp"
         />
@@ -137,7 +137,7 @@
             android:layout_below="@+id/search_panel"
             android:layout_marginLeft="20dp"
             android:layout_weight="50"
-            android:text="Paid Amount: 4400"
+            android:text=""
             android:textColor="@color/darkgray"
             android:textSize="12sp"
             />

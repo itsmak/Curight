@@ -625,7 +625,7 @@ public class WHRFragment extends Fragment implements View.OnClickListener{
 
 
         try{
-            final int uid = (int) Prefs.getLong("user_id",0);
+            final  int uid = (int) Prefs.getLong("spinner_id",0);
             Log.d("user_id_addwhr", ""+uid);
             JSONObject paramObject = new JSONObject();
             paramObject.put("userid", uid);

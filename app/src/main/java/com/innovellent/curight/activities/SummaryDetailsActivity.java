@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
+import com.github.florent37.singledateandtimepicker.dialog.DoubleDateAndTimePickerDialog;
 import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
 import com.innovellent.curight.LoginActivity;
 import com.innovellent.curight.R;
@@ -40,10 +41,12 @@ import com.innovellent.curight.utility.Util;
 import com.pixplicity.easyprefs.library.Prefs;
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -77,6 +80,11 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
     String sel_test_ids,test_amnt_str,test_homepickup;
     String[] test_amnts;
     TextView tvTotal;
+    SimpleDateFormat simpleDateFormat;
+    SimpleDateFormat simpleTimeFormat;
+    SimpleDateFormat simpleDateOnlyFormat;
+    SingleDateAndTimePickerDialog.Builder singleBuilder;
+    DoubleDateAndTimePickerDialog.Builder doubleBuilder;
     boolean updateFlag = false;
     private int mYear, mMonth, mDay;
 
@@ -103,6 +111,10 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
             Log.d(TAG,"summery_testpickup***"+test_homepickup);
         }
         init();
+        this.simpleDateFormat = new SimpleDateFormat("EEE d MMM HH:mm", Locale.getDefault());
+        this.simpleTimeFormat = new SimpleDateFormat("d MMM hh:mm aa", Locale.getDefault());
+        this.simpleDateOnlyFormat = new SimpleDateFormat("EEE d MMM", Locale.getDefault());
+
         iniClick();
         Log.d("arraylistsize***",  ""+arrayList.size());
         Log.d("amountlistsize***",  ""+amountList.size());
@@ -219,7 +231,6 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
         //mAdapter.swap(arrayList,amountList);
     }
 
-
     @Override
     public void onClick(View v) {
 
@@ -275,30 +286,45 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
             case R.id.ivCalendar:
                 if(cbHomePickup.isChecked())
                 {
-                    new SingleDateAndTimePickerDialog.Builder(SummaryDetailsActivity.this)
-                            //.bottomSheet()
-                            //.curved()
+                    Calendar calendar = Calendar.getInstance();
+
+                    calendar.set(Calendar.DAY_OF_MONTH, 30);
+                    calendar.set(Calendar.MONTH, 0);
+                    calendar.set(Calendar.YEAR, 1991);
+                    calendar.set(Calendar.HOUR_OF_DAY, 11);
+                    calendar.set(Calendar.MINUTE, 13);
+
+                    final Date defaultDate = calendar.getTime();
+                    singleBuilder = new SingleDateAndTimePickerDialog.Builder(this)
+
+                            .bottomSheet()
+                            .curved()
+
+                            .defaultDate(defaultDate)
+
+                            .mustBeOnFuture()
+                            //.titleTextColor(Color.GREEN)
+                            //.backgroundColor(Color.BLACK)
+                            //.mainColor(Color.GREEN)
                             .minutesStep(15)
-
-                            //.displayHours(false)
-                            //.displayMinutes(false)
-
-                            //.todayText("aujourd'hui")
-
+                            .displayMinutes(true)
+                            .displayHours(true)
+                            .displayDays(true)
                             .displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
                                 @Override
                                 public void onDisplayed(SingleDateAndTimePicker picker) {
-                                    //retrieve the SingleDateAndTimePicker
+
                                 }
                             })
 
-                            .title("Start Date")
+                            .title("Simple Time")
                             .listener(new SingleDateAndTimePickerDialog.Listener() {
                                 @Override
                                 public void onDateSelected(Date date) {
-                                    startDate.setText(String.valueOf(date));
+                                    startDate.setText(simpleTimeFormat.format(date));
                                 }
-                            }).display();
+                            });
+                    singleBuilder.display();
                 }else {
                     Toast.makeText(SummaryDetailsActivity.this,"Select HomepickUp First",Toast.LENGTH_SHORT).show();
                 }
@@ -307,30 +333,45 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
            case R.id.startDate:
                 if(cbHomePickup.isChecked())
                 {
-                    new SingleDateAndTimePickerDialog.Builder(SummaryDetailsActivity.this)
-                            //.bottomSheet()
-                            //.curved()
+                    Calendar calendar = Calendar.getInstance();
+
+                    calendar.set(Calendar.DAY_OF_MONTH, 30);
+                    calendar.set(Calendar.MONTH, 0);
+                    calendar.set(Calendar.YEAR, 1991);
+                    calendar.set(Calendar.HOUR_OF_DAY, 11);
+                    calendar.set(Calendar.MINUTE, 13);
+
+                    final Date defaultDate = calendar.getTime();
+                    singleBuilder = new SingleDateAndTimePickerDialog.Builder(this)
+
+                            .bottomSheet()
+                            .curved()
+
+                            .defaultDate(defaultDate)
+
+                            .mustBeOnFuture()
+                            //.titleTextColor(Color.GREEN)
+                            //.backgroundColor(Color.BLACK)
+                            //.mainColor(Color.GREEN)
                             .minutesStep(15)
-
-                            //.displayHours(false)
-                            //.displayMinutes(false)
-
-                            //.todayText("aujourd'hui")
-
+                            .displayMinutes(true)
+                            .displayHours(true)
+                            .displayDays(true)
                             .displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
                                 @Override
                                 public void onDisplayed(SingleDateAndTimePicker picker) {
-                                    //retrieve the SingleDateAndTimePicker
+
                                 }
                             })
 
-                            .title("Start Date")
+                            .title("Simple Time")
                             .listener(new SingleDateAndTimePickerDialog.Listener() {
                                 @Override
                                 public void onDateSelected(Date date) {
-                                    startDate.setText(String.valueOf(date));
+                                    startDate.setText(simpleTimeFormat.format(date));
                                 }
-                            }).display();
+                            });
+                    singleBuilder.display();
                 }else {
                     Toast.makeText(SummaryDetailsActivity.this,"Select HomepickUp First",Toast.LENGTH_SHORT).show();
                 }
@@ -343,30 +384,45 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
 
                if(cbHomePickup.isChecked())
                {
-                   new SingleDateAndTimePickerDialog.Builder(SummaryDetailsActivity.this)
-                           //.bottomSheet()
-                           //.curved()
+                   Calendar calendar = Calendar.getInstance();
+
+                   calendar.set(Calendar.DAY_OF_MONTH, 30);
+                   calendar.set(Calendar.MONTH, 0);
+                   calendar.set(Calendar.YEAR, 1991);
+                   calendar.set(Calendar.HOUR_OF_DAY, 11);
+                   calendar.set(Calendar.MINUTE, 13);
+
+                   final Date defaultDate = calendar.getTime();
+                   singleBuilder = new SingleDateAndTimePickerDialog.Builder(this)
+
+                           .bottomSheet()
+                           .curved()
+
+                           .defaultDate(defaultDate)
+
+                           .mustBeOnFuture()
+                           //.titleTextColor(Color.GREEN)
+                           //.backgroundColor(Color.BLACK)
+                           //.mainColor(Color.GREEN)
                            .minutesStep(15)
-
-                           //.displayHours(false)
-                           //.displayMinutes(false)
-
-                           //.todayText("aujourd'hui")
-
+                           .displayMinutes(true)
+                           .displayHours(true)
+                           .displayDays(true)
                            .displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
                                @Override
                                public void onDisplayed(SingleDateAndTimePicker picker) {
-                                   //retrieve the SingleDateAndTimePicker
+
                                }
                            })
 
-                           .title("Start Date")
+                           .title("Simple Time")
                            .listener(new SingleDateAndTimePickerDialog.Listener() {
                                @Override
                                public void onDateSelected(Date date) {
-                                   startDate.setText(String.valueOf(date));
+                                   startDate.setText(simpleTimeFormat.format(date));
                                }
-                           }).display();
+                           });
+                   singleBuilder.display();
                }else {
                     Toast.makeText(SummaryDetailsActivity.this,"Select HomepickUp First",Toast.LENGTH_SHORT).show();
                }
@@ -378,45 +434,45 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
             case R.id.endDate:
                 if(cbHomePickup.isChecked())
                 {
-                    new SingleDateAndTimePickerDialog.Builder(SummaryDetailsActivity.this)
-                            //.bottomSheet()
-                            //.curved()
+                    Calendar calendar = Calendar.getInstance();
+
+                    calendar.set(Calendar.DAY_OF_MONTH, 30);
+                    calendar.set(Calendar.MONTH, 0);
+                    calendar.set(Calendar.YEAR, 1991);
+                    calendar.set(Calendar.HOUR_OF_DAY, 11);
+                    calendar.set(Calendar.MINUTE, 13);
+
+                    final Date defaultDate = calendar.getTime();
+                    singleBuilder = new SingleDateAndTimePickerDialog.Builder(this)
+
+                            .bottomSheet()
+                            .curved()
+
+                            .defaultDate(defaultDate)
+
+                            .mustBeOnFuture()
+                            //.titleTextColor(Color.GREEN)
+                            //.backgroundColor(Color.BLACK)
+                            //.mainColor(Color.GREEN)
                             .minutesStep(15)
-
-                            //.displayHours(false)
-                            //.displayMinutes(false)
-
-                            //.todayText("aujourd'hui")
-
+                            .displayMinutes(true)
+                            .displayHours(true)
+                            .displayDays(true)
                             .displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
                                 @Override
                                 public void onDisplayed(SingleDateAndTimePicker picker) {
-                                    //retrieve the SingleDateAndTimePicker
+
                                 }
                             })
 
-                            .title("End Date")
+                            .title("Simple Time")
                             .listener(new SingleDateAndTimePickerDialog.Listener() {
                                 @Override
                                 public void onDateSelected(Date date) {
-                                    int date1 = date.getDate();
-                                    int date2 = date.getMonth();
-                                    int date3 = date.getYear();
-                                    int date4 = date.getHours();
-                                    int date5 = date.getMinutes();
-                                    int date6 = date.getSeconds();
-                                    long date7 = date.getTime();
-                                    Log.d(TAG,"date e1 ::"+date1);
-                                    Log.d(TAG,"date e2 ::"+date2);
-                                    Log.d(TAG,"date e3 ::"+date3);
-                                    Log.d(TAG,"date e4 ::"+date4);
-                                    Log.d(TAG,"date e5 ::"+date5);
-                                    Log.d(TAG,"date e6 ::"+date6);
-                                    Log.d(TAG,"date e7 ::"+date7);
-
-                                    endDate.setText(String.valueOf(date));
+                                    endDate.setText(simpleTimeFormat.format(date));
                                 }
-                            }).display();
+                            });
+                    singleBuilder.display();
                 }else {
                     Toast.makeText(SummaryDetailsActivity.this,"Select HomepickUp First",Toast.LENGTH_SHORT).show();
                 }
@@ -425,45 +481,45 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
             case R.id.ivCalendar1:
                 if(cbHomePickup.isChecked())
                 {
-                    new SingleDateAndTimePickerDialog.Builder(SummaryDetailsActivity.this)
-                            //.bottomSheet()
-                            //.curved()
+                    Calendar calendar = Calendar.getInstance();
+
+                    calendar.set(Calendar.DAY_OF_MONTH, 30);
+                    calendar.set(Calendar.MONTH, 0);
+                    calendar.set(Calendar.YEAR, 1991);
+                    calendar.set(Calendar.HOUR_OF_DAY, 11);
+                    calendar.set(Calendar.MINUTE, 13);
+
+                    final Date defaultDate = calendar.getTime();
+                    singleBuilder = new SingleDateAndTimePickerDialog.Builder(this)
+
+                            .bottomSheet()
+                            .curved()
+
+                            .defaultDate(defaultDate)
+
+                            .mustBeOnFuture()
+                            //.titleTextColor(Color.GREEN)
+                            //.backgroundColor(Color.BLACK)
+                            //.mainColor(Color.GREEN)
                             .minutesStep(15)
-
-                            //.displayHours(false)
-                            //.displayMinutes(false)
-
-                            //.todayText("aujourd'hui")
-
+                            .displayMinutes(true)
+                            .displayHours(true)
+                            .displayDays(true)
                             .displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
                                 @Override
                                 public void onDisplayed(SingleDateAndTimePicker picker) {
-                                    //retrieve the SingleDateAndTimePicker
+
                                 }
                             })
 
-                            .title("End Date")
+                            .title("Simple Time")
                             .listener(new SingleDateAndTimePickerDialog.Listener() {
                                 @Override
                                 public void onDateSelected(Date date) {
-                                    int date1 = date.getDate();
-                                    int date2 = date.getMonth();
-                                    int date3 = date.getYear();
-                                    int date4 = date.getHours();
-                                    int date5 = date.getMinutes();
-                                    int date6 = date.getSeconds();
-                                    long date7 = date.getTime();
-                                    Log.d(TAG,"date e1 ::"+date1);
-                                    Log.d(TAG,"date e2 ::"+date2);
-                                    Log.d(TAG,"date e3 ::"+date3);
-                                    Log.d(TAG,"date e4 ::"+date4);
-                                    Log.d(TAG,"date e5 ::"+date5);
-                                    Log.d(TAG,"date e6 ::"+date6);
-                                    Log.d(TAG,"date e7 ::"+date7);
-
-                                    endDate.setText(String.valueOf(date));
+                                    endDate.setText(simpleTimeFormat.format(date));
                                 }
-                            }).display();
+                            });
+                    singleBuilder.display();
                 }else {
                     Toast.makeText(SummaryDetailsActivity.this,"Select HomepickUp First",Toast.LENGTH_SHORT).show();
                 }
@@ -473,45 +529,87 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
 
                 if(cbHomePickup.isChecked())
                 {
-                new SingleDateAndTimePickerDialog.Builder(SummaryDetailsActivity.this)
-                        //.bottomSheet()
-                        //.curved()
-                        .minutesStep(15)
+                    Calendar calendar = Calendar.getInstance();
 
-                        //.displayHours(false)
-                        //.displayMinutes(false)
+                    calendar.set(Calendar.DAY_OF_MONTH, 30);
+                    calendar.set(Calendar.MONTH, 0);
+                    calendar.set(Calendar.YEAR, 1991);
+                    calendar.set(Calendar.HOUR_OF_DAY, 11);
+                    calendar.set(Calendar.MINUTE, 13);
 
-                        //.todayText("aujourd'hui")
+                    final Date defaultDate = calendar.getTime();
+                    singleBuilder = new SingleDateAndTimePickerDialog.Builder(this)
 
-                        .displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
-                            @Override
-                            public void onDisplayed(SingleDateAndTimePicker picker) {
-                                //retrieve the SingleDateAndTimePicker
-                            }
-                        })
+                            .bottomSheet()
+                            .curved()
 
-                        .title("End Date")
-                        .listener(new SingleDateAndTimePickerDialog.Listener() {
-                            @Override
-                            public void onDateSelected(Date date) {
-                               int date1 = date.getDate();
-                               int date2 = date.getMonth();
-                               int date3 = date.getYear();
-                               int date4 = date.getHours();
-                               int date5 = date.getMinutes();
-                               int date6 = date.getSeconds();
-                               long date7 = date.getTime();
-                               Log.d(TAG,"date e1 ::"+date1);
-                               Log.d(TAG,"date e2 ::"+date2);
-                               Log.d(TAG,"date e3 ::"+date3);
-                               Log.d(TAG,"date e4 ::"+date4);
-                               Log.d(TAG,"date e5 ::"+date5);
-                               Log.d(TAG,"date e6 ::"+date6);
-                               Log.d(TAG,"date e7 ::"+date7);
+                            .defaultDate(defaultDate)
 
-                                endDate.setText(String.valueOf(date));
-                            }
-                        }).display();
+                            .mustBeOnFuture()
+                            //.titleTextColor(Color.GREEN)
+                            //.backgroundColor(Color.BLACK)
+                            //.mainColor(Color.GREEN)
+                            .minutesStep(15)
+                            .displayMinutes(true)
+                            .displayHours(true)
+                            .displayDays(true)
+                            .displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
+                                @Override
+                                public void onDisplayed(SingleDateAndTimePicker picker) {
+
+                                }
+                            })
+
+                            .title("Simple Time")
+                            .listener(new SingleDateAndTimePickerDialog.Listener() {
+                                @Override
+                                public void onDateSelected(Date date) {
+                                    endDate.setText(simpleTimeFormat.format(date));
+                                }
+                            });
+                    singleBuilder.display();
+                    //.displayMonth(true)
+                    //.displayYears(true)
+
+//                new SingleDateAndTimePickerDialog.Builder(SummaryDetailsActivity.this)
+//                        //.bottomSheet()
+//                        //.curved()
+//                        .minutesStep(15)
+//
+//                        //.displayHours(false)
+//                        //.displayMinutes(false)
+//
+//                        //.todayText("aujourd'hui")
+//
+//                        .displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
+//                            @Override
+//                            public void onDisplayed(SingleDateAndTimePicker picker) {
+//                                //retrieve the SingleDateAndTimePicker
+//                            }
+//                        })
+//
+//                        .title("End Date")
+//                        .listener(new SingleDateAndTimePickerDialog.Listener() {
+//                            @Override
+//                            public void onDateSelected(Date date) {
+//                               int date1 = date.getDate();
+//                               int date2 = date.getMonth();
+//                               int date3 = date.getYear();
+//                               int date4 = date.getHours();
+//                               int date5 = date.getMinutes();
+//                               int date6 = date.getSeconds();
+//                               long date7 = date.getTime();
+//                               Log.d(TAG,"date e1 ::"+date1);
+//                               Log.d(TAG,"date e2 ::"+date2);
+//                               Log.d(TAG,"date e3 ::"+date3);
+//                               Log.d(TAG,"date e4 ::"+date4);
+//                               Log.d(TAG,"date e5 ::"+date5);
+//                               Log.d(TAG,"date e6 ::"+date6);
+//                               Log.d(TAG,"date e7 ::"+date7);
+//
+//                                endDate.setText(String.valueOf(date));
+//                            }
+//                        }).display();
                 }else {
                     Toast.makeText(SummaryDetailsActivity.this,"Select HomepickUp First",Toast.LENGTH_SHORT).show();
                 }
@@ -562,6 +660,14 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
         if(item.getItemId()==android.R.id.home)
             finish();
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (singleBuilder != null)
+            singleBuilder.dismiss();
+        if (doubleBuilder != null)
+            doubleBuilder.dismiss();
     }
     @Override
     public void onBackPressed() {

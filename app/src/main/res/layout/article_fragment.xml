@@ -15,11 +15,11 @@
         android:layout_alignParentTop="true">
 
         <LinearLayout
-            android:layout_marginTop="10dp"
             android:id="@+id/layoutThree"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_below="@+id/layoutTwo"
+            android:layout_marginTop="10dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -32,18 +32,17 @@
                     android:id="@+id/card_view1"
                     android:layout_width="0dp"
                     android:layout_height="110dp"
-                    android:background="@drawable/border_rectangle"
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
                     android:layout_weight="33.3"
+                    android:background="@drawable/border_rectangle"
                     card_view:contentPadding="0dp">
 
                     <RelativeLayout
-                        android:background="?android:attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true"
+                        android:id="@+id/rl_cartview1"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:background="?android:attr/selectableItemBackground">
 
                         <ImageView
                             android:id="@+id/ivHealthToday"
@@ -70,20 +69,20 @@
 
                 <android.support.v7.widget.CardView
                     android:id="@+id/card_view2"
-                    android:background="@drawable/border_rectangle"
                     android:layout_width="0dp"
                     android:layout_height="110dp"
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
                     android:layout_weight="33.3"
+                    android:background="@drawable/border_rectangle"
                     card_view:contentPadding="0dp">
 
                     <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:background="?android:attr/selectableItemBackground"
                         android:clickable="true"
-                        android:focusable="true"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:focusable="true">
 
                         <ImageView
                             android:id="@+id/ivMythBreaker"
@@ -110,21 +109,21 @@
 
                 <android.support.v7.widget.CardView
                     android:id="@+id/card_view6"
-                    android:background="@drawable/border_rectangle"
                     android:layout_width="0dp"
                     android:layout_height="110dp"
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
                     android:layout_weight="33.3"
+                    android:background="@drawable/border_rectangle"
                     card_view:contentPadding="0dp">
 
                     <RelativeLayout
-                        android:background="?android:attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true"
                         android:id="@+id/rlPatientAwareness"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true">
 
                         <ImageView
                             android:id="@+id/ivPatientAwareness"
@@ -162,18 +161,18 @@
                     android:layout_width="0dp"
                     android:layout_height="110dp"
                     android:layout_gravity="center"
-                    android:background="@drawable/border_rectangle"
                     android:layout_margin="5dp"
                     android:layout_weight="33.3"
+                    android:background="@drawable/border_rectangle"
                     card_view:contentPadding="0dp">
 
                     <RelativeLayout
                         android:id="@+id/rlHealth2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:background="?android:attr/selectableItemBackground"
                         android:clickable="true"
-                        android:focusable="true"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:focusable="true">
 
                         <ImageView
                             android:id="@+id/ivProtocolEmergency"
@@ -181,8 +180,8 @@
                             android:layout_height="30dp"
                             android:layout_alignParentTop="true"
                             android:layout_centerHorizontal="true"
-                            android:layout_marginTop="20dp"
                             android:layout_marginBottom="10dp"
+                            android:layout_marginTop="20dp"
                             android:background="@mipmap/ic_emergency5" />
 
                         <TextView
@@ -202,20 +201,20 @@
                 <android.support.v7.widget.CardView
                     android:id="@+id/card_view5"
                     android:layout_width="0dp"
-                    android:background="@drawable/border_rectangle"
                     android:layout_height="110dp"
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
                     android:layout_weight="33.3"
+                    android:background="@drawable/border_rectangle"
                     card_view:contentPadding="0dp">
 
                     <RelativeLayout
-                        android:background="?android:attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true"
                         android:id="@+id/rlMythBreaker"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true">
 
                         <ImageView
                             android:id="@+id/ivstorybypharm"
@@ -223,20 +222,20 @@
                             android:layout_height="30dp"
                             android:layout_alignParentTop="true"
                             android:layout_centerHorizontal="true"
-                            android:layout_marginTop="20dp"
                             android:layout_marginBottom="10dp"
+                            android:layout_marginTop="20dp"
                             android:background="@mipmap/ic_story5" />
 
                         <TextView
                             android:id="@+id/tvStrorybyPharm"
-                            android:textAlignment="center"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/ivstorybypharm"
                             android:layout_centerHorizontal="true"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
                             android:text="@string/story"
+                            android:textAlignment="center"
                             android:textSize="12sp" />
 
 
@@ -245,39 +244,39 @@
                 <android.support.v7.widget.CardView
                     android:id="@+id/card_view3"
                     android:layout_width="0dp"
-                    android:background="@drawable/border_rectangle"
                     android:layout_height="110dp"
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
                     android:layout_weight="33.3"
+                    android:background="@drawable/border_rectangle"
                     card_view:contentPadding="0dp">
 
                     <RelativeLayout
-                        android:background="?android:attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true"
                         android:id="@+id/rlBookTest"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true">
 
                         <ImageView
                             android:id="@+id/ivBookTest"
                             android:layout_width="30dp"
-                            android:layout_marginBottom="10dp"
                             android:layout_height="30dp"
                             android:layout_alignParentTop="true"
                             android:layout_centerHorizontal="true"
+                            android:layout_marginBottom="10dp"
                             android:layout_marginTop="20dp"
                             android:background="@mipmap/ic_patitent5" />
 
                         <TextView
                             android:id="@+id/tvBookTest"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/ivBookTest"
                             android:layout_centerHorizontal="true"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
                             android:text="@string/patient"
                             android:textAlignment="center"
                             android:textSize="12sp" />
@@ -297,19 +296,19 @@
                     android:id="@+id/card_view7"
                     android:layout_width="0dp"
                     android:layout_height="110dp"
-                    android:background="@drawable/border_rectangle"
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
                     android:layout_weight="33.3"
+                    android:background="@drawable/border_rectangle"
                     card_view:contentPadding="0dp">
 
                     <RelativeLayout
-                        android:background="?android:attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true"
                         android:id="@+id/rlWoman"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true">
 
                         <ImageView
                             android:id="@+id/ivWoman"
@@ -317,8 +316,8 @@
                             android:layout_height="30dp"
                             android:layout_alignParentTop="true"
                             android:layout_centerHorizontal="true"
-                            android:layout_marginTop="20dp"
                             android:layout_marginBottom="10dp"
+                            android:layout_marginTop="20dp"
                             android:background="@mipmap/ic_women_health5" />
 
                         <TextView

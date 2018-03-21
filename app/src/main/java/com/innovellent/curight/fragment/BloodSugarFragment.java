@@ -267,7 +267,7 @@ public class BloodSugarFragment extends Fragment implements View.OnClickListener
 
         try{
             JSONObject paramObject = new JSONObject();
-            int uid = (int) Prefs.getLong("user_id",0);
+            int uid = (int) Prefs.getLong("spinner_id",0);
             paramObject.put("userid", uid);
             paramObject.put("aftermeal", Aftermeal);
             paramObject.put("beforemeal", Beforemeal);

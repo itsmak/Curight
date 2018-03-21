@@ -55,6 +55,7 @@ public class ForyouFragment  extends Fragment {
     MyOfferingAdapter myOfferAdapter;
     TextView tvOffer,tvFromDate,tvOfferDescription,tvToDate,tvOfferTitle;
     RecyclerView recyclerView;
+    int position;
     RelativeLayout container;
     TextView tv_locationtxt,tv_locationsymbl,tvTitle;
     ImageView expandedImageView;
@@ -126,7 +127,12 @@ public class ForyouFragment  extends Fragment {
                     Log.d(TAG,"Article response cd:"+response.body().getCode());
                     arrayList = serverResponseOffer.getResults();
                     Log.d(TAG,"Article size :"+arrayList.size());
-                    myOfferAdapter = new MyOfferingAdapter(getActivity(),arrayList,"Y",ForyouFragment.this);
+                    myOfferAdapter = new MyOfferingAdapter(getActivity(), arrayList, "Y", ForyouFragment.this, position, new MyOfferingAdapter.OnToggleclicklistner() {
+                        @Override
+                        public void onMorningClick(Article_FEED item_m, int position) {
+
+                        }
+                    });
                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
                     recyclerView.setAdapter(myOfferAdapter);
                 }
@@ -288,7 +294,12 @@ public class ForyouFragment  extends Fragment {
     }
 
     public void clearData() {
-        myOfferAdapter = new MyOfferingAdapter(context, arrayList,"Y",ForyouFragment.this);
+        myOfferAdapter = new MyOfferingAdapter(context, arrayList, "Y", ForyouFragment.this, position, new MyOfferingAdapter.OnToggleclicklistner() {
+            @Override
+            public void onMorningClick(Article_FEED item_m, int position) {
+
+            }
+        });
         arrayList.clear(); //clear list
         myOfferAdapter.notifyDataSetChanged();//let your adapter know about the changes and reload view.
 

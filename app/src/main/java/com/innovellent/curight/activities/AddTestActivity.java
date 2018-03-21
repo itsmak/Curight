@@ -178,7 +178,7 @@ public class AddTestActivity extends AppCompatActivity implements View.OnClickLi
 
         Log.e("ADD_TEST","DC_ID  ::"+dc_id);
 
-        final DiagnosticCentre centre = new DiagnosticCentre(Integer.parseInt(dc_id+""),sel_test_ids);
+        final DiagnosticCentre centre = new DiagnosticCentre(Integer.parseInt(dc_id+""),sel_test_ids,"none");
 
         Call<ServerResponseDiagCenter> call = apiInterface.getDcTest(centre);
 

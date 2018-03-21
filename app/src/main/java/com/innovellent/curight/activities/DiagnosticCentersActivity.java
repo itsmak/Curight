@@ -107,11 +107,33 @@ public class DiagnosticCentersActivity extends AppCompatActivity implements View
             integer_diagnostic_id = Integer.parseInt(dianosticcentre_id);
             finaltext_id ="0";
         }
-        Spinner niceSpinner = (Spinner) findViewById(R.id.nice_spinner);
-        final List<String> dataset = new LinkedList<>(Arrays.asList("None", "Low to High", "High to Low", "Popularity"));
-        //niceSpinner.setAdapter();
-        getData(integer_diagnostic_id,finaltext_id);
+        Spinner niceSpinner = (Spinner) findViewById(R.id.spinner_sortby);
+        final List<String> sortvalue = new ArrayList<String>();
+        sortvalue.add("None");
+        sortvalue.add("LowToHigh");
+        sortvalue.add("HighToLow");
+        sortvalue.add("popularity");
 
+        // Creating adapter for spinner
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, sortvalue);
+        // Drop down layout style - list view with radio button
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // attaching data adapter to spinner
+        niceSpinner.setAdapter(dataAdapter);
+        //niceSpinner.setAdapter();
+       // getData(integer_diagnostic_id,finaltext_id,"none");
+        niceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                getData(integer_diagnostic_id,finaltext_id,sortvalue.get(position));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
     }
         public int testcount()
@@ -131,12 +153,12 @@ public class DiagnosticCentersActivity extends AppCompatActivity implements View
         recycler_view=(RecyclerView)findViewById(R.id.recycler_view);
     }
 
-    public void getData(int integer_diagnostic_id, String newtest_id){
+    public void getData(int integer_diagnostic_id, String newtest_id,String sortby){
 
         progressDialog = ProgressDialog.show(DiagnosticCentersActivity.this, "Loading", "please wait", true, false);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
-
+        clearData();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(new Config().SERVER_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -145,14 +167,15 @@ public class DiagnosticCentersActivity extends AppCompatActivity implements View
         ApiInterface apiInterface = retrofit.create(ApiInterface.class);
         Log.d(TAG,"summery_param diagnostic"+integer_diagnostic_id);
         Log.d(TAG,"summery_param test"+newtest_id);
-        final DiagnosticCentre centre = new DiagnosticCentre(integer_diagnostic_id,newtest_id);
+        final DiagnosticCentre centre = new DiagnosticCentre(integer_diagnostic_id,newtest_id,sortby);
 
         Call<ServerResponseDiagCenter> call = apiInterface.getDcTest(centre);
 
         call.enqueue(new Callback<ServerResponseDiagCenter>() {
             @Override
             public void onResponse(Call<ServerResponseDiagCenter> call, Response<ServerResponseDiagCenter> response) {
-              if(response.body()!=null) {
+                progressDialog.dismiss();
+                if(response.body()!=null) {
                   progressDialog.dismiss();
                   diagCenterByTest = (ServerResponseDiagCenter) response.body();
                   String code = diagCenterByTest.getCode();
@@ -185,6 +208,11 @@ public class DiagnosticCentersActivity extends AppCompatActivity implements View
     });
 }
 
+    private void clearData() {
+        mAdapter = new DiagnosticCenterAdapter(DiagnosticCentersActivity.this, centerObjs);
+        centerObjs.clear(); //clear list
+        mAdapter.notifyDataSetChanged();
+    }
 
 
     @Override

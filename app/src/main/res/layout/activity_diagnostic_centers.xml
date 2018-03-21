@@ -53,12 +53,14 @@
             android:textSize="14sp"
             />
         <Spinner
-            android:id="@+id/nice_spinner"
+            android:id="@+id/spinner_sortby"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/tv_sortby"
-            android:paddingRight="10dp"/>
+            android:padding="5dp">
+
+        </Spinner>
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView

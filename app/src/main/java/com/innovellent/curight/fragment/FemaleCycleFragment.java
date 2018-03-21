@@ -363,7 +363,7 @@ public class FemaleCycleFragment extends Fragment implements View.OnClickListene
                 .build();
 
         ApiInterface apiInterface = retrofit.create(ApiInterface.class);
-        final int uid = (int) Prefs.getLong("user_id",0);
+        int uid = (int) Prefs.getLong("spinner_id",0);
         try{
 
 

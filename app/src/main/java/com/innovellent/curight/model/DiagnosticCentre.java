@@ -7,10 +7,18 @@ package com.innovellent.curight.model;
 public class DiagnosticCentre {
     private Integer diagnosticcentreid;
     private String testsid;
+    private String sortby;
 
     public DiagnosticCentre(Integer diagnosticcentreid, String testsid) {
         this.diagnosticcentreid = diagnosticcentreid;
         this.testsid = testsid;
+
+    }
+
+    public DiagnosticCentre(Integer diagnosticcentreid, String testsid, String sortby) {
+        this.diagnosticcentreid = diagnosticcentreid;
+        this.testsid = testsid;
+        this.sortby = sortby;
     }
 
     public Integer getDiagnosticcentreid() {
@@ -27,5 +35,13 @@ public class DiagnosticCentre {
 
     public void setTestsid(String testsid) {
         this.testsid = testsid;
+    }
+
+    public String getSortby() {
+        return sortby;
+    }
+
+    public void setSortby(String sortby) {
+        this.sortby = sortby;
     }
 }

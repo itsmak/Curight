@@ -33,24 +33,29 @@ public class MyOfferingAdapter extends RecyclerView.Adapter<MyOfferingAdapter.My
 static final int NONE = 0;
 static final int DRAG = 1;
 static final int ZOOM = 2;
+    private final OnToggleclicklistner listener;
+    private final int position;
     public Double num;
     public boolean isWishlist=true;
     ArrayList<Article_FEED> arrayList;
     AdapterView.OnItemClickListener mItemClickListener;
     Matrix matrix = new Matrix();
-    Matrix savedMatrix = new Matrix();
-    PointF startPoint = new PointF();
-    PointF midPoint = new PointF(); float oldDist = 1f;
-    int mode = NONE;     ForyouFragment fragment;
-        WishListFragment fragment1;     MyViewHolder.ZoomImageListener zoomListener;
+        Matrix savedMatrix = new Matrix();     PointF startPoint = new PointF();
+    PointF midPoint = new PointF();     float oldDist = 1f;
+        int mode = NONE;     ForyouFragment fragment;
+WishListFragment fragment1;
+MyViewHolder.ZoomImageListener zoomListener;
     private Context mContext;
     private SharedPreferences sharedPreferences;
     private String wish, month,wishlistflag;
-    public MyOfferingAdapter(Context context, ArrayList<Article_FEED> arrayList, String wishlist, ForyouFragment fragment) {
+
+    public MyOfferingAdapter(Context context, ArrayList<Article_FEED> arrayList, String wishlist, ForyouFragment fragment,int position,OnToggleclicklistner listener) {
         mContext = context;
         this.wish = wishlist;
         this.arrayList = arrayList;
         this.fragment=fragment;
+        this.position = position;
+        this.listener =listener;
     }
 
     @Override
@@ -128,6 +133,11 @@ static final int ZOOM = 2;
     @Override
     public int getItemCount() {
         return arrayList.size();
+    }
+
+    public interface OnToggleclicklistner {
+
+        void onMorningClick(Article_FEED item_m, int position);
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {

@@ -226,7 +226,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginTop="10dp"
             android:layout_weight="7"
-            android:background="@drawable/goal" />
+            android:background="@drawable/food_consumtn" />
 
         <TextView
             android:layout_width="0dp"

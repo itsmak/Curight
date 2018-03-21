@@ -141,19 +141,19 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
         Log.d(TAG,"adapter_testcount"+test_count);
         holder.testCount.setText(arrayList.get(position).getCount()+" Out of "+test_count+" tests available");
 
-        holder.btnOverview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.e("OverView","center :: "+arrayList.get(position).getDiagnosticcentreid());
-            }
-        });
+//        holder.btnOverview.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Log.e("OverView","center :: "+arrayList.get(position).getDiagnosticcentreid());
+//            }
+//        });
 
-        holder.btnPhotos.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
+//        holder.btnPhotos.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//            }
+//        });
 
         holder.btnBookTest.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -286,8 +286,10 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
                 bundle.putLong("dc_id",arrayList.get(position).getDiagnosticcentreid());
                 bundle.putString("sel_test_ids",test_id_str);
 
-                Log.d(TAG,"final seltest id ::"+test_id_str);
-                Log.d(TAG,"final seldiagnostic ::"+arrayList.get(position).getDiagnosticcentreid());
+                Log.d(TAG,"final n dc_name::"+arrayList.get(position).getDiagnosticcentrename());
+                Log.d(TAG,"final n loc::"+arrayList.get(position).getAddress());
+                Log.d(TAG,"final n dc_id::"+arrayList.get(position).getDiagnosticcentreid());
+                Log.d(TAG,"final n_seltest id ::"+test_id_str);
                 i2.putExtras(bundle);
                 mContext.startActivity(i2);
                 //   bundle.putString("loc",);
@@ -483,7 +485,7 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
         ApiInterface apiInterface = retrofit.create(ApiInterface.class);
 
         final OverviewCenterByDC centre = new OverviewCenterByDC(arrayList.get(pos).getDiagnosticcentreid());
-
+        Log.d(TAG,"diagnostic centre id::"+arrayList.get(pos).getDiagnosticcentreid());
         Call<ServerResponseOverviewByDC> call = apiInterface.getOverviewByDc(centre);
 
         call.enqueue(new Callback<ServerResponseOverviewByDC>() {
@@ -512,7 +514,7 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
                     dialogWindow.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
 
                     lp.width = 900; // Width
-                    lp.height = 350; // Height
+                    lp.height = 450; // Height
                     lp.alpha = 0.7f; // Transparency
                     dialogWindow.setAttributes(lp);
 
@@ -549,7 +551,7 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
 
 
         ApiInterface apiInterface = retrofit.create(ApiInterface.class);
-
+        Log.d(TAG,"Diagnostic centre id::"+arrayList.get(pos).getDiagnosticcentreid());
         final PhotosCenterByDC centre = new PhotosCenterByDC(arrayList.get(pos).getDiagnosticcentreid());
 
         Call<ServerResponsePhotosByDC> call = apiInterface.getPhotosByDC(centre);

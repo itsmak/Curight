@@ -353,6 +353,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
 
     private void new_onclick() {
      //   android.support.v4.app.Fragment fragment= getSupportFragmentManager().findFragmentById(R.id.rlMainFragment);
+        final Long uid = Prefs.getLong("user_id",0);
         rl_home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -384,6 +385,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
                     tvTitle.setText("Reminder");
                     ivAdd.setVisibility(View.INVISIBLE);
                     viewPager.setVisibility(View.VISIBLE);
+                    tabLayout.setVisibility(View.VISIBLE);
                     frameLayout.setVisibility(View.GONE);
                     setupViewPagerMedicineReminder(viewPager);
                     tabLayout.setupWithViewPager(viewPager);
@@ -438,14 +440,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
          rl_profile.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {
-//                 if (uid==0) {
-//                     Intent i = new Intent(HomeActivity.this, LoginActivity.class);
-//                     Prefs.putString("destination", "Remainder");
-//                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                     // setupViewPagerMedicineReminder(viewPager);
-//                     startActivity(i);
-//                 }else {
+                 if (uid==0) {
+                     Intent i = new Intent(HomeActivity.this, LoginActivity.class);
+                     Prefs.putString("destination", "Remainder");
+                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                     // setupViewPagerMedicineReminder(viewPager);
+                     startActivity(i);
+                 }else {
                      ivAddprofile.setVisibility(View.VISIBLE);
                      ivAdd.setVisibility(View.INVISIBLE);
                      tvTitle.setVisibility(View.VISIBLE);
@@ -456,7 +458,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
                      adapter.notifyDataSetChanged();
                      setupViewPagerProfile(viewPager);
                      tabLayout.setupWithViewPager(viewPager);
-              //   }
+                 }
              }
          });
     }

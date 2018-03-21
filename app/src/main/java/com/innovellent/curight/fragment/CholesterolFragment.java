@@ -475,7 +475,7 @@ public class CholesterolFragment extends Fragment implements View.OnClickListene
 
         try {
             JSONObject paramObject = new JSONObject();
-            int uid = (int) Prefs.getLong("user_id",0);
+            int uid = (int) Prefs.getLong("spinner_id",0);
 
             paramObject.put("userid", uid);
             paramObject.put("hdl", hdl);

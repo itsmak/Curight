@@ -64,7 +64,7 @@ public class Add_Profile_Activity extends AppCompatActivity implements View.OnCl
         awesomeValidation.addValidation(this, R.id.etFirstName, "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.nameerror);
         awesomeValidation.addValidation(this, R.id.etLastName, "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.nameerror);
         awesomeValidation.addValidation(this, R.id.etEmail, Patterns.EMAIL_ADDRESS, R.string.emailerror);
-        awesomeValidation.addValidation(this, R.id.etMobileNo, "^[2-9]{2}[0-9]{8}$", R.string.mobileerror);
+      //  awesomeValidation.addValidation(this, R.id.etMobileNo, "^[2-9]{2}[0-9]{8}$", R.string.mobileerror);
         iniClick();
 
         etpincd.addTextChangedListener(new TextWatcher() {
@@ -225,7 +225,12 @@ public class Add_Profile_Activity extends AppCompatActivity implements View.OnCl
     private void SubmitProfile() {
 
         if (awesomeValidation.validate()) {
-            if(spGender.getSelectedItem().toString().trim().equals(""))
+            if(etMobileNo.getText().toString().trim().length()<10)
+            {
+                etMobileNo.setError("");
+                etMobileNo.setTextColor(Color.RED);//just to highlight that this is an error
+                etMobileNo.setText("Invalid Phone Number");//changes the selected item text to this
+            }else if(spGender.getSelectedItem().toString().trim().equals(""))
             {
                 TextView errorText = (TextView)spGender.getSelectedView();
                 errorText.setError("");

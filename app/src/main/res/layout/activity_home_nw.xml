@@ -256,7 +256,7 @@
                             android:layout_below="@+id/iv_remainder_icon"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="5dp"
-                            android:text="Remainder"
+                            android:text="Reminder"
                             android:textColor="#54666E"/>
 
                     </RelativeLayout>

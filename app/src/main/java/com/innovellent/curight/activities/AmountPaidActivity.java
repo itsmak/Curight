@@ -33,7 +33,7 @@ public class AmountPaidActivity extends AppCompatActivity implements View.OnClic
     String mobile;
     Long uid;
     String email;
-    String name;
+    String name,loc;
     TextView tvpatientName,tvMobile,tvPaidAmount;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +47,12 @@ public class AmountPaidActivity extends AppCompatActivity implements View.OnClic
             name = bundle.getString("name");
             mobile = bundle.getString("mobile");
         }
+        SharedPreferences sharedPreferences = getSharedPreferences("mypref", Context.MODE_PRIVATE);
+        uid = sharedPreferences.getLong("user_id",0L);
+        email = sharedPreferences.getString("email","");
+        mobile = sharedPreferences.getString("mobile","");
+        loc = sharedPreferences.getString("location","");
+        name = sharedPreferences.getString("user_name","");
         init();
         iniClick();
     }
@@ -74,9 +80,9 @@ public class AmountPaidActivity extends AppCompatActivity implements View.OnClic
         tvMobile =(TextView)findViewById(R.id.tvMobileNo);
         tvPaidAmount =(TextView)findViewById(R.id.tvPaidAmount);
       //  tvpatientName.setText("Patient name: "+name);
-        tvpatientName.setText("Patient name: Ashish");
+        tvpatientName.setText(name);
      //   tvMobile.setText("Mobile No: "+mobile);
-        tvMobile.setText("Mobile No: +91 2345678987");
+        tvMobile.setText(mobile);
         SharedPreferences sharedPreferences = getSharedPreferences("mypref", Context.MODE_PRIVATE);
         long total_amount = sharedPreferences.getLong("total_amount",0L);
         tvPaidAmount.setText("Paid Amount: "+total_amount);

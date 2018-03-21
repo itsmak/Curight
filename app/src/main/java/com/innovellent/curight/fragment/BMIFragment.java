@@ -452,7 +452,7 @@ public class BMIFragment extends Fragment implements View.OnClickListener {
 
         try {
             JSONObject paramObject = new JSONObject();
-            int uid = (int) Prefs.getLong("user_id",0);
+            int uid = (int) Prefs.getLong("spinner_id",0);
 
             paramObject.put("userid", uid);
             paramObject.put("weight", weight);

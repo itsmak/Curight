@@ -5,23 +5,30 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.innovellent.curight.R;
 import com.pixplicity.easyprefs.library.Prefs;
 
 
-public class ArticleFragment extends Fragment implements View.OnClickListener {
+public class ArticleFragment extends Fragment {
+    private static final String TAG = "CuRight";
     ImageView iv_home_icon,iv_remainder_icon,iv_article_icon,iv_track_icon,iv_profile_icon;
     TextView tv_home_txt,tv_remainder_txt,tv_article_txt,tv_track_txt,tv_profile_txt;
-    RelativeLayout rlHealth;
+    RelativeLayout rlHealth,rl_cartview1;
+    ViewPager viewpager;
+    TabLayout tab_layout;
     CardView card_view1,card_view2,card_view6,card_view4,card_view5,card_view3,card_view7;
     Context context;
     TextView tv_locationtxt,tv_locationsymbl,tvTitle;
@@ -57,6 +64,7 @@ public class ArticleFragment extends Fragment implements View.OnClickListener {
 
     public void init(View rootview) {
 
+        viewpager = (ViewPager) getActivity().findViewById(R.id.viewpager);
         iv_home_icon = (ImageView) getActivity().findViewById(R.id.iv_home_icon);
         iv_remainder_icon = (ImageView) getActivity().findViewById(R.id.iv_remainder_icon);
         iv_article_icon = (ImageView) getActivity().findViewById(R.id.iv_article_icon);
@@ -67,6 +75,7 @@ public class ArticleFragment extends Fragment implements View.OnClickListener {
         tv_article_txt = (TextView) getActivity().findViewById(R.id.tv_article_txt);
         tv_track_txt = (TextView) getActivity().findViewById(R.id.tv_track_txt);
         tv_profile_txt = (TextView) getActivity().findViewById(R.id.tv_profile_txt);
+        rl_cartview1 = (RelativeLayout) rootview.findViewById(R.id.rl_cartview1);
 
         card_view1 = (CardView) rootview.findViewById(R.id.card_view1);
         card_view2 = (CardView) rootview.findViewById(R.id.card_view2);
@@ -81,25 +90,44 @@ public class ArticleFragment extends Fragment implements View.OnClickListener {
         tvTitle.setText("Article");
         tv_locationtxt.setVisibility(View.GONE);
         tv_locationsymbl.setVisibility(View.GONE);
+        card_view1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+           //     Toast.makeText(getContext(),"1 is clicked",Toast.LENGTH_SHORT);
+
+            }
+        });
+        rl_cartview1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context,"1 is clicked",Toast.LENGTH_SHORT);
+            }
+        });
     }
 
     public void iniClick() {
 
-        card_view1.setOnClickListener(this);
-        card_view2.setOnClickListener(this);
-        card_view6.setOnClickListener(this);
-        card_view4.setOnClickListener(this);
-        card_view5.setOnClickListener(this);
-        card_view3.setOnClickListener(this);
-        card_view7.setOnClickListener(this);
+//        card_view1.setOnClickListener(this);
+//        card_view2.setOnClickListener(this);
+//        card_view6.setOnClickListener(this);
+//        card_view4.setOnClickListener(this);
+//        card_view5.setOnClickListener(this);
+//        card_view3.setOnClickListener(this);
+//        card_view7.setOnClickListener(this);
 
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-
-        }
-    }
+//    @Override
+//    public void onClick(View view) {
+//        switch (view.getId()) {
+//            case R.id.card_view1:
+//                Log.d(TAG,"I am clicked");
+//                Toast.makeText(getContext(),"1 is clicked",Toast.LENGTH_SHORT);
+//                viewpager.setCurrentItem(2,true);
+//                break;
+//
+//        }
+//    }
 
 }

@@ -116,7 +116,6 @@ public class PaymentDetailsActivity extends AppCompatActivity implements View.On
 
         tvPayableAmount.setText(""+total_amount);
         tvPayment.setText(""+total_amount);
-
         tvParentNamelabel.setText(name);
         tvPhoneNo.setText(mobile);
         tvEmailID.setText(email);
@@ -182,7 +181,6 @@ public class PaymentDetailsActivity extends AppCompatActivity implements View.On
                         .baseUrl(new Config().SERVER_URL)
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
-
 
                 ApiInterface apiInterface = retrofit.create(ApiInterface.class);
 

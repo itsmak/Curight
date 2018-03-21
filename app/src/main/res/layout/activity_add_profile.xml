@@ -223,8 +223,8 @@
                         android:layout_marginRight="10dp"
                         android:backgroundTint="@color/gray"
                         android:hint="@string/mobileno"
-                        android:inputType="text"
-                        android:maxLines="1"
+                        android:inputType="number"
+                        android:singleLine="true"
                         android:textColor="@color/darkgray"
                         android:textSize="12sp" />
 

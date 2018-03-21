@@ -340,7 +340,7 @@ public class BloodCountListFragment extends Fragment implements View.OnClickList
         try{
 
             JSONObject paramObject = new JSONObject();
-            int uid = (int) Prefs.getLong("user_id",0);
+            int uid = (int) Prefs.getLong("spinner_id",0);
                 paramObject.put("userid", uid);
                 paramObject.put("anticep", Anticep);
                 paramObject.put("crp", Crp);
