@@ -106,6 +106,7 @@ public class AddBMIRecordsDialog extends Dialog {
                 if (!(height = etHeight.getText().toString().trim()).equals(""))
                     if (!(weight = etWeight.getText().toString().trim()).equals(""))
                         listener.onSubmit(date, time, height, weight);
+                      //  listener.onSubmit("", "", "", "");
                     else
                         Toast.makeText(context, "Please enter valid weight", Toast.LENGTH_SHORT).show();
                 else

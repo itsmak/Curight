@@ -30,8 +30,8 @@ public class AddBloodSugarDialog extends Dialog {
     Context context;
     String date,time,aftermeal,beforemeal;
     RelativeLayout layout_datebloodsugar,timelayout_bloodsugar;
-    EditText etBeforemeal,etAftermeal;
-    TextView tv_date,tv_time;
+    EditText etBeforemeal,etAftermeal,tv_date;
+    TextView tv_time;
    // private TimePickerDialog timePickerDialog;
     private DatePickerDialog datePickerDialog;
 
@@ -55,7 +55,7 @@ public class AddBloodSugarDialog extends Dialog {
        // timelayout_bloodsugar = (RelativeLayout)findViewById(R.id.timelayout_bloodsugar);
         etBeforemeal = (EditText)findViewById(R.id.etBeforemeal);
         etAftermeal = (EditText)findViewById(R.id.etAftermeal);
-        tv_date = (TextView)findViewById(R.id.tv_date);
+        tv_date = (EditText) findViewById(R.id.tv_date);
        // tv_time = (TextView)findViewById(R.id.tv_time);
 
         final Calendar calendar = Calendar.getInstance();
@@ -91,7 +91,7 @@ public class AddBloodSugarDialog extends Dialog {
         findViewById(R.id.btnSubmit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                validateInputs();;
+                validateInputs_new();;
             }
         });
         findViewById(R.id.ivCancel).setOnClickListener(new View.OnClickListener() {
@@ -102,20 +102,32 @@ public class AddBloodSugarDialog extends Dialog {
         });
     }
 
-    private void validateInputs(){
-
-        if (!(date = tv_date.getText().toString().trim()).equals(""))
-                if(!(beforemeal = etBeforemeal.getText().toString().trim()).equals(""))
-                    if(!(aftermeal = etAftermeal.getText().toString().trim()).equals(""))
-                        listener.onSubmit(beforemeal, aftermeal,date);
-                        else
-                    Toast.makeText(context, "Please enter valid date", Toast.LENGTH_SHORT).show();
-
-        else
-            Toast.makeText(context, "Please enter beforemeal", Toast.LENGTH_SHORT).show();
-        else
-            Toast.makeText(context, "Please enter aftermeal", Toast.LENGTH_SHORT).show();
+    private void validateInputs_new(){
+        if(tv_date.getText().toString().trim().equals(""))
+        {
+            Toast.makeText(context, "Please enter valid date", Toast.LENGTH_SHORT).show();
+        }else if(etBeforemeal.getText().toString().trim().equals("")){
+            Toast.makeText(context, "Please enter your Beforemeal", Toast.LENGTH_SHORT).show();
+        }else if(etAftermeal.getText().toString().trim().equals("")){
+            Toast.makeText(context, "Please enter your Aftermeal", Toast.LENGTH_SHORT).show();
+        }else {
+            listener.onSubmit(etBeforemeal.getText().toString().trim(), etAftermeal.getText().toString().trim(),tv_date.getText().toString().trim());
+        }
     }
+//    private void validateInputs(){
+//
+//        if (!(date = tv_date.getText().toString().trim()).equals(""))
+//                if(!(beforemeal = etBeforemeal.getText().toString().trim()).equals(""))
+//                    if(!(aftermeal = etAftermeal.getText().toString().trim()).equals(""))
+//                        listener.onSubmit(beforemeal, aftermeal,date);
+//                        else
+//                    Toast.makeText(context, "Please enter valid date", Toast.LENGTH_SHORT).show();
+//
+//        else
+//            Toast.makeText(context, "Please enter beforemeal", Toast.LENGTH_SHORT).show();
+//        else
+//            Toast.makeText(context, "Please enter aftermeal", Toast.LENGTH_SHORT).show();
+//    }
 
     public interface AddBloodSugarDialogClickListener {
 

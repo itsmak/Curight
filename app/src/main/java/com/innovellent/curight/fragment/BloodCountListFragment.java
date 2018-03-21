@@ -369,7 +369,7 @@ public class BloodCountListFragment extends Fragment implements View.OnClickList
                             if(serverResponseBloodCount.getResults().equals("Success")){
                                 Toast.makeText(getActivity(), "Successfully Added", Toast.LENGTH_SHORT).show();
                                 showProgressDialog("Loading");
-                                int uid = (int) Prefs.getLong("user_id",0);
+                                int uid = (int) Prefs.getLong("spinner_id",0);
                                 getbloodcountdata(uid);
                                 progressDialog.dismiss();
                             }else {

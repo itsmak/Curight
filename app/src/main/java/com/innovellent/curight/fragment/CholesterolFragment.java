@@ -495,7 +495,7 @@ public class CholesterolFragment extends Fragment implements View.OnClickListene
                             if (serverResponse.getResults().equals("Success")) {
                                 Toast.makeText(getActivity(), "Successfully Added", Toast.LENGTH_SHORT).show();
                                 showProgressDialog("Loading");
-                                int uid = (int) Prefs.getLong("user_id",0);
+                                int uid = (int) Prefs.getLong("spinner_id",0);
                                 getCholesterolRecords(uid);
                                 progressDialog.dismiss();
                             } else

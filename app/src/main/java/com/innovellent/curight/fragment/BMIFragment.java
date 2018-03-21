@@ -110,7 +110,8 @@ public class BMIFragment extends Fragment implements View.OnClickListener {
             public void onSubmit(String date, String time, String height, String weight) {
                 addBMIRecordsDialog.dismiss();
                 showProgressDialog("Adding");
-                addBMIRecord(date, time, height, weight);
+               addBMIRecord(date, time, height, weight);
+               // addBMIRecord("", "", "", "");
             }
 
             @Override
@@ -456,7 +457,7 @@ public class BMIFragment extends Fragment implements View.OnClickListener {
 
             paramObject.put("userid", uid);
             paramObject.put("weight", weight);
-            paramObject.put("weight", height);
+            paramObject.put("height", height);
             paramObject.put("date", date);
             paramObject.put("time", time);
 
@@ -471,7 +472,7 @@ public class BMIFragment extends Fragment implements View.OnClickListener {
                             if (serverResponse.getResults().equals("Success")) {
                                 Toast.makeText(getActivity(), "Successfully Added", Toast.LENGTH_SHORT).show();
                                 showProgressDialog("Loading");
-                                int uid = (int) Prefs.getLong("user_id",0);
+                                int uid = (int) Prefs.getLong("spinner_id",0);
                                 getBMIRecords(uid);
                                 progressDialog.dismiss();
                             } else

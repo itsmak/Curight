@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -17,10 +18,10 @@ import java.util.ArrayList;
 
 public class BloodCountListAdapter extends RecyclerView.Adapter<BloodCountListAdapter.MyViewHolder> {
 
-    private ArrayList<BloodCount> arrayList = new ArrayList<>();
      Context mContext;
-    private String state;
     BloodCount bloodCount;
+    private ArrayList<BloodCount> arrayList = new ArrayList<>();
+    private String state;
 
 
 
@@ -69,7 +70,14 @@ public class BloodCountListAdapter extends RecyclerView.Adapter<BloodCountListAd
             holder.txt_bloodcountdate.setText("");
         }
 
-
+        holder.img_deleteitemforbloodcount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                arrayList.remove(position);
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position, arrayList.size());
+            }
+        });
 
     }
 
@@ -83,7 +91,7 @@ public class BloodCountListAdapter extends RecyclerView.Adapter<BloodCountListAd
 
 
         TextView tvAntiCPP,tvCRP,tvESR,tvHaemoglobin,tvHbA1c,tvINR,tvPlatelet,tvProlactin,tvRBC,tvRF,tvWBC,txt_bloodcountdate;
-
+        ImageView img_deleteitemforbloodcount;
         MyViewHolder(View view) {
             super(view);
             tvAntiCPP=(TextView) view.findViewById(R.id.tvAntiCPP);
@@ -98,7 +106,7 @@ public class BloodCountListAdapter extends RecyclerView.Adapter<BloodCountListAd
             tvRF=(TextView)view.findViewById(R.id.tvRF);
             tvWBC=(TextView)view.findViewById(R.id.tvWBC);
             txt_bloodcountdate = (TextView)view.findViewById(R.id.txt_bloodcountdate);
-
+            img_deleteitemforbloodcount = (ImageView)view.findViewById(R.id.img_deleteitemforbloodcount);
         }
     }
 }

@@ -395,7 +395,7 @@ public class FemaleCycleFragment extends Fragment implements View.OnClickListene
                                 Log.d("insideresponse","responsefct");
                                 Toast.makeText(getActivity(), "Successfully Added", Toast.LENGTH_SHORT).show();
                                 showProgressDialog("Loading");
-                                int uid = (int) Prefs.getLong("user_id",0);
+                                int uid = (int) Prefs.getLong("spinner_id",0);
                                 getFCTData(uid);
                                 progressDialog.dismiss();
                             }else {

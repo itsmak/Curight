@@ -648,7 +648,7 @@ public class WHRFragment extends Fragment implements View.OnClickListener{
                             if (serverResponse.getResults().equals("Success")) {
                                 Toast.makeText(getActivity(), "Successfully Added", Toast.LENGTH_SHORT).show();
                                 showProgressDialog("Loading");
-                                int uid = (int) Prefs.getLong("user_id",0);
+                                int uid = (int) Prefs.getLong("spinner_id",0);
                                 getwhrlistData(uid);
                                 progressDialog.dismiss();
                             }else {

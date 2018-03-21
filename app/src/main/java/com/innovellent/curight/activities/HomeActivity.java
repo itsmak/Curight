@@ -353,7 +353,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
 
     private void new_onclick() {
      //   android.support.v4.app.Fragment fragment= getSupportFragmentManager().findFragmentById(R.id.rlMainFragment);
-        final Long uid = Prefs.getLong("user_id",0);
+
         rl_home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -372,6 +372,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
         rl_remainder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Long uid = Prefs.getLong("user_id",0);
                 if (uid==0) {
                     Intent i = new Intent(HomeActivity.this, LoginActivity.class);
                     Prefs.putString("destination", "Remainder");
@@ -414,6 +415,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
         rl_track.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Long uid = Prefs.getLong("user_id",0);
                 if (uid==0) {
                     Intent i = new Intent(HomeActivity.this, LoginActivity.class);
                     Prefs.putString("destination", "Remainder");
@@ -440,6 +442,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
          rl_profile.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {
+                 Long uid = Prefs.getLong("user_id",0);
                  if (uid==0) {
                      Intent i = new Intent(HomeActivity.this, LoginActivity.class);
                      Prefs.putString("destination", "Remainder");
@@ -697,48 +700,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1) {
-            if (resultCode == RESULT_OK) {
-                // retrive the data by using getPlace() method.
-                Place place = PlaceAutocomplete.getPlace(this, data);
-                Log.e("Tag", "Place: " + place.getAddress() + place.getPhoneNumber());
-                tvTitle.setText(place.getName());
-                Log.d(TAG,"location latitude::"+place.getLatLng());
 
-//                ((TextView) findViewById(R.id.searched_address))
-//                        .setText(place.getName()+",\n"+
-//                                place.getAddress() +"\n" + place.getPhoneNumber());
-
-            } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
-                Status status = PlaceAutocomplete.getStatus(this, data);
-                // TODO: Handle the error.
-                Log.e("Tag", status.getStatusMessage());
-
-            } else if (resultCode == RESULT_CANCELED) {
-                // The user canceled the operation.
-            }
-        }
-    }
-
-   /* public void getData() {
-
-        CustomSpinnerAdapter2 customSpinnerAdapter3 = new CustomSpinnerAdapter2(HomeActivity.this, spinner1);
-        spUser.setAdapter(customSpinnerAdapter3);
-        spUser.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
-    }*/
 
     // Get Login State
     public boolean isLoggedIn(){

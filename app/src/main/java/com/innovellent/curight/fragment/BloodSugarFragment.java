@@ -268,6 +268,7 @@ public class BloodSugarFragment extends Fragment implements View.OnClickListener
         try{
             JSONObject paramObject = new JSONObject();
             int uid = (int) Prefs.getLong("spinner_id",0);
+            Log.d(TAG,"patient id ::"+uid);
             paramObject.put("userid", uid);
             paramObject.put("aftermeal", Aftermeal);
             paramObject.put("beforemeal", Beforemeal);
@@ -291,7 +292,7 @@ public class BloodSugarFragment extends Fragment implements View.OnClickListener
                                 Log.d("blooadsugaradd_response", serverResponseBloodSugar.getResults());
                                 Toast.makeText(getActivity(), "Successfully Added", Toast.LENGTH_SHORT).show();
                                 showProgressDialog("Loading");
-                                int uid = (int) Prefs.getLong("user_id",0);
+                                int uid = (int) Prefs.getLong("spinner_id",0);
                                 getBloodSugarData(uid);
                                 progressDialog.dismiss();
                             }else

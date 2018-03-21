@@ -46,26 +46,35 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/linear_datedialog"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="10dp">
-                <ImageView
-                    android:id="@+id/ivCalendar"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginLeft="150dp"
-                    android:src="@mipmap/calendar" />
-                <TextView
-                    android:id="@+id/tvSelectDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:text="@string/selectdate"
-                    android:textColor="@color/darkgray"
-                    android:textSize="14sp" />
-            </LinearLayout>
+             <RelativeLayout
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_centerHorizontal="true">
+                 <ImageView
+                     android:id="@+id/ivCalendar"
+                     android:layout_width="20dp"
+                     android:layout_height="20dp"
+                     android:src="@mipmap/calendar" />
+                 <EditText
+                     android:id="@+id/tvSelectDate"
+                     android:layout_width="wrap_content"
+                     android:layout_height="20dp"
+                     android:layout_marginLeft="5dp"
+                     android:layout_toRightOf="@+id/ivCalendar"
+                     android:background="@null"
+                     android:editable="false"
+                     android:hint="@string/selectdate"
+                     android:textColor="@color/darkgray"
+                     android:textSize="14sp" />
+             </RelativeLayout>
+
+            </RelativeLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
