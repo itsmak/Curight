@@ -8,6 +8,7 @@ import com.innovellent.curight.model.BloodsugarPojo;
 import com.innovellent.curight.model.Calorie;
 import com.innovellent.curight.model.DeleteBMIRecord;
 import com.innovellent.curight.model.DeleteBPRecordParameter;
+import com.innovellent.curight.model.DeleteBloodCountRecord;
 import com.innovellent.curight.model.DeleteCholesterolRecordParameter;
 import com.innovellent.curight.model.DeleteFctDataPojo;
 import com.innovellent.curight.model.DeleteParameterPojo;
@@ -243,6 +244,10 @@ public interface ApiInterface {
     @Headers("Content-Type: application/json")
     @POST("cholestrol/delete")
     Call<ResponseBody> deleteCholesterolRecord(@Header("x-access-token") String accessToken, @Body DeleteCholesterolRecordParameter requestBody);
+
+    @Headers("Content-Type: application/json")
+    @POST("bloodcount/delete")
+    Call<ResponseBody> deleteBloodCountRecord(@Header("x-access-token") String accessToken, @Body DeleteBloodCountRecord requestBody);
 
     //BMI APIs
     @Headers("Content-Type: application/json")

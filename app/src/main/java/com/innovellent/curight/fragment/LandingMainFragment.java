@@ -89,7 +89,7 @@ public class LandingMainFragment extends Fragment {
     NumberPicker numberpicker;
     SearchView searchView;
     BPFragment bp;
-    PROFILE_SPINNER_ADAPTER customSpinnerAdapter3;
+    TRACK_SPINNER_ADAPTER customSpinnerAdapter3;
     private static final String TAG = "CuRight";
     ArrayList<PROFILE> spinnerList=new ArrayList<PROFILE>();
     public static String USER_ID;
@@ -216,7 +216,7 @@ public class LandingMainFragment extends Fragment {
 
     public void getData2() {
 
-        customSpinnerAdapter3 = new PROFILE_SPINNER_ADAPTER(getActivity(), spinnerList);
+        customSpinnerAdapter3 = new TRACK_SPINNER_ADAPTER(getActivity(), spinnerList);
         spUser.setAdapter(customSpinnerAdapter3);
         spUser.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

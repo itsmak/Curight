@@ -10,7 +10,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,7 +25,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.innovellent.curight.R;
-import com.innovellent.curight.adapter.PROFILE_SPINNER_ADAPTER;
+import com.innovellent.curight.adapter.TRACK_SPINNER_ADAPTER;
 import com.innovellent.curight.adapter.YourReportsAdapter;
 import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.MyProfile_Response;
@@ -37,16 +36,11 @@ import com.innovellent.curight.model.PatientReportsData;
 import com.innovellent.curight.model.PatientReportsPojo;
 import com.innovellent.curight.model.PostBodyProfile;
 import com.innovellent.curight.model.Report_FEED;
-import com.innovellent.curight.model.Test_List;
 import com.innovellent.curight.utility.Config;
 import com.pixplicity.easyprefs.library.Prefs;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -68,7 +62,7 @@ public class YourReportsActivity extends AppCompatActivity implements SearchView
     YourReportsAdapter _adpater;
     ArrayList<PatientReportsData> patientReportsDataArrayList = new ArrayList<PatientReportsData>();
     String patientreportid,visitdate,diagnosticcentreid,doctorid,reason,reportfilename,reportfiletype,comments,doctorname,doctornumber,diagnsticcentrename,visitday,visitmonth;
-    PROFILE_SPINNER_ADAPTER customSpinnerAdapter3;
+    TRACK_SPINNER_ADAPTER customSpinnerAdapter3;
     ArrayList<PROFILE> spinnerList=new ArrayList<PROFILE>();
     String USER_ID;
     ProgressDialog progressDialog;
@@ -204,7 +198,7 @@ public class YourReportsActivity extends AppCompatActivity implements SearchView
     public void getData2() {
 
 
-        customSpinnerAdapter3 = new PROFILE_SPINNER_ADAPTER(YourReportsActivity.this, spinnerList);
+        customSpinnerAdapter3 = new TRACK_SPINNER_ADAPTER(YourReportsActivity.this, spinnerList);
         sp_familyforreports.setAdapter(customSpinnerAdapter3);
         sp_familyforreports.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

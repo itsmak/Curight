@@ -1,8 +1,6 @@
 package com.innovellent.curight.fragment;
 
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,14 +21,10 @@ import android.widget.Toast;
 
 import com.innovellent.curight.R;
 import com.innovellent.curight.adapter.BMIAdapter;
-import com.innovellent.curight.adapter.PROFILE_SPINNER_ADAPTER;
-import com.innovellent.curight.adapter.WHRAdapter;
+import com.innovellent.curight.adapter.TRACK_SPINNER_ADAPTER;
 import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.AddBMIRecordsDialog;
 import com.innovellent.curight.model.BMI;
-import com.innovellent.curight.model.BMIDayWise;
-import com.innovellent.curight.model.BMIRecord;
-import com.innovellent.curight.model.BMIReport;
 import com.innovellent.curight.model.BloodPressure;
 import com.innovellent.curight.model.MyProfile_Response;
 import com.innovellent.curight.model.PROFILE;
@@ -74,7 +68,7 @@ public class BMIFragment extends Fragment implements View.OnClickListener {
     int i;
     String USER_ID,res_dataforbmi;
     ArrayList<PROFILE> spinnerList=new ArrayList<PROFILE>();
-    PROFILE_SPINNER_ADAPTER customSpinnerAdapter3;
+    TRACK_SPINNER_ADAPTER customSpinnerAdapter3;
     ArrayList<BMI> bmiArrayList = new ArrayList<BMI>();
     RelativeLayout rlGraph;
     JSONArray jsonArray_parent,jsonarray_child;
@@ -247,7 +241,7 @@ public class BMIFragment extends Fragment implements View.OnClickListener {
 
     public void getData2() {
 
-        customSpinnerAdapter3 = new PROFILE_SPINNER_ADAPTER(getActivity(), spinnerList);
+        customSpinnerAdapter3 = new TRACK_SPINNER_ADAPTER(getActivity(), spinnerList);
         spUser.setAdapter(customSpinnerAdapter3);
         spUser.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

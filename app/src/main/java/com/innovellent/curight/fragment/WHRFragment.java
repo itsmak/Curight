@@ -1,24 +1,20 @@
 package com.innovellent.curight.fragment;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,35 +25,22 @@ import android.widget.Toast;
 
 
 import com.innovellent.curight.R;
-import com.innovellent.curight.adapter.BMIAdapter;
-import com.innovellent.curight.adapter.BloodPressureAdapter;
-import com.innovellent.curight.adapter.PROFILE_SPINNER_ADAPTER;
+import com.innovellent.curight.adapter.TRACK_SPINNER_ADAPTER;
 import com.innovellent.curight.adapter.WHRAdapter;
 import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.AddWHRDialog;
-import com.innovellent.curight.model.BMIDayWise;
-import com.innovellent.curight.model.BMIRecord;
-import com.innovellent.curight.model.BMIReport;
-import com.innovellent.curight.model.BloodPressure;
-import com.innovellent.curight.model.DeleteParameterPojo;
-import com.innovellent.curight.model.JSON_FEED;
 import com.innovellent.curight.model.MyProfile_Response;
 import com.innovellent.curight.model.PROFILE;
 import com.innovellent.curight.model.PROFILE_FEED;
 import com.innovellent.curight.model.ParameterPojo;
-import com.innovellent.curight.model.PhotosCenterByDC;
 import com.innovellent.curight.model.PostBodyProfile;
 import com.innovellent.curight.model.ServerResponse;
-import com.innovellent.curight.model.ServerResponsePhotosByDC;
 import com.innovellent.curight.model.ServerResponseWHRGet;
-import com.innovellent.curight.model.VaccineList;
 import com.innovellent.curight.model.WHR;
-import com.innovellent.curight.model.WHRGetCenter;
 import com.innovellent.curight.model.WHR_LIST;
 import com.innovellent.curight.model.WHR_LIST_DATE;
 import com.innovellent.curight.model.WhrList;
 import com.innovellent.curight.utility.Config;
-import com.innovellent.curight.utility.Constants;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -67,7 +50,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -78,7 +60,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
-import static android.content.ContentValues.TAG;
 import static com.innovellent.curight.utility.Constants.CURIGHT_TAG;
 
 /**
@@ -117,7 +98,7 @@ public class WHRFragment extends Fragment implements View.OnClickListener{
     String USER_ID,res_data;
     ArrayList<PROFILE> spinnerList=new ArrayList<PROFILE>();
     ArrayList<WHR> whr_arraylist = new ArrayList<WHR>();
-    PROFILE_SPINNER_ADAPTER customSpinnerAdapter3;
+    TRACK_SPINNER_ADAPTER customSpinnerAdapter3;
     Spinner spUser;
     int uid;
     ServerResponseWHRGet serverResponseWHRGet;
@@ -335,7 +316,7 @@ public class WHRFragment extends Fragment implements View.OnClickListener{
 
     public void getData2() {
 
-        customSpinnerAdapter3 = new PROFILE_SPINNER_ADAPTER(getActivity(), spinnerList);
+        customSpinnerAdapter3 = new TRACK_SPINNER_ADAPTER(getActivity(), spinnerList);
         spUser.setAdapter(customSpinnerAdapter3);
         spUser.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

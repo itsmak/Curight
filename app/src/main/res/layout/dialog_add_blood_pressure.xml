@@ -78,9 +78,10 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/iv_date"
                         android:background="#00000000"
-                        android:hint="Date"
-                        android:focusable="false"
                         android:clickable="false"
+                        android:editable="false"
+                        android:focusable="false"
+                        android:hint="Date"
                         android:textSize="15sp" />
 
                     <View
@@ -113,9 +114,10 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/iv_time"
                         android:background="#00000000"
-                        android:hint="Time"
-                        android:focusable="false"
                         android:clickable="false"
+                        android:editable="false"
+                        android:focusable="false"
+                        android:hint="Time"
                         android:textSize="15sp" />
 
                     <View

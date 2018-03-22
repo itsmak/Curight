@@ -5,8 +5,6 @@ import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,9 +24,8 @@ import android.widget.Toast;
 
 
 import com.innovellent.curight.R;
-import com.innovellent.curight.activities.TrackActivity;
 import com.innovellent.curight.adapter.BloodCountListAdapter;
-import com.innovellent.curight.adapter.PROFILE_SPINNER_ADAPTER;
+import com.innovellent.curight.adapter.TRACK_SPINNER_ADAPTER;
 import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.AddBloodCountDialog;
 import com.innovellent.curight.model.BloodCount;
@@ -38,7 +34,6 @@ import com.innovellent.curight.model.MyProfile_Response;
 import com.innovellent.curight.model.PROFILE;
 import com.innovellent.curight.model.PROFILE_FEED;
 import com.innovellent.curight.model.PostBodyProfile;
-import com.innovellent.curight.model.ServerResponse;
 import com.innovellent.curight.model.ServerResponseBloodCount;
 import com.innovellent.curight.utility.Config;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -48,7 +43,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -79,7 +73,7 @@ public class BloodCountListFragment extends Fragment implements View.OnClickList
     ScrollView svAddBloodCount;
     String USER_ID;
     ArrayList<PROFILE> spinnerList=new ArrayList<PROFILE>();
-    PROFILE_SPINNER_ADAPTER customSpinnerAdapter3;
+    TRACK_SPINNER_ADAPTER customSpinnerAdapter3;
     Spinner spUser;
     int uid;
     ArrayList<BloodCount> arrayList=new ArrayList<BloodCount >();
@@ -268,7 +262,7 @@ public class BloodCountListFragment extends Fragment implements View.OnClickList
 
     public void getData2() {
 
-        customSpinnerAdapter3 = new PROFILE_SPINNER_ADAPTER(getActivity(), spinnerList);
+        customSpinnerAdapter3 = new TRACK_SPINNER_ADAPTER(getActivity(), spinnerList);
         spUser.setAdapter(customSpinnerAdapter3);
         spUser.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -434,8 +428,8 @@ public class BloodCountListFragment extends Fragment implements View.OnClickList
                             rf = jsonObject1.getString("rf");
                             wbc = jsonObject1.getString("wbc");
                             date =jsonObject1.getString("date");
-
-                           // bloodCount.setBcid(bcid);
+                            Log.d(TAG,"bloodcountid ::"+bcid);
+                            bloodCount.setBcid(bcid);
                             bloodCount.setAntiCPP(anticep);
                             bloodCount.setCRP(crp);
                             bloodCount.setESR(esr);

@@ -31,12 +31,12 @@ import java.util.Calendar;
 
 public class AddFCTCountDialog extends Dialog {
 
+    private static final String TAG = ".Retro_MainActivity";
     public AddFCTCountDialog.AddFCTDialogClickListener listener;
     Context context;
     RelativeLayout date_layout;
     EditText tv_normalduration,et_gap,et_reminderdays,etNotes;
     EditText tv_date;
-    private static final String TAG = ".Retro_MainActivity";
     RadioGroup radio_group;
     RadioButton radio_button_yes,radio_button_no;
     DatePickerDialog datePickerDialog;
@@ -85,6 +85,12 @@ public class AddFCTCountDialog extends Dialog {
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 
         date_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                datePickerDialog.show();
+            }
+        });
+        tv_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 datePickerDialog.show();

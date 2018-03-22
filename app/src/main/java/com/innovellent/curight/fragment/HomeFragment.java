@@ -62,7 +62,7 @@ public class HomeFragment extends Fragment  implements View.OnClickListener{
     RelativeLayout rl_location;
     ImageView ivHealthPackage,imageView1,imageView2,imageView3,imageView4,imageView5,imageView6,imageView7,imageView8,imageView9;
     ViewPager viewPager;
-    ImageView iv_home_icon,iv_remainder_icon,iv_article_icon,iv_track_icon,iv_profile_icon;
+    ImageView iv_home_icon,iv_remainder_icon,iv_article_icon,iv_track_icon,iv_profile_icon,ivAddprofile;
     TextView tv_home_txt,tv_remainder_txt,tv_article_txt,tv_track_txt,tv_profile_txt;
     RecyclerView recycler_view_searchhome;
     TextView tvTitle,titleOne,titleThree,tv_locationtxt,tv_locationsymbl,tv_locality;
@@ -240,7 +240,8 @@ public class HomeFragment extends Fragment  implements View.OnClickListener{
             });
         }
         tvTitle.setVisibility(View.GONE);
-        rl_location.setVisibility(View.VISIBLE);
+        ivAddprofile.setVisibility(View.GONE);
+        rl_location .setVisibility(View.VISIBLE);
         iv_home_icon.setImageResource(R.drawable.home_blue);
         iv_remainder_icon.setImageResource(R.drawable.reminder_grey);
         iv_article_icon.setImageResource(R.drawable.article_grey);
@@ -333,6 +334,7 @@ public class HomeFragment extends Fragment  implements View.OnClickListener{
 
     public void init(View rootView){
         rl_location = (RelativeLayout) getActivity().findViewById(R.id.rl_location);
+        ivAddprofile = (ImageView) getActivity().findViewById(R.id.ivAddprofile);
         iv_home_icon = (ImageView) getActivity().findViewById(R.id.iv_home_icon);
         iv_remainder_icon = (ImageView) getActivity().findViewById(R.id.iv_remainder_icon);
         iv_article_icon = (ImageView) getActivity().findViewById(R.id.iv_article_icon);

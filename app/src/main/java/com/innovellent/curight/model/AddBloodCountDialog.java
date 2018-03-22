@@ -86,6 +86,12 @@ public class AddBloodCountDialog extends Dialog {
                 datePickerDialog.show();
             }
         });
+        tvSelectDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                datePickerDialog.show();
+            }
+        });
 
         findViewById(R.id.btnSubmit).setOnClickListener(new View.OnClickListener() {
             @Override

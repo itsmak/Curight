@@ -1,7 +1,6 @@
 package com.innovellent.curight.fragment;
 
 import android.app.Activity;
-import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -14,25 +13,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.innovellent.curight.R;
-import com.innovellent.curight.activities.DiagnosticTestListActivity;
-import com.innovellent.curight.adapter.CustomSpinnerAdapter1;
-import com.innovellent.curight.adapter.CustomSpinnerAdapter2;
-import com.innovellent.curight.adapter.PROFILE_SPINNER_ADAPTER;
+import com.innovellent.curight.adapter.TRACK_SPINNER_ADAPTER;
 import com.innovellent.curight.adapter.VaccineAdapter;
-import com.innovellent.curight.adapter.VaccineAdapter1;
-import com.innovellent.curight.adapter.VaccineAdapter2;
 import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.JSON_FEED;
 import com.innovellent.curight.model.MyProfile_Response;
@@ -45,15 +35,12 @@ import com.innovellent.curight.model.PostBodyClass;
 import com.innovellent.curight.model.PostBodyProfile;
 import com.innovellent.curight.model.VACCINE_UPDATE_RESPONSE;
 import com.innovellent.curight.model.Vaccine;
-import com.innovellent.curight.model.VaccineAddReminderDialog;
 import com.innovellent.curight.model.VaccineList;
 import com.innovellent.curight.model.VaccineReminderYearDialog;
 import com.innovellent.curight.utility.Config;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -79,7 +66,7 @@ public class VaccineFragment extends Fragment implements View.OnClickListener {
     AddRemainder_FRAGMENT_DAILOG vaccineadddailog;
     String USER_ID;
     Context context;
-    PROFILE_SPINNER_ADAPTER customSpinnerAdapter3;
+    TRACK_SPINNER_ADAPTER customSpinnerAdapter3;
    //VaccineAddReminderDialog vaccineAddReminderDialog;
     ArrayList<Vaccine> arrayList = new ArrayList<Vaccine>();
     int position;
@@ -133,7 +120,7 @@ public class VaccineFragment extends Fragment implements View.OnClickListener {
 
     public void getData2() {
 
-        customSpinnerAdapter3 = new PROFILE_SPINNER_ADAPTER(getActivity(), spinnerList);
+        customSpinnerAdapter3 = new TRACK_SPINNER_ADAPTER(getActivity(), spinnerList);
         spYear.setAdapter(customSpinnerAdapter3);
         spYear.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

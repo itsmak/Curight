@@ -1,20 +1,13 @@
 package com.innovellent.curight.activities;
 
-import android.Manifest;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.TabLayout;
-import android.support.multidex.MultiDex;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
@@ -24,35 +17,24 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlaceAutocomplete;
-import com.innovellent.curight.GPS_Services;
 import com.innovellent.curight.LoginActivity;
 import com.innovellent.curight.R;
 import com.innovellent.curight.adapter.CustomDrawerAdapter;
-import com.innovellent.curight.adapter.CustomSpinnerAdapter2;
 import com.innovellent.curight.adapter.DiagnosticTestAdapter;
-import com.innovellent.curight.adapter.PROFILE_SPINNER_ADAPTER;
-import com.innovellent.curight.api.ApiInterface;
+import com.innovellent.curight.adapter.TRACK_SPINNER_ADAPTER;
 import com.innovellent.curight.fragment.ArticleFragment;
 import com.innovellent.curight.fragment.BMIFragment;
 import com.innovellent.curight.fragment.BPFragment;
@@ -75,26 +57,12 @@ import com.innovellent.curight.fragment.WishListFragment;
 import com.innovellent.curight.model.AddBMIRecordsDialog;
 import com.innovellent.curight.model.AddBPRecordsDialog;
 import com.innovellent.curight.model.AddBloodSugarDialog;
-import com.innovellent.curight.model.DrawerItem;
-import com.innovellent.curight.model.MyProfile_Response;
 import com.innovellent.curight.model.PROFILE;
-import com.innovellent.curight.model.PROFILE_FEED;
-import com.innovellent.curight.model.PostBodyProfile;
 import com.innovellent.curight.model.ReminderDialog;
-import com.innovellent.curight.utility.BottomNavigationViewHelper;
-import com.innovellent.curight.utility.Config;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
-import static com.innovellent.curight.fragment.NavigationDrawerFragment.dataList;
 
 
 public class HomeActivity extends AppCompatActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks, View.OnClickListener {
@@ -137,7 +105,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
     TabLayout tabLayout;
     NumberPicker numberpicker;
  //   ImageView searchView;
-    PROFILE_SPINNER_ADAPTER customSpinnerAdapter3;
+    TRACK_SPINNER_ADAPTER customSpinnerAdapter3;
     ArrayList<PROFILE> spinnerList=new ArrayList<PROFILE>();
     SharedPreferences sharedPreferences;
     String source="";
@@ -361,6 +329,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
                 ivAdd.setVisibility(View.VISIBLE);
                 ivBack.setVisibility(View.VISIBLE);
                 ivBack1.setVisibility(View.GONE);
+                ivBack1.setVisibility(View.GONE);
+                rl_location.setVisibility(View.VISIBLE);
                 viewPager.setVisibility(View.VISIBLE);
                 frameLayout.setVisibility(View.GONE);
                 tabLayout.setVisibility(View.GONE);
@@ -386,6 +356,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
                     tvTitle.setText("Reminder");
                     ivAdd.setVisibility(View.INVISIBLE);
                     viewPager.setVisibility(View.VISIBLE);
+                    rl_location.setVisibility(View.GONE);
                     tabLayout.setVisibility(View.VISIBLE);
                     frameLayout.setVisibility(View.GONE);
                     setupViewPagerMedicineReminder(viewPager);
@@ -405,6 +376,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
                 ivAdd.setVisibility(View.INVISIBLE);
                 viewPager.setVisibility(View.VISIBLE);
                 frameLayout.setVisibility(View.GONE);
+                rl_location.setVisibility(View.GONE);
                 tabLayout.setVisibility(View.VISIBLE);
                 adapter.notifyDataSetChanged();
                 setupViewPagerArticle(viewPager);
@@ -418,7 +390,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
                 Long uid = Prefs.getLong("user_id",0);
                 if (uid==0) {
                     Intent i = new Intent(HomeActivity.this, LoginActivity.class);
-                    Prefs.putString("destination", "Remainder");
+                    Prefs.putString("destination", "Track");
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     // setupViewPagerMedicineReminder(viewPager);
@@ -431,6 +403,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
                     viewPager.setVisibility(View.VISIBLE);
                     frameLayout.setVisibility(View.GONE);
                     tabLayout.setVisibility(View.VISIBLE);
+                    rl_location.setVisibility(View.GONE);
                     adapter.notifyDataSetChanged();
                     setupViewPagerTrack(viewPager);
                     tabLayout.setupWithViewPager(viewPager);
@@ -445,7 +418,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
                  Long uid = Prefs.getLong("user_id",0);
                  if (uid==0) {
                      Intent i = new Intent(HomeActivity.this, LoginActivity.class);
-                     Prefs.putString("destination", "Remainder");
+                     Prefs.putString("destination", "Profile");
                      i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                      i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                      // setupViewPagerMedicineReminder(viewPager);
@@ -455,6 +428,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
                      ivAdd.setVisibility(View.INVISIBLE);
                      tvTitle.setVisibility(View.VISIBLE);
                      tvTitle.setText("Profile");
+                     rl_location.setVisibility(View.GONE);
                      viewPager.setVisibility(View.VISIBLE);
                      frameLayout.setVisibility(View.GONE);
                      tabLayout.setVisibility(View.GONE);
@@ -482,7 +456,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
 
    /* public void getData2() {
 
-        customSpinnerAdapter3 = new PROFILE_SPINNER_ADAPTER(HomeActivity.this, spinnerList);
+        customSpinnerAdapter3 = new TRACK_SPINNER_ADAPTER(HomeActivity.this, spinnerList);
         spUser.setAdapter(customSpinnerAdapter3);
         spUser.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

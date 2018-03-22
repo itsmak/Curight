@@ -2,8 +2,6 @@ package com.innovellent.curight.fragment;
 
 
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -24,27 +22,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.innovellent.curight.R;
-import com.innovellent.curight.activities.HomeActivity;
 import com.innovellent.curight.adapter.BPAdapter;
-import com.innovellent.curight.adapter.PROFILE_SPINNER_ADAPTER;
-import com.innovellent.curight.adapter.WHRAdapter;
+import com.innovellent.curight.adapter.TRACK_SPINNER_ADAPTER;
 import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.AddBPRecordsDialog;
 import com.innovellent.curight.model.BP;
-import com.innovellent.curight.model.BloodPressureDayWise;
-import com.innovellent.curight.model.BloodPressureRecord;
-import com.innovellent.curight.model.BloodPressureReport;
 import com.innovellent.curight.model.MyProfile_Response;
 import com.innovellent.curight.model.PROFILE;
 import com.innovellent.curight.model.PROFILE_FEED;
 import com.innovellent.curight.model.ParameterBP;
 import com.innovellent.curight.model.PostBodyProfile;
 import com.innovellent.curight.model.ServerResponse;
-import com.innovellent.curight.model.WHR;
 import com.innovellent.curight.utility.Config;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
-import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -89,11 +80,12 @@ public class BPFragment extends Fragment implements View.OnClickListener {
     int i;
     String USER_ID,res_dataforbp;
     ArrayList<PROFILE> spinnerList=new ArrayList<PROFILE>();
-    PROFILE_SPINNER_ADAPTER customSpinnerAdapter3;
+    TRACK_SPINNER_ADAPTER customSpinnerAdapter3;
     JSONArray jsonArray_parent,jsonarray_child;
     int uid,position;
     Spinner spUser;
     double dates;
+    RelativeLayout rl_location;
     private TextView systolicDiastolic, txt_pulse;
     private Long userId;
     private String accessToken;
@@ -114,6 +106,7 @@ public class BPFragment extends Fragment implements View.OnClickListener {
 */
        // showProgressDialog("Loading");
        // getBloodPressureRecords(USER_ID);
+        rl_location.setVisibility(View.GONE);
         iv_home_icon.setImageResource(R.drawable.home_grey);
         iv_remainder_icon.setImageResource(R.drawable.reminder_grey);
         iv_article_icon.setImageResource(R.drawable.article_grey);
@@ -163,6 +156,7 @@ public class BPFragment extends Fragment implements View.OnClickListener {
 
     public void initReferences(View rootView) {
 
+        rl_location = (RelativeLayout) getActivity().findViewById(R.id.rl_location);
         iv_home_icon = (ImageView) getActivity().findViewById(R.id.iv_home_icon);
         iv_remainder_icon = (ImageView) getActivity().findViewById(R.id.iv_remainder_icon);
         iv_article_icon = (ImageView) getActivity().findViewById(R.id.iv_article_icon);
@@ -191,6 +185,7 @@ public class BPFragment extends Fragment implements View.OnClickListener {
         tv_locationtxt = (TextView) getActivity().findViewById(R.id.tv_locationtxt);
         tv_locationsymbl = (TextView) getActivity().findViewById(R.id.tv_locationsymbl);
         tvTitle = (TextView) getActivity().findViewById(R.id.tvTitle);
+        tvTitle.setVisibility(View.VISIBLE);
         tvTitle.setText("Track");
         tv_locationtxt.setVisibility(View.GONE);
         tv_locationsymbl.setVisibility(View.GONE);
@@ -277,7 +272,7 @@ public class BPFragment extends Fragment implements View.OnClickListener {
 
     public void getData2() {
 
-        customSpinnerAdapter3 = new PROFILE_SPINNER_ADAPTER(getActivity(), spinnerList);
+        customSpinnerAdapter3 = new TRACK_SPINNER_ADAPTER(getActivity(), spinnerList);
         spUser.setAdapter(customSpinnerAdapter3);
         spUser.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

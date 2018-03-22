@@ -19,12 +19,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.SupportMapFragment;
 import com.innovellent.curight.R;
 import com.innovellent.curight.activities.EditProfileActivity;
-import com.innovellent.curight.activities.HomeActivity;
-import com.innovellent.curight.adapter.CustomSpinnerAdapter2;
 import com.innovellent.curight.adapter.PROFILE_SPINNER_ADAPTER;
+import com.innovellent.curight.adapter.TRACK_SPINNER_ADAPTER;
 import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.MyProfile_Response;
 import com.innovellent.curight.model.PROFILE;
@@ -52,7 +50,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     RecyclerView recyclerView, recyclerViewKids;
     ImageView ivEdit;
     //bottom navgtn
-    ImageView iv_home_icon,iv_remainder_icon,iv_article_icon,iv_track_icon,iv_profile_icon;
+    ImageView iv_home_icon,iv_remainder_icon,iv_article_icon,iv_track_icon,iv_profile_icon,ivAddprofile;
     TextView tv_home_txt,tv_remainder_txt,tv_article_txt,tv_track_txt,tv_profile_txt;
     TextView tv_locationtxt,tv_locationsymbl,tvTitle;
     TextView tvprofile_name,tv_patient_id,tvWeight,tvBloodPressure,tvBMI,tvCholestrol,tvHDL,tvLDL,tvMyHeight;
@@ -81,6 +79,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         getSpinnerData();
         initOnClick();
         rl_location.setVisibility(View.GONE);
+        ivAddprofile.setVisibility(View.VISIBLE);
         tv_profile_txt.setTextColor(Color.parseColor("#0B63F8"));
         iv_profile_icon.setImageResource(R.drawable.profile_blue);
 
@@ -101,6 +100,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     public void initReferences(View rootView) {
         rl_location = (RelativeLayout) getActivity().findViewById(R.id.rl_location);
         iv_home_icon = (ImageView) getActivity().findViewById(R.id.iv_home_icon);
+        ivAddprofile = (ImageView) getActivity().findViewById(R.id.ivAddprofile);
         iv_remainder_icon = (ImageView) getActivity().findViewById(R.id.iv_remainder_icon);
         iv_article_icon = (ImageView) getActivity().findViewById(R.id.iv_article_icon);
         iv_track_icon = (ImageView) getActivity().findViewById(R.id.iv_track_icon);

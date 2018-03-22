@@ -2,10 +2,8 @@ package com.innovellent.curight.fragment;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,10 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -29,23 +25,17 @@ import android.widget.Toast;
 
 
 import com.innovellent.curight.R;
-import com.innovellent.curight.adapter.BloodCountListAdapter;
-import com.innovellent.curight.adapter.BloodPressureAdapter;
 import com.innovellent.curight.adapter.FemaleCycleAdapter;
-import com.innovellent.curight.adapter.PROFILE_SPINNER_ADAPTER;
+import com.innovellent.curight.adapter.TRACK_SPINNER_ADAPTER;
 import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.AddBloodCountDialog;
 import com.innovellent.curight.model.AddFCTCountDialog;
-import com.innovellent.curight.model.AddWHRDialog;
-import com.innovellent.curight.model.BloodCount;
-import com.innovellent.curight.model.BloodPressure;
 import com.innovellent.curight.model.FCT;
 import com.innovellent.curight.model.FctPojo;
 import com.innovellent.curight.model.MyProfile_Response;
 import com.innovellent.curight.model.PROFILE;
 import com.innovellent.curight.model.PROFILE_FEED;
 import com.innovellent.curight.model.PostBodyProfile;
-import com.innovellent.curight.model.ServerResponseBloodCount;
 import com.innovellent.curight.model.ServerResponseFct;
 import com.innovellent.curight.utility.Config;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -96,7 +86,7 @@ public class FemaleCycleFragment extends Fragment implements View.OnClickListene
     RelativeLayout date_layout;
     String USER_ID;
     ArrayList<PROFILE> spinnerList=new ArrayList<PROFILE>();
-    PROFILE_SPINNER_ADAPTER customSpinnerAdapter3;
+    TRACK_SPINNER_ADAPTER customSpinnerAdapter3;
     Spinner spUser;
     int uid;
     ArrayList<FCT> arrayList=new ArrayList<FCT >();
@@ -298,7 +288,7 @@ public class FemaleCycleFragment extends Fragment implements View.OnClickListene
 
     public void getData2() {
 
-        customSpinnerAdapter3 = new PROFILE_SPINNER_ADAPTER(getActivity(), spinnerList);
+        customSpinnerAdapter3 = new TRACK_SPINNER_ADAPTER(getActivity(), spinnerList);
         spUser.setAdapter(customSpinnerAdapter3);
         spUser.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

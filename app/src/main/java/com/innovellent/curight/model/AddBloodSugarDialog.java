@@ -81,6 +81,12 @@ public class AddBloodSugarDialog extends Dialog {
                 datePickerDialog.show();
             }
         });
+        tv_date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                datePickerDialog.show();
+            }
+        });
 
         /*timelayout_bloodsugar.setOnClickListener(new View.OnClickListener() {
             @Override

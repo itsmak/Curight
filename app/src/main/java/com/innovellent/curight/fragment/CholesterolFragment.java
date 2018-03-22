@@ -1,8 +1,6 @@
 package com.innovellent.curight.fragment;
 
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,16 +21,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.innovellent.curight.R;
-import com.innovellent.curight.adapter.BPAdapter;
 import com.innovellent.curight.adapter.CholesterolAdapter;
-import com.innovellent.curight.adapter.PROFILE_SPINNER_ADAPTER;
+import com.innovellent.curight.adapter.TRACK_SPINNER_ADAPTER;
 import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.AddCholesterolRecordsDialog;
 import com.innovellent.curight.model.BloodPressure;
 import com.innovellent.curight.model.Cholesterol;
-import com.innovellent.curight.model.CholesterolDayWise;
-import com.innovellent.curight.model.CholesterolRecord;
-import com.innovellent.curight.model.CholesterolReport;
 import com.innovellent.curight.model.MyProfile_Response;
 import com.innovellent.curight.model.PROFILE;
 import com.innovellent.curight.model.PROFILE_FEED;
@@ -84,7 +78,7 @@ public class CholesterolFragment extends Fragment implements View.OnClickListene
     String res_data,USER_ID;
     JSONArray jsonarray_parent,jsonarray_child;
     ArrayList<PROFILE> spinnerList=new ArrayList<PROFILE>();
-    PROFILE_SPINNER_ADAPTER customSpinnerAdapter3;
+    TRACK_SPINNER_ADAPTER customSpinnerAdapter3;
     Spinner spUser;
     private String accessToken;
     private long userId;
@@ -239,7 +233,7 @@ public class CholesterolFragment extends Fragment implements View.OnClickListene
 
     public void getData2() {
 
-        customSpinnerAdapter3 = new PROFILE_SPINNER_ADAPTER(getActivity(), spinnerList);
+        customSpinnerAdapter3 = new TRACK_SPINNER_ADAPTER(getActivity(), spinnerList);
         spUser.setAdapter(customSpinnerAdapter3);
         spUser.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

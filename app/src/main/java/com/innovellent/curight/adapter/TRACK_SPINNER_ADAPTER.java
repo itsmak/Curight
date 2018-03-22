@@ -14,16 +14,16 @@ import com.innovellent.curight.model.PROFILE;
 import java.util.ArrayList;
 
 /**
- * Created by Mak on 3/22/2018.
+ * Created by Mak on 12/5/2017.
  */
 
-public class PROFILE_SPINNER_ADAPTER extends BaseAdapter {
+public class TRACK_SPINNER_ADAPTER extends BaseAdapter {
 
     Context context;
     LayoutInflater inflter;
     private ArrayList<PROFILE> spinner2;
 
-    public PROFILE_SPINNER_ADAPTER(Context context, ArrayList<PROFILE> spinner2) {
+    public TRACK_SPINNER_ADAPTER(Context context, ArrayList<PROFILE> spinner2) {
         this.context = context;
         this.spinner2 = spinner2;
         inflter = (LayoutInflater.from(context));
@@ -47,7 +47,7 @@ public class PROFILE_SPINNER_ADAPTER extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        view = inflter.inflate(R.layout.profile_custom_spinner, null);
+        view = inflter.inflate(R.layout.track_custom_spinner, null);
         TextView names = (TextView) view.findViewById(R.id.name_textview);
         TextView relation = (TextView) view.findViewById(R.id.relation_textview);
         Log.e("main", "adapterprofileResponse: code: " + spinner2.get(i).getUser_relation());

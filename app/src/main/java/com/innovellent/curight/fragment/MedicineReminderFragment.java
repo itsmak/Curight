@@ -20,11 +20,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.innovellent.curight.R;
-import com.innovellent.curight.activities.DiagnosticTestListActivity;
 import com.innovellent.curight.activities.MedicineReminderSetActivity;
 import com.innovellent.curight.activities.ProfileActivity;
 import com.innovellent.curight.adapter.MedicineReminderAdapter;
-import com.innovellent.curight.adapter.PROFILE_SPINNER_ADAPTER;
+import com.innovellent.curight.adapter.TRACK_SPINNER_ADAPTER;
 import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.ChangeEvngPrefrenseDialog;
 import com.innovellent.curight.model.ChangeMorningPreferenceDialog;
@@ -38,7 +37,6 @@ import com.innovellent.curight.model.POST_MED_CLASS;
 import com.innovellent.curight.model.POST_TIME_UPDATE_CLASS;
 import com.innovellent.curight.model.PROFILE;
 import com.innovellent.curight.model.PROFILE_FEED;
-import com.innovellent.curight.model.PostBodyClass;
 import com.innovellent.curight.model.PostBodyProfile;
 import com.innovellent.curight.model.VACCINE_UPDATE_RESPONSE;
 import com.innovellent.curight.utility.Config;
@@ -76,7 +74,7 @@ public class MedicineReminderFragment extends Fragment implements View.OnClickLi
     ImageView ivReminder;
     String[]spinner1={"John","Jobby","Suresh","Mahesh"};
     ArrayList<PROFILE> spinnerList=new ArrayList<PROFILE>();
-    PROFILE_SPINNER_ADAPTER customSpinnerAdapter3;
+    TRACK_SPINNER_ADAPTER customSpinnerAdapter3;
     int counter= 0;
     int position;
     Context context;
@@ -293,7 +291,7 @@ public class MedicineReminderFragment extends Fragment implements View.OnClickLi
     }
     public void getData2() {
 
-        customSpinnerAdapter3 = new PROFILE_SPINNER_ADAPTER(getActivity(), spinnerList);
+        customSpinnerAdapter3 = new TRACK_SPINNER_ADAPTER(getActivity(), spinnerList);
         spItem.setAdapter(customSpinnerAdapter3);
         spItem.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

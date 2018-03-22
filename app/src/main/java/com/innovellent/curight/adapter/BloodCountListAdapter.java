@@ -1,5 +1,6 @@
 package com.innovellent.curight.adapter;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,22 +8,37 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.innovellent.curight.R;
+import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.BloodCount;
+import com.innovellent.curight.model.DeleteBloodCountRecord;
+import com.innovellent.curight.model.DeleteCholesterolRecordParameter;
+import com.innovellent.curight.utility.Config;
 
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 
 public class BloodCountListAdapter extends RecyclerView.Adapter<BloodCountListAdapter.MyViewHolder> {
 
      Context mContext;
     BloodCount bloodCount;
+    ProgressDialog progressDialog;
     private ArrayList<BloodCount> arrayList = new ArrayList<>();
     private String state;
-
 
 
     public BloodCountListAdapter(Context context,ArrayList<BloodCount> arrayList) {
@@ -73,14 +89,77 @@ public class BloodCountListAdapter extends RecyclerView.Adapter<BloodCountListAd
         holder.img_deleteitemforbloodcount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                arrayList.remove(position);
-                notifyItemRemoved(position);
-                notifyItemRangeChanged(position, arrayList.size());
+                bloodCount = arrayList.get(position);
+                showProgressDialog("Deleting item");
+
+                deleteCholesterolRecord(Integer.parseInt(bloodCount.getBcid()));
+                removeAt(position);
             }
         });
 
     }
 
+    private void deleteCholesterolRecord(int bcid) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(new Config().SERVER_URL)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ApiInterface apiInterface = retrofit.create(ApiInterface.class);
+
+        try{
+
+            DeleteBloodCountRecord deletebloodcountrecord = new DeleteBloodCountRecord(bcid);
+            final Call<ResponseBody> call = apiInterface.deleteBloodCountRecord("abc", deletebloodcountrecord);
+
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if(response.isSuccessful()){
+                        progressDialog.dismiss();
+
+                        try{
+                            String res_delete = response.body().string();
+                            JSONObject jsonObject = new JSONObject(res_delete);
+
+                            String results = jsonObject.getString("Results");
+                            if(results.equals("Success")){
+                                Toast.makeText(mContext, "Successfully Deleted", Toast.LENGTH_SHORT).show();
+                                showProgressDialog("Loading");
+                                progressDialog.dismiss();
+                            }
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                }
+            });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+
+
+    }
+
+    private void removeAt(int position) {
+        arrayList.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, arrayList.size());
+    }
+
+
+    private void showProgressDialog(String title) {
+        progressDialog = ProgressDialog.show(mContext, title, "please wait", true, false);
+        progressDialog.show();
+    }
     @Override
     public int getItemCount() {
         return arrayList.size();

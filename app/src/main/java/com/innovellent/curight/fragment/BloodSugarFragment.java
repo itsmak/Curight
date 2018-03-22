@@ -3,7 +3,6 @@ package com.innovellent.curight.fragment;
 import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,10 +21,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.innovellent.curight.R;
-import com.innovellent.curight.adapter.BloodPressureAdapter;
 import com.innovellent.curight.adapter.BloodSugarAdapter;
-import com.innovellent.curight.adapter.CholesterolAdapter;
-import com.innovellent.curight.adapter.PROFILE_SPINNER_ADAPTER;
+import com.innovellent.curight.adapter.TRACK_SPINNER_ADAPTER;
 import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.AddBloodSugarDialog;
 import com.innovellent.curight.model.BloodPressure;
@@ -35,7 +32,6 @@ import com.innovellent.curight.model.MyProfile_Response;
 import com.innovellent.curight.model.PROFILE;
 import com.innovellent.curight.model.PROFILE_FEED;
 import com.innovellent.curight.model.PostBodyProfile;
-import com.innovellent.curight.model.ServerResponse;
 import com.innovellent.curight.model.ServerResponseBloodSugar;
 import com.innovellent.curight.utility.Config;
 import com.jjoe64.graphview.GraphView;
@@ -86,7 +82,7 @@ public class BloodSugarFragment extends Fragment implements View.OnClickListener
     String USER_ID;
     TextView txt_beforemeal,txt_aftermeal;
     ArrayList<PROFILE> spinnerList=new ArrayList<PROFILE>();
-    PROFILE_SPINNER_ADAPTER customSpinnerAdapter3;
+    TRACK_SPINNER_ADAPTER customSpinnerAdapter3;
     JSONArray jsonarray_parent,jsonarray_child;
     Spinner spUser;
     public BloodSugarFragment() {
@@ -380,7 +376,7 @@ public class BloodSugarFragment extends Fragment implements View.OnClickListener
 
     public void getData2() {
 
-        customSpinnerAdapter3 = new PROFILE_SPINNER_ADAPTER(getActivity(), spinnerList);
+        customSpinnerAdapter3 = new TRACK_SPINNER_ADAPTER(getActivity(), spinnerList);
         spUser.setAdapter(customSpinnerAdapter3);
         spUser.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
