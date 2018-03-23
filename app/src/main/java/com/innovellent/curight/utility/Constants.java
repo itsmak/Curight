@@ -28,6 +28,18 @@ public class Constants {
     public static final String RUNNING = "Running";
     public static final String BICYCLING = "Bicycling";
     public static final String SWIMMING = "Swimming";
+    public static final String GOLF = "Golf";
+    public static final String FRISBEE = "Frisbee";
+    public static final String RACQUETBALL = "Racquetball";
+    public static final String ROWING = "Rowing";
+    public static final String SOCCER = "Soccer";
+    public static final String SOFTBALL = "Softball";
+    public static final String TENNIS = "Tennis";
+    public static final String TRAILBIKING = "TrailBiking";
+    public static final String VOLLEYBALL = "Volleyball";
+    public static final String WEIGHTLIFTING = "Weightlifting";
+    public static final String WRESTLING = "Wrestling";
+    public static final String YOGA = "Yoga";
 
     public static final int SLOW_SPEED = 5;
     public static final int MEDIUM_SPEED = 10;

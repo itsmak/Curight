@@ -34,9 +34,14 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.innovellent.curight.BuildConfig;
 import com.innovellent.curight.R;
 import com.innovellent.curight.adapter.AutocompleteAdapter;
 import com.innovellent.curight.adapter.Category_SpinnerAdapter;
+import com.innovellent.curight.adapter.FoodConsumptionAdapter;
 import com.innovellent.curight.adapter.FoodItemSpinnerAdapter;
 import com.innovellent.curight.adapter.FoodUnitSpinnerAdapter;
 import com.innovellent.curight.adapter.FoodunitAdapter;
@@ -47,6 +52,8 @@ import com.innovellent.curight.model.Calorie;
 import com.innovellent.curight.model.CalorieRes;
 import com.innovellent.curight.model.Category_Feed;
 import com.innovellent.curight.model.Category_List;
+import com.innovellent.curight.model.FOOD_ITEM;
+import com.innovellent.curight.model.FoodConsumptionModel;
 import com.innovellent.curight.model.FoodItem;
 import com.innovellent.curight.model.FoodItem_Feed;
 import com.innovellent.curight.model.FoodUnit;
@@ -54,6 +61,7 @@ import com.innovellent.curight.model.FoodUnit_Feed;
 import com.innovellent.curight.model.Food_Units;
 import com.innovellent.curight.model.ServerResponse;
 import com.innovellent.curight.model.ServerResponseCalorie;
+import com.innovellent.curight.model.ServerResponseConsumption;
 import com.innovellent.curight.model.ServerResponseFoodCategory;
 import com.innovellent.curight.model.ServerResponseFoodItem;
 import com.innovellent.curight.model.ServerResponseTest;
@@ -65,6 +73,7 @@ import com.innovellent.curight.utility.Util;
 import com.github.mikephil.charting.data.Entry;
 import com.pixplicity.easyprefs.library.Prefs;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
@@ -75,11 +84,14 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 import static com.innovellent.curight.utility.Constants.ACCESS_TOKEN;
 import static com.innovellent.curight.utility.Constants.BREAKFAST;
@@ -112,10 +124,13 @@ public class AddFoodConsumptionActivity extends Activity {
     PieChart pieChart_food;
     ArrayList<Entry> yvalues;
     ArrayList<String> xVals;
+    Retrofit retrofit;
+    ArrayList<FoodConsumptionModel> food_arraylist = new ArrayList<FoodConsumptionModel>();
+    ArrayList<FOOD_ITEM> food_details = new ArrayList<FOOD_ITEM>();
     private Toolbar toolbar;
     private TextView tvTitle,tv_protein,tv_carbs,tv_fat,tv_fiber,tvTotalCal;
     private ImageView ivback1_consumption;
-
+    private JSONArray jsonArray;
     private RecyclerView recyclerView;
     private Spinner itemSpinner, unitSpinner,sp_category;
     private Button btnSubmit, btnAdd;
@@ -125,6 +140,7 @@ public class AddFoodConsumptionActivity extends Activity {
     private SharedPrefService sharedPrefService;
     private FoodItemSpinnerAdapter foodItemSpinnerAdapter;
     private SwimmingAdapter swimmingAdapter;
+    private FoodConsumptionAdapter consumptionAdapter;
     private long userId;
     private String accessToken, title, time, quantity;
     private ArrayList<Swimming> foodConsumptions = new ArrayList<>();
@@ -152,6 +168,7 @@ public class AddFoodConsumptionActivity extends Activity {
         initReferences();
         setupToolbar();
         initClickListeners();
+
         pieChart_food.setUsePercentValues(true);
         sharedPrefService = SharedPrefService.getInstance();
         userId = sharedPrefService.getLong(USER_ID);
@@ -355,7 +372,7 @@ public class AddFoodConsumptionActivity extends Activity {
                                     yvalues.add(new Entry(foodUnits.get(0).getProtein(), 1));
                                     yvalues.add(new Entry(foodUnits.get(0).getFat(), 2));
                                     yvalues.add(new Entry(foodUnits.get(0).getFiber(), 3));
-                                    yvalues.add(new Entry(foodUnits.get(0).getCalories(), 4));
+                                  //  yvalues.add(new Entry(foodUnits.get(0).getCalories(), 4));
 
                                     PieDataSet dataSet = new PieDataSet(yvalues, "Calorie Results");
                                     xVals = new ArrayList<String>();
@@ -364,7 +381,7 @@ public class AddFoodConsumptionActivity extends Activity {
                                     xVals.add("Protien");
                                     xVals.add("Fat");
                                     xVals.add("Fiber");
-                                    xVals.add("Calorie");
+                                   // xVals.add("Calorie");
 
                                     PieData data = new PieData(xVals, dataSet);
                                     // In percentage Term
@@ -379,8 +396,11 @@ public class AddFoodConsumptionActivity extends Activity {
                                     pieChart_food.setRotationEnabled(true);
                                     pieChart_food.setCenterTextSize(8f);
                                     pieChart_food.setData(data);
+
                                     Prefs.putString("FOODUNIT",foodUnits.get(0).getUnit());
                                     Prefs.putInt("FOODID",foodUnits.get(0).getFoodid());
+                                    Log.d(TAG,"consumption calory::"+foodUnits.get(0).getCalories());
+                                    Prefs.putInt("FOODCALORY",foodUnits.get(0).getCalories());
                                     tv_protein.setText("Protien : "+String.valueOf(foodUnits.get(0).getProtein()));
                                     tv_carbs.setText("Carbs : "+String.valueOf(foodUnits.get(0).getCarbs()));
                                     tv_fat.setText("Fat : "+String.valueOf(foodUnits.get(0).getFat()));
@@ -400,7 +420,7 @@ public class AddFoodConsumptionActivity extends Activity {
                                             yvalues.add(new Entry(item_f.getProtein(), 1));
                                             yvalues.add(new Entry(item_f.getFat(), 2));
                                             yvalues.add(new Entry(item_f.getFiber(), 3));
-                                            yvalues.add(new Entry(item_f.getCalories(), 4));
+                                           // yvalues.add(new Entry(item_f.getCalories(), 4));
 
                                             PieDataSet dataSet = new PieDataSet(yvalues, "Calorie Results");
                                             xVals = new ArrayList<String>();
@@ -409,7 +429,7 @@ public class AddFoodConsumptionActivity extends Activity {
                                             xVals.add("Protien");
                                             xVals.add("Fat");
                                             xVals.add("Fiber");
-                                            xVals.add("Calorie");
+                                           // xVals.add("Calorie");
 
                                             PieData data = new PieData(xVals, dataSet);
                                             // In percentage Term
@@ -425,6 +445,7 @@ public class AddFoodConsumptionActivity extends Activity {
                                             pieChart_food.setCenterTextSize(8f);
                                             pieChart_food.setData(data);
                                             Prefs.putInt("FOODID",item_f.getFoodid());
+                                            Prefs.putInt("FOODCALORY",item_f.getCalories());
                                             tv_protein.setText("Protien : "+String.valueOf(item_f.getProtein()));
                                             tv_carbs.setText("Carbs : "+String.valueOf(item_f.getCarbs()));
                                             tv_fat.setText("Fat : "+String.valueOf(item_f.getFat()));
@@ -587,7 +608,9 @@ public class AddFoodConsumptionActivity extends Activity {
                     //String unit=Prefs.getString("FOODUNIT","");
 
                   //  addFoodConsumption(foodname, ((Food_Units) unitSpinner.getSelectedItem()));
-                    addFoodConsumption(foodname);
+
+                 //   addFoodConsumption(foodname);
+                    add_foodconsumptiontoarray();
                 }
             }
         });
@@ -613,10 +636,150 @@ public class AddFoodConsumptionActivity extends Activity {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               Toast.makeText(AddFoodConsumptionActivity.this,"Successfull added",Toast.LENGTH_SHORT).show();
-                finish();
+               if(food_arraylist.size()==0)
+               {
+                   Toast.makeText(AddFoodConsumptionActivity.this,"Please add Food before Saving",Toast.LENGTH_SHORT).show();
+               }else {
+                   send_consumptionlist();
+               }
+
+
             }
         });
+    }
+    private void send_consumptionlist() {
+        progressDialog = ProgressDialog.show(AddFoodConsumptionActivity.this, "Loading", "please wait", true, false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
+        try {
+            //  jsonArray = new JSONArray("[{\"classid\":1,\"completedby\":\"2018-01-20\",\"hashtag\":\"\",\"homeworktext\":\"jjerigo3rg ibuhrejd viuev iuigre\",\"teacherid\":2}]");
+            Gson gson = new GsonBuilder().create();
+            JsonArray myCustomArray = gson.toJsonTree(food_arraylist).getAsJsonArray();
+            String string_array=String.valueOf(myCustomArray);
+            Log.d(TAG,"arraylist full:"+string_array);
+            jsonArray = new JSONArray(string_array);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        if (BuildConfig.DEBUG) {
+            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+            httpClient.addInterceptor(logging);
+        }
+        OkHttpClient client = httpClient.build();
+        if (retrofit == null) {
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(new Config().SERVER_URL)
+                    .addConverterFactory(ScalarsConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .client(client)
+                    .build();
+        }
+        Call<ServerResponseConsumption> serverResponseCall = retrofit.create(ApiInterface.class).saveConsumption(jsonArray.toString());
+        serverResponseCall.enqueue(new Callback<ServerResponseConsumption>() {
+            @Override
+            public void onResponse(Call<ServerResponseConsumption> call, retrofit2.Response<ServerResponseConsumption> response) {
+                progressDialog.dismiss();
+                Log.d(TAG,"arrayresponse success:"+response);
+                if(response.body() !=null)
+                {
+                    progressDialog.dismiss();
+                    if(response.body().getResults().equalsIgnoreCase("S"))
+                    {
+                        Toast.makeText(AddFoodConsumptionActivity.this,"Food Consumption Successfully saved",Toast.LENGTH_SHORT).show();
+                        food_arraylist.clear();
+                        food_details.clear();
+                        consumptionAdapter.notifyDataSetChanged();
+                        Intent hm = new Intent(AddFoodConsumptionActivity.this,HomeActivity.class);
+                        hm.putExtra("source", "consumption");
+                        startActivity(hm);
+                    }else {
+                        progressDialog.dismiss();
+                        Log.d(TAG,"arrayresponse:"+response.body());
+                    }
+
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<ServerResponseConsumption> call, Throwable t) {
+                progressDialog.dismiss();
+                Log.d(TAG,"arrayresponse failure :"+t.toString());
+            }
+        });
+
+
+    }
+    private void add_foodconsumptiontoarray() {
+
+        String s_userid = String.valueOf(Prefs.getLong("user_id",0));
+        String selected_date = et_date.getText().toString().trim();
+        String food_id = String.valueOf(Prefs.getInt("FOODID",0));
+        String meal_type = title;
+        String serving_qnty = etQuantity.getText().toString().trim();
+        String serving_unit = et_unit.getText().toString().trim();
+        String serving_time = time;
+        Log.d(TAG,"consumption_userid"+s_userid);
+        Log.d(TAG,"consumption_date"+selected_date);
+        Log.d(TAG,"consumption_foodid"+food_id);
+        Log.d(TAG,"consumption_mealtype"+meal_type);
+        Log.d(TAG,"consumption_qntity"+serving_qnty);
+        Log.d(TAG,"consumption_unit"+serving_unit);
+        Log.d(TAG,"consumption_time"+serving_time);
+        food_arraylist.add(new FoodConsumptionModel(s_userid,selected_date,food_id,meal_type,serving_qnty,serving_unit,serving_time));
+        String selected_item = et_fooditem.getText().toString().trim();
+        String selected_quantity = etQuantity.getText().toString().trim();
+        String selected_unit = et_unit.getText().toString().trim();
+        int calorie = Prefs.getInt("FOODCALORY",0);
+        Log.d(TAG,"consumption calory::"+calorie);
+        Log.d(TAG,"consumption quantity::"+selected_quantity);
+        int selected_cal = calorie/(Integer.parseInt(selected_quantity));
+        Log.d(TAG,"consumption calryperq::"+selected_cal);
+        food_details.add(new FOOD_ITEM(selected_item,selected_quantity,selected_unit,String.valueOf(selected_cal)));
+        consumptionAdapter = new FoodConsumptionAdapter(AddFoodConsumptionActivity.this, R.layout.list_row_food, food_details);
+        recyclerView.setLayoutManager(new LinearLayoutManager(AddFoodConsumptionActivity.this, LinearLayoutManager.VERTICAL, false));
+        recyclerView.setAdapter(consumptionAdapter);
+        clear_page_data();
+    }
+
+    private void clear_page_data() {
+        et_fooditem.setText("");
+        et_unit.setText("");
+        etQuantity.setText("");
+        et_date.setText("");
+        yvalues = new ArrayList<Entry>();
+
+        //  yvalues.add(new Entry(foodUnits.get(0).getCalories(), 4));
+
+        PieDataSet dataSet = new PieDataSet(yvalues, "Calorie Results");
+        xVals = new ArrayList<String>();
+
+
+        // xVals.add("Calorie");
+
+        PieData data = new PieData(xVals, dataSet);
+        // In percentage Term
+        data.setValueFormatter(new PercentFormatter());
+        // Default value
+        //data.setValueFormatter(new DefaultValueFormatter(0));
+        dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
+        dataSet.setValueTextSize(10f);
+        dataSet.setValueTextColor(Color.DKGRAY);
+        pieChart_food.setDrawHoleEnabled(false);
+        pieChart_food.setRotationAngle(0);
+        pieChart_food.setRotationEnabled(true);
+        pieChart_food.setCenterTextSize(8f);
+        pieChart_food.setData(data);
+
+        tv_protein.setText("Protien : ");
+        tv_carbs.setText("Carbs : ");
+        tv_fat.setText("Fat : ");
+        tv_fiber.setText("Fiber : ");
+        tvTotalCal.setText("Total Calories : ");
     }
 
     @Override
@@ -726,8 +889,8 @@ public class AddFoodConsumptionActivity extends Activity {
                             monthYear = month + "";
                         }
 
-                        String date = day + "-" + monthYear + "-" + year;
-                        setedttxt.setText(dayOfMonth + "/" + (monthYear) + "/" + year);
+                        String date = year + "-" + monthYear + "-" + day;
+                        setedttxt.setText(year + "-" + monthYear + "-" + day);
 
 
                     }
@@ -761,7 +924,7 @@ public class AddFoodConsumptionActivity extends Activity {
                     yvalues.add(new Entry(result.get(0).getProtein(), 1));
                     yvalues.add(new Entry(result.get(0).getFat(), 2));
                     yvalues.add(new Entry(result.get(0).getFiber(), 3));
-                    yvalues.add(new Entry(result.get(0).getCalories(), 4));
+                   // yvalues.add(new Entry(result.get(0).getCalories(), 4));
 
                     PieDataSet dataSet = new PieDataSet(yvalues, "Calorie Results");
                     xVals = new ArrayList<String>();
@@ -770,7 +933,7 @@ public class AddFoodConsumptionActivity extends Activity {
                     xVals.add("Protien");
                     xVals.add("Fat");
                     xVals.add("Fiber");
-                    xVals.add("Calorie");
+                  //  xVals.add("Calorie");
 
                     PieData data = new PieData(xVals, dataSet);
                     // In percentage Term
@@ -795,6 +958,7 @@ public class AddFoodConsumptionActivity extends Activity {
                     tv_carbs.setText("Carbs : "+String.valueOf(result.get(0).getCarbs()));
                     tv_fat.setText("Fat : "+String.valueOf(result.get(0).getFat()));
                     tv_fiber.setText("Fiber : "+String.valueOf(result.get(0).getFiber()));
+                    Prefs.putInt("FOODCALORY",result.get(0).getCalories());
                     tvTotalCal.setText("Total Calories : "+String.valueOf(result.get(0).getCalories()));
 
                 }

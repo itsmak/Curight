@@ -31,6 +31,7 @@ import com.innovellent.curight.model.FamilyProfile;
 import com.innovellent.curight.model.Goal;
 import com.innovellent.curight.model.ServerResponse;
 import com.innovellent.curight.utility.SharedPrefService;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import org.json.JSONObject;
 
@@ -84,8 +85,8 @@ public class TrackDataFragment extends Fragment implements View.OnClickListener,
         sharedPrefService = SharedPrefService.getInstance();
         userId = sharedPrefService.getLong(USER_ID);
         accessToken = sharedPrefService.getString(ACCESS_TOKEN);
-
-        getFamilyProfiles(userId);
+        int uid = (int) Prefs.getLong("user_id",0);
+        getFamilyProfiles(uid);
 
         getGoal();
 

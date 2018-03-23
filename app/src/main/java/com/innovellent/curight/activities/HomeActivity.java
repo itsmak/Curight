@@ -140,6 +140,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_nw);
         Log.d(TAG,"Homeactivity: oncreate");
+     //   Prefs.putString("source","");
         sharedPreferences = getSharedPreferences("mypref", Context.MODE_PRIVATE);
         Bundle b = new Bundle();
         b = getIntent().getExtras();
@@ -226,6 +227,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
         ivBack1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Prefs.putString("source","");
+                Prefs.putString("source1","");
                 android.support.v4.app.Fragment fragment= getSupportFragmentManager().findFragmentById(R.id.rlMainFragment);
                 if(fragment instanceof TrackDataFragment)
                 {
@@ -300,9 +303,21 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
             adapter.notifyDataSetChanged();
             setupViewPagerHome(viewPager);
             tabLayout.setupWithViewPager(viewPager);
-        }
+        }else if(destination.equals("trackdata")){
 
- else{
+            ivAddprofile.setVisibility(View.GONE);
+            ivAdd.setVisibility(View.VISIBLE);
+//            Prefs.putString("source","trackfood");
+            //tvTitle.setText("Home");
+            tvTitle.setVisibility(View.GONE);
+            viewPager.setVisibility(View.VISIBLE);
+            frameLayout.setVisibility(View.GONE);
+            //spUser.setVisibility(View.GONE);
+            tabLayout.setVisibility(View.GONE);
+            adapter.notifyDataSetChanged();
+            setupViewPagerHome(viewPager);
+            tabLayout.setupWithViewPager(viewPager);
+        } else{
             ivAddprofile.setVisibility(View.GONE);
             ivAdd.setVisibility(View.VISIBLE);
 //tvTitle.setText("Home");
@@ -325,6 +340,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
         rl_home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Prefs.putString("source","");
+                Prefs.putString("source1","");
                 tvTitle.setVisibility(View.GONE);
                 ivAdd.setVisibility(View.VISIBLE);
                 ivBack.setVisibility(View.VISIBLE);
@@ -444,6 +461,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
     protected void onPause() {
         super.onPause();
         Log.d(TAG,"Homeactivity: onPause");
+        Prefs.putString("source","");
+        Prefs.putString("source1","");
     }
 
     @Override
@@ -803,7 +822,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
 
     @Override
     public void onBackPressed() {
-
+        Prefs.putString("source","");
+        Prefs.putString("source1","");
         android.support.v4.app.Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.rlMainFragment);
         if(fragment instanceof TrackDataFragment)
         {

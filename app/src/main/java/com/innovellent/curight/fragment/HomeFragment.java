@@ -26,6 +26,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
+import com.innovellent.curight.LoginActivity;
 import com.innovellent.curight.R;
 import com.innovellent.curight.activities.DiagnosticCentersActivity;
 import com.innovellent.curight.activities.DiagnosticTestListActivity;
@@ -90,6 +91,8 @@ public class HomeFragment extends Fragment  implements View.OnClickListener{
         init(rootView);
         initonClick();
         String source = Prefs.getString("source","");
+        String source1 = Prefs.getString("source1","");
+        Log.d(TAG,"source ::"+source);
         if(source.equalsIgnoreCase("consumption"))
         {
             ((HomeActivity)getActivity()).foodfitness();
@@ -103,6 +106,15 @@ public class HomeFragment extends Fragment  implements View.OnClickListener{
         {
             ((HomeActivity)getActivity()).foodfitness();
             Fragment fragment = new ExerciseFragment();
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.rlMainFragment, fragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }else if(source1.equalsIgnoreCase("trackfood"))
+        {
+            ((HomeActivity)getActivity()).foodfitness();
+            Fragment fragment = new TrackDataFragment();
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.rlMainFragment, fragment);
@@ -519,13 +531,23 @@ public class HomeFragment extends Fragment  implements View.OnClickListener{
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rlFood:
-                ((HomeActivity)getActivity()).foodfitness();
-                Fragment fragment = new TrackDataFragment();
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.rlMainFragment, fragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                Long uid = Prefs.getLong("user_id",0);
+                if (uid==0) {
+                    Intent i = new Intent(getActivity(), LoginActivity.class);
+                    Prefs.putString("destination", "trackdata");
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    // setupViewPagerMedicineReminder(viewPager);
+                    startActivity(i);
+                }else {
+                    ((HomeActivity) getActivity()).foodfitness();
+                    Fragment fragment = new TrackDataFragment();
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.rlMainFragment, fragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                }
                 break;
             case R.id.titleOne:
                 Intent i=new Intent(getActivity(),DiagnosticTestListActivity.class);

@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 
 import com.innovellent.curight.R;
+import com.innovellent.curight.activities.Exercise.Add_CalBurned_Exersize;
 import com.innovellent.curight.activities.Exercise.BycyclingActivity;
 import com.innovellent.curight.activities.Exercise.FrisbeeActivity;
 import com.innovellent.curight.activities.Exercise.GolfActivity;
@@ -68,6 +69,25 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.innovellent.curight.utility.Constants.BICYCLING;
+import static com.innovellent.curight.utility.Constants.BREAKFAST;
+import static com.innovellent.curight.utility.Constants.FRISBEE;
+import static com.innovellent.curight.utility.Constants.GOLF;
+import static com.innovellent.curight.utility.Constants.RACQUETBALL;
+import static com.innovellent.curight.utility.Constants.ROWING;
+import static com.innovellent.curight.utility.Constants.RUNNING;
+import static com.innovellent.curight.utility.Constants.SOCCER;
+import static com.innovellent.curight.utility.Constants.SOFTBALL;
+import static com.innovellent.curight.utility.Constants.SWIMMING;
+import static com.innovellent.curight.utility.Constants.TENNIS;
+import static com.innovellent.curight.utility.Constants.TITLE;
+import static com.innovellent.curight.utility.Constants.TRAILBIKING;
+import static com.innovellent.curight.utility.Constants.VOLLEYBALL;
+import static com.innovellent.curight.utility.Constants.WALKING;
+import static com.innovellent.curight.utility.Constants.WEIGHTLIFTING;
+import static com.innovellent.curight.utility.Constants.WRESTLING;
+import static com.innovellent.curight.utility.Constants.YOGA;
 
 
 public class ExerciseFragment extends Fragment  implements View.OnClickListener {
@@ -387,72 +407,86 @@ public class ExerciseFragment extends Fragment  implements View.OnClickListener 
 //                startActivity(i);
                 break;
             case R.id.tvWorkout_walking:
-                Intent in=new Intent(getActivity(), WalkingActivity.class);
-                startActivity(in);
+                Intent ine=new Intent(getActivity(), Add_CalBurned_Exersize.class);
+                ine.putExtra(TITLE, WALKING);
+                startActivity(ine);
 
                 break;
             case R.id.tvWorkout_running:
-                Intent inr=new Intent(getActivity(), RunningActivity.class);
+                Intent inr=new Intent(getActivity(), Add_CalBurned_Exersize.class);
+                inr.putExtra(TITLE, RUNNING);
                 startActivity(inr);
                 break;
             case R.id.tvWorkout_bycycling:
-                Intent inb=new Intent(getActivity(), BycyclingActivity.class);
+                Intent inb=new Intent(getActivity(), Add_CalBurned_Exersize.class);
+                inb.putExtra(TITLE, BICYCLING);
                 startActivity(inb);
                 break;
             case R.id.tvWorkout_swimming:
-                Intent ins=new Intent(getActivity(), SwimmingActivity.class);
+                Intent ins=new Intent(getActivity(), Add_CalBurned_Exersize.class);
+                ins.putExtra(TITLE, SWIMMING);
                 startActivity(ins);
                 break;
             case R.id.tvWorkout_golf:
-                Intent ing=new Intent(getActivity(), GolfActivity.class);
+                Intent ing=new Intent(getActivity(), Add_CalBurned_Exersize.class);
+                ing.putExtra(TITLE, GOLF);
                 startActivity(ing);
                 break;
             case R.id.tvWorkout_frisbee:
-                Intent inf=new Intent(getActivity(), FrisbeeActivity.class);
-                startActivity(inf);
+                Intent infsb=new Intent(getActivity(), Add_CalBurned_Exersize.class);
+                infsb.putExtra(TITLE, FRISBEE);
+                startActivity(infsb);
                 break;
             case R.id.tvWorkout_Racquetball:
-                Intent inrc=new Intent(getActivity(), RacquetballActivity.class);
-                startActivity(inrc);
+                Intent inre=new Intent(getActivity(), Add_CalBurned_Exersize.class);
+                inre.putExtra(TITLE, RACQUETBALL);
+                startActivity(inre);
                 break;
             case R.id.tvWorkout_rowing:
-                Intent inro=new Intent(getActivity(), RowingActivity.class);
+                Intent inro=new Intent(getActivity(), Add_CalBurned_Exersize.class);
+                inro.putExtra(TITLE, ROWING);
                 startActivity(inro);
                 break;
             case R.id.tvWorkout_soccer:
-                Intent scr=new Intent(getActivity(), SoccerActivity.class);
-                startActivity(scr);
+                Intent inso=new Intent(getActivity(), Add_CalBurned_Exersize.class);
+                inso.putExtra(TITLE, SOCCER);
+                startActivity(inso);
                 break;
             case R.id.tvWorkout_softball:
-                Intent sftb=new Intent(getActivity(), SoftballActivity.class);
-                startActivity(sftb);
+                Intent insft=new Intent(getActivity(), Add_CalBurned_Exersize.class);
+                insft.putExtra(TITLE, SOFTBALL);
+                startActivity(insft);
                 break;
             case R.id.tvWorkout_tennis:
-                Intent tns=new Intent(getActivity(), TennisActivity.class);
+                Intent tns=new Intent(getActivity(), Add_CalBurned_Exersize.class);
+                tns.putExtra(TITLE, TENNIS);
                 startActivity(tns);
                 break;
             case R.id.tvWorkout_trailbkng:
-                Intent trlbkg=new Intent(getActivity(), TrailBkngActivity.class);
-                startActivity(trlbkg);
+                Intent incl=new Intent(getActivity(), Add_CalBurned_Exersize.class);
+                incl.putExtra(TITLE, TRAILBIKING);
+                startActivity(incl);
                 break;
             case R.id.tvWorkout_volleyball:
-                Intent vba=new Intent(getActivity(), VolleyBallActivity.class);
-                startActivity(vba);
+                Intent invl=new Intent(getActivity(), Add_CalBurned_Exersize.class);
+                invl.putExtra(TITLE, VOLLEYBALL);
+                startActivity(invl);
                 break;
             case R.id.tvWorkout_weightlifting:
-                Intent wgt=new Intent(getActivity(), WeightliftingActivity.class);
-                startActivity(wgt);
+                Intent inwl=new Intent(getActivity(), Add_CalBurned_Exersize.class);
+                inwl.putExtra(TITLE, WEIGHTLIFTING);
+                startActivity(inwl);
                 break;
             case R.id.tvWorkout_wrestling:
-                Intent wrs=new Intent(getActivity(), WreslingActivity.class);
-                startActivity(wrs);
+                Intent inwrs = new Intent(getActivity(), Add_CalBurned_Exersize.class);
+                inwrs.putExtra(TITLE, WRESTLING);
+                startActivity(inwrs);
                 break;
             case R.id.tvWorkout_yoga:
-                Intent yga=new Intent(getActivity(), YogaActivity.class);
-                startActivity(yga);
+                Intent inyg=new Intent(getActivity(), Add_CalBurned_Exersize.class);
+                inyg.putExtra(TITLE, YOGA);
+                startActivity(inyg);
                 break;
-
-
         }
     }
 

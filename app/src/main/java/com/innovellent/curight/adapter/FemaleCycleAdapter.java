@@ -33,32 +33,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class FemaleCycleAdapter extends RecyclerView.Adapter<FemaleCycleAdapter.MyViewHolder> {
 
+    int femalecycletrackid;
+    FCT item;
     private ArrayList<FCT> arrayList = new ArrayList<>();
     private Context mContext;
     private String state;
-    int femalecycletrackid;
-    FCT item;
-    class MyViewHolder extends RecyclerView.ViewHolder {
-
-
-        TextView tvDays,tvgap_days,tvCurrentPeriod,tvMissed,tvNoteslabel,txt_reminderdays,fctid;
-        ImageView img_deletefctrecord;
-
-        MyViewHolder(View view) {
-            super(view);
-
-
-            tvDays = (TextView)view.findViewById(R.id.tvDays);
-            tvgap_days = (TextView)view.findViewById(R.id.tvgap_days);
-            tvCurrentPeriod = (TextView)view.findViewById(R.id.tvCurrentPeriod);
-            tvMissed = (TextView)view.findViewById(R.id.tvMissed);
-            tvNoteslabel = (TextView)view.findViewById(R.id.tvNoteslabel);
-            txt_reminderdays = (TextView)view.findViewById(R.id.txt_reminderdays);
-            img_deletefctrecord = (ImageView)view.findViewById(R.id.img_deleteitemforfct);
-            fctid = (TextView)view.findViewById(R.id.fctid);
-        }
-    }
-
     public FemaleCycleAdapter(Context context,ArrayList<FCT> arrayList) {
         mContext = context;
         this.arrayList = arrayList;
@@ -108,17 +87,12 @@ public class FemaleCycleAdapter extends RecyclerView.Adapter<FemaleCycleAdapter.
                 deletefctrecord(item.getFemalecycletrackid());
             }
         });
-
-
     }
-
-
 
     @Override
     public int getItemCount() {
         return arrayList.size();
     }
-
 
     private void deletefctrecord(int femaletrackid){
 
@@ -158,5 +132,26 @@ public class FemaleCycleAdapter extends RecyclerView.Adapter<FemaleCycleAdapter.
             e.printStackTrace();
         }
 
+    }
+
+    class MyViewHolder extends RecyclerView.ViewHolder {
+
+
+        TextView tvDays,tvgap_days,tvCurrentPeriod,tvMissed,tvNoteslabel,txt_reminderdays,fctid;
+        ImageView img_deletefctrecord;
+
+        MyViewHolder(View view) {
+            super(view);
+
+
+            tvDays = (TextView)view.findViewById(R.id.tvDays);
+            tvgap_days = (TextView)view.findViewById(R.id.tvgap_days);
+            tvCurrentPeriod = (TextView)view.findViewById(R.id.tvCurrentPeriod);
+            tvMissed = (TextView)view.findViewById(R.id.tvMissed);
+            tvNoteslabel = (TextView)view.findViewById(R.id.tvNoteslabel);
+            txt_reminderdays = (TextView)view.findViewById(R.id.txt_reminderdays);
+            img_deletefctrecord = (ImageView)view.findViewById(R.id.img_deleteitemforfct);
+            fctid = (TextView)view.findViewById(R.id.fctid);
+        }
     }
 }

@@ -57,6 +57,7 @@ import com.innovellent.curight.model.ServerResponseBloodCount;
 import com.innovellent.curight.model.ServerResponseBloodSugar;
 import com.innovellent.curight.model.ServerResponseBookedTest;
 import com.innovellent.curight.model.ServerResponseCalorie;
+import com.innovellent.curight.model.ServerResponseConsumption;
 import com.innovellent.curight.model.ServerResponseCreateExercise;
 import com.innovellent.curight.model.ServerResponseDiagCenter;
 import com.innovellent.curight.model.ServerResponseDoctorAppointment;
@@ -370,4 +371,10 @@ public interface ApiInterface {
     @POST("exercise/create")
     Call<AddExerciseResponse> createCalorie(@Body PostBodyAddExersize userId);;
 
+    @Headers({
+            "Content-Type: application/json",
+            "x-access-token: "
+    })
+    @POST("foodconsumption/createmultiple")
+    Call<ServerResponseConsumption> saveConsumption(@Body String data);
 }

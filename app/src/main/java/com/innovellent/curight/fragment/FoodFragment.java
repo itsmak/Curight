@@ -43,6 +43,7 @@ import com.innovellent.curight.model.ServerResponseFood;
 import com.innovellent.curight.model.Swimming;
 import com.innovellent.curight.model.Walking;
 import com.innovellent.curight.utility.SharedPrefService;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import org.json.JSONObject;
 
@@ -84,6 +85,7 @@ public class FoodFragment extends Fragment implements View.OnClickListener {
     TextView tvDate, tvTitle,tv_locationtxt,tv_locationsymbl;
     String[] spinner1 = {"John", "Jobby", "Suresh", "Mahesh"};
     Context context;
+    RelativeLayout rl_location;
     private RelativeLayout tvWorkout,tvWorkout1,tvWorkout2,tvWorkout3;
     private int mYear, mMonth, mDay;
     private SharedPrefService sharedPrefService;
@@ -132,13 +134,14 @@ public class FoodFragment extends Fragment implements View.OnClickListener {
         sharedPrefService = SharedPrefService.getInstance();
         userId = sharedPrefService.getLong(USER_ID);
         accessToken = sharedPrefService.getString(ACCESS_TOKEN);
-
-        getFamilyProfiles(userId);
+        int uid = (int) Prefs.getLong("user_id",0);
+        getFamilyProfiles(uid);
 
         return rootView;
     }
 
     public void init(View rootview) {
+        rl_location = (RelativeLayout) getActivity().findViewById(R.id.rl_location);
         rlDate = (RelativeLayout) rootview.findViewById(R.id.date_layout);
         tvTitle = (TextView) getActivity().findViewById(R.id.tvTitle);
         ivback = (ImageView) getActivity().findViewById(R.id.ivback);
@@ -159,7 +162,10 @@ public class FoodFragment extends Fragment implements View.OnClickListener {
         ivLunch = (ImageView) rootview.findViewById(R.id.ivLunch);
         ivSnacks = (ImageView) rootview.findViewById(R.id.ivSnacks);
         ivDinner = (ImageView) rootview.findViewById(R.id.ivDinner);
-
+        tvTitle = (TextView) getActivity().findViewById(R.id.tvTitle);
+        tvTitle.setVisibility(View.VISIBLE);
+        tvTitle.setText("Food");
+        rl_location.setVisibility(View.GONE);
     }
 
     public void iniClick() {
@@ -226,7 +232,8 @@ public class FoodFragment extends Fragment implements View.OnClickListener {
 
             JSONObject paramObject = new JSONObject();
             Log.d(TAG,"selected date ::"+selecteddate);
-            paramObject.put(USER_ID, userId);
+            int uid = (int) Prefs.getLong("user_id",0);
+            paramObject.put(USER_ID, uid);
             paramObject.put(DATE, selecteddate);
 
             Call<ServerResponseFood> call = client.getFood(accessToken, paramObject.toString());

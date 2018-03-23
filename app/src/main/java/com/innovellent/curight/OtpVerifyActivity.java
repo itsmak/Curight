@@ -138,6 +138,12 @@ public class OtpVerifyActivity extends Activity {
                             Intent myint = new Intent(getApplicationContext(), HomeActivity.class);
                             startActivity(myint);
                             finish();
+                        }else if(data.equals("trackdata"))
+                        {
+                            Intent myint = new Intent(getApplicationContext(), HomeActivity.class);
+                            Prefs.putString("source1","trackfood");
+                            startActivity(myint);
+                            finish();
                         }else
                         {
                             Intent myint = new Intent(getApplicationContext(), HomeActivity.class);
