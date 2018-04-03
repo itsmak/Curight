@@ -35,6 +35,8 @@ import com.innovellent.curight.model.PostBodyProfile;
 import com.innovellent.curight.model.ServerResponseBloodSugar;
 import com.innovellent.curight.utility.Config;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GridLabelRenderer;
+import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -481,6 +483,7 @@ public class BloodSugarFragment extends Fragment implements View.OnClickListener
                         txt_aftermeal.setText(String.valueOf(Aftermeal));
 
                         jsonarray_parent = jsonObject1.getJSONArray("bsList");
+                        String datearray[] = new String[jsonarray_parent.length()];
                         for(int i=0; i<jsonarray_parent.length(); i++){
 
                             jsonObject1 = jsonarray_parent.getJSONObject(i);
@@ -496,7 +499,7 @@ public class BloodSugarFragment extends Fragment implements View.OnClickListener
 
                                     double beforemeal = jsonarray_child.getJSONObject(j).getInt("beforemeal");
                                     double aftermeal = jsonarray_child.getJSONObject(j).getInt("aftermeal");
-
+                                    datearray[i] =jsonObject1.getString("date");
 
                                     points.add(new DataPoint(i, beforemeal));
                                     points2.add(new DataPoint(i, aftermeal));
@@ -514,6 +517,16 @@ public class BloodSugarFragment extends Fragment implements View.OnClickListener
                         line_graph.addSeries(new LineGraphSeries<>(points.toArray(pointArray)));
                         line_graph.addSeries(new LineGraphSeries<>(points2.toArray(pointArray2)));
                         // lineGraph = new GraphView(getActivity());
+                        StaticLabelsFormatter staticlebel = new StaticLabelsFormatter(line_graph);
+                        // staticlebel.setHorizontalLabels(new String[]{"18/12/12","18/07/12","18/10/43","18/12/11"});
+                        staticlebel.setHorizontalLabels(datearray);
+                        //staticlebel.setVerticalLabels(new String[] {"0","50","100","150"});
+                        line_graph.getGridLabelRenderer().setLabelFormatter(staticlebel);
+                        // lineGraph = new GraphView(getActivity());
+
+                        GridLabelRenderer gridLabel = line_graph.getGridLabelRenderer();
+                        // gridLabel.setHorizontalAxisTitle("systolic");
+                        gridLabel.setVerticalAxisTitle("Before/After Meal");
                         line_graph.getViewport().setMinX(0);
                         line_graph.getViewport().setMinY(0);
                         line_graph.getViewport().setScrollable(false);

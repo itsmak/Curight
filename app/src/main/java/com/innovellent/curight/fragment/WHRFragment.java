@@ -42,6 +42,8 @@ import com.innovellent.curight.model.WHR_LIST_DATE;
 import com.innovellent.curight.model.WhrList;
 import com.innovellent.curight.utility.Config;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GridLabelRenderer;
+import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -405,6 +407,7 @@ public class WHRFragment extends Fragment implements View.OnClickListener{
 
 
                         jsonArray_parent = jsonObject1.getJSONArray("whrdtoList");
+                        String datearray[] = new String[jsonArray_parent.length()];
                         for(int i=0; i<jsonArray_parent.length(); i++) {
                            // whr_arraylist.add(new WHR(jsonArray_parent.getJSONObject(i).getString("date"),0,"", "", "", ""));
                             jsonObject1 = jsonArray_parent.getJSONObject(i);
@@ -419,23 +422,33 @@ public class WHRFragment extends Fragment implements View.OnClickListener{
 
                                 if(graphflag.equalsIgnoreCase("Y")){
 
-                                    double waistcircumference = jsonArray_child.getJSONObject(j).getInt("waistcircumference");
-                                    double hipcircumference = jsonArray_child.getJSONObject(j).getInt("hipcircumference");
-
+                                    double waistcircumference = jsonArray_child.getJSONObject(j).getInt("whr");
+                                  //  double hipcircumference = jsonArray_child.getJSONObject(j).getInt("hipcircumference");
+                                    datearray[i] =jsonObject1.getString("date");
 
                                     points.add(new DataPoint(i, waistcircumference));
-                                    points2.add(new DataPoint(i, hipcircumference));
+                                  //  points2.add(new DataPoint(i, hipcircumference));
                                 }
                             }
                         }
 
 
                         DataPoint[] pointArray = new DataPoint[points.size()];
-                        DataPoint[] pointArray2 = new DataPoint[points2.size()];
+                      //  DataPoint[] pointArray2 = new DataPoint[points2.size()];
                         lineGraph.removeAllSeries();
                         lineGraph.addSeries(new LineGraphSeries<>(points.toArray(pointArray)));
-                        lineGraph.addSeries(new LineGraphSeries<>(points2.toArray(pointArray2)));
+                      //  lineGraph.addSeries(new LineGraphSeries<>(points2.toArray(pointArray2)));
                         // lineGraph = new GraphView(getActivity());
+                        StaticLabelsFormatter staticlebel = new StaticLabelsFormatter(lineGraph);
+                        // staticlebel.setHorizontalLabels(new String[]{"18/12/12","18/07/12","18/10/43","18/12/11"});
+                        staticlebel.setHorizontalLabels(datearray);
+                        //staticlebel.setVerticalLabels(new String[] {"0","50","100","150"});
+                        lineGraph.getGridLabelRenderer().setLabelFormatter(staticlebel);
+                        // lineGraph = new GraphView(getActivity());
+
+                        GridLabelRenderer gridLabel = lineGraph.getGridLabelRenderer();
+                        // gridLabel.setHorizontalAxisTitle("systolic");
+                        gridLabel.setVerticalAxisTitle("Whr");
                         lineGraph.getViewport().setMinX(0);
                         lineGraph.getViewport().setMinY(0);
                         lineGraph.getViewport().setScrollable(false);

@@ -222,7 +222,7 @@ public class FoodFragment extends Fragment implements View.OnClickListener {
         rlDate.setOnClickListener(this);
     }
 
-    public void getFoodConsumptions(String selecteddate) {
+    public void getFoodConsumptions(long userid,String selecteddate) {
 
         ApiInterface client = ApiClient.getClient();
 
@@ -233,7 +233,7 @@ public class FoodFragment extends Fragment implements View.OnClickListener {
             JSONObject paramObject = new JSONObject();
             Log.d(TAG,"selected date ::"+selecteddate);
             int uid = (int) Prefs.getLong("user_id",0);
-            paramObject.put(USER_ID, uid);
+            paramObject.put(USER_ID, userid);
             paramObject.put(DATE, selecteddate);
 
             Call<ServerResponseFood> call = client.getFood(accessToken, paramObject.toString());
@@ -307,7 +307,10 @@ public class FoodFragment extends Fragment implements View.OnClickListener {
                             spQuestion1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                 @Override
                                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
+                                    Prefs.putLong("spinner_id",Long.parseLong(familyProfiles.get(i).getUserId()));
+                                    int uid = (int) Prefs.getLong("spinner_id",0);
+                                    String date =tvDate.getText().toString();
+                                    getFoodConsumptions(uid,date);
                                 }
 
                                 @Override
@@ -367,8 +370,15 @@ public class FoodFragment extends Fragment implements View.OnClickListener {
 
                         String date = year + "-" + monthYear + "-" + day;
                         tvDate.setText(year + "-" + monthYear + "-" + day);
-
-                        getFoodConsumptions(date);
+                        int s_uid = (int) Prefs.getLong("spinner_id",0);
+                        if(s_uid==0)
+                        {
+                            int uid = (int) Prefs.getLong("user_id",0);
+                            getFoodConsumptions(uid,date);
+                        }else {
+                            getFoodConsumptions(s_uid,date);
+                        }
+                       // getFoodConsumptions(date);
 
                     }
                 }, mYear, mMonth, mDay);
@@ -437,7 +447,8 @@ public class FoodFragment extends Fragment implements View.OnClickListener {
     public void onResume() {
         super.onResume();
         Log.d(TAG,"final date::"+finaldate);
-         getFoodConsumptions(finaldate);
+        int uid = (int) Prefs.getLong("user_id",0);
+         getFoodConsumptions(uid,finaldate);
     }
 }
 

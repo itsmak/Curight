@@ -154,13 +154,37 @@
         android:layout_height="0.5dp"
         android:layout_marginTop="2dp"
         android:background="@color/gray" />
+<RelativeLayout
+    android:layout_width="100dp"
+    android:layout_height="100dp"
+    android:layout_gravity="center"
+    android:layout_marginTop="5dp">
 
-    <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+    <ProgressBar
+        android:id="@+id/circularProgressbar_starttest"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_gravity="center"
         android:layout_marginTop="5dp"
-        android:background="@drawable/circular" />
+        android:indeterminate="false"
+        android:max="100"
+        android:progress="75"
+        android:progressDrawable="@drawable/draw"
+        android:secondaryProgress="100"/>
+
+    <TextView
+        android:id="@+id/tv_text_minutes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:lineSpacingExtra="2sp"
+        android:text="75 %"
+        android:textColor="#4BFF31"
+        android:textSize="20sp" />
+
+</RelativeLayout>
+
 
     <TextView
         android:layout_width="match_parent"

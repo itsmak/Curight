@@ -34,11 +34,11 @@ public class CholesterolAdapter extends RecyclerView.Adapter<CholesterolAdapter.
 
     private final int DATE = 0;
     private final int RECORD = 1;
-    private List<Object> objects = new ArrayList<>();
     ArrayList<Cholesterol> cholesterols = new ArrayList<Cholesterol>();
     Cholesterol cholesterol;
      Context context;
     ProgressDialog progressDialog;
+    private List<Object> objects = new ArrayList<>();
 
     public CholesterolAdapter(Context context, ArrayList<Cholesterol> cholesterolArrayList) {
         this.context = context;
@@ -96,7 +96,6 @@ public class CholesterolAdapter extends RecyclerView.Adapter<CholesterolAdapter.
         holder.triglycerides.setText(String.valueOf(cholesterols.get(position).getTriglycerides()));
 
 
-
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,25 +124,6 @@ public class CholesterolAdapter extends RecyclerView.Adapter<CholesterolAdapter.
     public int getItemCount() {
         return cholesterols.size();
     }
-
-
-    public class CholesterolViewHolder extends RecyclerView.ViewHolder {
-
-        TextView ldlHdl;
-        TextView triglycerides,time,tv_date;
-        ImageView delete;
-
-        CholesterolViewHolder(View view) {
-            super(view);
-            ldlHdl = (TextView) view.findViewById(R.id.ldl_hdl);
-            triglycerides = (TextView) view.findViewById(R.id.triglycerides);
-            delete = (ImageView) view.findViewById(R.id.delete);
-            time = (TextView) view.findViewById(R.id.tv_time);
-            tv_date = (TextView)view.findViewById(R.id.tv_date);
-        }
-    }
-
-
 
     private void deleteCholesterolRecord(int cholestrolid) {
         Retrofit retrofit = new Retrofit.Builder()
@@ -193,6 +173,22 @@ public class CholesterolAdapter extends RecyclerView.Adapter<CholesterolAdapter.
 
 
 
+    }
+
+    public class CholesterolViewHolder extends RecyclerView.ViewHolder {
+
+        TextView ldlHdl;
+        TextView triglycerides,time,tv_date;
+        ImageView delete;
+
+        CholesterolViewHolder(View view) {
+            super(view);
+            ldlHdl = (TextView) view.findViewById(R.id.ldl_hdl);
+            triglycerides = (TextView) view.findViewById(R.id.triglycerides);
+            delete = (ImageView) view.findViewById(R.id.delete);
+            time = (TextView) view.findViewById(R.id.tv_time);
+            tv_date = (TextView)view.findViewById(R.id.tv_date);
+        }
     }
 
 

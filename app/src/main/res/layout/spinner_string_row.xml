@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="5dp"
+    android:singleLine="true"
     android:text="Demo"
     android:textColor="#000" />
 

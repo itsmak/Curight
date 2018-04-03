@@ -1,5 +1,6 @@
 package com.innovellent.curight.fragment;
 
+import android.animation.ObjectAnimator;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -13,11 +14,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,6 +52,7 @@ import static com.innovellent.curight.utility.Constants.GOAL_ID;
 import static com.innovellent.curight.utility.Constants.USER_ID;
 
 public class TrackDataFragment extends Fragment implements View.OnClickListener, NumberPicker.OnValueChangeListener {
+    private static final String TAG = "CuRight";
     RecyclerView recycler_view;
     ArrayList<String> arrayList = new ArrayList<String>();
     TrackAdapter mAdapter;
@@ -63,6 +67,7 @@ public class TrackDataFragment extends Fragment implements View.OnClickListener,
     int goal_id;
     ImageView iv_search;
     TextView tvMyGoal, tvTitle, tvGoalTop, tvConsumedNumber, tvBurnedNumber;
+    ProgressBar circularProgressbar_starttest;
     private SharedPrefService sharedPrefService;
     private long userId;
     private String accessToken;
@@ -85,10 +90,11 @@ public class TrackDataFragment extends Fragment implements View.OnClickListener,
         sharedPrefService = SharedPrefService.getInstance();
         userId = sharedPrefService.getLong(USER_ID);
         accessToken = sharedPrefService.getString(ACCESS_TOKEN);
+
         int uid = (int) Prefs.getLong("user_id",0);
         getFamilyProfiles(uid);
 
-        getGoal();
+        getGoal(uid);
 
         return rootView;
     }
@@ -115,7 +121,9 @@ public class TrackDataFragment extends Fragment implements View.OnClickListener,
                             spUser.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                 @Override
                                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
+                                    Prefs.putLong("spinner_id",Long.parseLong(familyProfiles.get(i).getUserId()));
+                                    int usid = (int) Prefs.getLong("spinner_id",0);
+                                    getGoal(usid);
                                 }
 
                                 @Override
@@ -149,6 +157,7 @@ public class TrackDataFragment extends Fragment implements View.OnClickListener,
         iv_search = (ImageView) getActivity().findViewById(R.id.select_loc);
         ivback = (ImageView) getActivity().findViewById(R.id.ivback);
         ivback1 = (ImageView) getActivity().findViewById(R.id.ivback1);
+        circularProgressbar_starttest = (ProgressBar) rootView.findViewById(R.id.circularProgressbar_starttest);
         tvMyGoal = (TextView) rootView.findViewById(R.id.tvMyGoal);
         tvGoalTop = (TextView) rootView.findViewById(R.id.tvConsumedNumber);
         tvConsumedNumber = (TextView) rootView.findViewById(R.id.tvBurnedNumber);
@@ -231,7 +240,7 @@ public class TrackDataFragment extends Fragment implements View.OnClickListener,
             JSONObject paramObject = new JSONObject();
             paramObject.put(GOAL_ID, goal.getGoalid());
             paramObject.put(GOAL, goal.getGoalid());
-
+            Log.d(TAG,"goal input:"+paramObject.toString());
             Call<ServerResponse<String>> call = client.setGoal(accessToken, paramObject.toString());
 
             call.enqueue(new Callback<ServerResponse<String>>() {
@@ -265,12 +274,12 @@ public class TrackDataFragment extends Fragment implements View.OnClickListener,
         }
     }
 
-    public void getGoal() {
+    public void getGoal(int uid) {
         ApiInterface client = ApiClient.getClient();
 
         try {
             JSONObject paramObject = new JSONObject();
-            paramObject.put(USER_ID, userId);
+            paramObject.put(USER_ID, uid);
 
             Call<ServerResponse<Goal>> call = client.getGoal(accessToken, paramObject.toString());
 
@@ -286,6 +295,11 @@ public class TrackDataFragment extends Fragment implements View.OnClickListener,
                                 tvMyGoal.setText(getString(R.string.my_goal_formatted, goal.getGoal()));
                                 tvBurnedNumber.setText(String.valueOf(goal.getBurn()));
                                 tvConsumedNumber.setText(String.valueOf(goal.getConsumption()));
+                                circularProgressbar_starttest.setProgress(75);
+                                ObjectAnimator animation = ObjectAnimator.ofInt (circularProgressbar_starttest, "progress", 0, 75); // see this max value coming back here, we animate towards that value
+                                animation.setDuration (2000); //in milliseconds
+                                animation.setInterpolator (new DecelerateInterpolator());
+                                animation.start ();
                             }
                         }
                     }

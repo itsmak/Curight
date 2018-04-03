@@ -1,5 +1,6 @@
 package com.innovellent.curight.adapter;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.innovellent.curight.R;
 import com.innovellent.curight.api.ApiInterface;
@@ -35,6 +37,7 @@ public class FemaleCycleAdapter extends RecyclerView.Adapter<FemaleCycleAdapter.
 
     int femalecycletrackid;
     FCT item;
+    ProgressDialog progressDialog;
     private ArrayList<FCT> arrayList = new ArrayList<>();
     private Context mContext;
     private String state;
@@ -83,12 +86,23 @@ public class FemaleCycleAdapter extends RecyclerView.Adapter<FemaleCycleAdapter.
         holder.img_deletefctrecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 item = arrayList.get(position);
+                showProgressDialog("Deleting item");
                 deletefctrecord(item.getFemalecycletrackid());
+                removeAt(position);
             }
         });
     }
-
+    private void removeAt(int position) {
+        arrayList.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, arrayList.size());
+    }
+    private void showProgressDialog(String title) {
+        progressDialog = ProgressDialog.show(mContext, title, "please wait", true, false);
+        progressDialog.show();
+    }
     @Override
     public int getItemCount() {
         return arrayList.size();
@@ -111,6 +125,7 @@ public class FemaleCycleAdapter extends RecyclerView.Adapter<FemaleCycleAdapter.
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    progressDialog.dismiss();
                     if(response.isSuccessful()){
                         try{
                             String res_delete = response.body().string();
@@ -125,7 +140,7 @@ public class FemaleCycleAdapter extends RecyclerView.Adapter<FemaleCycleAdapter.
 
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                    progressDialog.dismiss();
                 }
             });
         }catch (Exception e){

@@ -268,8 +268,7 @@ public interface ApiInterface {
     @POST("patientprofile/getprofile")
     Call<ServerResponse<List<FamilyProfile>>> getFamilyProfiles(@Header("x-access-token") String accessToken, @Body String requestBody);
 
-    //Goal APIs
-    @Headers("Content-Type: application/json")
+    //Goal APIs    @Headers("Content-Type: application/json")
     @POST("goal/get")
     Call<ServerResponse<Goal>> getGoal(@Header("x-access-token") String accessToken, @Body String requestBody);
 

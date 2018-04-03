@@ -1,6 +1,7 @@
 package com.innovellent.curight.fragment;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,47 +23,63 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.innovellent.curight.R;
 import com.innovellent.curight.activities.Exercise.Add_CalBurned_Exersize;
-import com.innovellent.curight.activities.Exercise.BycyclingActivity;
-import com.innovellent.curight.activities.Exercise.FrisbeeActivity;
-import com.innovellent.curight.activities.Exercise.GolfActivity;
-import com.innovellent.curight.activities.Exercise.RacquetballActivity;
-import com.innovellent.curight.activities.Exercise.RowingActivity;
-import com.innovellent.curight.activities.Exercise.RunningActivity;
-import com.innovellent.curight.activities.Exercise.SoccerActivity;
-import com.innovellent.curight.activities.Exercise.SoftballActivity;
-import com.innovellent.curight.activities.Exercise.SwimmingActivity;
-import com.innovellent.curight.activities.Exercise.TennisActivity;
-import com.innovellent.curight.activities.Exercise.TrailBkngActivity;
-import com.innovellent.curight.activities.Exercise.VolleyBallActivity;
-import com.innovellent.curight.activities.Exercise.WalkingActivity;
-import com.innovellent.curight.activities.Exercise.WeightliftingActivity;
-import com.innovellent.curight.activities.Exercise.WreslingActivity;
-import com.innovellent.curight.activities.Exercise.YogaActivity;
 import com.innovellent.curight.adapter.BicyclingAdapter;
 import com.innovellent.curight.adapter.CustomSpinnerAdapter2;
+import com.innovellent.curight.adapter.FrisbeeAdapter;
+import com.innovellent.curight.adapter.GolfAdapter;
+import com.innovellent.curight.adapter.ProfileSpinnerAdapter;
+import com.innovellent.curight.adapter.RacquetballAdapter;
+import com.innovellent.curight.adapter.RowingAdapter;
 import com.innovellent.curight.adapter.RunningAdapter;
+import com.innovellent.curight.adapter.SoccerAdapter;
+import com.innovellent.curight.adapter.SoftballAdapter;
 import com.innovellent.curight.adapter.SwimmingAdapter;
+import com.innovellent.curight.adapter.TennisAdapter;
 import com.innovellent.curight.adapter.TrackAdapter;
+import com.innovellent.curight.adapter.TrailBikingAdapter;
+import com.innovellent.curight.adapter.VolleyballAdapter;
 import com.innovellent.curight.adapter.WalkingAdapter;
+import com.innovellent.curight.adapter.WeightliftingAdapter;
+import com.innovellent.curight.adapter.WrestlingAdapter;
+import com.innovellent.curight.adapter.YogaAdapter;
+import com.innovellent.curight.api.ApiClient;
 import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.Bicycling;
 import com.innovellent.curight.model.Exercise;
+import com.innovellent.curight.model.FamilyProfile;
+import com.innovellent.curight.model.Frisbee;
+import com.innovellent.curight.model.Golf;
+import com.innovellent.curight.model.Racquetball;
+import com.innovellent.curight.model.Rowing;
 import com.innovellent.curight.model.Running;
+import com.innovellent.curight.model.ServerResponse;
 import com.innovellent.curight.model.ServerResponseExercise;
+import com.innovellent.curight.model.Soccer;
+import com.innovellent.curight.model.Softball;
 import com.innovellent.curight.model.Swimming;
+import com.innovellent.curight.model.Tennis;
+import com.innovellent.curight.model.TrailBiking;
 import com.innovellent.curight.model.UserIdStr;
+import com.innovellent.curight.model.Volleyball;
 import com.innovellent.curight.model.Walking;
+import com.innovellent.curight.model.Weightlifting;
+import com.innovellent.curight.model.Wrestling;
+import com.innovellent.curight.model.Yoga;
 import com.innovellent.curight.utility.Config;
+import com.innovellent.curight.utility.SharedPrefService;
+import com.pixplicity.easyprefs.library.Prefs;
+
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -70,8 +87,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static com.innovellent.curight.utility.Constants.ACCESS_TOKEN;
 import static com.innovellent.curight.utility.Constants.BICYCLING;
-import static com.innovellent.curight.utility.Constants.BREAKFAST;
 import static com.innovellent.curight.utility.Constants.FRISBEE;
 import static com.innovellent.curight.utility.Constants.GOLF;
 import static com.innovellent.curight.utility.Constants.RACQUETBALL;
@@ -99,6 +116,7 @@ public class ExerciseFragment extends Fragment  implements View.OnClickListener 
     tvWorkout_rowing, tvWorkout_soccer,tvWorkout_softball,tvWorkout_tennis,tvWorkout_trailbkng,tvWorkout_volleyball,tvWorkout_weightlifting,tvWorkout_wrestling,tvWorkout_yoga;
     ArrayList<String> arrayList=new ArrayList<String>();
     TrackAdapter mAdapter;
+    RelativeLayout rl_location;
     ImageView ivAddWalking,ivAddRunning,ivAddBicycling,ivAddSwimming;
     Spinner spQuestion1;
     ArrayList<Walking> arraywalkingList=new ArrayList<>();
@@ -108,15 +126,32 @@ public class ExerciseFragment extends Fragment  implements View.OnClickListener 
     SwimmingAdapter swimmingAdapter;
     WalkingAdapter walkingAdapter;
     RunningAdapter runningAdapter;
+    GolfAdapter golfAdapter;
+    FrisbeeAdapter frisbeeAdapter;
+    RacquetballAdapter racquetballAdapter;
+    RowingAdapter rowingAdapter;
+    SoccerAdapter soccerAdapter;
+    SoftballAdapter softballAdapter;
+    TennisAdapter tennisAdapter;
+    TrailBikingAdapter trailBikingAdapter;
+    VolleyballAdapter volleyballAdapter;
+    WeightliftingAdapter weightliftingAdapter;
+    WrestlingAdapter wrestlingAdapter;
+    YogaAdapter yogaAdapter;
     RelativeLayout rlDate;
     BicyclingAdapter bicyclingAdapter;
     String[]spinner1={"John","Jobby","Suresh","Mahesh"};
     TextView tvDate,tvTitle;
     TextView tvBurned;
     ImageView ivback,ivback1;
+    String finaldate;
+    private String accessToken;
+    private SharedPrefService sharedPrefService;
+    private ProgressDialog progressDialog;
+    private int progressBarCounter = 2;
+    private List<FamilyProfile> familyProfiles;
     private int mYear, mMonth, mDay;
     private int  mHour, mMinute,mhour1,mhour2,mhour3,minute1,minute2,minute3,mSeconds,seconds1,seconds2,seconds3;
-
 
     @Nullable
     @Override
@@ -124,22 +159,102 @@ public class ExerciseFragment extends Fragment  implements View.OnClickListener 
         View rootView=inflater.inflate(R.layout.fragment_exercise1,container,false);
         init(rootView);
         iniClick();
-        getData();
-        CustomSpinnerAdapter2 customSpinnerAdapter3=new CustomSpinnerAdapter2(getActivity(),spinner1);
-        spQuestion1.setAdapter(customSpinnerAdapter3);
-        spQuestion1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        progressDialog = ProgressDialog.show(getContext(), "Loading", "please wait", true, false);
+        progressDialog.show();
 
-            }
+        sharedPrefService = SharedPrefService.getInstance();
+        accessToken = sharedPrefService.getString(ACCESS_TOKEN);
+        int uid = (int) Prefs.getLong("user_id",0);
+        String month,day;
+        final Calendar c = Calendar.getInstance();
+        int monthnumbr = c.get(Calendar.MONTH)+1;
+        int daynumber = c.get(Calendar.DATE);
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
+        if (monthnumbr >= 1 && monthnumbr <= 9) {
+            month = "0" + monthnumbr;
+        } else {
+            month = monthnumbr + "";
+        }
+        if (daynumber >= 1 && daynumber <= 9) {
+            day = "0" + daynumber;
+        } else {
+            day = daynumber + "";
+        }
+        finaldate = c.get(Calendar.YEAR) +"-"+month+"-" +day;
+        tvDate.setText(finaldate);
+        getFamilyProfiles(uid);
 
-            }
-        });
+
+//        CustomSpinnerAdapter2 customSpinnerAdapter3=new CustomSpinnerAdapter2(getActivity(),spinner1);
+//        spQuestion1.setAdapter(customSpinnerAdapter3);
+//        spQuestion1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//            }
+//        });
         return rootView;
     }
+
+    private void getFamilyProfiles(long userId) {
+
+        ApiInterface client = ApiClient.getClient();
+        try {
+            JSONObject paramObject = new JSONObject();
+            paramObject.put("userid", userId);
+            paramObject.put("familyorindividual", "family");
+
+            Call<ServerResponse<List<FamilyProfile>>> call = client.getFamilyProfiles(accessToken, paramObject.toString());
+            call.enqueue(new Callback<ServerResponse<List<FamilyProfile>>>() {
+                @Override
+                public void onResponse(Call<ServerResponse<List<FamilyProfile>>> call, Response<ServerResponse<List<FamilyProfile>>> response) {
+                    if (getActivity() != null) {
+                        closeProgressDialog();
+                        if (response.isSuccessful()) {
+                            ServerResponse<List<FamilyProfile>> serverResponse = response.body();
+                            familyProfiles = serverResponse.getResults();
+                            ProfileSpinnerAdapter spinnerAdapter = new ProfileSpinnerAdapter(getActivity(), familyProfiles);
+                            spQuestion1.setAdapter(spinnerAdapter);
+                            spQuestion1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                @Override
+                                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                                    Prefs.putLong("spinner_id",Long.parseLong(familyProfiles.get(i).getUserId()));
+                                    int uid = (int) Prefs.getLong("spinner_id",0);
+                                    String date =tvDate.getText().toString();
+                                    getData(uid,date);
+                                }
+
+                                @Override
+                                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                                }
+                            });
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ServerResponse<List<FamilyProfile>>> call, Throwable t) {
+                    closeProgressDialog();
+                }
+            });
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            closeProgressDialog();
+        }
+    }
+    private void closeProgressDialog() {
+        if (--progressBarCounter < 1) progressDialog.dismiss();
+    }
+
     public void init(View rootview){
         ivAddWalking=(ImageView)rootview.findViewById(R.id.ivAddWalking);
         ivAddRunning=(ImageView)rootview.findViewById(R.id.ivAddRunning);
@@ -152,6 +267,7 @@ public class ExerciseFragment extends Fragment  implements View.OnClickListener 
         ivback1=(ImageView)getActivity().findViewById(R.id.ivback1);
         rlDate=(RelativeLayout)rootview.findViewById(R.id.date_layout);
         spQuestion1= (Spinner)rootview.findViewById(R.id.spQuestion1);
+        rl_location = (RelativeLayout) getActivity().findViewById(R.id.rl_location);
 
         tvWorkout_walking = (LinearLayout) rootview.findViewById(R.id.tvWorkout_walking);
         tvWorkout_running  = (LinearLayout) rootview.findViewById(R.id.tvWorkout_running);
@@ -186,7 +302,9 @@ public class ExerciseFragment extends Fragment  implements View.OnClickListener 
         recycler_view_weightlifting=(RecyclerView)rootview.findViewById(R.id.recycler_view_weightlifting);
         recycler_view_wrestling=(RecyclerView)rootview.findViewById(R.id.recycler_view_wrestling);
         recycler_view_yoga=(RecyclerView)rootview.findViewById(R.id.recycler_view_yoga);
-
+        tvTitle.setVisibility(View.VISIBLE);
+        tvTitle.setText("Exercise");
+        rl_location.setVisibility(View.GONE);
     }
     public void iniClick(){
 
@@ -257,97 +375,7 @@ public class ExerciseFragment extends Fragment  implements View.OnClickListener 
         tvWorkout_yoga.setOnClickListener(this);
 
     }
-
-    public void getData(){
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(new Config().SERVER_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        ApiInterface apiInterface = retrofit.create(ApiInterface.class);
-
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("mypref", Context.MODE_PRIVATE);
-        long user_id = sharedPreferences.getLong("user_id",0L);
-
-        Log.e("EXERCISE","User Id ::  "+user_id);
-
-        UserIdStr userId = new UserIdStr();
-        userId.setUserid(user_id+"");
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        String formattedDate = df.format(calendar.getTime());
-        // formattedDate have current date/time
- //       Toast.makeText(getActivity(), formattedDate, Toast.LENGTH_SHORT).show();
-        userId.setDate(formattedDate);
-
-        String access_token = sharedPreferences.getString("access_token","");
-
-        Call<ServerResponseExercise> call = apiInterface.getExercise(access_token,userId);
-
-        Log.e("EXERCISE","Request URL ::  "+call.request().url());
-
-        call.enqueue(new Callback<ServerResponseExercise>() {
-            @Override
-            public void onResponse(Call<ServerResponseExercise> call, Response<ServerResponseExercise> response) {
-
-                if (response.isSuccessful()) {
-                    Log.e("Exercise","Cals burnt ::  "+response.body().getResults().getTotalcaloriesburnt());
-
-                    Exercise exercise = response.body().getResults();
-
-                    tvBurned.setText(exercise.getTotalcaloriesburnt()+"");
-
-                    ArrayList<Walking> walkingArrayList = exercise.getWalking();
-                    ArrayList<Running> runningArrayList = exercise.getRunning();
-                    ArrayList<Bicycling> bicyclingArrayList = exercise.getBicycling();
-                    ArrayList<Swimming> swimmingArrayList = exercise.getSwimming();
-
-
-                    walkingAdapter=new WalkingAdapter(getActivity(),R.layout.list_row_exercise,walkingArrayList);
-                    recycler_view_walking.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-                    recycler_view_walking.setAdapter(walkingAdapter);
-
-                    runningAdapter=new RunningAdapter(getActivity(),R.layout.list_row_exercise,runningArrayList);
-                    recycler_view_running.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-                    recycler_view_running.setAdapter(runningAdapter);
-
-                    bicyclingAdapter=new BicyclingAdapter(getActivity(),R.layout.list_row_exercise,bicyclingArrayList);
-                    recycler_view_bycycling.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-                    recycler_view_bycycling.setAdapter(bicyclingAdapter);
-
-                    swimmingAdapter=new SwimmingAdapter(getActivity(),R.layout.list_row_exercise,swimmingArrayList);
-                    recycler_view_swimming.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-                    recycler_view_swimming.setAdapter(swimmingAdapter);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ServerResponseExercise> call, Throwable t) {
-
-            }
-        });
-
-
-        /*walkingAdapter=new WalkingAdapter(getActivity(),R.layout.list_row_exercise,arraywalkingList);
-        recycler_view.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        recycler_view.setAdapter(walkingAdapter);
-
-        lunchAdapter=new RunningAdapter(getActivity(),R.layout.list_row_exercise,arrayrunList);
-        recycler_view1.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        recycler_view1.setAdapter(lunchAdapter);
-
-        bicyclingAdapter=new BicyclingAdapter(getActivity(),R.layout.list_row_exercise,arraybicycleList);
-        recycler_view2.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        recycler_view2.setAdapter(bicyclingAdapter);
-
-        swimmingAdapter=new SwimmingAdapter(getActivity(),R.layout.list_row_exercise,arrayswimList);
-        recycler_view3.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        recycler_view3.setAdapter(swimmingAdapter);*/
-
-
-    }
-
-    public void selectDate(){
+    public void selectDate() {
         final Calendar c = Calendar.getInstance();
         mYear = c.get(Calendar.YEAR);
         mMonth = c.get(Calendar.MONTH);
@@ -372,40 +400,209 @@ public class ExerciseFragment extends Fragment  implements View.OnClickListener 
                         }
                         if (month >= 1 && month <= 9) {
                             monthYear = "0" + month;
-                        }else{
-                            monthYear =  month+"";
+                        } else {
+                            monthYear = month + "";
                         }
 
-                        String date = year + "-" + monthYear + "-" + dayOfMonth;
-                        tvDate.setText(date);
+                        String date = year + "-" + monthYear + "-" + day;
+                        tvDate.setText(year + "-" + monthYear + "-" + day);
+                        int s_uid = (int) Prefs.getLong("spinner_id",0);
+                        if(s_uid==0)
+                        {
+                            int uid = (int) Prefs.getLong("user_id",0);
+                            getData(uid,date);
+                        }else {
+                            getData(s_uid,date);
+                        }
+
+
                     }
                 }, mYear, mMonth, mDay);
 
 
         datePickerDialog.show();
     }
+    public void getData(long userid,String selecteddate){
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(new Config().SERVER_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ApiInterface apiInterface = retrofit.create(ApiInterface.class);
+
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("mypref", Context.MODE_PRIVATE);
+        long user_id = sharedPreferences.getLong("user_id",0L);
+
+        Log.e("EXERCISE","User Id ::  "+user_id);
+
+        UserIdStr userId = new UserIdStr();
+        userId.setUserid(userid+"");
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = df.format(calendar.getTime());
+        // formattedDate have current date/time
+ //       Toast.makeText(getActivity(), formattedDate, Toast.LENGTH_SHORT).show();
+        userId.setDate(selecteddate);
+
+        String access_token = sharedPreferences.getString("access_token","");
+
+        Call<ServerResponseExercise> call = apiInterface.getExercise(access_token,userId);
+
+        Log.e("EXERCISE","Request URL ::  "+call.request().url());
+
+        call.enqueue(new Callback<ServerResponseExercise>() {
+            @Override
+            public void onResponse(Call<ServerResponseExercise> call, Response<ServerResponseExercise> response) {
+                progressDialog.dismiss();
+                if (response.isSuccessful()) {
+                    Log.e("Exercise","Cals burnt ::  "+response.body().getResults().getTotalcaloriesburnt());
+
+                    Exercise exercise = response.body().getResults();
+
+                    tvBurned.setText(exercise.getTotalcaloriesburnt()+"");
+
+                    ArrayList<Walking> walkingArrayList = exercise.getWalking();
+                    ArrayList<Running> runningArrayList = exercise.getRunning();
+                    ArrayList<Bicycling> bicyclingArrayList = exercise.getBicycling();
+                    ArrayList<Swimming> swimmingArrayList = exercise.getSwimming();
+                    ArrayList<Golf> golfArrayList = exercise.getGolf();
+                    ArrayList<Frisbee> frisbeesArrayList = exercise.getFrisbee();
+                    ArrayList<Racquetball> racquetballArrayList = exercise.getRacquetball();
+                    ArrayList<Rowing> rowingsArrayList = exercise.getRowing();
+                    ArrayList<Soccer> soccersArrayList = exercise.getSoccer();
+                    ArrayList<Softball> softballsArrayList = exercise.getSoftball();
+                    ArrayList<Tennis> tennisArrayList = exercise.getTennis();
+                    ArrayList<TrailBiking> trailBikingsArrayList = exercise.getTrailBiking();
+                    ArrayList<Volleyball> volleyballsArrayList = exercise.getVolleyball();
+                    ArrayList<Weightlifting> weightliftingsArrayList = exercise.getWeightlifting();
+                    ArrayList<Wrestling> wrestlingsArrayList = exercise.getWrestling();
+                    ArrayList<Yoga> yogaArrayList = exercise.getYoga();
+
+
+                    walkingAdapter=new WalkingAdapter(getActivity(),R.layout.list_row_exercise,walkingArrayList);
+                    recycler_view_walking.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+                    recycler_view_walking.setAdapter(walkingAdapter);
+
+                    runningAdapter=new RunningAdapter(getActivity(),R.layout.list_row_exercise,runningArrayList);
+                    recycler_view_running.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+                    recycler_view_running.setAdapter(runningAdapter);
+
+                    bicyclingAdapter=new BicyclingAdapter(getActivity(),R.layout.list_row_exercise,bicyclingArrayList);
+                    recycler_view_bycycling.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+                    recycler_view_bycycling.setAdapter(bicyclingAdapter);
+
+                    swimmingAdapter=new SwimmingAdapter(getActivity(),R.layout.list_row_exercise,swimmingArrayList);
+                    recycler_view_swimming.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+                    recycler_view_swimming.setAdapter(swimmingAdapter);
+
+                    golfAdapter=new GolfAdapter(getActivity(),R.layout.list_row_exercise,golfArrayList);
+                    recycler_view_golf.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+                    recycler_view_golf.setAdapter(golfAdapter);
+
+                    frisbeeAdapter=new FrisbeeAdapter(getActivity(),R.layout.list_row_exercise,frisbeesArrayList);
+                    recycler_view_frisbee.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+                    recycler_view_frisbee.setAdapter(frisbeeAdapter);
+
+                    racquetballAdapter=new RacquetballAdapter(getActivity(),R.layout.list_row_exercise,racquetballArrayList);
+                    recycler_view_racquetball.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+                    recycler_view_racquetball.setAdapter(racquetballAdapter);
+
+                    rowingAdapter=new RowingAdapter(getActivity(),R.layout.list_row_exercise,rowingsArrayList);
+                    recycler_view_rowing.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+                    recycler_view_rowing.setAdapter(rowingAdapter);
+
+                    soccerAdapter=new SoccerAdapter(getActivity(),R.layout.list_row_exercise,soccersArrayList);
+                    recycler_view_soccer.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+                    recycler_view_soccer.setAdapter(soccerAdapter);
+
+                    softballAdapter=new SoftballAdapter(getActivity(),R.layout.list_row_exercise,softballsArrayList);
+                    recycler_view_softball.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+                    recycler_view_softball.setAdapter(softballAdapter);
+
+                    tennisAdapter=new TennisAdapter(getActivity(),R.layout.list_row_exercise,tennisArrayList);
+                    recycler_view_tennis.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+                    recycler_view_tennis.setAdapter(tennisAdapter);
+
+                    trailBikingAdapter=new TrailBikingAdapter(getActivity(),R.layout.list_row_exercise,trailBikingsArrayList);
+                    recycler_view_trailbiking.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+                    recycler_view_trailbiking.setAdapter(trailBikingAdapter);
+
+                    volleyballAdapter=new VolleyballAdapter(getActivity(),R.layout.list_row_exercise,volleyballsArrayList);
+                    recycler_view_volleyball.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+                    recycler_view_volleyball.setAdapter(volleyballAdapter);
+
+                    weightliftingAdapter=new WeightliftingAdapter(getActivity(),R.layout.list_row_exercise,weightliftingsArrayList);
+                    recycler_view_weightlifting.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+                    recycler_view_weightlifting.setAdapter(weightliftingAdapter);
+
+                    wrestlingAdapter=new WrestlingAdapter(getActivity(),R.layout.list_row_exercise,wrestlingsArrayList);
+                    recycler_view_wrestling.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+                    recycler_view_wrestling.setAdapter(wrestlingAdapter);
+
+                    yogaAdapter=new YogaAdapter(getActivity(),R.layout.list_row_exercise,yogaArrayList);
+                    recycler_view_yoga.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+                    recycler_view_yoga.setAdapter(yogaAdapter);
+
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ServerResponseExercise> call, Throwable t) {
+                progressDialog.dismiss();
+            }
+        });
+
+
+        /*walkingAdapter=new WalkingAdapter(getActivity(),R.layout.list_row_exercise,arraywalkingList);
+        recycler_view.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        recycler_view.setAdapter(walkingAdapter);
+
+        lunchAdapter=new RunningAdapter(getActivity(),R.layout.list_row_exercise,arrayrunList);
+        recycler_view1.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        recycler_view1.setAdapter(lunchAdapter);
+
+        bicyclingAdapter=new BicyclingAdapter(getActivity(),R.layout.list_row_exercise,arraybicycleList);
+        recycler_view2.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        recycler_view2.setAdapter(bicyclingAdapter);
+
+        swimmingAdapter=new SwimmingAdapter(getActivity(),R.layout.list_row_exercise,arrayswimList);
+        recycler_view3.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        recycler_view3.setAdapter(swimmingAdapter);*/
+
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+      //  Log.d(TAG,"final date::"+finaldate);
+        int uid = (int) Prefs.getLong("user_id",0);
+        getData(uid,finaldate);
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.date_layout:
                 selectDate();
                 break;
-            case R.id.ivAddWalking:
-//                Intent i1=new Intent(getActivity(), WalkingActivity.class);
-//                startActivity(i1);
-                break;
-            case R.id.ivAddRunning:
-//                Intent i2=new Intent(getActivity(), WalkingActivity.class);
-//                startActivity(i2);
-                break;
-            case R.id.ivAddBicycling:
-//                Intent i3=new Intent(getActivity(), WalkingActivity.class);
-//                startActivity(i3);
-                break;
-            case R.id.ivAddSwimming:
-//                Intent i=new Intent(getActivity(), WalkingActivity.class);
-//                startActivity(i);
-                break;
+//            case R.id.ivAddWalking:
+////                Intent i1=new Intent(getActivity(), WalkingActivity.class);
+////                startActivity(i1);
+//                break;
+//            case R.id.ivAddRunning:
+////                Intent i2=new Intent(getActivity(), WalkingActivity.class);
+////                startActivity(i2);
+//                break;
+//            case R.id.ivAddBicycling:
+////                Intent i3=new Intent(getActivity(), WalkingActivity.class);
+////                startActivity(i3);
+//                break;
+//            case R.id.ivAddSwimming:
+////                Intent i=new Intent(getActivity(), WalkingActivity.class);
+////                startActivity(i);
+//                break;
             case R.id.tvWorkout_walking:
                 Intent ine=new Intent(getActivity(), Add_CalBurned_Exersize.class);
                 ine.putExtra(TITLE, WALKING);

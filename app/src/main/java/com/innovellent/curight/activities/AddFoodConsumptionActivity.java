@@ -716,20 +716,29 @@ public class AddFoodConsumptionActivity extends Activity {
     }
     private void add_foodconsumptiontoarray() {
 
-        String s_userid = String.valueOf(Prefs.getLong("user_id",0));
+        //String s_userid = String.valueOf(Prefs.getLong("user_id",0));
         String selected_date = et_date.getText().toString().trim();
         String food_id = String.valueOf(Prefs.getInt("FOODID",0));
         String meal_type = title;
         String serving_qnty = etQuantity.getText().toString().trim();
         String serving_unit = et_unit.getText().toString().trim();
         String serving_time = time;
-        Log.d(TAG,"consumption_userid"+s_userid);
+      //  Log.d(TAG,"consumption_userid"+s_userid);
         Log.d(TAG,"consumption_date"+selected_date);
         Log.d(TAG,"consumption_foodid"+food_id);
         Log.d(TAG,"consumption_mealtype"+meal_type);
         Log.d(TAG,"consumption_qntity"+serving_qnty);
         Log.d(TAG,"consumption_unit"+serving_unit);
         Log.d(TAG,"consumption_time"+serving_time);
+        int s_uid = (int) Prefs.getLong("spinner_id",0);
+        int uid;
+        if(s_uid==0)
+        {
+            uid = (int) Prefs.getLong("user_id",0);
+        }else {
+            uid = s_uid;
+        }
+        String s_userid = String.valueOf(uid);
         food_arraylist.add(new FoodConsumptionModel(s_userid,selected_date,food_id,meal_type,serving_qnty,serving_unit,serving_time));
         String selected_item = et_fooditem.getText().toString().trim();
         String selected_quantity = etQuantity.getText().toString().trim();
@@ -973,51 +982,51 @@ public class AddFoodConsumptionActivity extends Activity {
 
     }
 // public void addFoodConsumption(final String foodItem, final Food_Units foodUnit)
-    public void addFoodConsumption(final String foodItem) {
-
-        progressDialog = ProgressDialog.show(AddFoodConsumptionActivity.this, "Adding", "please wait", false);
-        progressDialog.show();
-        final int uid = (int) Prefs.getLong("user_id",0);
-        int foodid = Prefs.getInt("FOODID",0);
-        quantity = etQuantity.getText().toString();
-        ApiInterface client = ApiClient.getClient();
-        final String foodunit = Prefs.getString("FOODUNIT","");
-        try {
-            JSONObject paramObject = new JSONObject();
-            paramObject.put(USER_ID, uid);
-            paramObject.put(DATE, new SimpleDateFormat(getString(R.string.date_format), Locale.ENGLISH).format(Calendar.getInstance().getTime()));
-            paramObject.put(FOOD_ID, foodid);
-            paramObject.put(MEAL_TYPE_NAME, title);
-            paramObject.put(SERVING_QTY, quantity);
-           // paramObject.put(SERVING_UNIT, foodUnit.getUnit());
-            paramObject.put(SERVING_UNIT, foodunit);
-            paramObject.put(TIME, time);
-
-            Call<ServerResponse<String>> call = client.createFood(accessToken, paramObject.toString());
-            call.enqueue(new Callback<ServerResponse<String>>() {
-                @Override
-                public void onResponse(Call<ServerResponse<String>> call, Response<ServerResponse<String>> response) {
-                    if (getBaseContext() != null) {
-                        progressDialog.dismiss();
-                        if (response.isSuccessful()) {
-                            foodConsumptions.add(new Swimming(foodItem, String.valueOf(uid), foodunit));
-                            swimmingAdapter = new SwimmingAdapter(AddFoodConsumptionActivity.this, R.layout.list_row_food, foodConsumptions);
-                            recyclerView.setLayoutManager(new LinearLayoutManager(AddFoodConsumptionActivity.this, LinearLayoutManager.VERTICAL, false));
-                            recyclerView.setAdapter(swimmingAdapter);
-                        }
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ServerResponse<String>> call, Throwable t) {
-                    if (getBaseContext() != null) progressDialog.dismiss();
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-            progressDialog.dismiss();
-        }
-    }
+//    public void addFoodConsumption(final String foodItem) {
+//
+//        progressDialog = ProgressDialog.show(AddFoodConsumptionActivity.this, "Adding", "please wait", false);
+//        progressDialog.show();
+//        final int uid = (int) Prefs.getLong("user_id",0);
+//        int foodid = Prefs.getInt("FOODID",0);
+//        quantity = etQuantity.getText().toString();
+//        ApiInterface client = ApiClient.getClient();
+//        final String foodunit = Prefs.getString("FOODUNIT","");
+//        try {
+//            JSONObject paramObject = new JSONObject();
+//            paramObject.put(USER_ID, uid);
+//            paramObject.put(DATE, new SimpleDateFormat(getString(R.string.date_format), Locale.ENGLISH).format(Calendar.getInstance().getTime()));
+//            paramObject.put(FOOD_ID, foodid);
+//            paramObject.put(MEAL_TYPE_NAME, title);
+//            paramObject.put(SERVING_QTY, quantity);
+//           // paramObject.put(SERVING_UNIT, foodUnit.getUnit());
+//            paramObject.put(SERVING_UNIT, foodunit);
+//            paramObject.put(TIME, time);
+//
+//            Call<ServerResponse<String>> call = client.createFood(accessToken, paramObject.toString());
+//            call.enqueue(new Callback<ServerResponse<String>>() {
+//                @Override
+//                public void onResponse(Call<ServerResponse<String>> call, Response<ServerResponse<String>> response) {
+//                    if (getBaseContext() != null) {
+//                        progressDialog.dismiss();
+//                        if (response.isSuccessful()) {
+//                            foodConsumptions.add(new Swimming(foodItem, String.valueOf(uid), foodunit));
+//                            swimmingAdapter = new SwimmingAdapter(AddFoodConsumptionActivity.this, R.layout.list_row_food, foodConsumptions);
+//                            recyclerView.setLayoutManager(new LinearLayoutManager(AddFoodConsumptionActivity.this, LinearLayoutManager.VERTICAL, false));
+//                            recyclerView.setAdapter(swimmingAdapter);
+//                        }
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<ServerResponse<String>> call, Throwable t) {
+//                    if (getBaseContext() != null) progressDialog.dismiss();
+//                }
+//            });
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            progressDialog.dismiss();
+//        }
+//    }
 
     @Override
     public void onBackPressed() {

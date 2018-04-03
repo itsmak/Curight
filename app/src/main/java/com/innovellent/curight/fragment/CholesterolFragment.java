@@ -35,6 +35,8 @@ import com.innovellent.curight.model.PostBodyProfile;
 import com.innovellent.curight.model.ServerResponse;
 import com.innovellent.curight.utility.Config;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GridLabelRenderer;
+import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -331,6 +333,7 @@ public class CholesterolFragment extends Fragment implements View.OnClickListene
                         tvHDL.setText(String.valueOf(HDL));
 
                         jsonarray_parent = jsonObject1.getJSONArray("cholestrolbpList");
+                        String datearray[] = new String[jsonarray_parent.length()];
                         for(int i=0; i<jsonarray_parent.length(); i++){
 
                             jsonObject1 = jsonarray_parent.getJSONObject(i);
@@ -346,7 +349,7 @@ public class CholesterolFragment extends Fragment implements View.OnClickListene
 
                                     double LDL1 = jsonarray_child.getJSONObject(j).getInt("ldl");
                                     double HDL1 = jsonarray_child.getJSONObject(j).getInt("hdl");
-
+                                    datearray[i] =jsonObject1.getString("date");
 
                                     points.add(new DataPoint(i, LDL1));
                                     points2.add(new DataPoint(i, HDL1));
@@ -361,10 +364,18 @@ public class CholesterolFragment extends Fragment implements View.OnClickListene
                         lineGraph.addSeries(new LineGraphSeries<>(points.toArray(pointArray)));
                         lineGraph.addSeries(new LineGraphSeries<>(points2.toArray(pointArray2)));
                         // lineGraph = new GraphView(getActivity());
+                        StaticLabelsFormatter staticlebel = new StaticLabelsFormatter(lineGraph);
+                        // staticlebel.setHorizontalLabels(new String[]{"18/12/12","18/07/12","18/10/43","18/12/11"});
+                        staticlebel.setHorizontalLabels(datearray);
+                        //staticlebel.setVerticalLabels(new String[] {"0","50","100","150"});
+                        lineGraph.getGridLabelRenderer().setLabelFormatter(staticlebel);
+                        // lineGraph = new GraphView(getActivity());
+                        GridLabelRenderer gridLabel = lineGraph.getGridLabelRenderer();
+                      //  gridLabel.setHorizontalAxisTitle("HD1");
+                        gridLabel.setVerticalAxisTitle("HD1/LD1");
                         lineGraph.getViewport().setMinX(0);
                         lineGraph.getViewport().setMinY(0);
                         lineGraph.getViewport().setScrollable(false);
-
 
                     }catch (Exception e){
                         e.printStackTrace();

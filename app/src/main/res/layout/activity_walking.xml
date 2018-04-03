@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
@@ -57,7 +58,7 @@
         android:orientation="horizontal"
         android:weightSum="100">
 
-        <android.support.v7.widget.CardView
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
@@ -83,10 +84,11 @@
                     android:layout_marginTop="2dp"
                     android:background="@null"
                     android:editable="false"
+                    android:focusable="false"
                     android:hint="Enter Date" />
 
             </LinearLayout>
-        </android.support.v7.widget.CardView>
+        </RelativeLayout>
 
 
         <TextView
@@ -95,7 +97,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="10" />
 
-        <android.support.v7.widget.CardView
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
@@ -120,11 +122,12 @@
                     android:layout_marginLeft="5dp"
                     android:background="@null"
                     android:editable="false"
+                    android:focusable="false"
                     android:hint="Enter Time" />
 
 
             </LinearLayout>
-        </android.support.v7.widget.CardView>
+        </RelativeLayout>
 
 
     </LinearLayout>
@@ -274,7 +277,7 @@
                 android:orientation="horizontal"
                 android:weightSum="100">
 
-                <EditText
+                <com.rengwuxian.materialedittext.MaterialEditText
                     android:id="@+id/distanceCovered"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -284,11 +287,19 @@
                     android:backgroundTint="@color/gray"
                     android:hint="Enter Distance"
                     android:inputType="number"
-                    android:maxLines="1"
+                    android:singleLine="true"
                     android:textColor="@color/darkgray"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    app:met_baseColor="#0056d3"
+                    app:met_errorColor="#cccccc"
+                    app:met_floatingLabel="normal"
+                    app:met_floatingLabelText="Distance in Km"
+                    app:met_maxCharacters="2"
+                    app:met_minCharacters="1"
+                    app:met_primaryColor="#cccccc"
+                    app:met_singleLineEllipsis="true" />
 
-                <EditText
+                <com.rengwuxian.materialedittext.MaterialEditText
                     android:id="@+id/atTime"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -298,9 +309,17 @@
                     android:backgroundTint="@color/gray"
                     android:hint="Enter Time Spent"
                     android:inputType="number"
-                    android:maxLines="1"
+                    android:singleLine="true"
                     android:textColor="@color/darkgray"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    app:met_baseColor="#0056d3"
+                    app:met_errorColor="#cccccc"
+                    app:met_floatingLabel="normal"
+                    app:met_floatingLabelText="Time in Hr"
+                    app:met_maxCharacters="2"
+                    app:met_minCharacters="1"
+                    app:met_primaryColor="#cccccc"
+                    app:met_singleLineEllipsis="true" />
 
 
             </LinearLayout>
@@ -370,7 +389,7 @@
                 android:layout_marginTop="10dp"
                 android:backgroundTint="@color/gray"
                 android:hint="@string/entercal"
-                android:inputType="text"
+                android:inputType="number"
                 android:maxLines="1"
                 android:textColor="@color/darkgray"
                 android:textSize="15sp" />

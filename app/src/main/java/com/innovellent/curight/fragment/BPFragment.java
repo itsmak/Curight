@@ -354,12 +354,15 @@ public class BPFragment extends Fragment implements View.OnClickListener {
                         }
 
                         jsonArray_parent = jsonObject1.getJSONArray("bpList");
+                        Log.d(TAG,"Date array size::"+jsonArray_parent.length());
+                        String datearray[] = new String[jsonArray_parent.length()];
                         for(int i=0; i<jsonArray_parent.length(); i++){
 
                             //bp_arraylist.add(new BP(0,0,0,0,"",jsonArray_parent.getJSONObject(i).getString("date"),""));
                             jsonObject1 = jsonArray_parent.getJSONObject(i);
-
+                            Log.d(TAG,"Date array element::"+jsonObject1.getString("date"));
                             jsonarray_child =jsonObject1.getJSONArray("bpList");
+
 
                             for(int j=0; j<jsonarray_child.length(); j++){
                                 bp_arraylist.add(new BP(jsonArray_parent.getJSONObject(i).getString("date"),jsonarray_child.getJSONObject(j).getInt("bpid"),jsonarray_child.getJSONObject(j).getString("time"),jsonarray_child.getJSONObject(j).getString("graphflag"),jsonarray_child.getJSONObject(j).getInt("pulse"),jsonarray_child.getJSONObject(j).getInt("systolic"),jsonarray_child.getJSONObject(j).getInt("diastolic"),""));
@@ -375,7 +378,7 @@ public class BPFragment extends Fragment implements View.OnClickListener {
 
                                     double systolic1 = jsonarray_child.getJSONObject(j).getInt("systolic");
                                     double diastolic1 = jsonarray_child.getJSONObject(j).getInt("diastolic");
-
+                                    datearray[i] =jsonObject1.getString("date");
 
                                     points.add(new DataPoint(i, systolic1));
                                     points2.add(new DataPoint(i, diastolic1));
@@ -403,14 +406,15 @@ public class BPFragment extends Fragment implements View.OnClickListener {
                         lineGraph.addSeries(new LineGraphSeries<>(points.toArray(pointArray)));
                         lineGraph.addSeries(new LineGraphSeries<>(points2.toArray(pointArray2)));
                         StaticLabelsFormatter staticlebel = new StaticLabelsFormatter(lineGraph);
-                       // staticlebel.setHorizontalLabels(new String[]{"2018/12/12","2018/07/12","2018/10/43","2018/12/11"});
+                       // staticlebel.setHorizontalLabels(new String[]{"18/12/12","18/07/12","18/10/43","18/12/11"});
+                        staticlebel.setHorizontalLabels(datearray);
                         //staticlebel.setVerticalLabels(new String[] {"0","50","100","150"});
                         lineGraph.getGridLabelRenderer().setLabelFormatter(staticlebel);
                         // lineGraph = new GraphView(getActivity());
 
                         GridLabelRenderer gridLabel = lineGraph.getGridLabelRenderer();
-                        gridLabel.setHorizontalAxisTitle("systolic");
-                        gridLabel.setVerticalAxisTitle("diastolic");
+                        // gridLabel.setHorizontalAxisTitle("systolic");
+                        gridLabel.setVerticalAxisTitle("systolic/diastolic");
 
                         // set date label formatter
                         //lineGraph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));

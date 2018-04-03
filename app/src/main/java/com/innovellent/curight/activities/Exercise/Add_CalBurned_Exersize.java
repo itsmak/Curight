@@ -3,6 +3,7 @@ package com.innovellent.curight.activities.Exercise;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,7 +12,9 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -40,22 +43,23 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
 import static com.innovellent.curight.utility.Constants.BICYCLING;
-import static com.innovellent.curight.utility.Constants.BREAKFAST;
-import static com.innovellent.curight.utility.Constants.DINNER;
 import static com.innovellent.curight.utility.Constants.FRISBEE;
 import static com.innovellent.curight.utility.Constants.GOLF;
-import static com.innovellent.curight.utility.Constants.LUNCH;
 import static com.innovellent.curight.utility.Constants.RACQUETBALL;
 import static com.innovellent.curight.utility.Constants.ROWING;
 import static com.innovellent.curight.utility.Constants.RUNNING;
-import static com.innovellent.curight.utility.Constants.SNACKS;
 import static com.innovellent.curight.utility.Constants.SOCCER;
 import static com.innovellent.curight.utility.Constants.SOFTBALL;
 import static com.innovellent.curight.utility.Constants.SWIMMING;
+import static com.innovellent.curight.utility.Constants.TENNIS;
 import static com.innovellent.curight.utility.Constants.TITLE;
+import static com.innovellent.curight.utility.Constants.TRAILBIKING;
+import static com.innovellent.curight.utility.Constants.VOLLEYBALL;
 import static com.innovellent.curight.utility.Constants.WALKING;
+import static com.innovellent.curight.utility.Constants.WEIGHTLIFTING;
+import static com.innovellent.curight.utility.Constants.WRESTLING;
+import static com.innovellent.curight.utility.Constants.YOGA;
 
 /**
  * Created by Mak on 3/23/2018.
@@ -71,6 +75,7 @@ public class Add_CalBurned_Exersize extends Activity implements View.OnClickList
     ImageView ivCustom,ivSlow,ivMedium,ivFast,ivback1_exersize;
     Button btnSubmit;
     String format;
+    LinearLayout llspeedselecttext,llspeedselecticon;
     private String title;
     private StringBuilder date;
     private int mYear, mMonth, mDay;
@@ -102,9 +107,12 @@ public class Add_CalBurned_Exersize extends Activity implements View.OnClickList
                     if(tvSpeed.getText().toString().equals(""))
                     {
                         Toast.makeText(Add_CalBurned_Exersize.this,"Select the Speed First",Toast.LENGTH_SHORT).show();
+                        atTime.setText("");
                     }else {
                         int uid = (int) Prefs.getLong("user_id",0);
                         Log.d(TAG,"Shared_profile_uid"+uid);
+                        InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        mgr.hideSoftInputFromWindow(atTime.getWindowToken(), 0);
                         getcaloriesapi(title,uid,editable.toString());
                     }
 
@@ -113,7 +121,70 @@ public class Add_CalBurned_Exersize extends Activity implements View.OnClickList
                 }
             }
         });
+        llDate.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent)
+            {
+                switch(motionEvent.getAction())
+                {
+                    case MotionEvent.ACTION_DOWN:
+                        selectDate();
+                        break;
+                    default:
+                        return false;
 
+                }
+                return false;
+            }
+        });
+        tvTextDate.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent)
+            {
+                switch(motionEvent.getAction())
+                {
+                    case MotionEvent.ACTION_DOWN:
+                        selectDate();
+                        break;
+                    default:
+                        return false;
+
+                }
+                return false;
+            }
+        });
+        llTime.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent)
+            {
+                switch(motionEvent.getAction())
+                {
+                    case MotionEvent.ACTION_DOWN:
+                        timePicker();
+                        break;
+                    default:
+                        return false;
+
+                }
+                return false;
+            }
+        });
+        tvTextTime.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent)
+            {
+                switch(motionEvent.getAction())
+                {
+                    case MotionEvent.ACTION_DOWN:
+                        timePicker();
+                        break;
+                    default:
+                        return false;
+
+                }
+                return false;
+            }
+        });
     }
 
     public void init() {
@@ -137,7 +208,8 @@ public class Add_CalBurned_Exersize extends Activity implements View.OnClickList
         tvSpeed=(EditText) findViewById(R.id.tvSpeed);
         etSpeed=(EditText)findViewById(R.id.etSpeed);
         ivback1_exersize = (ImageView) findViewById(R.id.ivback1_exersize);
-
+        llspeedselecttext = (LinearLayout) findViewById(R.id.llspeedselecttext);
+        llspeedselecticon = (LinearLayout) findViewById(R.id.llspeedselecticon);
         distanceCovered = (EditText) findViewById(R.id.distanceCovered);
         calsBurned = (EditText) findViewById(R.id.calsBurned);
         btnSubmit = (Button) findViewById(R.id.btnSubmit);
@@ -152,28 +224,131 @@ public class Add_CalBurned_Exersize extends Activity implements View.OnClickList
                     title = WALKING;
                     break;
                 case RUNNING:
-                    title = WALKING;
+                    title = RUNNING;
                     break;
                 case BICYCLING:
                     title = BICYCLING;
                     break;
+                case SWIMMING:
+                    title = SWIMMING;
+                    llspeedselecttext.setVisibility(View.GONE);
+                    llspeedselecticon.setVisibility(View.GONE);
+                    tvSpeed.setVisibility(View.GONE);
+                    distanceCovered.setVisibility(View.INVISIBLE);
+                    tvSpeed.setText("0");
+                    distanceCovered.setText("0");
+                    break;
                 case GOLF:
                     title = GOLF;
+                    llspeedselecttext.setVisibility(View.GONE);
+                    llspeedselecticon.setVisibility(View.GONE);
+                    tvSpeed.setVisibility(View.GONE);
+                    distanceCovered.setVisibility(View.INVISIBLE);
+                    tvSpeed.setText("0");
+                    distanceCovered.setText("0");
                     break;
                 case FRISBEE:
                     title = FRISBEE;
+                    llspeedselecttext.setVisibility(View.GONE);
+                    llspeedselecticon.setVisibility(View.GONE);
+                    tvSpeed.setVisibility(View.GONE);
+                    distanceCovered.setVisibility(View.INVISIBLE);
+                    tvSpeed.setText("0");
+                    distanceCovered.setText("0");
                     break;
                 case RACQUETBALL:
                     title = RACQUETBALL;
+                    llspeedselecttext.setVisibility(View.GONE);
+                    llspeedselecticon.setVisibility(View.GONE);
+                    tvSpeed.setVisibility(View.GONE);
+                    distanceCovered.setVisibility(View.INVISIBLE);
+                    tvSpeed.setText("0");
+                    distanceCovered.setText("0");
                     break;
                 case ROWING:
+                    llspeedselecttext.setVisibility(View.GONE);
+                    llspeedselecticon.setVisibility(View.GONE);
+                    tvSpeed.setVisibility(View.GONE);
+                    distanceCovered.setVisibility(View.INVISIBLE);
+                    tvSpeed.setText("0");
+                    distanceCovered.setText("0");
                     title = ROWING;
                     break;
                 case SOCCER:
+                    llspeedselecttext.setVisibility(View.GONE);
+                    llspeedselecticon.setVisibility(View.GONE);
+                    tvSpeed.setVisibility(View.GONE);
+                    distanceCovered.setVisibility(View.INVISIBLE);
+                    tvSpeed.setText("0");
+                    distanceCovered.setText("0");
                     title = SOCCER;
                     break;
                 case SOFTBALL:
+                    llspeedselecttext.setVisibility(View.GONE);
+                    llspeedselecticon.setVisibility(View.GONE);
+                    tvSpeed.setVisibility(View.GONE);
+                    distanceCovered.setVisibility(View.INVISIBLE);
+                    tvSpeed.setText("0");
+                    distanceCovered.setText("0");
                     title = SOFTBALL;
+                    break;
+                case TENNIS:
+                    llspeedselecttext.setVisibility(View.GONE);
+                    llspeedselecticon.setVisibility(View.GONE);
+                    tvSpeed.setVisibility(View.GONE);
+                    distanceCovered.setVisibility(View.INVISIBLE);
+                    tvSpeed.setText("0");
+                    distanceCovered.setText("0");
+                    title = TENNIS;
+                    break;
+                case TRAILBIKING:
+                    llspeedselecttext.setVisibility(View.GONE);
+                    llspeedselecticon.setVisibility(View.GONE);
+                    tvSpeed.setVisibility(View.GONE);
+                    distanceCovered.setVisibility(View.INVISIBLE);
+                    tvSpeed.setText("0");
+                    distanceCovered.setText("0");
+                    title = TRAILBIKING;
+                    break;
+
+                case VOLLEYBALL:
+                    llspeedselecttext.setVisibility(View.GONE);
+                    llspeedselecticon.setVisibility(View.GONE);
+                    tvSpeed.setVisibility(View.GONE);
+                    distanceCovered.setVisibility(View.INVISIBLE);
+                    tvSpeed.setText("0");
+                    distanceCovered.setText("0");
+                    title = VOLLEYBALL;
+                    break;
+
+                case WEIGHTLIFTING:
+                    llspeedselecttext.setVisibility(View.GONE);
+                    llspeedselecticon.setVisibility(View.GONE);
+                    tvSpeed.setVisibility(View.GONE);
+                    distanceCovered.setVisibility(View.INVISIBLE);
+                    tvSpeed.setText("0");
+                    distanceCovered.setText("0");
+                    title = WEIGHTLIFTING;
+                    break;
+
+                case WRESTLING:
+                    llspeedselecttext.setVisibility(View.GONE);
+                    llspeedselecticon.setVisibility(View.GONE);
+                    tvSpeed.setVisibility(View.GONE);
+                    distanceCovered.setVisibility(View.INVISIBLE);
+                    tvSpeed.setText("0");
+                    distanceCovered.setText("0");
+                    title = WRESTLING;
+                    break;
+
+                case YOGA:
+                    llspeedselecttext.setVisibility(View.GONE);
+                    llspeedselecticon.setVisibility(View.GONE);
+                    tvSpeed.setVisibility(View.GONE);
+                    distanceCovered.setVisibility(View.INVISIBLE);
+                    tvSpeed.setText("0");
+                    distanceCovered.setText("0");
+                    title = YOGA;
                     break;
 
                 default:
@@ -192,6 +367,9 @@ public class Add_CalBurned_Exersize extends Activity implements View.OnClickList
                 .build();
 
         ApiInterface reditapi = retrofit.create(ApiInterface.class);
+        Log.e(TAG, "CalorieResponse: activity: " + activity);
+        Log.e(TAG, "CalorieResponse: userid: " + userid);
+        Log.e(TAG, "CalorieResponse: duration: " + duration);
         PostBodyCalorie postcalorie = new PostBodyCalorie(activity,userid,duration);
         Call<MyCalorieResponse> call = reditapi.getCalorie(postcalorie);
         call.enqueue(new Callback<MyCalorieResponse>() {
@@ -344,9 +522,9 @@ public class Add_CalBurned_Exersize extends Activity implements View.OnClickList
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.llTime:
-                timePicker();
-                break;
+//            case R.id.llTime:
+//                timePicker();
+//                break;
             case R.id.ivSlow:
                 setColor();
                 tvSpeed.setVisibility(View.VISIBLE);
@@ -376,9 +554,15 @@ public class Add_CalBurned_Exersize extends Activity implements View.OnClickList
                 etSpeed.setVisibility(View.VISIBLE);
                 tvSpeed.setVisibility(View.GONE);
                 break;
-            case R.id.llDate:
-                selectDate();
-                break;
+//            case R.id.llDate:
+//                selectDate();
+//                break;
+//            case R.id.tvTextDate:
+//                selectDate();
+//                break;
+//            case R.id.tvTextTime:
+//                timePicker();
+//                break;
             case R.id.btnSubmit:
 //                addExercise();
                 addnewExercise(title);
@@ -411,6 +595,7 @@ public class Add_CalBurned_Exersize extends Activity implements View.OnClickList
             if(calsBurned.getText().toString().trim().equals(""))
             {
                 calorie_burn = tvBurned.getText().toString();
+
                 addapicall(activitytype,calorie_burn);
             }else {
                 calorie_burn = calsBurned.getText().toString();
@@ -426,7 +611,15 @@ public class Add_CalBurned_Exersize extends Activity implements View.OnClickList
                 .baseUrl(new Config().SERVER_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        int uid = (int) Prefs.getLong("user_id",0);
+        int s_uid = (int) Prefs.getLong("spinner_id",0);
+        int uid;
+        if(s_uid==0)
+        {
+            uid = (int) Prefs.getLong("user_id",0);
+        }else {
+            uid = s_uid;
+        }
+      //  int uid = (int) Prefs.getLong("user_id",0);
         ApiInterface reditapi = retrofit.create(ApiInterface.class);
         PostBodyAddExersize addexersize = new PostBodyAddExersize(String.valueOf(uid),exercisetype,tvTextDate.getText().toString(),atTime.getText().toString(),tvTextTime.getText().toString(),tvSpeed.getText().toString(),distanceCovered.getText().toString(),calorie_burn);
         Call<AddExerciseResponse> call = reditapi.createCalorie(addexersize);
@@ -439,7 +632,11 @@ public class Add_CalBurned_Exersize extends Activity implements View.OnClickList
 
                     if(response.body().getCode()==200)
                     {
+
                         Toast.makeText(Add_CalBurned_Exersize.this,"Successfully Added",Toast.LENGTH_SHORT).show();
+                        Intent hm = new Intent(Add_CalBurned_Exersize.this,HomeActivity.class);
+                        hm.putExtra("source", "exersize");
+                        startActivity(hm);
                     }
                 }
 

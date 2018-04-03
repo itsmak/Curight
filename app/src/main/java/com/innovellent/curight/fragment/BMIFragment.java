@@ -34,6 +34,8 @@ import com.innovellent.curight.model.PostBodyProfile;
 import com.innovellent.curight.model.ServerResponse;
 import com.innovellent.curight.utility.Config;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GridLabelRenderer;
+import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -317,6 +319,7 @@ public class BMIFragment extends Fragment implements View.OnClickListener {
                         }
 
                         jsonArray_parent = jsonObject1.getJSONArray("bmiList");
+                        String datearray[] = new String[jsonArray_parent.length()];
                         for(int i=0;i<jsonArray_parent.length();i++){
                             jsonObject1 = jsonArray_parent.getJSONObject(i);
                             jsonarray_child = jsonObject1.getJSONArray("bmiList");
@@ -329,22 +332,32 @@ public class BMIFragment extends Fragment implements View.OnClickListener {
 
                                 if(graphflag.equalsIgnoreCase("Y")){
 
-                                    double height = jsonarray_child.getJSONObject(j).getInt("height");
-                                    double weight = jsonarray_child.getJSONObject(j).getInt("weight");
-
+                                    double height = jsonarray_child.getJSONObject(j).getInt("bmi");
+                                   // double weight = jsonarray_child.getJSONObject(j).getInt("weight");
+                                    datearray[i] =jsonObject1.getString("date");
 
                                     points.add(new DataPoint(i, height));
-                                    points2.add(new DataPoint(i, weight));
+                                   // points2.add(new DataPoint(i, weight));
                                 }
                                 //points.add(new DataPoint(j, Double.parseDouble(jsonarray_child.getJSONObject(j).getString("bmi"))));
                             }
                         }
                         DataPoint[] pointArray = new DataPoint[points.size()];
-                        DataPoint[] pointArray2 = new DataPoint[points2.size()];
+                      //  DataPoint[] pointArray2 = new DataPoint[points2.size()];
                         lineGraph.removeAllSeries();
                         lineGraph.addSeries(new LineGraphSeries<>(points.toArray(pointArray)));
-                        lineGraph.addSeries(new LineGraphSeries<>(points2.toArray(pointArray2)));
+                      //  lineGraph.addSeries(new LineGraphSeries<>(points2.toArray(pointArray2)));
                         // lineGraph = new GraphView(getActivity());
+                        StaticLabelsFormatter staticlebel = new StaticLabelsFormatter(lineGraph);
+                        // staticlebel.setHorizontalLabels(new String[]{"18/12/12","18/07/12","18/10/43","18/12/11"});
+                        staticlebel.setHorizontalLabels(datearray);
+                        //staticlebel.setVerticalLabels(new String[] {"0","50","100","150"});
+                        lineGraph.getGridLabelRenderer().setLabelFormatter(staticlebel);
+                        // lineGraph = new GraphView(getActivity());
+
+                        GridLabelRenderer gridLabel = lineGraph.getGridLabelRenderer();
+                       // gridLabel.setHorizontalAxisTitle("systolic");
+                        gridLabel.setVerticalAxisTitle("bmi");
                         lineGraph.getViewport().setMinX(0);
                         lineGraph.getViewport().setMinY(0);
                         lineGraph.getViewport().setScrollable(false);
