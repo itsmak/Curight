@@ -27,8 +27,8 @@ import java.util.Calendar;
 public class AddWHRDialog extends Dialog {
 
     public AddWHRDialog.AddWHRDialogClickListener listener;
-    Context context;
     public ImageView ivCancel;
+    Context context;
     EditText etComments;
     TextView tv_AboutDetails;
     String about;
@@ -70,7 +70,13 @@ public class AddWHRDialog extends Dialog {
             }
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 
-
+        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        etDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                datePickerDialog.show();
+            }
+        });
         dateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

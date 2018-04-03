@@ -36,6 +36,7 @@ import com.innovellent.curight.model.ServerResponse;
 import com.innovellent.curight.utility.Config;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
+import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -88,6 +89,8 @@ public class BPFragment extends Fragment implements View.OnClickListener {
     RelativeLayout rl_location;
     private TextView systolicDiastolic, txt_pulse;
     private Long userId;
+//    LineGraphSeries<DataPoint> series;
+//    LineGraphSeries<DataPoint> series2;
     private String accessToken;
     private ProgressDialog progressDialog;
 
@@ -356,6 +359,7 @@ public class BPFragment extends Fragment implements View.OnClickListener {
                         jsonArray_parent = jsonObject1.getJSONArray("bpList");
                         Log.d(TAG,"Date array size::"+jsonArray_parent.length());
                         String datearray[] = new String[jsonArray_parent.length()];
+                      //  series = new LineGraphSeries<>();
                         for(int i=0; i<jsonArray_parent.length(); i++){
 
                             //bp_arraylist.add(new BP(0,0,0,0,"",jsonArray_parent.getJSONObject(i).getString("date"),""));
@@ -382,29 +386,32 @@ public class BPFragment extends Fragment implements View.OnClickListener {
 
                                     points.add(new DataPoint(i, systolic1));
                                     points2.add(new DataPoint(i, diastolic1));
+
                                 }
-
-                                    /*try {
-                                        dates = Double.valueOf(jsonArray_parent.getJSONObject(i).getString("date"));
-                                        Log.d("Dates==", ""+dates);
-                                    }catch (NumberFormatException e) {
-                                        dates = 0;
-                                    }*/
-
-
 
                             }
                         }
 
                         DataPoint[] pointArray = new DataPoint[points.size()];
                         DataPoint[] pointArray2 = new DataPoint[points2.size()];
+                        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(points.toArray(pointArray));
+                        LineGraphSeries<DataPoint> series2 = new LineGraphSeries<>(points2.toArray(pointArray2));
                         lineGraph.removeAllSeries();
 
-                        //lineGraphSeries.setColor(Color.BLACK);
-//                        lineGraphSeries.setThickness(4);
-                        
-                        lineGraph.addSeries(new LineGraphSeries<>(points.toArray(pointArray)));
-                        lineGraph.addSeries(new LineGraphSeries<>(points2.toArray(pointArray2)));
+                        series.setColor(Color.GREEN);
+                        series.setThickness(5);
+
+
+                        series2.setColor(Color.BLUE);
+                        series2.setThickness(5);
+                        series.setTitle("Systolic");
+                        series2.setTitle("Diastolic");
+                        lineGraph.getLegendRenderer().setVisible(true);
+                        lineGraph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
+                        lineGraph.addSeries(series);
+                        lineGraph.addSeries(series2);
+//                        lineGraph.addSeries(new LineGraphSeries<>(points.toArray(pointArray)));
+//                        lineGraph.addSeries(new LineGraphSeries<>(points2.toArray(pointArray2)));
                         StaticLabelsFormatter staticlebel = new StaticLabelsFormatter(lineGraph);
                        // staticlebel.setHorizontalLabels(new String[]{"18/12/12","18/07/12","18/10/43","18/12/11"});
                         staticlebel.setHorizontalLabels(datearray);
@@ -423,7 +430,8 @@ public class BPFragment extends Fragment implements View.OnClickListener {
                         lineGraph.getViewport().setMinY(0);
                         lineGraph.getViewport().setXAxisBoundsManual(true);
                        // lineGraph.getGridLabelRenderer().setHumanRounding(false);
-                        lineGraph.getViewport().setScrollable(false);
+                        lineGraph.getViewport().setScrollable(true);
+                        lineGraph.getViewport().setScalable(true);
 
                     }catch (Exception e){
                         e.printStackTrace();

@@ -36,6 +36,7 @@ import com.innovellent.curight.model.ServerResponse;
 import com.innovellent.curight.utility.Config;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
+import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -360,9 +361,22 @@ public class CholesterolFragment extends Fragment implements View.OnClickListene
                         }
                         DataPoint[] pointArray = new DataPoint[points.size()];
                         DataPoint[] pointArray2 = new DataPoint[points2.size()];
+                        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(points.toArray(pointArray));
+                        LineGraphSeries<DataPoint> series2 = new LineGraphSeries<>(points2.toArray(pointArray2));
                         lineGraph.removeAllSeries();
-                        lineGraph.addSeries(new LineGraphSeries<>(points.toArray(pointArray)));
-                        lineGraph.addSeries(new LineGraphSeries<>(points2.toArray(pointArray2)));
+
+                        series.setColor(Color.GREEN);
+                        series.setThickness(5);
+
+
+                        series2.setColor(Color.BLUE);
+                        series2.setThickness(5);
+                        series.setTitle("LDL1");
+                        series2.setTitle("HDL1");
+                        lineGraph.getLegendRenderer().setVisible(true);
+                        lineGraph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
+                        lineGraph.addSeries(series);
+                        lineGraph.addSeries(series2);
                         // lineGraph = new GraphView(getActivity());
                         StaticLabelsFormatter staticlebel = new StaticLabelsFormatter(lineGraph);
                         // staticlebel.setHorizontalLabels(new String[]{"18/12/12","18/07/12","18/10/43","18/12/11"});

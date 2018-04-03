@@ -36,6 +36,7 @@ import com.innovellent.curight.model.ServerResponseBloodSugar;
 import com.innovellent.curight.utility.Config;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
+import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -513,9 +514,22 @@ public class BloodSugarFragment extends Fragment implements View.OnClickListener
                         }
                         DataPoint[] pointArray = new DataPoint[points.size()];
                         DataPoint[] pointArray2 = new DataPoint[points2.size()];
+                        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(points.toArray(pointArray));
+                        LineGraphSeries<DataPoint> series2 = new LineGraphSeries<>(points2.toArray(pointArray2));
                         line_graph.removeAllSeries();
-                        line_graph.addSeries(new LineGraphSeries<>(points.toArray(pointArray)));
-                        line_graph.addSeries(new LineGraphSeries<>(points2.toArray(pointArray2)));
+
+                        series.setColor(Color.GREEN);
+                        series.setThickness(5);
+
+
+                        series2.setColor(Color.BLUE);
+                        series2.setThickness(5);
+                        series.setTitle("Before Meal");
+                        series2.setTitle("After Meal");
+                        line_graph.getLegendRenderer().setVisible(true);
+                        line_graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
+                        line_graph.addSeries(series);
+                        line_graph.addSeries(series2);
                         // lineGraph = new GraphView(getActivity());
                         StaticLabelsFormatter staticlebel = new StaticLabelsFormatter(line_graph);
                         // staticlebel.setHorizontalLabels(new String[]{"18/12/12","18/07/12","18/10/43","18/12/11"});

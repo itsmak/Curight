@@ -78,7 +78,7 @@ public class AddBloodCountDialog extends Dialog {
             }
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 
-
+        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
 
         linear_datedialog.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -43,6 +43,7 @@ import com.innovellent.curight.model.WhrList;
 import com.innovellent.curight.utility.Config;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
+import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -431,12 +432,20 @@ public class WHRFragment extends Fragment implements View.OnClickListener{
                                 }
                             }
                         }
-
-
                         DataPoint[] pointArray = new DataPoint[points.size()];
-                      //  DataPoint[] pointArray2 = new DataPoint[points2.size()];
+
+                        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(points.toArray(pointArray));
+
                         lineGraph.removeAllSeries();
-                        lineGraph.addSeries(new LineGraphSeries<>(points.toArray(pointArray)));
+
+                        series.setColor(Color.BLUE);
+                        series.setThickness(5);
+
+                        series.setTitle("WHR");
+
+                        lineGraph.getLegendRenderer().setVisible(true);
+                        lineGraph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
+                        lineGraph.addSeries(series);
                       //  lineGraph.addSeries(new LineGraphSeries<>(points2.toArray(pointArray2)));
                         // lineGraph = new GraphView(getActivity());
                         StaticLabelsFormatter staticlebel = new StaticLabelsFormatter(lineGraph);
