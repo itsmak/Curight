@@ -47,7 +47,7 @@ public class Selected_Test_Adapter extends RecyclerView.Adapter<Selected_Test_Ad
         holder.iv_selected_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                listener.closeclicked(arrayList.get(position),position);
             }
         });
     }
@@ -58,7 +58,7 @@ public class Selected_Test_Adapter extends RecyclerView.Adapter<Selected_Test_Ad
     }
 
     public interface OnTestClickListener {
-        void closeclicked(Test_List item_m,int position);
+        void closeclicked(SelectedTest item_m,int position);
     }
     class MyViewHolder extends RecyclerView.ViewHolder {
 

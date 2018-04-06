@@ -43,8 +43,8 @@ static final int ZOOM = 2;
         Matrix savedMatrix = new Matrix();     PointF startPoint = new PointF();
     PointF midPoint = new PointF();     float oldDist = 1f;
         int mode = NONE;     ForyouFragment fragment;
-WishListFragment fragment1;
-MyViewHolder.ZoomImageListener zoomListener;
+    WishListFragment fragment1;
+    MyViewHolder.ZoomImageListener zoomListener;
     private Context mContext;
     private SharedPreferences sharedPreferences;
     private String wish, month,wishlistflag;
@@ -69,6 +69,12 @@ MyViewHolder.ZoomImageListener zoomListener;
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         try {
 
+            if(arrayList.get(position).getArticlewishlistid()>0)
+            {
+                holder.ivWishlist_article.setImageResource(R.drawable.ic_heart_dark);
+            }else {
+                holder.ivWishlist_article.setImageResource(R.drawable.heart);
+            }
                 holder.tvOfferTitle.setText(arrayList.get(position).getTitle());
                 holder.expandableTextView.setText(arrayList.get(position).getDescription());
                 Picasso.with(mContext)
@@ -78,7 +84,25 @@ MyViewHolder.ZoomImageListener zoomListener;
                     .into(holder.ivBanner_article);
 
         }catch (Exception e){}
-
+        holder.ivWishlist_article.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+             //  holder.ivWishlist_article.setImageResource(R.drawable.ic_heart_dark);
+                 listener.ontoggleClick(arrayList.get(position),position);
+            }
+        });
+        holder.ivShare_article.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.onshareClick(arrayList.get(position),position);
+            }
+        });
+        holder.ivLike_article.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.onlikeClick(arrayList.get(position),position);
+            }
+        });
         holder.tv_readMore_article.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -137,14 +161,16 @@ MyViewHolder.ZoomImageListener zoomListener;
 
     public interface OnToggleclicklistner {
 
-        void onMorningClick(Article_FEED item_m, int position);
+        void onlikeClick(Article_FEED item_m, int position);
+        void ontoggleClick(Article_FEED item_m, int position);
+        void onshareClick(Article_FEED item_m, int position);
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         final ExpandableTextView expandableTextView;
         public TextView tvOfferTitle,tvdate_article,tv_readMore_article;
-        public ImageView ivBanner_article,ivWishlist_article,ivLike_article;
+        public ImageView ivBanner_article,ivWishlist_article,ivLike_article,ivShare_article;
         LinearLayout listitem11relativeLayout7,listitem11relativeLayout8;
         public MyViewHolder(View view) {
             super(view);
@@ -156,6 +182,7 @@ MyViewHolder.ZoomImageListener zoomListener;
             ivBanner_article = (ImageView) view.findViewById(R.id.ivBanner_article);
             ivWishlist_article = (ImageView) view.findViewById(R.id.ivWishlist_article);
             ivLike_article= (ImageView) view.findViewById(R.id.ivLike_article);
+            ivShare_article= (ImageView) view.findViewById(R.id.ivShare_article);
             // set animation duration via code, but preferable in your layout files by using the animation_duration attribute
             expandableTextView.setAnimationDuration(750L);
             // set interpolators for both expanding and collapsing animations

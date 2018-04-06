@@ -16,6 +16,7 @@ import com.innovellent.curight.R;
 import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.Bicycling;
 import com.innovellent.curight.model.DeleteBMIRecord;
+import com.innovellent.curight.model.DeleteExercizeRecord_Pojo;
 import com.innovellent.curight.model.Running;
 import com.innovellent.curight.utility.Config;
 
@@ -109,9 +110,9 @@ public class BicyclingAdapter extends RecyclerView.Adapter<BicyclingAdapter.MyVi
 
         try{
 
-            DeleteBMIRecord deleteBMIRecord = new DeleteBMIRecord(ex_id);
+            DeleteExercizeRecord_Pojo deleteBMIRecord = new DeleteExercizeRecord_Pojo(ex_id);
 
-            final Call<ResponseBody> call = apiInterface.deleteBMIRecord("abc",deleteBMIRecord);
+            final Call<ResponseBody> call = apiInterface.deleteExerciseRecord("abc",deleteBMIRecord);
 
             call.enqueue(new Callback<ResponseBody>() {
                 @Override

@@ -57,6 +57,7 @@ public class AddBMIRecordsDialog extends Dialog {
         etWeight = (EditText) findViewById(R.id.weight);
 
         final Calendar calendar = Calendar.getInstance();
+        etDate.setText(getContext().getString(R.string.date_formatted, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DATE)));
 
         timePickerDialog = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
             @Override

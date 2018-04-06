@@ -57,7 +57,7 @@ public class YourReportsActivity extends AppCompatActivity implements SearchView
     RecyclerView recyclerView_reports;
     Spinner sp_familyforreports;
     EditText et_search;
-    ArrayList<Report_FEED> reportlist;
+    ArrayList<Report_FEED> reportlist = new ArrayList<Report_FEED>();
     PatientReportsData patientReportsData;
     YourReportsAdapter _adpater;
     ArrayList<PatientReportsData> patientReportsDataArrayList = new ArrayList<PatientReportsData>();
@@ -97,7 +97,12 @@ public class YourReportsActivity extends AppCompatActivity implements SearchView
 
             @Override
             public void afterTextChanged(Editable editable) {
+            Log.d(TAG,"Report list size:"+reportlist.size());
+            if(reportlist.size()>0)
+            {
                 filter(editable.toString());
+            }
+
 
             }
         });
@@ -165,7 +170,7 @@ public class YourReportsActivity extends AppCompatActivity implements SearchView
                         }
                         USER_ID = result.get(i).getUserid();
                         //spinnerList.add(new PROFILE("","","",""));
-                        spinnerList.add(new PROFILE(result.get(i).getUserid(),result.get(i).getId(), firstName, result.get(i).getAge(), result.get(i).getRelationship()));
+                        spinnerList.add(new PROFILE(result.get(i).getUserid(),result.get(i).getId(), firstName, result.get(i).getAge(), result.get(i).getRelationship(),result.get(i).getGender()));
                     }
                     getData2();
                     USER_ID = result.get(0).getUserid();

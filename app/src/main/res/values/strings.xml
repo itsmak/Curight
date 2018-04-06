@@ -54,7 +54,11 @@
     <string name="consume">Consumed</string>
     <string name="net">Net</string>
     <string name="totalnet">NET</string>
+    <string name="Rs">\u20B9</string>
     <string name="item">Item</string>
+    <string name="allTest">
+        <u>AllTest</u>.
+    </string>
     <string name="quantity">Quantity</string>
     <string name="unit">Unit</string>
     <string name="cal">Cal/Unit</string>

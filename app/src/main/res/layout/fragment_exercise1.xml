@@ -71,7 +71,8 @@
                         android:id="@+id/tvBurned"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:hint="Calories"
+                        android:layout_centerHorizontal="true"
+                        android:hint=""
                         android:textColor="@color/carbs"
                         android:textSize="18sp"
                         android:textStyle="bold" />

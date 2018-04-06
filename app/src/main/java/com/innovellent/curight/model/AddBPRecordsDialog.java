@@ -53,7 +53,8 @@ public class AddBPRecordsDialog extends Dialog {
         etPulse = (EditText) findViewById(R.id.pulse);
 
         final Calendar calendar = Calendar.getInstance();
-
+       // String currentdate = calendar.HOUR_OF_DAY
+        etDate.setText(getContext().getString(R.string.date_formatted, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DATE)));
         timePickerDialog = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {

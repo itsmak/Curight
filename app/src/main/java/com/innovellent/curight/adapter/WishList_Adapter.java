@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.innovellent.curight.R;
 import com.innovellent.curight.fragment.ForyouFragment;
@@ -39,18 +40,24 @@ static final int ZOOM = 2;
     ArrayList<WishList_Model> arrayList;
     AdapterView.OnItemClickListener mItemClickListener;
     Matrix matrix = new Matrix();
+    OnWishclicklistner listner;
+    int position;
     Matrix savedMatrix = new Matrix();
     PointF startPoint = new PointF();
     PointF midPoint = new PointF(); float oldDist = 1f;
-    int mode = NONE;     WishListFragment fragment1;
-        MyOfferingAdapter.MyViewHolder.ZoomImageListener zoomListener;     private Context mContext;
+    int mode = NONE;
+    WishListFragment fragment1;
+    MyOfferingAdapter.MyViewHolder.ZoomImageListener zoomListener;
+    private Context mContext;
     private SharedPreferences sharedPreferences;
     private String wish, month,wishlistflag;
-    public WishList_Adapter(Context context, ArrayList<WishList_Model> arrayList, String wishlist, WishListFragment fragment) {
+    public WishList_Adapter(Context context, ArrayList<WishList_Model> arrayList, String wishlist, WishListFragment fragment,int position,OnWishclicklistner listner) {
         mContext = context;
         this.wish = wishlist;
         this.arrayList = arrayList;
         this.fragment1=fragment;
+        this.position=position;
+        this.listner=listner;
     }
 
     @Override
@@ -63,7 +70,12 @@ static final int ZOOM = 2;
     @Override
     public void onBindViewHolder(final WishList_Adapter.MyViewHolder holder, final int position) {
         try {
-
+            if(arrayList.get(position).getArticlewishlistid()>0)
+            {
+                holder.ivWishlist_article.setImageResource(R.drawable.ic_heart_dark);
+            }else {
+                holder.ivWishlist_article.setImageResource(R.drawable.heart);
+            }
             holder.tvOfferTitle.setText(arrayList.get(position).getTitle());
             holder.expandableTextView.setText(arrayList.get(position).getDescription());
             Picasso.with(mContext)
@@ -73,6 +85,28 @@ static final int ZOOM = 2;
                     .into(holder.ivBanner_article);
 
         }catch (Exception e){}
+
+        holder.ivWishlist_article.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               // holder.ivWishlist_article.setImageResource(R.drawable.ic_heart_dark);
+                 listner.ontoggleClick(arrayList.get(position),position);
+            }
+        });
+        holder.ivShare_article.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+             //   Toast.makeText(mContext, "share clicked", Toast.LENGTH_SHORT).show();
+                listner.onshareClick(arrayList.get(position),position);
+            }
+        });
+        holder.ivLike_article.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listner.onlikeClick(arrayList.get(position),position);
+            }
+        });
+
         holder.tv_readMore_article.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -128,10 +162,17 @@ static final int ZOOM = 2;
         return arrayList.size();
     }
 
+    public interface OnWishclicklistner {
+
+        void onlikeClick(WishList_Model item_m, int position);
+        void ontoggleClick(WishList_Model item_m, int position);
+        void onshareClick(WishList_Model item_m, int position);
+    }
+
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         public TextView tvOfferTitle,tvdate_article,tv_readMore_article;
-        public ImageView ivBanner_article,ivWishlist_article,ivLike_article;
+        public ImageView ivBanner_article,ivWishlist_article,ivLike_article,ivShare_article;
         ExpandableTextView expandableTextView;
 
         LinearLayout listitem11relativeLayout7,listitem11relativeLayout8;
@@ -145,6 +186,7 @@ static final int ZOOM = 2;
             ivBanner_article = (ImageView) view.findViewById(R.id.ivBanner_article);
             expandableTextView = (ExpandableTextView) view.findViewById(R.id.expandableTextView);
             ivWishlist_article = (ImageView) view.findViewById(R.id.ivWishlist_article);
+            ivShare_article = (ImageView) view.findViewById(R.id.ivShare_article);
             ivLike_article= (ImageView) view.findViewById(R.id.ivLike_article);
 
             // set animation duration via code, but preferable in your layout files by using the animation_duration attribute

@@ -67,7 +67,7 @@ public class FemaleCycleFragment extends Fragment implements View.OnClickListene
     RecyclerView recyclerView;
     FemaleCycleAdapter mAdapter;
     TextView tvList;
-    AddBloodCountDialog addBloodCountDialog;
+  //  AddBloodCountDialog addBloodCountDialog;
     ImageView ivAdd;
     EditText tv_normalduration,et_gap,et_reminderdays,etNotes;
     TextView tv_date;
@@ -260,10 +260,12 @@ public class FemaleCycleFragment extends Fragment implements View.OnClickListene
 
                         USER_ID = result.get(i).getUserid();
                         //spinnerList.add(new PROFILE("","","",""));
-                        spinnerList.add(new PROFILE(result.get(i).getUserid(),result.get(i).getId(), firstName, result.get(i).getAge(), result.get(i).getRelationship()));
+                        spinnerList.add(new PROFILE(result.get(i).getUserid(),result.get(i).getId(), firstName, result.get(i).getAge(), result.get(i).getRelationship(),result.get(i).getGender()));
                     }
                     getData2();
                     USER_ID = result.get(0).getUserid();
+                    Prefs.putLong("user_id",Long.parseLong(USER_ID));
+                    Prefs.putString("spinner_gender", result.get(0).getGender());
                     // GetData(result.get(1).getUserid());
                 } else {
 
@@ -296,7 +298,9 @@ public class FemaleCycleFragment extends Fragment implements View.OnClickListene
                 //   Toast.makeText(PasswordRecoveryQuestionsActivity.this, spinner3[i], Toast.LENGTH_SHORT).show();
                 //spAge.setText(spinnerList.get(i).getUser_age());
                 USER_ID = spinnerList.get(i).getUser_id();
+                String user_gender = spinnerList.get(i).getUser_getGender();
                 Prefs.putLong("spinner_id", Long.parseLong(spinnerList.get(i).getUser_id()));
+                Prefs.putString("spinner_gender", user_gender);
                 uid = (int) Prefs.getLong("spinner_id",0);
                 Log.d(TAG, "Myuserid on select" + uid);
 
@@ -308,6 +312,7 @@ public class FemaleCycleFragment extends Fragment implements View.OnClickListene
                 int uid = (int) Prefs.getLong("user_id",0);
                 Log.d("user_forwhr", ""+uid);
                 Log.d(TAG, "MyUSER_ID on spinner" + USER_ID);
+
                 getFCTData(uid);
             }
         });
@@ -322,7 +327,15 @@ public class FemaleCycleFragment extends Fragment implements View.OnClickListene
                 /*tvList.setTextColor(Color.parseColor("#9DA1A0"));
                 rlFemaleCycle.setVisibility(View.VISIBLE);
                 recyclerView.setVisibility(View.GONE);*/
-                AddFCTRecords();
+                String gender = Prefs.getString("spinner_gender", "");
+                Log.d(TAG, "selected gender ::" + gender);
+                if (gender.equalsIgnoreCase("Female"))
+                {
+                    AddFCTRecords();
+                }else {
+                    Toast.makeText(getActivity(),"Sorry only Females can add this",Toast.LENGTH_SHORT).show();
+                }
+               //
                 break;
             case R.id.tvList:
                 tvList.setTextColor(Color.parseColor("#FFFFFF"));

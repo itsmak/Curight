@@ -73,12 +73,7 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"></activity>
-        <activity
-            android:name=".activities.Exercise.Add_CalBurned_Exersize"
-            android:configChanges="orientation"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"></activity>
+
         <activity
             android:name=".activities.AmountPaidActivity"
             android:configChanges="orientation"
@@ -111,6 +106,13 @@
             android:configChanges="orientation"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
+            ></activity>
+        <activity
+            android:name=".activities.Exercise.Add_CalBurned_Exersize"
+            android:configChanges="orientation"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
             ></activity>
         <activity
             android:name=".activities.DiagnosticCentersActivity"
@@ -177,12 +179,13 @@
             android:name=".activities.ProfileActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"
+            />
         <activity
             android:name=".activities.AddTestActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".activities.MedicineReminderActivity"
             android:configChanges="orientation"
@@ -194,7 +197,8 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"></activity>
         <activity android:name=".activities.AddFoodConsumptionActivity"></activity>
-        <activity android:name=".activities.AddExerciseActivity">
+        <activity android:name=".activities.AddExerciseActivity"
+            >
 
         </activity>
         <activity android:name=".activities.DoctorAppointmentActivity">

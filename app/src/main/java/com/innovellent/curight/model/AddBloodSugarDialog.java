@@ -67,6 +67,7 @@ public class AddBloodSugarDialog extends Dialog {
             }
         }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true);*/
 
+        tv_date.setText(getContext().getString(R.string.date_formatted, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DATE)));
 
         datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
             @Override

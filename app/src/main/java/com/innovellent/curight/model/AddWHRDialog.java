@@ -62,6 +62,7 @@ public class AddWHRDialog extends Dialog {
 
         final Calendar calendar = Calendar.getInstance();
 
+        etDate.setText(getContext().getString(R.string.date_formatted, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DATE)));
 
         datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
             @Override

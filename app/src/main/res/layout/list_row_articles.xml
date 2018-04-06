@@ -66,17 +66,17 @@
 
        <ImageView
            android:id="@+id/ivShare_article"
-           android:layout_width="wrap_content"
-           android:layout_height="20dp"
+           android:layout_width="25dp"
+           android:layout_height="25dp"
            android:layout_alignParentRight="true"
            android:layout_below="@+id/tv_readMore_article"
            android:layout_marginRight="10dp"
-           android:src="@drawable/ic_share5"/>
+           android:src="@drawable/share_svg"/>
 
     <ImageView
         android:id="@+id/ivWishlist_article"
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_below="@+id/tv_readMore_article"
         android:layout_marginRight="10dp"
         android:layout_toLeftOf="@+id/ivShare_article"
@@ -85,8 +85,8 @@
 
     <ImageView
         android:id="@+id/ivLike_article"
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_below="@+id/tv_readMore_article"
         android:layout_marginBottom="10dp"
         android:layout_marginRight="10dp"

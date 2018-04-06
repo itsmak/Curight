@@ -288,7 +288,7 @@ public class WHRFragment extends Fragment implements View.OnClickListener{
                         }
                         USER_ID = result.get(i).getUserid();
                         //spinnerList.add(new PROFILE("","","",""));
-                        spinnerList.add(new PROFILE(result.get(i).getUserid(),result.get(i).getId(), firstName, result.get(i).getAge(), result.get(i).getRelationship()));
+                        spinnerList.add(new PROFILE(result.get(i).getUserid(),result.get(i).getId(), firstName, result.get(i).getAge(), result.get(i).getRelationship(),result.get(i).getGender()));
 
                     }
                     getData2();

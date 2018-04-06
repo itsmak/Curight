@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.innovellent.curight.R;
@@ -47,6 +48,7 @@ public class DiagnosticTestListActivity extends AppCompatActivity{
     ArrayList<SelectedTest> selectedlist;
     Button btnSubmit;
     EditText etSearch;
+    TextView tv_AllTest;
     Toolbar toolbar;
     int testid;
     int position;
@@ -108,18 +110,22 @@ public class DiagnosticTestListActivity extends AppCompatActivity{
         Prefs.putInt("test_length",0);
         Bundle b = new Bundle();
         b = getIntent().getExtras();
-
+        recycler_view=(RecyclerView)findViewById(R.id.recycler_view);
+        tv_AllTest=(TextView) findViewById(R.id.tv_AllTest);
         Log.d(TAG,"test bundle :"+b);
         if(b==null)
         {
              testid = 0;//Integer.parseInt(b.getString("testid"));
+            recycler_view.setVisibility(View.GONE);
+            tv_AllTest.setVisibility(View.INVISIBLE);
             Log.d(TAG,"test bundle :"+testid);
         }else {
             testid = Integer.parseInt(b.getString("testid"));
+            recycler_view.setVisibility(View.VISIBLE);
+            tv_AllTest.setVisibility(View.VISIBLE);
         }
         //String name = b.getString("name");
         getalltest(testid);
-
         getData();
         init();
         iniClick();
@@ -130,6 +136,12 @@ public class DiagnosticTestListActivity extends AppCompatActivity{
             etSearch.addTextChangedListener(new TextWatcher() {
                 public void afterTextChanged(Editable editable) {
                    filter(editable.toString());
+                   if(editable.toString().length()>0)
+                   {
+                       recycler_view.setVisibility(View.VISIBLE);
+                   }else {
+                       recycler_view.setVisibility(View.GONE);
+                   }
                 }
 
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -138,6 +150,13 @@ public class DiagnosticTestListActivity extends AppCompatActivity{
                 public void onTextChanged(CharSequence query, int start, int before, int count) {
                 }
             });
+
+        tv_AllTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getalltest(0);
+            }
+        });
 
     }
 
@@ -176,7 +195,7 @@ public class DiagnosticTestListActivity extends AppCompatActivity{
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
         etSearch=(EditText)findViewById(R.id.etSearch_diagnostic);
-        recycler_view=(RecyclerView)findViewById(R.id.recycler_view);
+
         rv_selectedtest=(RecyclerView) findViewById(R.id.rv_selectedtest);
         btnSubmit=(Button)findViewById(R.id.btnSubmit);
     }
@@ -238,8 +257,9 @@ public class DiagnosticTestListActivity extends AppCompatActivity{
         });
     }
 
-    public  void getalltest(int testid)
+    public  void getalltest(int test_id)
     {
+        clearData();
         progressDialog = ProgressDialog.show(DiagnosticTestListActivity.this, "Loading", "please wait", true, false);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
@@ -249,7 +269,7 @@ public class DiagnosticTestListActivity extends AppCompatActivity{
                 .build();
 
         ApiInterface apiInterface = retrofit.create(ApiInterface.class);
-        TestingCenter testcentre = new TestingCenter(testid);
+        TestingCenter testcentre = new TestingCenter(test_id);
         Call<ServerResponseTest> call = apiInterface.getTestByTestID(testcentre);
         call.enqueue(new Callback<ServerResponseTest>() {
             @Override
@@ -270,7 +290,7 @@ public class DiagnosticTestListActivity extends AppCompatActivity{
                 }
                 mAdapter = new DiagnosticTestAdapter(DiagnosticTestListActivity.this, testlist, position, new DiagnosticTestAdapter.OnTestClickListener() {
                     @Override
-                    public void testselected(Test_List item_m, int position) {
+                    public void testselected(final Test_List item_m, int position) {
                         if (item_m.isChecked())
                         {
                             item_m.setChecked(false);
@@ -290,9 +310,22 @@ public class DiagnosticTestListActivity extends AppCompatActivity{
                         }
                         sAdapter = new Selected_Test_Adapter(DiagnosticTestListActivity.this, selectedlist, position, new Selected_Test_Adapter.OnTestClickListener() {
                             @Override
-                            public void closeclicked(Test_List item_m, int position) {
-                                //   Toast.makeText(Teacher_Feed_post.this,hashtag_list.get(position).getHashtext()+" is selected",Toast.LENGTH_SHORT).show();
-                                //   hashtext = hashtag_list.get(position).getHashtext();
+                            public void closeclicked(SelectedTest item_s, int position) {
+                                Long selected_id = item_s.getTestid();
+                                Toast.makeText(DiagnosticTestListActivity.this, "close clicked", Toast.LENGTH_SHORT).show();
+                                for(int i=0;i<testlist.size();i++)
+                                {
+                                    if(selected_id==testlist.get(i).getTestid())
+                                    {
+                                        testlist.get(i).setChecked(false);
+
+                                    }
+                                }
+                                Update_main_List();
+
+
+                              // selectedlist.clear();
+
                             }
                         });
                         rv_selectedtest.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -302,15 +335,6 @@ public class DiagnosticTestListActivity extends AppCompatActivity{
                 recycler_view.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
                 recycler_view.setAdapter(mAdapter);
 
-//                sAdapter = new Selected_Test_Adapter(DiagnosticTestListActivity.this, testlist, position, new Selected_Test_Adapter.OnTestClickListener() {
-//                    @Override
-//                    public void closeclicked(Test_List item_m, int position) {
-//                     //   Toast.makeText(Teacher_Feed_post.this,hashtag_list.get(position).getHashtext()+" is selected",Toast.LENGTH_SHORT).show();
-//                     //   hashtext = hashtag_list.get(position).getHashtext();
-//                    }
-//                });
-//                rv_selectedtest.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
-//                rv_selectedtest.setAdapter(sAdapter);
             }
             @Override
             public void onFailure(Call<ServerResponseTest> call, Throwable t) {
@@ -405,4 +429,58 @@ public class DiagnosticTestListActivity extends AppCompatActivity{
             finish();
         return super.onOptionsItemSelected(item);
     }
+    public void Update_main_List()
+    {
+        mAdapter = new DiagnosticTestAdapter(DiagnosticTestListActivity.this, testlist, position, new DiagnosticTestAdapter.OnTestClickListener() {
+            @Override
+            public void testselected(Test_List item_m, int position) {
+                if (item_m.isChecked())
+                {
+                    item_m.setChecked(false);
+                }else {
+                    item_m.setChecked(true);
+
+                }
+                recycler_view.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+                recycler_view.setAdapter(mAdapter);
+            }
+        });
+
+        mAdapter.notifyDataSetChanged();
+        recycler_view.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+       recycler_view.setAdapter(mAdapter);
+
+    }
+    public void Update_selected_List()
+    {
+        selectedlist = new ArrayList<SelectedTest>();
+        for(int i=0;i<testlist.size();i++)
+        {
+            if (testlist.get(i).isChecked())
+            {
+                selectedlist.add(new SelectedTest(testlist.get(i).getTestid(),testlist.get(i).getTestname()));
+            }
+        }
+        sAdapter = new Selected_Test_Adapter(DiagnosticTestListActivity.this, selectedlist, position, new Selected_Test_Adapter.OnTestClickListener() {
+            @Override
+            public void closeclicked(SelectedTest item_s, int position) {
+
+            }
+        });
+        sAdapter.notifyDataSetChanged();
+        rv_selectedtest.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
+        rv_selectedtest.setAdapter(sAdapter);
+
+    }
+    public void clearData() {
+        mAdapter = new DiagnosticTestAdapter(DiagnosticTestListActivity.this, testlist, position,new DiagnosticTestAdapter.OnTestClickListener() {
+            @Override
+            public void testselected(Test_List item_m, int position) {
+                testlist.clear(); //clear list
+                mAdapter.notifyDataSetChanged(); //let your adapter know about the changes and reload view.
+            }
+        });
+    }
+
+
 }

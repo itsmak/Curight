@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.innovellent.curight.R;
 import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.DeleteBMIRecord;
+import com.innovellent.curight.model.DeleteExercizeRecord_Pojo;
 import com.innovellent.curight.model.Golf;
 import com.innovellent.curight.model.Swimming;
 import com.innovellent.curight.model.Walking;
@@ -112,9 +113,9 @@ public class SwimmingAdapter   extends RecyclerView.Adapter<SwimmingAdapter.MyVi
 
         try{
 
-            DeleteBMIRecord deleteBMIRecord = new DeleteBMIRecord(ex_id);
+            DeleteExercizeRecord_Pojo deleteBMIRecord = new DeleteExercizeRecord_Pojo(ex_id);
 
-            final Call<ResponseBody> call = apiInterface.deleteBMIRecord("abc",deleteBMIRecord);
+            final Call<ResponseBody> call = apiInterface.deleteExerciseRecord("abc",deleteBMIRecord);
 
             call.enqueue(new Callback<ResponseBody>() {
                 @Override

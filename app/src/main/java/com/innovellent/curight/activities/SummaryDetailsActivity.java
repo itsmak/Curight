@@ -124,7 +124,14 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
             summarylist.add(new SummaryDetails(arrayList.get(i),amountList.get(i),homepickupList.get(i)));
         }
         getData();
-
+        String state =Prefs.getString("state","");
+        if(state.equalsIgnoreCase("checked"))
+        {
+            String date1=Prefs.getString("date1","");
+            String date2=Prefs.getString("date2","");
+            startDate.setText(date1);
+            endDate.setText(date2);
+        }
 
     }
     public void init(){
@@ -264,8 +271,6 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
                     }
 
                 }
-
-
                 break;
             case R.id.btnAddTest:
                 Intent i2 = new Intent(SummaryDetailsActivity.this, AddTestActivity.class);
@@ -281,6 +286,16 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
                 bundle.putString("dc_name",dc_name);
                 bundle.putString("loc",loc);
                 i2.putExtras(bundle);
+                if(cbHomePickup.isChecked())
+                {
+                    Prefs.putString("state","checked");
+                    Prefs.putString("date1",startDate.getText().toString().trim());
+                    Prefs.putString("date1",endDate.getText().toString().trim());
+
+                }else {
+                    Prefs.putString("state","");
+                }
+
                 startActivity(i2);
                 break;
             case R.id.ivCalendar:

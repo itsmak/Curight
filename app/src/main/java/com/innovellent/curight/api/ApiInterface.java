@@ -10,7 +10,9 @@ import com.innovellent.curight.model.DeleteBMIRecord;
 import com.innovellent.curight.model.DeleteBPRecordParameter;
 import com.innovellent.curight.model.DeleteBloodCountRecord;
 import com.innovellent.curight.model.DeleteCholesterolRecordParameter;
+import com.innovellent.curight.model.DeleteExercizeRecord_Pojo;
 import com.innovellent.curight.model.DeleteFctDataPojo;
+import com.innovellent.curight.model.DeleteFoodRecordPojo;
 import com.innovellent.curight.model.DeleteParameterPojo;
 import com.innovellent.curight.model.DeleteParameterpatientreport;
 import com.innovellent.curight.model.DiagnosticCenterDoctorByDC;
@@ -44,6 +46,7 @@ import com.innovellent.curight.model.PostBodyProfile;
 import com.innovellent.curight.model.PostBodyRegister;
 import com.innovellent.curight.model.Post_Body_Article;
 import com.innovellent.curight.model.Post_Body_DoctorList;
+import com.innovellent.curight.model.Post_Body_Toggle;
 import com.innovellent.curight.model.Post_Body_calorie;
 import com.innovellent.curight.model.Post_Family_Update;
 import com.innovellent.curight.model.Post_MedReminderAdd;
@@ -263,6 +266,14 @@ public interface ApiInterface {
     @POST("bmi/delete")
     Call<ResponseBody> deleteBMIRecord(@Header("x-access-token") String accessToken, @Body DeleteBMIRecord requestBody);
 
+    @Headers("Content-Type: application/json")
+    @POST("exercise/delete")
+    Call<ResponseBody> deleteExerciseRecord(@Header("x-access-token") String accessToken, @Body DeleteExercizeRecord_Pojo requestBody);
+
+    @Headers("Content-Type: application/json")
+    @POST("foodconsumption/delete")
+    Call<ResponseBody> deleteFoodRecord(@Header("x-access-token") String accessToken, @Body DeleteFoodRecordPojo requestBody);
+
     //Family APIs
     @Headers("Content-Type: application/json")
     @POST("patientprofile/getprofile")
@@ -292,6 +303,10 @@ public interface ApiInterface {
     @Headers("x-access-token: hjjgkuykg")
     @POST("article/get")
     Call<ServerResponseOffer> getArticle(@Body Post_Body_Article userId);;
+
+    @Headers("x-access-token: hjjgkuykg")
+    @POST("article/togglewishlist")
+    Call<Registration_Response> sendToggle(@Body Post_Body_Toggle userId);;
 
     @Headers("Content-Type: application/json")
     @POST("food/getaloriesbyfood")

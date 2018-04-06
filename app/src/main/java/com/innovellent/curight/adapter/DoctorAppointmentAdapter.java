@@ -25,12 +25,12 @@ import java.util.ArrayList;
 
 public class DoctorAppointmentAdapter extends RecyclerView.Adapter<DoctorAppointmentAdapter.ViewHolder> {
 
-    private ArrayList<String> arrayList = new ArrayList<>();
-    private ArrayList<DoctorList> doctorListArrayList;
-    Context mContext;
-    String doctornumber, specialization, doctorname;
     public static String sel_test_names = "";
     public static String sel_test_ids = "";
+    Context mContext;
+    String doctornumber, specialization, doctorname;
+    private ArrayList<String> arrayList = new ArrayList<>();
+    private ArrayList<DoctorList> doctorListArrayList;
 
 
     public DoctorAppointmentAdapter(Context context, ArrayList<String> arrayList, ArrayList<DoctorList> testObjs) {
@@ -78,10 +78,13 @@ public class DoctorAppointmentAdapter extends RecyclerView.Adapter<DoctorAppoint
             }
         });
     }
-
+    public void filterlist(ArrayList<DoctorList> filteredlist) {
+        doctorListArrayList=filteredlist;
+        notifyDataSetChanged();
+    }
     @Override
     public int getItemCount() {
-        return arrayList.size();
+        return doctorListArrayList.size();
     }
 
 

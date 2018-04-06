@@ -6,8 +6,11 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.innovellent.curight.R;
@@ -16,6 +19,7 @@ import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.DoctorList;
 import com.innovellent.curight.model.Post_Body_DoctorList;
 import com.innovellent.curight.model.ServerResponseDoctorAppointment;
+import com.innovellent.curight.model.Test_List;
 import com.innovellent.curight.utility.Config;
 import com.innovellent.curight.utility.Constants;
 import com.innovellent.curight.utility.DividerItemDecoration;
@@ -40,6 +44,7 @@ public class DoctorAppointmentActivity extends AppCompatActivity {
     DoctorAppointmentAdapter doctorAppointmentAdapter;
     ImageView ivback1;
     int testid;
+    EditText etSearch_doctor;
     ServerResponseDoctorAppointment serverResponseDoctorAppointment;
     ArrayList<String> doctorArrayList = new ArrayList<String>();
     ArrayList<DoctorList> arrayList_doctorlist = new ArrayList<DoctorList>();
@@ -53,7 +58,7 @@ public class DoctorAppointmentActivity extends AppCompatActivity {
 
         recycler_view_doctorappointment = (RecyclerView)findViewById(R.id.recycler_view_doctorappointment);
         ivback1 = (ImageView) findViewById(R.id.ivback1);
-
+        etSearch_doctor = (EditText) findViewById(R.id.etSearch_doctor);
         ivback1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,7 +77,24 @@ public class DoctorAppointmentActivity extends AppCompatActivity {
             testid = Integer.parseInt(b.getString("testid"));
         }
         getAllDoctors(testid);
+        etSearch_doctor.setClickable(true);
+        etSearch_doctor.clearFocus();
+        etSearch_doctor.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                filter(editable.toString());
+            }
+        });
 
        /* recycler_view_doctorappointment.addOnItemTouchListener(new RecyclerItemClickListener(DoctorAppointmentActivity.this, recycler_view_doctorappointment, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
@@ -88,7 +110,15 @@ public class DoctorAppointmentActivity extends AppCompatActivity {
 
 
     }
-
+    private void filter(String text) {
+        ArrayList<DoctorList> filteredlist = new ArrayList<>();
+        for (DoctorList item : arrayList_doctorlist) {
+            if (item.getDoctorname().toLowerCase().contains(text.toLowerCase())) {
+                filteredlist.add(item);
+            }
+        }
+        doctorAppointmentAdapter.filterlist(filteredlist);
+    }
 
     private void getAllDoctors(int doctorid){
         progressDialog = ProgressDialog.show(DoctorAppointmentActivity.this, "Loading", "please wait", true, false);

@@ -76,7 +76,6 @@ public class TrackDataFragment extends Fragment implements View.OnClickListener,
     private ProgressDialog progressDialog;
     private Goal goal;
 
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_track_data, container, false);

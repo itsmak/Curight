@@ -29,6 +29,18 @@ public class PROFILE_FEED {
     @Expose
     String relationship;
 
+    @SerializedName("gender")
+    @Expose
+    String gender;
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
     public int getId() {
         return id;
     }

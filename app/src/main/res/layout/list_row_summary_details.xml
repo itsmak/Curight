@@ -20,22 +20,20 @@
             android:textColor="@color/darkgray"
             android:textSize="12sp" />
 
-        <ImageView
+        <TextView
             android:id="@+id/ivRupee"
             android:layout_width="0dp"
-            android:layout_height="12dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="2dp"
-            android:layout_weight="5"
-            android:background="@mipmap/ic_rupee" />
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="1dp"
+            android:layout_weight="3"
+            android:text="@string/Rs"
+            android:textSize="14sp" />
         <TextView
             android:id="@+id/tvRupee"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@+id/tvRupeelabel"
             android:layout_weight="14"
-            android:gravity="center"
             android:text="100"
             android:textColor="@color/darkgray"
             android:textSize="12sp" />

@@ -36,6 +36,17 @@
 
     </android.support.v7.widget.Toolbar>
 
+    <EditText
+        android:id="@+id/etSearch_doctor"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/logine_edit_search"
+        android:drawableLeft="@drawable/ic_search2"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="Search your doctor" >
+    </EditText>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_doctorappointment"

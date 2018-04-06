@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.innovellent.curight.R;
 import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.DeleteBMIRecord;
+import com.innovellent.curight.model.DeleteFoodRecordPojo;
 import com.innovellent.curight.model.Lunch;
 import com.innovellent.curight.model.Running;
 import com.innovellent.curight.utility.Config;
@@ -77,7 +78,7 @@ public class LunchAdapter extends RecyclerView.Adapter<LunchAdapter.MyViewHolder
                 lunch = arrayList.get(position);
                 //Log.d("item_id"+"WHRID", ""+whr_list.getWhrid());
                 showProgressDialog("Deleting item");
-                deleteFoodRecord(lunch.getFoodid());
+                deleteFoodRecord(lunch.getFoodconsumptionid());
                 removeAt(position);
 
             }
@@ -111,9 +112,9 @@ public class LunchAdapter extends RecyclerView.Adapter<LunchAdapter.MyViewHolder
 
         try{
 
-            DeleteBMIRecord deleteBMIRecord = new DeleteBMIRecord(fd_id);
+            DeleteFoodRecordPojo deletefoodRecord = new DeleteFoodRecordPojo(fd_id);
 
-            final Call<ResponseBody> call = apiInterface.deleteBMIRecord("abc",deleteBMIRecord);
+            final Call<ResponseBody> call = apiInterface.deleteFoodRecord("abc",deletefoodRecord);
 
             call.enqueue(new Callback<ResponseBody>() {
                 @Override

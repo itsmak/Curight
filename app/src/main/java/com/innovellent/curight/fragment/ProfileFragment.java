@@ -193,7 +193,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                             firstName = name;
                         }
                         Log.d(TAG,"firstname::"+firstName);
-                        spinnerList.add(new PROFILE(result.get(i).getUserid(),result.get(i).getId(), firstName, result.get(i).getAge(), result.get(i).getRelationship()));
+                        spinnerList.add(new PROFILE(result.get(i).getUserid(),result.get(i).getId(), firstName, result.get(i).getAge(), result.get(i).getRelationship(),result.get(i).getGender()));
                     }
                     getData();
                     int uid = (int) Prefs.getLong("spinner_id",0);

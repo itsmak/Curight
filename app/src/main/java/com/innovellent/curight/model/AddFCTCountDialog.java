@@ -83,6 +83,7 @@ public class AddFCTCountDialog extends Dialog {
                 tv_date.setText(getContext().getString(R.string.date_formatted, year, month + 1, dayOfMonth));
             }
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        tv_date.setText(getContext().getString(R.string.date_formatted, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DATE)));
 
         date_layout.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -45,6 +45,8 @@
         android:textSize="18sp"
         android:textStyle="bold" />
 
+
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_selectedtest"
         android:layout_width="match_parent"
@@ -78,7 +80,19 @@
         android:text="@string/alltest"
         android:textColor="@color/darkgray"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tv_AllTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/etSearch_diagnostic"
+        android:layout_marginRight="10dp"
+        android:text="@string/allTest"
+        android:textColor="#0387d2"
+        android:textSize="14sp"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
@@ -87,7 +101,7 @@
         android:layout_above="@+id/llButton"
         android:layout_alignLeft="@+id/etSearch_diagnostic"
         android:layout_alignRight="@+id/etSearch_diagnostic"
-        android:layout_below="@+id/tvTitle"
+        android:layout_below="@+id/tv_AllTest"
         android:layout_centerHorizontal="true"/>
     <LinearLayout
         android:id="@+id/llButton"

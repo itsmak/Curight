@@ -98,7 +98,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="25"
+                android:layout_weight="23"
                 android:background="@color/colorPrimary"
                 android:text="@string/item"
                 android:textAlignment="center"
@@ -107,7 +107,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="25"
+                android:layout_weight="23"
                 android:background="@color/colorPrimary"
                 android:text="@string/quantity"
                 android:textAlignment="center"
@@ -116,7 +116,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="25"
+                android:layout_weight="23"
                 android:background="@color/colorPrimary"
                 android:text="@string/unit"
                 android:textAlignment="center"
@@ -125,9 +125,18 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="25"
+                android:layout_weight="23"
                 android:background="@color/colorPrimary"
                 android:text="@string/cal"
+                android:textAlignment="center"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:background="@color/colorPrimary"
+                android:text=""
                 android:textAlignment="center"
                 android:textColor="@android:color/white" />
         </LinearLayout>
