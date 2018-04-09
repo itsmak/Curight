@@ -300,6 +300,7 @@ public class DiagnosticTestListActivity extends AppCompatActivity{
                         }
                         recycler_view.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
                         recycler_view.setAdapter(mAdapter);
+
                         selectedlist = new ArrayList<SelectedTest>();
                         for(int i=0;i<testlist.size();i++)
                         {
@@ -312,7 +313,7 @@ public class DiagnosticTestListActivity extends AppCompatActivity{
                             @Override
                             public void closeclicked(SelectedTest item_s, int position) {
                                 Long selected_id = item_s.getTestid();
-                                Toast.makeText(DiagnosticTestListActivity.this, "close clicked", Toast.LENGTH_SHORT).show();
+                               // Toast.makeText(DiagnosticTestListActivity.this, "close clicked", Toast.LENGTH_SHORT).show();
                                 for(int i=0;i<testlist.size();i++)
                                 {
                                     if(selected_id==testlist.get(i).getTestid())
@@ -322,9 +323,7 @@ public class DiagnosticTestListActivity extends AppCompatActivity{
                                     }
                                 }
                                 Update_main_List();
-
-
-                              // selectedlist.clear();
+                                Update_selected_List();
 
                             }
                         });
@@ -443,6 +442,8 @@ public class DiagnosticTestListActivity extends AppCompatActivity{
                 }
                 recycler_view.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
                 recycler_view.setAdapter(mAdapter);
+                Update_selected_List();
+                //Update_selected_List();
             }
         });
 
@@ -464,7 +465,18 @@ public class DiagnosticTestListActivity extends AppCompatActivity{
         sAdapter = new Selected_Test_Adapter(DiagnosticTestListActivity.this, selectedlist, position, new Selected_Test_Adapter.OnTestClickListener() {
             @Override
             public void closeclicked(SelectedTest item_s, int position) {
+                Long selected_id = item_s.getTestid();
+            //    Toast.makeText(DiagnosticTestListActivity.this, "close clicked", Toast.LENGTH_SHORT).show();
+                for(int i=0;i<testlist.size();i++)
+                {
+                    if(selected_id==testlist.get(i).getTestid())
+                    {
+                        testlist.get(i).setChecked(false);
 
+                    }
+                }
+                Update_main_List();
+                Update_selected_List();
             }
         });
         sAdapter.notifyDataSetChanged();

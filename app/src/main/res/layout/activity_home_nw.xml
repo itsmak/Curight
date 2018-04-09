@@ -39,10 +39,11 @@
 
             <RelativeLayout
                 android:id="@+id/rl_location"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:visibility="gone">
+                android:layout_marginLeft="120dp"
+                android:visibility="visible">
 
                 <TextView
                     android:id="@+id/tv_locationtxt"
@@ -75,7 +76,7 @@
                     android:layout_marginTop="-1dp"
                     android:layout_toLeftOf="@+id/tv_home_locationsymbol"
                     android:singleLine="true"
-                    android:text="Location name"
+                    android:text="Location name j gvgv gvg vgv "
                     android:textColor="@android:color/white"
                     android:textSize="14sp"
                     android:visibility="visible"/>

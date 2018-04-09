@@ -332,7 +332,7 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
                                 }
                             })
 
-                            .title("Simple Time")
+                            .title("   Simple Time")
                             .listener(new SingleDateAndTimePickerDialog.Listener() {
                                 @Override
                                 public void onDateSelected(Date date) {
@@ -379,7 +379,7 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
                                 }
                             })
 
-                            .title("Simple Time")
+                            .title("  Simple Time")
                             .listener(new SingleDateAndTimePickerDialog.Listener() {
                                 @Override
                                 public void onDateSelected(Date date) {
@@ -430,7 +430,7 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
                                }
                            })
 
-                           .title("Simple Time")
+                           .title("  Simple Time")
                            .listener(new SingleDateAndTimePickerDialog.Listener() {
                                @Override
                                public void onDateSelected(Date date) {
@@ -480,7 +480,7 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
                                 }
                             })
 
-                            .title("Simple Time")
+                            .title("  Simple Time")
                             .listener(new SingleDateAndTimePickerDialog.Listener() {
                                 @Override
                                 public void onDateSelected(Date date) {
@@ -527,7 +527,7 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
                                 }
                             })
 
-                            .title("Simple Time")
+                            .title("  Simple Time")
                             .listener(new SingleDateAndTimePickerDialog.Listener() {
                                 @Override
                                 public void onDateSelected(Date date) {
@@ -575,7 +575,7 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
                                 }
                             })
 
-                            .title("Simple Time")
+                            .title("  Simple Time")
                             .listener(new SingleDateAndTimePickerDialog.Listener() {
                                 @Override
                                 public void onDateSelected(Date date) {
