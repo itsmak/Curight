@@ -1,8 +1,15 @@
 package com.innovellent.curight.activities;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.innovellent.curight.R;
 import com.innovellent.curight.adapter.DoctorAppointmentAdapter;
@@ -44,11 +52,13 @@ public class DoctorAppointmentActivity extends AppCompatActivity {
     DoctorAppointmentAdapter doctorAppointmentAdapter;
     ImageView ivback1;
     int testid;
+    String phnum;
     EditText etSearch_doctor;
     ServerResponseDoctorAppointment serverResponseDoctorAppointment;
     ArrayList<String> doctorArrayList = new ArrayList<String>();
     ArrayList<DoctorList> arrayList_doctorlist = new ArrayList<DoctorList>();
     DoctorList doctorList;
+    int position;
     private ProgressDialog progressDialog;
 
     @Override
@@ -154,7 +164,18 @@ public class DoctorAppointmentActivity extends AppCompatActivity {
                         }
                     }
                     if (doctorArrayList.size()!=0) {
-                        doctorAppointmentAdapter = new DoctorAppointmentAdapter(DoctorAppointmentActivity.this, doctorArrayList, arrayList_doctorlist);
+                        doctorAppointmentAdapter = new DoctorAppointmentAdapter(DoctorAppointmentActivity.this, doctorArrayList, arrayList_doctorlist, position, new DoctorAppointmentAdapter.OnItemClickListener() {
+                            @SuppressLint("MissingPermission")
+                            @Override
+                            public void onPhoneClick(DoctorList item, int position) {
+                                if(isPermissionGranted()){
+                                    phnum = item.getMobile();
+                                    Intent callIntent = new Intent(Intent.ACTION_CALL);
+                                    callIntent.setData(Uri.parse("tel:" + phnum));
+                                    startActivity(callIntent);
+                                }
+                            }
+                        });
                         recycler_view_doctorappointment.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
                         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recycler_view_doctorappointment.getContext());
                         recycler_view_doctorappointment.addItemDecoration(dividerItemDecoration);
@@ -182,4 +203,50 @@ public class DoctorAppointmentActivity extends AppCompatActivity {
             }
         });
     }
+
+    public  boolean isPermissionGranted() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (checkSelfPermission(android.Manifest.permission.CALL_PHONE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                Log.v("TAG","Permission is granted");
+                return true;
+            } else {
+
+                Log.v("TAG","Permission is revoked");
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, 1);
+                return false;
+            }
+        }
+        else { //permission is automatically granted on sdk<23 upon installation
+            Log.v("TAG","Permission is granted");
+            return true;
+        }
+    }
+    @SuppressLint("MissingPermission")
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+
+            case 1: {
+
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(getApplicationContext(), "Permission granted", Toast.LENGTH_SHORT).show();
+
+                    Intent callIntent = new Intent(Intent.ACTION_CALL);
+                    callIntent.setData(Uri.parse("tel:" + phnum));
+                    startActivity(callIntent);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Permission denied", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+    }
+
+
 }

@@ -83,7 +83,7 @@ public class FoodFragment extends Fragment implements View.OnClickListener {
     LunchAdapter breakfastAdapter, lunchAdaoter, snacksAdapter, dinnerAdapter;
     ImageView ivBreakfast, ivLunch, ivSnacks, ivDinner, ivback, ivback1;
     TextView tvDate, tvTitle,tv_locationtxt,tv_locationsymbl;
-    String[] spinner1 = {"John", "Jobby", "Suresh", "Mahesh"};
+//    String[] spinner1 = {"John", "Jobby", "Suresh", "Mahesh"};
     Context context;
     RelativeLayout rl_location;
     private RelativeLayout tvWorkout,tvWorkout1,tvWorkout2,tvWorkout3;

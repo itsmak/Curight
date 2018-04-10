@@ -237,8 +237,9 @@ public class TrackDataFragment extends Fragment implements View.OnClickListener,
 
         try {
             JSONObject paramObject = new JSONObject();
-            paramObject.put(GOAL_ID, goal.getGoalid());
-            paramObject.put(GOAL, goal.getGoalid());
+            int uid = (int) Prefs.getLong("user_id",0);
+            paramObject.put("userid", uid);
+            paramObject.put("goal", goal_change_val);
             Log.d(TAG,"goal input:"+paramObject.toString());
             Call<ServerResponse<String>> call = client.setGoal(accessToken, paramObject.toString());
 

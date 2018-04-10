@@ -345,27 +345,41 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
             @Override
             public void onResponse(Call<ServerResponseDoctorByDC> call, Response<ServerResponseDoctorByDC> response) {
                 serverResponseDoctorByDC =(ServerResponseDoctorByDC) response.body();
-                String code = serverResponseDoctorByDC.getCode();
                 progressDialog.dismiss();
-                Dialog dialog = new Dialog(mContext);
-                dialog.setContentView(R.layout.dialog_doctorbydc_main);
-                recyclerView = (RecyclerView)dialog.findViewById(R.id.recycler_view_doctotbydc);
-                if ("200".equals(code)) {
-                    for (int i = 0; i < serverResponseDoctorByDC.getResults().size(); i++) {
-                        doctorByDC=serverResponseDoctorByDC.getResults().get(i);
-                        doctorByDCArrayList.add(doctorByDC);
+                if (response.body() != null) {
+
+
+                    String code = serverResponseDoctorByDC.getCode();
+                    Dialog dialog = new Dialog(mContext);
+                    dialog.setCancelable(true);
+
+                    dialog.setContentView(R.layout.dialog_doctorbydc_main);
+                    recyclerView = (RecyclerView) dialog.findViewById(R.id.recycler_view_doctotbydc);
+                    if ("200".equals(code)) {
+                        for (int i = 0; i < serverResponseDoctorByDC.getResults().size(); i++)
+                        {
+                            doctorByDC = serverResponseDoctorByDC.getResults().get(i);
+                            doctorByDCArrayList.add(doctorByDC);
+                        }
+
+                        myRecyclerAdapter_dialog = new MyRecyclerAdapter_Dialog(mContext, doctorByDCArrayList);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
+                        recyclerView.setAdapter(myRecyclerAdapter_dialog);
+
+                        //dialog.create();
+                        Window dialogWindow = dialog.getWindow();
+                        WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+                        dialogWindow.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
+
+                        lp.width = 900; // Width
+                        lp.height = 1500; // Height
+
+                        dialogWindow.setAttributes(lp);
+                        dialog.show();
+
                     }
-
-
-
-                    myRecyclerAdapter_dialog=new MyRecyclerAdapter_Dialog(mContext,doctorByDCArrayList);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
-                    recyclerView.setAdapter(myRecyclerAdapter_dialog);
-
-                    //dialog.create();
-                    dialog.show();
-
-
+                }else {
+                    Toast.makeText(mContext, "Sorry No Test Available", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -515,7 +529,7 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
 
                     lp.width = 900; // Width
                     lp.height = 450; // Height
-                    lp.alpha = 0.7f; // Transparency
+
                     dialogWindow.setAttributes(lp);
 
 
@@ -559,56 +573,59 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
         call.enqueue(new Callback<ServerResponsePhotosByDC>() {
             @Override
             public void onResponse(Call<ServerResponsePhotosByDC> call, Response<ServerResponsePhotosByDC> response) {
-                serverResponsePhotosByDC =(ServerResponsePhotosByDC) response.body();
-                String code = serverResponsePhotosByDC.getCode();
                 progressDialog.dismiss();
+             if (response.body() != null) {
+                 serverResponsePhotosByDC = (ServerResponsePhotosByDC) response.body();
+                 Log.d(TAG, "responce d " + response.body());
+                 String code = serverResponsePhotosByDC.getCode();
+                 Log.d(TAG, "responce d " + code);
+                 final Dialog dialog = new Dialog(mContext);
+                 dialog.setContentView(R.layout.activity_photosbydc);
 
 
-                    final Dialog dialog = new Dialog(mContext);
-                    dialog.setContentView(R.layout.activity_photosbydc);
+                 Hash_file_maps = new HashMap<String, String>();
+
+                 sliderLayout = (SliderLayout) dialog.findViewById(R.id.slider);
 
 
-                    Hash_file_maps = new HashMap<String, String>();
-
-                    sliderLayout = (SliderLayout)dialog.findViewById(R.id.slider);
-
-
-                if("200".equals(code)){
-                    for(int i=0; i<serverResponsePhotosByDC.getResults().size(); i++){
+                 if ("200".equals(code)) {
+                     for (int i = 0; i < serverResponsePhotosByDC.getResults().size(); i++) {
 
 
-                        String photos = serverResponsePhotosByDC.getResults().get(i).getPhotoname();
-                        Log.d("Photo Urls", photos);
+                         String photos = serverResponsePhotosByDC.getResults().get(i).getPhotoname();
+                         Log.d("Photo Urls", photos);
 
 
-                                Hash_file_maps.put("Android CupCake", photos);
+                         Hash_file_maps.put("Android CupCake", photos);
 
-                            for(String name : Hash_file_maps.keySet()){
+                         for (String name : Hash_file_maps.keySet()) {
 
-                                TextSliderView textSliderView = new TextSliderView(mContext);
-                                textSliderView
-                                        //.description(name)
-                                        .image(Hash_file_maps.get(name))
-                                        .setScaleType(BaseSliderView.ScaleType.Fit);
-                                //.setOnSliderClickListener((BaseSliderView.OnSliderClickListener) mContext);
+                             TextSliderView textSliderView = new TextSliderView(mContext);
+                             textSliderView
+                                     //.description(name)
+                                     .image(Hash_file_maps.get(name))
+                                     .setScaleType(BaseSliderView.ScaleType.Fit);
+                             //.setOnSliderClickListener((BaseSliderView.OnSliderClickListener) mContext);
                         /*textSliderView.bundle(new Bundle());
                         textSliderView.getBundle()
                                 .putString("extra",name);*/
-                                sliderLayout.addSlider(textSliderView);
-                            }
+                             sliderLayout.addSlider(textSliderView);
+                         }
 
 
-                    }
-                    sliderLayout.setPresetTransformer(SliderLayout.Transformer.Accordion);
-                    sliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-                    sliderLayout.setCustomAnimation(new DescriptionAnimation());
-                    sliderLayout.setDuration(3000);
-                   // sliderLayout.addOnPageChangeListener((ViewPagerEx.OnPageChangeListener) mContext);
+                     }
+                     sliderLayout.setPresetTransformer(SliderLayout.Transformer.Accordion);
+                     sliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+                     sliderLayout.setCustomAnimation(new DescriptionAnimation());
+                     sliderLayout.setDuration(3000);
+                     // sliderLayout.addOnPageChangeListener((ViewPagerEx.OnPageChangeListener) mContext);
 
 
-
-                    dialog.show();
-                }
+                     dialog.show();
+                 }
+             }else {
+                 Toast.makeText(mContext, "Sorry! No Test Available", Toast.LENGTH_SHORT).show();
+             }
             }
 
             @Override

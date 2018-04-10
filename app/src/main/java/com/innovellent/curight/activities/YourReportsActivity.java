@@ -71,7 +71,7 @@ public class YourReportsActivity extends AppCompatActivity implements SearchView
     String phnum;
     int position;
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.yourreportsmain);
         recyclerView_reports = (RecyclerView)findViewById(R.id.recycler_viewforreport);
@@ -113,9 +113,6 @@ public class YourReportsActivity extends AppCompatActivity implements SearchView
                 finish();
             }
         });
-
-
-
 
     }
 

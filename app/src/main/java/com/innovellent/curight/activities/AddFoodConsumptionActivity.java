@@ -127,6 +127,7 @@ public class AddFoodConsumptionActivity extends Activity {
     Retrofit retrofit;
     ArrayList<FoodConsumptionModel> food_arraylist = new ArrayList<FoodConsumptionModel>();
     ArrayList<FOOD_ITEM> food_details = new ArrayList<FOOD_ITEM>();
+    String finaldate;
     private Toolbar toolbar;
     private TextView tvTitle,tv_protein,tv_carbs,tv_fat,tv_fiber,tvTotalCal;
     private ImageView ivback1_consumption;
@@ -173,7 +174,23 @@ public class AddFoodConsumptionActivity extends Activity {
         sharedPrefService = SharedPrefService.getInstance();
         userId = sharedPrefService.getLong(USER_ID);
         accessToken = sharedPrefService.getString(ACCESS_TOKEN);
+        String month,day;
+        final Calendar c = Calendar.getInstance();
+        int monthnumbr = c.get(Calendar.MONTH)+1;
+        int daynumber = c.get(Calendar.DATE);
 
+        if (monthnumbr >= 1 && monthnumbr <= 9) {
+            month = "0" + monthnumbr;
+        } else {
+            month = monthnumbr + "";
+        }
+        if (daynumber >= 1 && daynumber <= 9) {
+            day = "0" + daynumber;
+        } else {
+            day = daynumber + "";
+        }
+        finaldate = c.get(Calendar.YEAR) +"-"+month+"-" +day;
+        et_date.setText(finaldate);
         et_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

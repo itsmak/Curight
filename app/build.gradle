@@ -60,5 +60,5 @@ dependencies {
     compile 'com.github.florent37:singledateandtimepicker:1.2.2'
     compile 'at.blogc:expandabletextview:1.0.5'
     compile 'com.squareup.okhttp3:logging-interceptor:3.8.0'
-
+    compile 'com.rengwuxian.materialedittext:library:2.1.4'
 }

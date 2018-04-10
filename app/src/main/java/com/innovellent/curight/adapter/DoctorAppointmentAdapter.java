@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.innovellent.curight.R;
 import com.innovellent.curight.model.DoctorList;
+import com.innovellent.curight.model.Report_FEED;
 
 import java.util.ArrayList;
 
@@ -27,16 +28,19 @@ public class DoctorAppointmentAdapter extends RecyclerView.Adapter<DoctorAppoint
 
     public static String sel_test_names = "";
     public static String sel_test_ids = "";
+    private final int position;
     Context mContext;
     String doctornumber, specialization, doctorname;
+    OnItemClickListener listener;
     private ArrayList<String> arrayList = new ArrayList<>();
     private ArrayList<DoctorList> doctorListArrayList;
 
-
-    public DoctorAppointmentAdapter(Context context, ArrayList<String> arrayList, ArrayList<DoctorList> testObjs) {
+    public DoctorAppointmentAdapter(Context context, ArrayList<String> arrayList, ArrayList<DoctorList> testObjs,int position,OnItemClickListener listener) {
         mContext = context;
         this.arrayList = arrayList;
         this.doctorListArrayList = testObjs;
+        this.position = position;
+        this.listener = listener;
     }
 
     @Override
@@ -48,7 +52,7 @@ public class DoctorAppointmentAdapter extends RecyclerView.Adapter<DoctorAppoint
     }
 
     @Override
-    public void onBindViewHolder(DoctorAppointmentAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(DoctorAppointmentAdapter.ViewHolder holder, final int position) {
 
         doctorname = doctorListArrayList.get(position).getDoctorname();
         specialization = doctorListArrayList.get(position).getSpecialization();
@@ -62,31 +66,25 @@ public class DoctorAppointmentAdapter extends RecyclerView.Adapter<DoctorAppoint
         holder.img_calldoctor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_CALL);
-                intent.setData(Uri.parse("tel:" + doctornumber));
-                if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                    // TODO: Consider calling
-                    //    ActivityCompat#requestPermissions
-                    // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for ActivityCompat#requestPermissions for more details.
-                    return;
-                }
-                mContext.startActivity(intent);
+                listener.onPhoneClick(doctorListArrayList.get(position),position);
             }
         });
     }
+
     public void filterlist(ArrayList<DoctorList> filteredlist) {
         doctorListArrayList=filteredlist;
         notifyDataSetChanged();
     }
+
     @Override
     public int getItemCount() {
         return doctorListArrayList.size();
     }
+    public interface OnItemClickListener {
 
+        void onPhoneClick(DoctorList item, int position);
+
+    }
 
     class ViewHolder extends RecyclerView.ViewHolder{
         TextView tv_doctorname,tv_specialization;

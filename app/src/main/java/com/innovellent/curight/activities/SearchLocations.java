@@ -203,7 +203,7 @@ public class SearchLocations extends AppCompatActivity implements GoogleApiClien
                             setTypeFilter(Place.TYPE_COUNTRY).setCountry("IN").build();
                     Intent intent =
                             new PlaceAutocomplete
-                                    .IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
+                                    .IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
                                     .setFilter(typeFilter)
                                     .build(SearchLocations.this);
 

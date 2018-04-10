@@ -109,25 +109,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationDrawerF
     ArrayList<PROFILE> spinnerList=new ArrayList<PROFILE>();
     SharedPreferences sharedPreferences;
     String source="";
-    /*private void AddBloodSugarRecords() {
-        addBloodSugarDialog = new AddBloodSugarDialog(this, new AddBloodSugarDialog.AddBloodSugarDialogClickListener() {
 
-
-            @Override
-            public void onSubmit() {
-                addBloodSugarDialog.dismiss();
-            }
-
-            @Override
-            public void onCancel() {
-                addBloodSugarDialog.dismiss();
-            }
-        });
-
-        addBloodSugarDialog.show();
-
-    }
-*/
     boolean doubleBackToExitPressedOnce = false;
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private CharSequence mTitle;
