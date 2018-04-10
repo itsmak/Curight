@@ -582,7 +582,6 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
                  final Dialog dialog = new Dialog(mContext);
                  dialog.setContentView(R.layout.activity_photosbydc);
 
-
                  Hash_file_maps = new HashMap<String, String>();
 
                  sliderLayout = (SliderLayout) dialog.findViewById(R.id.slider);

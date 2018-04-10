@@ -922,7 +922,7 @@ public class AddFoodConsumptionActivity extends Activity {
                     }
                 }, mYear, mMonth, mDay);
 
-
+        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
         datePickerDialog.show();
     }
 

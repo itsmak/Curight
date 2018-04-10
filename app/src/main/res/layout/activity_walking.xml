@@ -315,7 +315,7 @@
                     app:met_baseColor="#0056d3"
                     app:met_errorColor="#cccccc"
                     app:met_floatingLabel="normal"
-                    app:met_floatingLabelText="Time in Hr"
+                    app:met_floatingLabelText="Time in mints"
                     app:met_maxCharacters="2"
                     app:met_minCharacters="1"
                     app:met_primaryColor="#cccccc"

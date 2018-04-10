@@ -215,7 +215,57 @@ public class SearchLocations extends AppCompatActivity implements GoogleApiClien
                 }
             }
         });
+    tv_recent1.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Prefs.putString("location", tv_recent1.getText().toString());
 
+            tvLocation.setText(tv_recent1.getText().toString());
+            Intent mhome = new Intent(SearchLocations.this, HomeActivity.class);
+            startActivity(mhome);
+            finish();
+        }
+    });tv_recent2.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Prefs.putString("location", tv_recent2.getText().toString());
+
+            tvLocation.setText(tv_recent2.getText().toString());
+            Intent mhome = new Intent(SearchLocations.this, HomeActivity.class);
+            startActivity(mhome);
+            finish();
+        }
+    });tv_recent3.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Prefs.putString("location", tv_recent3.getText().toString());
+
+            tvLocation.setText(tv_recent3.getText().toString());
+            Intent mhome = new Intent(SearchLocations.this, HomeActivity.class);
+            startActivity(mhome);
+            finish();
+        }
+    });tv_recent4.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Prefs.putString("location", tv_recent4.getText().toString());
+
+            tvLocation.setText(tv_recent4.getText().toString());
+            Intent mhome = new Intent(SearchLocations.this, HomeActivity.class);
+            startActivity(mhome);
+            finish();
+        }
+    });tv_recent5.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Prefs.putString("location", tv_recent5.getText().toString());
+
+            tvLocation.setText(tv_recent5.getText().toString());
+            Intent mhome = new Intent(SearchLocations.this, HomeActivity.class);
+            startActivity(mhome);
+            finish();
+        }
+    });
 
     }
 

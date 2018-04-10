@@ -180,6 +180,7 @@ public class ExerciseFragment extends Fragment  implements View.OnClickListener 
         } else {
             day = daynumber + "";
         }
+
         finaldate = c.get(Calendar.YEAR) +"-"+month+"-" +day;
         tvDate.setText(finaldate);
         getFamilyProfiles(uid);
@@ -419,7 +420,7 @@ public class ExerciseFragment extends Fragment  implements View.OnClickListener 
                     }
                 }, mYear, mMonth, mDay);
 
-
+        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
         datePickerDialog.show();
     }
     public void getData(long userid,String selecteddate){

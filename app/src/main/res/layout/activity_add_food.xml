@@ -155,6 +155,7 @@
                                 android:layout_alignParentTop="true"
                                 android:layout_marginLeft="5dp"
                                 android:background="@null"
+                                android:editable="false"
                                 android:hint="Select unit"
                                 android:paddingRight="25dp"
                                 android:singleLine="true"
@@ -247,6 +248,7 @@
                                 android:editable="false"
                                 android:hint="Enter Date"
                                 android:paddingLeft="20dp"
+                                android:textSize="15sp"
                                 />
 
                             <View

@@ -310,7 +310,7 @@ public class AddExerciseActivity extends AppCompatActivity implements View.OnCli
                     }
                 }, mYear, mMonth, mDay);
 
-
+        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
         datePickerDialog.show();
     }
 

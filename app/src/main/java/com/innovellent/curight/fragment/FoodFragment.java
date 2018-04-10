@@ -383,7 +383,7 @@ public class FoodFragment extends Fragment implements View.OnClickListener {
                     }
                 }, mYear, mMonth, mDay);
 
-
+        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
         datePickerDialog.show();
     }
 
