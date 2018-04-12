@@ -2,6 +2,7 @@ package com.innovellent.curight.activities;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -9,14 +10,18 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -68,6 +73,7 @@ import com.innovellent.curight.model.ServerResponseTest;
 import com.innovellent.curight.model.Swimming;
 import com.innovellent.curight.utility.Config;
 import com.innovellent.curight.utility.Constants;
+import com.innovellent.curight.utility.DividerItemDecoration;
 import com.innovellent.curight.utility.SharedPrefService;
 import com.innovellent.curight.utility.Util;
 import com.github.mikephil.charting.data.Entry;
@@ -132,7 +138,7 @@ public class AddFoodConsumptionActivity extends Activity {
     private TextView tvTitle,tv_protein,tv_carbs,tv_fat,tv_fiber,tvTotalCal;
     private ImageView ivback1_consumption;
     private JSONArray jsonArray;
-    private RecyclerView recyclerView;
+    private RecyclerView recyclerView,food_recycler;
     private Spinner itemSpinner, unitSpinner,sp_category;
     private Button btnSubmit, btnAdd;
     private int mYear, mMonth, mDay;
@@ -424,54 +430,77 @@ public class AddFoodConsumptionActivity extends Activity {
                                     tv_fiber.setText("Fiber : "+String.valueOf(foodUnits.get(0).getFiber()));
                                     tvTotalCal.setText("Total Calories : "+String.valueOf(foodUnits.get(0).getCalories()));
                                 }else {
-                                    rv_add_unit.setVisibility(View.VISIBLE);
+
+                                    final Dialog dialog = new Dialog(AddFoodConsumptionActivity.this);
+                                    dialog.setCancelable(true);
+                                    dialog.setContentView(R.layout.dialog_add_foodunit);
+                                    food_recycler = (RecyclerView) dialog.findViewById(R.id.recycler_view_foodunit);
+                                    dialog.setCancelable(false);
                                     unit_adapter = new FoodunitAdapter(AddFoodConsumptionActivity.this, foodUnits, position, new FoodunitAdapter.OnFoodunitClickListener() {
                                         @Override
                                         public void onfoodunitselect(FoodUnit_Feed item_f, int position) {
-
-                                            et_unit.setText(item_f.getUnit());
-                                            Prefs.putString("FOODUNIT",item_f.getUnit());
-                                            rv_add_unit.setVisibility(View.GONE);
-                                            yvalues = new ArrayList<Entry>();
-                                            yvalues.add(new Entry(item_f.getCarbs(), 0));
-                                            yvalues.add(new Entry(item_f.getProtein(), 1));
-                                            yvalues.add(new Entry(item_f.getFat(), 2));
-                                            yvalues.add(new Entry(item_f.getFiber(), 3));
-                                           // yvalues.add(new Entry(item_f.getCalories(), 4));
-
-                                            PieDataSet dataSet = new PieDataSet(yvalues, "Calorie Results");
-                                            xVals = new ArrayList<String>();
-
-                                            xVals.add("Carbs");
-                                            xVals.add("Protien");
-                                            xVals.add("Fat");
-                                            xVals.add("Fiber");
-                                           // xVals.add("Calorie");
-
-                                            PieData data = new PieData(xVals, dataSet);
-                                            // In percentage Term
-                                            data.setValueFormatter(new PercentFormatter());
-                                            // Default value
-                                            //data.setValueFormatter(new DefaultValueFormatter(0));
-                                            dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
-                                            dataSet.setValueTextSize(10f);
-                                            dataSet.setValueTextColor(Color.DKGRAY);
-                                            pieChart_food.setDrawHoleEnabled(false);
-                                            pieChart_food.setRotationAngle(0);
-                                            pieChart_food.setRotationEnabled(true);
-                                            pieChart_food.setCenterTextSize(8f);
-                                            pieChart_food.setData(data);
-                                            Prefs.putInt("FOODID",item_f.getFoodid());
-                                            Prefs.putInt("FOODCALORY",item_f.getCalories());
-                                            tv_protein.setText("Protien : "+String.valueOf(item_f.getProtein()));
-                                            tv_carbs.setText("Carbs : "+String.valueOf(item_f.getCarbs()));
-                                            tv_fat.setText("Fat : "+String.valueOf(item_f.getFat()));
-                                            tv_fiber.setText("Fiber : "+String.valueOf(item_f.getFiber()));
-                                            tvTotalCal.setText("Total Calories : "+String.valueOf(item_f.getCalories()));
+                                            dialog.dismiss();
                                         }
                                     });
-                                    rv_add_unit.setLayoutManager(new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false));
-                                    rv_add_unit.setAdapter(unit_adapter);
+
+                                    food_recycler.setItemAnimator(new DefaultItemAnimator());
+                                    food_recycler.addItemDecoration(new android.support.v7.widget.DividerItemDecoration(AddFoodConsumptionActivity.this, LinearLayoutManager.VERTICAL));
+                                    food_recycler.setLayoutManager(new LinearLayoutManager(AddFoodConsumptionActivity.this, LinearLayoutManager.VERTICAL, false));
+                                    food_recycler.setAdapter(unit_adapter);
+                                    Window dialogWindow = dialog.getWindow();
+                                    WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+                                    dialogWindow.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
+
+                                    dialogWindow.setAttributes(lp);
+                                    dialog.show();
+//                                    rv_add_unit.setVisibility(View.VISIBLE);
+//                                    unit_adapter = new FoodunitAdapter(AddFoodConsumptionActivity.this, foodUnits, position, new FoodunitAdapter.OnFoodunitClickListener() {
+//                                        @Override
+//                                        public void onfoodunitselect(FoodUnit_Feed item_f, int position) {
+//
+//                                            et_unit.setText(item_f.getUnit());
+//                                            Prefs.putString("FOODUNIT",item_f.getUnit());
+//                                            rv_add_unit.setVisibility(View.GONE);
+//                                            yvalues = new ArrayList<Entry>();
+//                                            yvalues.add(new Entry(item_f.getCarbs(), 0));
+//                                            yvalues.add(new Entry(item_f.getProtein(), 1));
+//                                            yvalues.add(new Entry(item_f.getFat(), 2));
+//                                            yvalues.add(new Entry(item_f.getFiber(), 3));
+//                                           // yvalues.add(new Entry(item_f.getCalories(), 4));
+//
+//                                            PieDataSet dataSet = new PieDataSet(yvalues, "Calorie Results");
+//                                            xVals = new ArrayList<String>();
+//
+//                                            xVals.add("Carbs");
+//                                            xVals.add("Protien");
+//                                            xVals.add("Fat");
+//                                            xVals.add("Fiber");
+//                                           // xVals.add("Calorie");
+//
+//                                            PieData data = new PieData(xVals, dataSet);
+//                                            // In percentage Term
+//                                            data.setValueFormatter(new PercentFormatter());
+//                                            // Default value
+//                                            //data.setValueFormatter(new DefaultValueFormatter(0));
+//                                            dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
+//                                            dataSet.setValueTextSize(10f);
+//                                            dataSet.setValueTextColor(Color.DKGRAY);
+//                                            pieChart_food.setDrawHoleEnabled(false);
+//                                            pieChart_food.setRotationAngle(0);
+//                                            pieChart_food.setRotationEnabled(true);
+//                                            pieChart_food.setCenterTextSize(8f);
+//                                            pieChart_food.setData(data);
+//                                            Prefs.putInt("FOODID",item_f.getFoodid());
+//                                            Prefs.putInt("FOODCALORY",item_f.getCalories());
+//                                            tv_protein.setText("Protien : "+String.valueOf(item_f.getProtein()));
+//                                            tv_carbs.setText("Carbs : "+String.valueOf(item_f.getCarbs()));
+//                                            tv_fat.setText("Fat : "+String.valueOf(item_f.getFat()));
+//                                            tv_fiber.setText("Fiber : "+String.valueOf(item_f.getFiber()));
+//                                            tvTotalCal.setText("Total Calories : "+String.valueOf(item_f.getCalories()));
+//                                        }
+//                                    });
+//                                    rv_add_unit.setLayoutManager(new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false));
+//                                    rv_add_unit.setAdapter(unit_adapter);
                                 }
 
                                 rv_add_food.setVisibility(View.GONE);

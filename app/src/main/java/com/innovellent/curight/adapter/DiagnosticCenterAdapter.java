@@ -536,7 +536,6 @@ public class DiagnosticCenterAdapter extends RecyclerView.Adapter<DiagnosticCent
                     dialog.show();
 
 
-
                     img.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
