@@ -33,6 +33,7 @@ import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.FamilyProfile;
 import com.innovellent.curight.model.Goal;
 import com.innovellent.curight.model.ServerResponse;
+import com.innovellent.curight.model.ServerResponseGoalnew;
 import com.innovellent.curight.utility.SharedPrefService;
 import com.pixplicity.easyprefs.library.Prefs;
 
@@ -282,15 +283,15 @@ public class TrackDataFragment extends Fragment implements View.OnClickListener,
             JSONObject paramObject = new JSONObject();
             paramObject.put(USER_ID, uid);
 
-            Call<ServerResponse<Goal>> call = client.getGoal(accessToken, paramObject.toString());
+            Call<ServerResponseGoalnew<Goal>> call = client.getGoal(accessToken, paramObject.toString());
 
-            call.enqueue(new Callback<ServerResponse<Goal>>() {
+            call.enqueue(new Callback<ServerResponseGoalnew<Goal>>() {
                 @Override
-                public void onResponse(Call<ServerResponse<Goal>> call, Response<ServerResponse<Goal>> response) {
+                public void onResponse(Call<ServerResponseGoalnew<Goal>> call, Response<ServerResponseGoalnew<Goal>> response) {
                     if (getActivity() != null) {
                         closeProgressDialog();
                         if (response.isSuccessful()) {
-                            ServerResponse<Goal> serverResponse = response.body();
+                            ServerResponseGoalnew<Goal> serverResponse = response.body();
                             if ((goal = serverResponse.getResults()) != null) {
                                 Log.d(TAG,"get Goal goal:"+goal.getGoal());
                                 Log.d(TAG,"get Goal burn:"+goal.getBurn());
@@ -311,7 +312,7 @@ public class TrackDataFragment extends Fragment implements View.OnClickListener,
                 }
 
                 @Override
-                public void onFailure(Call<ServerResponse<Goal>> call, Throwable t) {
+                public void onFailure(Call<ServerResponseGoalnew<Goal>> call, Throwable t) {
                     closeProgressDialog();
                 }
             });

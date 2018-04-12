@@ -71,6 +71,7 @@ import com.innovellent.curight.model.ServerResponseFood;
 import com.innovellent.curight.model.ServerResponseFoodCategory;
 import com.innovellent.curight.model.ServerResponseFoodItem;
 import com.innovellent.curight.model.ServerResponseGetTestDetail;
+import com.innovellent.curight.model.ServerResponseGoalnew;
 import com.innovellent.curight.model.ServerResponseLogin;
 import com.innovellent.curight.model.ServerResponseOffer;
 import com.innovellent.curight.model.ServerResponseOverviewByDC;
@@ -281,7 +282,7 @@ public interface ApiInterface {
 
     //Goal APIs    @Headers("Content-Type: application/json")
     @POST("goal/get")
-    Call<ServerResponse<Goal>> getGoal(@Header("x-access-token") String accessToken, @Body String requestBody);
+    Call<ServerResponseGoalnew<Goal>> getGoal(@Header("x-access-token") String accessToken, @Body String requestBody);
 
     @Headers("Content-Type: application/json")
     @POST("goal/update")
