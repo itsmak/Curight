@@ -228,6 +228,14 @@ public class TrackDataFragment extends Fragment implements View.OnClickListener,
                 sheetDialog.dismiss();
             }
         });
+        numberpicker.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                setGoal();
+                sheetDialog.dismiss();
+                return true;
+            }
+        });
 
     }
 
@@ -239,7 +247,7 @@ public class TrackDataFragment extends Fragment implements View.OnClickListener,
 
         try {
             JSONObject paramObject = new JSONObject();
-            int uid = (int) Prefs.getLong("user_id",0);
+            final int uid = (int) Prefs.getLong("user_id",0);
             paramObject.put("userid", uid);
             paramObject.put("goal", goal_change_val);
             Log.d(TAG,"goal input:"+paramObject.toString());
@@ -256,6 +264,7 @@ public class TrackDataFragment extends Fragment implements View.OnClickListener,
                                 Toast.makeText(getActivity(), "Goal set to " + goal_change_val, Toast.LENGTH_SHORT).show();
                                 tvMyGoal.setText(getString(R.string.my_goal_formatted, goal_change_val));
                                 tvGoalTop.setText(String.valueOf(goal_change_val));
+                                getGoal(uid);
                                 //tvConsumedNumber.setText();
                             }
                         } else {
