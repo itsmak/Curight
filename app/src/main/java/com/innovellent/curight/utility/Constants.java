@@ -9,7 +9,8 @@ public class Constants {
 
     //KEYs
     public static final String USER_ID = "userid";
-    public static final String ACCESS_TOKEN = "access_token";
+    public static final String ACCESS_TOKEN = "x-access-token: eyJraWQiOiJrMSIsImFsZyI6IlJTMjU2In0.eyJpc3MiOiJpbm5vdmVsbGVudCIsImV4cCI6MTUxMDMwMTcyMywianRpIjoiV3BGN2lBLTIxd2hnUnA2ajVkdVBJQSIsImlhdCI6MTUxMDI5OTkyMywibmJmIjoxNTEwMjk5ODAzLCJpZCI6bnVsbH0.oovLf8xn8qBZk99rLXlbvfhH226zzjM3DxmGRndP8q9wif1MW-rQAqnC4UiuUzgybg3R3sovh2ZctuuBkcZhsLl_yB1ZPV593PG9u4urhd9Js1t-Si3OWgJJZTs4KqmC-1OivOKOVgHLwYRcbyJD7y63eghBcvIt3cVLRuFBBtt_ov8tuwnH6tofyNmxI5Um0-zTKiVb93mw8zaP22HXwMUu7ZUfaojvVm3bkEoyB8LuoR3Ax6vGq3evSG_79NFJRdclr-2D3ihgg3Y_HHLQVXRO-Qo7-8ciGGILqBcjDB1Xd24gqncoUAVAc-q3H1quX6ZRYAv-ODZLj-ZgMI7t8g";
+
     public static final String GOAL_ID = "goalid";
     public static final String GOAL = "goal";
     public static final String DATE = "date";

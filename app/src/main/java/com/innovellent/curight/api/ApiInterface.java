@@ -51,6 +51,7 @@ import com.innovellent.curight.model.Post_Body_calorie;
 import com.innovellent.curight.model.Post_Family_Update;
 import com.innovellent.curight.model.Post_MedReminderAdd;
 import com.innovellent.curight.model.Post_Profile_Update;
+import com.innovellent.curight.model.PostbodyGoal;
 import com.innovellent.curight.model.Profile_Response;
 import com.innovellent.curight.model.Registration_Response;
 import com.innovellent.curight.model.SearchingCenter;
@@ -86,6 +87,7 @@ import com.innovellent.curight.model.TestBookingId;
 import com.innovellent.curight.model.TestingCenter;
 import com.innovellent.curight.model.UserIdStr;
 import com.innovellent.curight.model.VACCINE_UPDATE_RESPONSE;
+import com.innovellent.curight.utility.Constants;
 
 import java.util.List;
 
@@ -281,8 +283,9 @@ public interface ApiInterface {
     Call<ServerResponse<List<FamilyProfile>>> getFamilyProfiles(@Header("x-access-token") String accessToken, @Body String requestBody);
 
     //Goal APIs    @Headers("Content-Type: application/json")
+    @Headers(Constants.ACCESS_TOKEN)
     @POST("goal/get")
-    Call<ServerResponseGoalnew<Goal>> getGoal(@Header("x-access-token") String accessToken, @Body String requestBody);
+    Call<ServerResponseGoalnew> getGoal(@Body PostbodyGoal requestBody);
 
     @Headers("Content-Type: application/json")
     @POST("goal/update")

@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
 public class ServerResponseGoalnew<T>{
 
     @SerializedName("Code")
-    private Integer code;
+    private int code;
 
     @SerializedName("Results")
     private Goal results;

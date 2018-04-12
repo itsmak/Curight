@@ -32,6 +32,7 @@ import com.innovellent.curight.api.ApiClient;
 import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.FamilyProfile;
 import com.innovellent.curight.model.Goal;
+import com.innovellent.curight.model.PostbodyGoal;
 import com.innovellent.curight.model.ServerResponse;
 import com.innovellent.curight.model.ServerResponseGoalnew;
 import com.innovellent.curight.utility.SharedPrefService;
@@ -282,16 +283,17 @@ public class TrackDataFragment extends Fragment implements View.OnClickListener,
             Log.d(TAG,"get Goal userid:"+uid);
             JSONObject paramObject = new JSONObject();
             paramObject.put(USER_ID, uid);
+            PostbodyGoal postbodyGoal = new PostbodyGoal(uid);
 
-            Call<ServerResponseGoalnew<Goal>> call = client.getGoal(accessToken, paramObject.toString());
+            Call<ServerResponseGoalnew> call = client.getGoal(postbodyGoal);
 
-            call.enqueue(new Callback<ServerResponseGoalnew<Goal>>() {
+            call.enqueue(new Callback<ServerResponseGoalnew>() {
                 @Override
-                public void onResponse(Call<ServerResponseGoalnew<Goal>> call, Response<ServerResponseGoalnew<Goal>> response) {
+                public void onResponse(Call<ServerResponseGoalnew> call, Response<ServerResponseGoalnew> response) {
                     if (getActivity() != null) {
                         closeProgressDialog();
                         if (response.isSuccessful()) {
-                            ServerResponseGoalnew<Goal> serverResponse = response.body();
+                            ServerResponseGoalnew serverResponse = response.body();
                             if ((goal = serverResponse.getResults()) != null) {
                                 Log.d(TAG,"get Goal goal:"+goal.getGoal());
                                 Log.d(TAG,"get Goal burn:"+goal.getBurn());
@@ -312,7 +314,7 @@ public class TrackDataFragment extends Fragment implements View.OnClickListener,
                 }
 
                 @Override
-                public void onFailure(Call<ServerResponseGoalnew<Goal>> call, Throwable t) {
+                public void onFailure(Call<ServerResponseGoalnew> call, Throwable t) {
                     closeProgressDialog();
                 }
             });
