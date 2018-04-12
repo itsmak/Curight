@@ -66,6 +66,15 @@
                 android:textSize="22sp" />
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/tvConsumedNumber"
+                android:layout_toRightOf="@+id/tvConsumedNumber"
+                android:text="cal"
+                android:textColor="#cccccc"
+                android:textSize="10dp"/>
+
+            <TextView
                 android:id="@+id/tvConsumed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -99,7 +108,14 @@
                 android:layout_marginTop="10dp"
                 android:textColor="@color/fat"
                 android:textSize="22sp" />
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/tvBurnedNumber"
+                android:layout_toRightOf="@+id/tvBurnedNumber"
+                android:text="cal"
+                android:textColor="#cccccc"
+                android:textSize="10dp"/>
             <TextView
                 android:id="@+id/tvBurned"
                 android:layout_width="match_parent"
@@ -134,6 +150,15 @@
                 android:layout_marginTop="10dp"
                 android:textColor="@color/colorPrimary"
                 android:textSize="22sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/tvNetNumber"
+                android:layout_toRightOf="@+id/tvNetNumber"
+                android:text="cal"
+                android:textColor="#cccccc"
+                android:textSize="10dp"/>
 
             <TextView
                 android:id="@+id/tvNet"

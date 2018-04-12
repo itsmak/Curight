@@ -1,9 +1,11 @@
 package com.innovellent.curight.fragment;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -23,7 +25,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.innovellent.curight.MainActivity;
 import com.innovellent.curight.R;
 import com.innovellent.curight.activities.AddFoodConsumptionActivity;
 import com.innovellent.curight.adapter.BicyclingAdapter;
@@ -450,5 +454,28 @@ public class FoodFragment extends Fragment implements View.OnClickListener {
         int uid = (int) Prefs.getLong("user_id",0);
          getFoodConsumptions(uid,finaldate);
     }
+//    private void SingleChoice() {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+//        builder.setTitle("Single Choice");
+//        builder.setItems(selectFruit, new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                Toast.makeText(context,
+//                        selectFruit[which] + " Selected", Toast.LENGTH_LONG)
+//                        .show();
+//                dialog.dismiss();
+//            }
+//        });
+//        builder.setNegativeButton("cancel",
+//                new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                    }
+//                });
+//        AlertDialog alert = builder.create();
+//        alert.show();
+//    }
+
 }
 

@@ -254,7 +254,7 @@ public class TrackDataFragment extends Fragment implements View.OnClickListener,
                                 Toast.makeText(getActivity(), "Goal set to " + goal_change_val, Toast.LENGTH_SHORT).show();
                                 tvMyGoal.setText(getString(R.string.my_goal_formatted, goal_change_val));
                                 tvGoalTop.setText(String.valueOf(goal_change_val));
-
+                                //tvConsumedNumber.setText();
                             }
                         } else {
                             Toast.makeText(getActivity(), "Can't update goal to " + goal_change_val, Toast.LENGTH_SHORT).show();
@@ -278,6 +278,7 @@ public class TrackDataFragment extends Fragment implements View.OnClickListener,
         ApiInterface client = ApiClient.getClient();
 
         try {
+            Log.d(TAG,"get Goal userid:"+uid);
             JSONObject paramObject = new JSONObject();
             paramObject.put(USER_ID, uid);
 
@@ -291,6 +292,10 @@ public class TrackDataFragment extends Fragment implements View.OnClickListener,
                         if (response.isSuccessful()) {
                             ServerResponse<Goal> serverResponse = response.body();
                             if ((goal = serverResponse.getResults()) != null) {
+                                Log.d(TAG,"get Goal goal:"+goal.getGoal());
+                                Log.d(TAG,"get Goal burn:"+goal.getBurn());
+                                Log.d(TAG,"get Goal consumption:"+goal.getConsumption());
+                                Log.d(TAG,"get Goal goalpercentage:"+goal.getGoalpercentage());
                                 tvGoalTop.setText(String.valueOf(goal.getGoal()));
                                 tvMyGoal.setText(getString(R.string.my_goal_formatted, goal.getGoal()));
                                 tvBurnedNumber.setText(String.valueOf(goal.getBurn()));

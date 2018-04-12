@@ -13,14 +13,16 @@ public class Goal {
     private Long goal;
     private Long consumption;
     private Long burn;
+    private String goalpercentage;
     private Long modifiedby;
 
-    public Goal(Long goalid, String userid, Long goal, Long consumption, Long burn, Long modifiedby) {
+    public Goal(Long goalid, String userid, Long goal, Long consumption, Long burn, String goalpercentage, Long modifiedby) {
         this.goalid = goalid;
         this.userid = userid;
         this.goal = goal;
         this.consumption = consumption;
         this.burn = burn;
+        this.goalpercentage = goalpercentage;
         this.modifiedby = modifiedby;
     }
 
@@ -62,6 +64,14 @@ public class Goal {
 
     public void setBurn(Long burn) {
         this.burn = burn;
+    }
+
+    public String getGoalpercentage() {
+        return goalpercentage;
+    }
+
+    public void setGoalpercentage(String goalpercentage) {
+        this.goalpercentage = goalpercentage;
     }
 
     public Long getModifiedby() {
