@@ -23,6 +23,7 @@ import com.innovellent.curight.R;
 import com.innovellent.curight.activities.MedicineReminderSetActivity;
 import com.innovellent.curight.activities.ProfileActivity;
 import com.innovellent.curight.adapter.MedicineReminderAdapter;
+import com.innovellent.curight.adapter.REMAINDER_SPINNER_ADAPTER;
 import com.innovellent.curight.adapter.TRACK_SPINNER_ADAPTER;
 import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.ChangeEvngPrefrenseDialog;
@@ -74,7 +75,7 @@ public class MedicineReminderFragment extends Fragment implements View.OnClickLi
     ImageView ivReminder;
     String[]spinner1={"John","Jobby","Suresh","Mahesh"};
     ArrayList<PROFILE> spinnerList=new ArrayList<PROFILE>();
-    TRACK_SPINNER_ADAPTER customSpinnerAdapter3;
+    REMAINDER_SPINNER_ADAPTER customSpinnerAdapter3;
     int counter= 0;
     int position;
     Context context;
@@ -84,7 +85,7 @@ public class MedicineReminderFragment extends Fragment implements View.OnClickLi
     public void onAttach(Activity activity){
         super.onAttach(activity);
         context = getActivity();
-
+        getSpinnerData();
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -98,7 +99,7 @@ public class MedicineReminderFragment extends Fragment implements View.OnClickLi
 
         addCalendar(rootView);
         Log.d(TAG,"final date:"+FINAL_DATE);
-        getSpinnerData();
+
         rl_location.setVisibility(View.GONE);
         iv_home_icon.setImageResource(R.drawable.home_grey);
         iv_remainder_icon.setImageResource(R.drawable.remander_blue);
@@ -215,6 +216,7 @@ public class MedicineReminderFragment extends Fragment implements View.OnClickLi
         progressDialog = ProgressDialog.show(context, "Loading", "please wait", true, false);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
+        clearSpinnerData();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(new Config().SERVER_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -275,6 +277,14 @@ public class MedicineReminderFragment extends Fragment implements View.OnClickLi
             }
         });
     }
+
+    private void clearSpinnerData() {
+
+        customSpinnerAdapter3 = new REMAINDER_SPINNER_ADAPTER(getActivity(), spinnerList);
+        spinnerList.clear();
+        customSpinnerAdapter3.notifyDataSetChanged();
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -291,7 +301,7 @@ public class MedicineReminderFragment extends Fragment implements View.OnClickLi
     }
     public void getData2() {
 
-        customSpinnerAdapter3 = new TRACK_SPINNER_ADAPTER(getActivity(), spinnerList);
+        customSpinnerAdapter3 = new REMAINDER_SPINNER_ADAPTER(getActivity(), spinnerList);
         spItem.setAdapter(customSpinnerAdapter3);
         spItem.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

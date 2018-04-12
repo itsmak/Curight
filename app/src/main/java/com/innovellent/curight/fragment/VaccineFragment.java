@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.innovellent.curight.R;
+import com.innovellent.curight.adapter.REMAINDER_SPINNER_ADAPTER;
 import com.innovellent.curight.adapter.TRACK_SPINNER_ADAPTER;
 import com.innovellent.curight.adapter.VaccineAdapter;
 import com.innovellent.curight.api.ApiInterface;
@@ -66,7 +67,7 @@ public class VaccineFragment extends Fragment implements View.OnClickListener {
     AddRemainder_FRAGMENT_DAILOG vaccineadddailog;
     String USER_ID;
     Context context;
-    TRACK_SPINNER_ADAPTER customSpinnerAdapter3;
+    REMAINDER_SPINNER_ADAPTER customSpinnerAdapter3;
    //VaccineAddReminderDialog vaccineAddReminderDialog;
     ArrayList<Vaccine> arrayList = new ArrayList<Vaccine>();
     int position;
@@ -79,20 +80,25 @@ public class VaccineFragment extends Fragment implements View.OnClickListener {
     public void onAttach(Activity activity){
         super.onAttach(activity);
         context = getActivity();
-
+        Log.d(TAG,"calling spinner on attach ::");
+        getSpinnerData();
     }
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_vaccine, container, false);
         init(rootView);
-        getSpinnerData();
+     //   Log.d(TAG,"calling spinner oncreate ::");
+
         return rootView;
     }
 
     @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
     }
+
+
 
     public void init(View rootview) {
         remainder_rclrvw = (RecyclerView) rootview.findViewById(R.id.remainder_rclrvw);
@@ -120,7 +126,7 @@ public class VaccineFragment extends Fragment implements View.OnClickListener {
 
     public void getData2() {
 
-        customSpinnerAdapter3 = new TRACK_SPINNER_ADAPTER(getActivity(), spinnerList);
+        customSpinnerAdapter3 = new REMAINDER_SPINNER_ADAPTER(getActivity(), spinnerList);
         spYear.setAdapter(customSpinnerAdapter3);
         spYear.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -148,6 +154,7 @@ public class VaccineFragment extends Fragment implements View.OnClickListener {
         progressDialog = ProgressDialog.show(context, "Loading", "please wait", true, false);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
+        clearSpinnerData();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(new Config().SERVER_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -309,7 +316,12 @@ public class VaccineFragment extends Fragment implements View.OnClickListener {
         });
 
     }
+    private void clearSpinnerData() {
+        spinnerList.clear();
+        customSpinnerAdapter3 = new REMAINDER_SPINNER_ADAPTER(getActivity(), spinnerList);
 
+        customSpinnerAdapter3.notifyDataSetChanged();
+    }
     public void clearData() {
         mAdapter = new VaccineAdapter(getActivity(), arrayList, position, new VaccineAdapter.OnItemClickListener() {
             @Override

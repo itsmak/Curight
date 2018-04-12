@@ -472,10 +472,11 @@ public class MedicineReminderSetActivity extends AppCompatActivity implements Vi
                 how = spHow.getSelectedItem().toString();
             }
         }
-        if(etStrength.getText().toString().trim().equals("")){
-            etStrength.setError("Select Strength");
-            etStrength.requestFocus();
-        }else if (etDos.getText().toString().trim().equals(""))
+//        if(etStrength.getText().toString().trim().equals("")){
+//            etStrength.setError("Select Strength");
+//            etStrength.requestFocus();
+//        }else
+     if (etDos.getText().toString().trim().equals(""))
         {
             etDos.setError("Select a Dose");
             etDos.requestFocus();
@@ -511,7 +512,8 @@ public class MedicineReminderSetActivity extends AppCompatActivity implements Vi
                         .build();
 
                 ApiInterface apiInterface = retrofit.create(ApiInterface.class);
-                Post_MedReminderAdd postmedremainderadd = new Post_MedReminderAdd(1,0,tvSelectMedicine.getText().toString(),
+                int uid = (int) Prefs.getLong("spinner_id",0);
+                Post_MedReminderAdd postmedremainderadd = new Post_MedReminderAdd(uid,0,tvSelectMedicine.getText().toString(),
                 etStrength.getText().toString(),etDos.getText().toString(),how,tvDate.getText().toString(),durationday,durationtype,lifetime,
                 tvTimeMorning.getText().toString(),tvTimeNoon.getText().toString(),tvTimeEvening.getText().toString(),tvTimetNight.getText().toString(),etNotes.getText().toString());
                 Call<Registration_Response> call = apiInterface.createmedremainder(postmedremainderadd);
@@ -581,7 +583,8 @@ public class MedicineReminderSetActivity extends AppCompatActivity implements Vi
                             .build();
 
                     ApiInterface apiInterface = retrofit.create(ApiInterface.class);
-                    Post_MedReminderAdd postmedremainderadd = new Post_MedReminderAdd(1,0,tvSelectMedicine.getText().toString(),
+                    int uid = (int) Prefs.getLong("spinner_id",0);
+                    Post_MedReminderAdd postmedremainderadd = new Post_MedReminderAdd(uid,0,tvSelectMedicine.getText().toString(),
                             etStrength.getText().toString(),etDos.getText().toString(),how,tvDate.getText().toString(),durationday,durationtype,lifetime,
                             tvTimeMorning.getText().toString(),tvTimeNoon.getText().toString(),tvTimeEvening.getText().toString(),tvTimetNight.getText().toString(),etNotes.getText().toString());
                     Call<Registration_Response> call = apiInterface.createmedremainder(postmedremainderadd);

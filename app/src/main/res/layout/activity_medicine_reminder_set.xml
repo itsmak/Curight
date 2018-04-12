@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@android:color/white"
-    android:layout_height="match_parent">
+    android:orientation="vertical">
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
         app:contentInsetEnd="0dp"
         app:contentInsetLeft="5dp"
         app:contentInsetRight="0dp"
         app:contentInsetStart="0dp"
-        app:theme="@style/ToolbarStyle"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary">
+        app:theme="@style/ToolbarStyle">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -23,9 +23,9 @@
 
             <TextView
                 android:id="@+id/title"
-                android:layout_marginLeft="30dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
                 android:text="@string/medicineremindertitle"
                 android:textColor="@android:color/white"
                 android:textSize="20sp" />
@@ -38,20 +38,20 @@
 
 
 <ScrollView
-    android:layout_below="@+id/toolbar"
-    android:layout_above="@+id/llButton"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_above="@+id/llButton"
+    android:layout_below="@+id/toolbar">
     <LinearLayout
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
         <LinearLayout
+            android:id="@+id/llMedicineName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="10dp"
-            android:id="@+id/llMedicineName"
             android:weightSum="100">
 
             <TextView
@@ -59,24 +59,24 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="90"
-                android:text="@string/selectmedicine"
-                android:hint="@string/selectmedicine" />
+                android:hint="@string/selectmedicine"
+                android:text="@string/selectmedicine" />
 
             <ImageView
-                android:src="@drawable/right_arrow"
                 android:layout_width="0dp"
                 android:layout_height="15dp"
-                android:layout_weight="10" />
+                android:layout_weight="10"
+                android:src="@drawable/right_arrow" />
 
 
         </LinearLayout>
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
             android:layout_below="@id/llMedicineName"
-            android:background="@color/gray"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="1dp" />
+            android:background="@color/gray" />
     <LinearLayout
         android:id="@+id/llReminderTome"
         android:layout_width="match_parent"
@@ -95,6 +95,7 @@
                 android:id="@+id/tvTimeMorning"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
                 android:layout_marginLeft="5dp"
                 android:text=""
                 android:textAlignment="center"
@@ -105,9 +106,10 @@
                 android:id="@+id/ivMorning"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:layout_below="@+id/tv_time"
-                android:layout_marginLeft="25dp"
-                android:layout_marginTop="20dp"
+                android:layout_below="@+id/tvTimeMorning"
+                android:layout_centerHorizontal="true"
+
+                android:layout_marginTop="10dp"
               />
 
 
@@ -116,6 +118,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ivMorning"
+                android:layout_centerHorizontal="true"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="10dp"
                 android:text="Morning"
@@ -144,9 +147,10 @@
                 android:id="@+id/tvTimeNoon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
                 android:text=""
-                android:textColor="@color/graylight"
                 android:textAlignment="center"
+                android:textColor="@color/graylight"
                 android:textSize="10sp" />
 
             <ImageView
@@ -154,7 +158,7 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_below="@+id/tvTimeNoon"
-                android:layout_marginLeft="25dp"
+                android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
                />
 
@@ -163,6 +167,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ivNoon"
+                android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
                 android:text="Noon"
                 android:textAlignment="center"
@@ -186,22 +191,21 @@
             android:padding="5dp">
 
             <TextView
-                android:textSize="10sp"
                 android:id="@+id/tvTimeEvening"
                 android:layout_width="match_parent"
-                android:textAlignment="center"
                 android:layout_height="wrap_content"
-                android:text=""
                 android:layout_alignParentTop="true"
-                android:layout_alignLeft="@+id/tvEveninglabel"
-                android:layout_alignStart="@+id/tvEveninglabel" />
+                android:layout_centerHorizontal="true"
+                android:text=""
+                android:textAlignment="center"
+                android:textSize="10sp" />
 
             <ImageView
                 android:id="@+id/ivEvening"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_below="@+id/tvTimeEvening"
-                android:layout_marginLeft="25dp"
+                android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
                 />
 
@@ -209,13 +213,14 @@
                 android:id="@+id/tvEveninglabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="10sp"
-                android:textAlignment="center"
                 android:layout_below="@+id/ivEvening"
+                android:layout_centerHorizontal="true"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="10dp"
                 android:text="Evening"
-                android:textColor="@color/graylight" />
+                android:textAlignment="center"
+                android:textColor="@color/graylight"
+                android:textSize="10sp" />
 
 
         </RelativeLayout>
@@ -235,34 +240,34 @@
 
             <TextView
                 android:id="@+id/tvTimetNight"
-                android:textSize="10sp"
-                android:textAlignment="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=""
                 android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_centerHorizontal="true"
+                android:text=""
+                android:textAlignment="center"
+                android:textSize="10sp"/>
 
             <ImageView
                 android:id="@+id/ivNight"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_below="@+id/tvTimetNight"
-                android:layout_marginLeft="26dp"
+                android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
                 />
 
             <TextView
                 android:id="@+id/tvNightlabel"
-                android:textSize="10sp"
-                android:textColor="@color/graylight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ivNight"
-                android:textAlignment="center"
+                android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
-                android:text="Night" />
+                android:text="Night"
+                android:textAlignment="center"
+                android:textColor="@color/graylight"
+                android:textSize="10sp" />
 
 
 
@@ -281,89 +286,89 @@
             android:backgroundTint="#009343" />
 
         <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:background="@color/gray"
-        android:layout_width="match_parent"
-        android:layout_height="1dp" />
+        android:background="@color/gray" />
     <LinearLayout
-        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
         <EditText
             android:id="@+id/etStrength"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="50"
-            android:textSize="12sp"
-            android:hint="@string/strength"
             android:backgroundTint="@color/gray"
-            android:layout_height="wrap_content" />
+            android:hint="@string/strength"
+            android:textSize="12sp" />
         <EditText
             android:id="@+id/etDos"
-            android:textSize="12sp"
-            android:hint="@string/dos"
-            android:backgroundTint="@color/gray"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="50"
-            android:layout_height="wrap_content" />
+            android:backgroundTint="@color/gray"
+            android:hint="@string/dos"
+            android:textSize="12sp" />
 
     </LinearLayout>
 
 
     <RelativeLayout
-        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
         <TextView
             android:id="@+id/tvStartDate"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:text="@string/startdate"
-            android:layout_height="wrap_content" />
-        <ImageView
-            android:layout_toRightOf="@id/tvStartDate"
-            android:src="@mipmap/calendar"
-            android:id="@+id/iv_date"
-            android:layout_width="15dp"
-            android:layout_marginLeft="20dp"
-            android:layout_height="15dp" />
-        <TextView
-            android:layout_below="@+id/iv_date"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="6dp"
-            android:layout_toRightOf="@id/tvStartDate"
-            android:layout_marginRight="10dp"
-            android:background="@color/gray"
-            android:layout_width="100dp"
-            android:layout_height="1dp"
-            android:id="@+id/textView2" />
-
-        <TextView
-            android:layout_toRightOf="@id/iv_date"
-            android:id="@+id/tv_date"
-            android:layout_marginLeft="5dp"
-            android:paddingBottom="5dp"
-            android:text="Select Date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/startdate"
+            android:textStyle="bold" />
+        <ImageView
+            android:id="@+id/iv_date"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/tvStartDate"
+            android:src="@mipmap/calendar" />
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="100dp"
+            android:layout_height="1dp"
+            android:layout_below="@+id/iv_date"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="6dp"
+            android:layout_toRightOf="@id/tvStartDate"
+            android:background="@color/gray" />
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/textView2"
             android:layout_alignParentTop="true"
-            android:layout_alignBottom="@+id/textView2" />
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/iv_date"
+            android:paddingBottom="5dp"
+            android:text="Select Date" />
 
     </RelativeLayout>
     <TextView
-        android:text="@string/duration"
-        android:textStyle="bold"
-        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_marginTop="20dp"
+        android:text="@string/duration"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -375,27 +380,27 @@
 
         <RadioButton
             android:id="@+id/rbDuration"
-            android:layout_marginTop="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:backgroundTint="@color/colorPrimary"
             android:text="" />
         <Spinner
             android:id="@+id/spDays"
             style="@style/Widget.AppCompat.Spinner.Underlined"
-            android:backgroundTint="@color/gray"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
+            android:backgroundTint="@color/gray"
             />
 
         <Spinner
             android:id="@+id/spPeriod"
             style="@style/Widget.AppCompat.Spinner.Underlined"
-            android:backgroundTint="@color/gray"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
+            android:backgroundTint="@color/gray"
 
             />
 
@@ -419,42 +424,42 @@
         </LinearLayout>
 
     <TextView
-        android:text="@string/notes"
-        android:textStyle="bold"
-        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
-        android:textColor="@color/darkgray"
         android:layout_marginRight="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_marginTop="20dp"
+        android:text="@string/notes"
+        android:textColor="@color/darkgray"
+        android:textStyle="bold" />
     <EditText
         android:id="@+id/etNotes"
-        android:padding="20dp"
-        android:background="@drawable/border_rectangle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:background="@drawable/border_rectangle"
+        android:padding="20dp" />
 </LinearLayout>
 </ScrollView>
     <LinearLayout
         android:id="@+id/llButton"
-        android:layout_marginTop="10dp"
-        android:paddingBottom="10dp"
-        android:layout_alignParentBottom="true"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        android:paddingBottom="10dp">
         <Button
             android:id="@+id/btnSubmitmed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
             android:background="@drawable/button_ripple_effect"
-            android:textColor="@android:color/white"
             android:text="@string/save"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:textColor="@android:color/white" />
 
     </LinearLayout>
 

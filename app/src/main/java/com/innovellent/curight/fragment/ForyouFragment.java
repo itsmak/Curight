@@ -150,7 +150,7 @@ public class ForyouFragment  extends Fragment {
         int uid = (int) Prefs.getLong("user_id",0);
         Log.d(TAG,"Shared_profile_uid"+uid);
         ApiInterface reditapi = retrofit.create(ApiInterface.class);
-        Post_Body_Article post_body_article = new Post_Body_Article(1,articleCategory);
+        Post_Body_Article post_body_article = new Post_Body_Article(uid,articleCategory);
         Call<ServerResponseOffer> call = reditapi.getArticle(post_body_article);
         call.enqueue(new Callback<ServerResponseOffer>() {
             @Override
