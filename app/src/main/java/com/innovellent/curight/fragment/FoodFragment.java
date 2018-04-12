@@ -454,28 +454,7 @@ public class FoodFragment extends Fragment implements View.OnClickListener {
         int uid = (int) Prefs.getLong("user_id",0);
          getFoodConsumptions(uid,finaldate);
     }
-//    private void SingleChoice() {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-//        builder.setTitle("Single Choice");
-//        builder.setItems(selectFruit, new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                Toast.makeText(context,
-//                        selectFruit[which] + " Selected", Toast.LENGTH_LONG)
-//                        .show();
-//                dialog.dismiss();
-//            }
-//        });
-//        builder.setNegativeButton("cancel",
-//                new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.dismiss();
-//                    }
-//                });
-//        AlertDialog alert = builder.create();
-//        alert.show();
-//    }
+
 
 }
 
