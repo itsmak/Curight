@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.innovellent.curight.R;
@@ -69,6 +70,12 @@ public class DoctorAppointmentAdapter extends RecyclerView.Adapter<DoctorAppoint
                 listener.onPhoneClick(doctorListArrayList.get(position),position);
             }
         });
+        holder.rl_doctorlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onLayoutClick(doctorListArrayList.get(position),position);
+            }
+        });
     }
 
     public void filterlist(ArrayList<DoctorList> filteredlist) {
@@ -83,17 +90,20 @@ public class DoctorAppointmentAdapter extends RecyclerView.Adapter<DoctorAppoint
     public interface OnItemClickListener {
 
         void onPhoneClick(DoctorList item, int position);
+        void onLayoutClick(DoctorList item, int position);
 
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
         TextView tv_doctorname,tv_specialization;
         ImageView img_calldoctor;
+        RelativeLayout rl_doctorlist;
         public ViewHolder(View itemView) {
             super(itemView);
             tv_doctorname = (TextView) itemView.findViewById(R.id.tv_doctorname);
             tv_specialization = (TextView)itemView.findViewById(R.id.tv_specialization);
             img_calldoctor = (ImageView)itemView.findViewById(R.id.img_calldoctor);
+            rl_doctorlist = (RelativeLayout) itemView.findViewById(R.id.rl_doctorlist);
         }
     }
 }

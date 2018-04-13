@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_doctorlist"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -9,37 +10,37 @@
                 android:id="@+id/acount_imgvw"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/person"
-                android:layout_marginLeft="10dp"/>
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/person"/>
 
                 <TextView
                     android:id="@+id/tv_doctorname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="doctotname"
                     android:layout_alignTop="@+id/acount_imgvw"
                     android:layout_margin="5dp"
                     android:layout_toRightOf="@+id/acount_imgvw"
+                    android:text="doctotname"
                     android:textStyle="bold"
                     />
 
                 <TextView
+                    android:id="@+id/tv_specialization"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="specialization"
-                    android:layout_below="@+id/tv_doctorname"
                     android:layout_alignLeft="@+id/tv_doctorname"
-                    android:textSize="14sp"
-                    android:id="@+id/tv_specialization"/>
+                    android:layout_below="@+id/tv_doctorname"
+                    android:text="specialization"
+                    android:textSize="14sp"/>
 
 
                 <ImageView
+                    android:id="@+id/img_calldoctor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="5dp"
-                    android:id="@+id/img_calldoctor"
                     android:background="@drawable/callimage"/>
 
 

@@ -163,6 +163,7 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
         btnAddTest.setOnClickListener(this);
         startDate.setOnClickListener(this);
         endDate.setOnClickListener(this);
+
         ivCalendar1.setOnClickListener(this);
         ivCalendar.setOnClickListener(this);
         rl_enddate.setOnClickListener(this);
@@ -171,7 +172,8 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (!compoundButton.isChecked()) {
                     startDate.setClickable(false);
-                    endDate.setClickable(false);
+                    //endDate.setClickable(false);
+                    startDate.setText("");
                     mAdapter = new SummaryAdapter(SummaryDetailsActivity.this, summarylist,false);
                     recycler_view.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
                     recycler_view.setAdapter(mAdapter);
@@ -243,6 +245,7 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
 
         switch (v.getId()) {
 
+
             case R.id.btnProcceed:
 
 //                SharedPreferences sharedPreferences = getSharedPreferences("mypref", Context.MODE_PRIVATE);
@@ -303,11 +306,11 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
                 {
                     Calendar calendar = Calendar.getInstance();
 
-                    calendar.set(Calendar.DAY_OF_MONTH, 30);
-                    calendar.set(Calendar.MONTH, 0);
-                    calendar.set(Calendar.YEAR, 1991);
-                    calendar.set(Calendar.HOUR_OF_DAY, 11);
-                    calendar.set(Calendar.MINUTE, 13);
+//                    calendar.set(Calendar.DAY_OF_MONTH, 30);
+//                    calendar.set(Calendar.MONTH, 0);
+//                    calendar.set(Calendar.YEAR, 1991);
+//                    calendar.set(Calendar.HOUR_OF_DAY, 11);
+//                    calendar.set(Calendar.MINUTE, 13);
 
                     final Date defaultDate = calendar.getTime();
                     singleBuilder = new SingleDateAndTimePickerDialog.Builder(this)
@@ -350,11 +353,11 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
                 {
                     Calendar calendar = Calendar.getInstance();
 
-                    calendar.set(Calendar.DAY_OF_MONTH, 30);
-                    calendar.set(Calendar.MONTH, 0);
-                    calendar.set(Calendar.YEAR, 1991);
-                    calendar.set(Calendar.HOUR_OF_DAY, 11);
-                    calendar.set(Calendar.MINUTE, 13);
+//                    calendar.set(Calendar.DAY_OF_MONTH, 30);
+//                    calendar.set(Calendar.MONTH, 0);
+//                    calendar.set(Calendar.YEAR, 1991);
+//                    calendar.set(Calendar.HOUR_OF_DAY, 11);
+//                    calendar.set(Calendar.MINUTE, 13);
 
                     final Date defaultDate = calendar.getTime();
                     singleBuilder = new SingleDateAndTimePickerDialog.Builder(this)
@@ -401,11 +404,11 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
                {
                    Calendar calendar = Calendar.getInstance();
 
-                   calendar.set(Calendar.DAY_OF_MONTH, 30);
-                   calendar.set(Calendar.MONTH, 0);
-                   calendar.set(Calendar.YEAR, 1991);
-                   calendar.set(Calendar.HOUR_OF_DAY, 11);
-                   calendar.set(Calendar.MINUTE, 13);
+//                   calendar.set(Calendar.DAY_OF_MONTH, 30);
+//                   calendar.set(Calendar.MONTH, 0);
+//                   calendar.set(Calendar.YEAR, 1991);
+//                   calendar.set(Calendar.HOUR_OF_DAY, 11);
+//                   calendar.set(Calendar.MINUTE, 13);
 
                    final Date defaultDate = calendar.getTime();
                    singleBuilder = new SingleDateAndTimePickerDialog.Builder(this)
@@ -447,15 +450,15 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
 
                 break;
             case R.id.endDate:
-                if(cbHomePickup.isChecked())
-                {
+//                if(cbHomePickup.isChecked())
+//                {
                     Calendar calendar = Calendar.getInstance();
 
-                    calendar.set(Calendar.DAY_OF_MONTH, 30);
-                    calendar.set(Calendar.MONTH, 0);
-                    calendar.set(Calendar.YEAR, 1991);
-                    calendar.set(Calendar.HOUR_OF_DAY, 11);
-                    calendar.set(Calendar.MINUTE, 13);
+//                    calendar.set(Calendar.DAY_OF_MONTH, 30);
+//                    calendar.set(Calendar.MONTH, 0);
+//                    calendar.set(Calendar.YEAR, 1991);
+//                    calendar.set(Calendar.HOUR_OF_DAY, 11);
+//                    calendar.set(Calendar.MINUTE, 13);
 
                     final Date defaultDate = calendar.getTime();
                     singleBuilder = new SingleDateAndTimePickerDialog.Builder(this)
@@ -488,29 +491,29 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
                                 }
                             });
                     singleBuilder.display();
-                }else {
-                    Toast.makeText(SummaryDetailsActivity.this,"Select HomepickUp First",Toast.LENGTH_SHORT).show();
-                }
+//                }else {
+//                    Toast.makeText(SummaryDetailsActivity.this,"Select HomepickUp First",Toast.LENGTH_SHORT).show();
+//                }
                 break;
 
             case R.id.ivCalendar1:
-                if(cbHomePickup.isChecked())
-                {
-                    Calendar calendar = Calendar.getInstance();
+//                if(cbHomePickup.isChecked())
+//                {
+                    Calendar calendar1 = Calendar.getInstance();
 
-                    calendar.set(Calendar.DAY_OF_MONTH, 30);
-                    calendar.set(Calendar.MONTH, 0);
-                    calendar.set(Calendar.YEAR, 1991);
-                    calendar.set(Calendar.HOUR_OF_DAY, 11);
-                    calendar.set(Calendar.MINUTE, 13);
+//                    calendar1.set(Calendar.DAY_OF_MONTH, 30);
+//                    calendar1.set(Calendar.MONTH, 0);
+//                    calendar1.set(Calendar.YEAR, 1991);
+//                    calendar1.set(Calendar.HOUR_OF_DAY, 11);
+//                    calendar1.set(Calendar.MINUTE, 13);
 
-                    final Date defaultDate = calendar.getTime();
+                    final Date defaultDate1 = calendar1.getTime();
                     singleBuilder = new SingleDateAndTimePickerDialog.Builder(this)
 
                             .bottomSheet()
                             .curved()
 
-                            .defaultDate(defaultDate)
+                            .defaultDate(defaultDate1)
 
                             .mustBeOnFuture()
                             //.titleTextColor(Color.GREEN)
@@ -535,30 +538,30 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
                                 }
                             });
                     singleBuilder.display();
-                }else {
-                    Toast.makeText(SummaryDetailsActivity.this,"Select HomepickUp First",Toast.LENGTH_SHORT).show();
-                }
+//                }else {
+//                    Toast.makeText(SummaryDetailsActivity.this,"Select HomepickUp First",Toast.LENGTH_SHORT).show();
+//                }
                 break;
 
             case R.id.rl_enddate:
 
-                if(cbHomePickup.isChecked())
-                {
-                    Calendar calendar = Calendar.getInstance();
+//                if(cbHomePickup.isChecked())
+//                {
+                    Calendar calendar2 = Calendar.getInstance();
 
-                    calendar.set(Calendar.DAY_OF_MONTH, 30);
-                    calendar.set(Calendar.MONTH, 0);
-                    calendar.set(Calendar.YEAR, 1991);
-                    calendar.set(Calendar.HOUR_OF_DAY, 11);
-                    calendar.set(Calendar.MINUTE, 13);
+//                    calendar2.set(Calendar.DAY_OF_MONTH, 30);
+//                    calendar2.set(Calendar.MONTH, 0);
+//                    calendar2.set(Calendar.YEAR, 1991);
+//                    calendar2.set(Calendar.HOUR_OF_DAY, 11);
+//                    calendar2.set(Calendar.MINUTE, 13);
 
-                    final Date defaultDate = calendar.getTime();
+                    final Date defaultDate2 = calendar2.getTime();
                     singleBuilder = new SingleDateAndTimePickerDialog.Builder(this)
 
                             .bottomSheet()
                             .curved()
 
-                            .defaultDate(defaultDate)
+                            .defaultDate(defaultDate2)
 
                             .mustBeOnFuture()
                             //.titleTextColor(Color.GREEN)
@@ -625,9 +628,9 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
 //                                endDate.setText(String.valueOf(date));
 //                            }
 //                        }).display();
-                }else {
-                    Toast.makeText(SummaryDetailsActivity.this,"Select HomepickUp First",Toast.LENGTH_SHORT).show();
-                }
+//                }else {
+//                    Toast.makeText(SummaryDetailsActivity.this,"Select HomepickUp First",Toast.LENGTH_SHORT).show();
+//                }
                 break;
 
         }

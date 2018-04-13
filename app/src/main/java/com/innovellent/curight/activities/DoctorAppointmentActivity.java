@@ -2,6 +2,7 @@ package com.innovellent.curight.activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -16,9 +17,13 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.innovellent.curight.R;
@@ -59,6 +64,7 @@ public class DoctorAppointmentActivity extends AppCompatActivity {
     ArrayList<DoctorList> arrayList_doctorlist = new ArrayList<DoctorList>();
     DoctorList doctorList;
     int position;
+    TextView doctorname_doctorbydc,specialization_doctorbydc,tvemail_doctorbydc,tvtime_doctorbydc,tvmobile_doctorbydc,tvaddress_doctorbydc;
     private ProgressDialog progressDialog;
 
     @Override
@@ -174,6 +180,35 @@ public class DoctorAppointmentActivity extends AppCompatActivity {
                                     callIntent.setData(Uri.parse("tel:" + phnum));
                                     startActivity(callIntent);
                                 }
+                            }
+
+                            @Override
+                            public void onLayoutClick(DoctorList item, int position) {
+                                Dialog dialog = new Dialog(DoctorAppointmentActivity.this);
+                                dialog.setCancelable(true);
+
+                                dialog.setContentView(R.layout.doctor_details_dailog);
+
+                                doctorname_doctorbydc = (TextView) dialog.findViewById(R.id.doctorname_doctorbydc);
+                                specialization_doctorbydc = (TextView) dialog.findViewById(R.id.specialization_doctorbydc);
+                                tvemail_doctorbydc = (TextView) dialog.findViewById(R.id.tvemail_doctorbydc);
+                                tvtime_doctorbydc = (TextView) dialog.findViewById(R.id.tvtime_doctorbydc);
+                                tvmobile_doctorbydc = (TextView) dialog.findViewById(R.id.tvmobile_doctorbydc);
+                                tvaddress_doctorbydc = (TextView) dialog.findViewById(R.id.tvaddress_doctorbydc);
+
+                                doctorname_doctorbydc.setText(String.valueOf(item.getDoctorname()));
+                                specialization_doctorbydc.setText(String.valueOf(item.getSpecialization()));
+                                tvemail_doctorbydc.setText(String.valueOf(item.getEmail()));
+                                tvtime_doctorbydc.setText(String.valueOf(item.getWeekendworkingschedule()));
+                                tvmobile_doctorbydc.setText(String.valueOf(item.getMobile()));
+                                tvaddress_doctorbydc.setText(String.valueOf(item.getAddresscentre()));
+
+                                Window dialogWindow = dialog.getWindow();
+                                WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+                                dialogWindow.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
+
+                                dialogWindow.setAttributes(lp);
+                                dialog.show();
                             }
                         });
                         recycler_view_doctorappointment.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
