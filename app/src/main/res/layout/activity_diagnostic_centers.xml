@@ -47,20 +47,61 @@
             android:id="@+id/tv_sortby"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:text="Sort By:"
             android:textColor="#505254"
             android:textSize="14sp"
             />
-        <Spinner
-            android:id="@+id/spinner_sortby"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/tv_sortby"
-            android:padding="5dp">
 
-        </Spinner>
+        <RelativeLayout
+            android:id="@+id/rl_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/tv_sortby"
+            android:background="@drawable/border_rectangle">
+
+
+                <TextView
+                    android:id="@+id/spinner_sortby"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:background="@null"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:singleLine="true"
+                    android:text="None"
+                    android:textColor="#505254"
+                    android:textSize="14sp"/>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/arrow_down"
+                    android:rotation="360" />
+
+        </RelativeLayout>
+
+        <!--<EditText-->
+            <!--android:id="@+id/spinner_sortby"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:editable="false"-->
+            <!--android:text="None"-->
+            <!--style="?android:attr/spinnerStyle"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_toRightOf="@+id/tv_sortby"-->
+            <!--android:padding="5dp">-->
+            <!---->
+        <!--</EditText>-->
+
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView

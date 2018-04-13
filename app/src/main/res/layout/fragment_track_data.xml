@@ -204,7 +204,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:lineSpacingExtra="2sp"
-        android:text="75 %"
+        android:text=""
         android:textColor="#4BFF31"
         android:textSize="20sp" />
 

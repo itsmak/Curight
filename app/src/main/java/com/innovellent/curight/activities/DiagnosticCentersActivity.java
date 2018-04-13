@@ -1,27 +1,37 @@
 package com.innovellent.curight.activities;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.innovellent.curight.R;
 import com.innovellent.curight.adapter.DiagnosticCenterAdapter;
+import com.innovellent.curight.adapter.SortSpinnerAdapter;
 import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.Center;
 import com.innovellent.curight.model.DiagnosticCentre;
 import com.innovellent.curight.model.ServerResponseDiagCenter;
+import com.innovellent.curight.model.SortBy_Item;
 import com.innovellent.curight.model.TestDetail;
 import com.innovellent.curight.utility.Config;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -42,16 +52,21 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class DiagnosticCentersActivity extends AppCompatActivity implements View.OnClickListener{
     private static final String TAG = "CuRight";
-    RecyclerView recycler_view;
+    RecyclerView recycler_view,recycler_view_sortby;
     DiagnosticCenterAdapter mAdapter;
     ImageView ivBack;
     Toolbar toolbar;
+    TextView niceSpinner;
+    RelativeLayout rl_spinner;
     ServerResponseDiagCenter diagCenterByTest;
     TestDetail testDetail;
     Center center;
+    SortSpinnerAdapter sortadapter;
     char newtest_id [];
     ArrayList<Center> centerObjs = new ArrayList<Center>();
     String list[]={"None","Low to High","High to Low","Rating"};
+    int position;
+    ArrayList<SortBy_Item> sortitem = new ArrayList<>();
     private String test_ids="";
     private String dianosticcentre_id;
     private int integer_diagnostic_id;
@@ -107,31 +122,82 @@ public class DiagnosticCentersActivity extends AppCompatActivity implements View
             integer_diagnostic_id = Integer.parseInt(dianosticcentre_id);
             finaltext_id ="0";
         }
-        Spinner niceSpinner = (Spinner) findViewById(R.id.spinner_sortby);
-        final List<String> sortvalue = new ArrayList<String>();
-        sortvalue.add("None");
-        sortvalue.add("LowToHigh");
-        sortvalue.add("HighToLow");
-        sortvalue.add("popularity");
-
-        // Creating adapter for spinner
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, sortvalue);
-        // Drop down layout style - list view with radio button
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        niceSpinner = (TextView) findViewById(R.id.spinner_sortby);
+        getData(integer_diagnostic_id,finaltext_id,"None");
+//        final List<String> sortvalue = new ArrayList<String>();
+//        sortvalue.add("None");
+//        sortvalue.add("LowToHigh");
+//        sortvalue.add("HighToLow");
+//        sortvalue.add("popularity");
+//
+//        // Creating adapter for spinner
+//        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, sortvalue);
+//        // Drop down layout style - list view with radio button
+//        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // attaching data adapter to spinner
-        niceSpinner.setAdapter(dataAdapter);
+ //       niceSpinner.setAdapter(dataAdapter);
         //niceSpinner.setAdapter();
        // getData(integer_diagnostic_id,finaltext_id,"none");
-        niceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+ //       niceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+ //           @Override
+ //           public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+ //               getData(integer_diagnostic_id,finaltext_id,sortvalue.get(position));
+ //           }
+
+//            @Override
+ //           public void onNothingSelected(AdapterView<?> parent) {
+
+  //          }
+ //       });
+        rl_spinner.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            public void onClick(View view) {
 
-                getData(integer_diagnostic_id,finaltext_id,sortvalue.get(position));
-            }
+                final Dialog dialog = new Dialog(DiagnosticCentersActivity.this);
+                dialog.setCancelable(true);
+                dialog.setContentView(R.layout.add_dailog_sortby);
+                recycler_view_sortby = (RecyclerView) dialog.findViewById(R.id.recycler_view_sortby);
+                dialog.setCancelable(true);
+                sortitem.clear();
+                SortBy_Item movie = new SortBy_Item("None");
+                sortitem.add(movie);
+                movie = new SortBy_Item("Price : LowToHigh");
+                sortitem.add(movie);
+                movie = new SortBy_Item("Price : HighToLow");
+                sortitem.add(movie);
+                movie = new SortBy_Item("popularity");
+                sortitem.add(movie);
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+                sortadapter = new SortSpinnerAdapter(DiagnosticCentersActivity.this, sortitem, position, new SortSpinnerAdapter.OnSpinnerClickListener() {
+                    @Override
+                    public void onspinneritemselect(SortBy_Item item_f, int position) {
+                       String sort_text;
+                       if(item_f.getSortBy().equalsIgnoreCase("Price : LowToHigh"))
+                       {
+                           sort_text = "LowToHigh";
+                       }else if(item_f.getSortBy().equalsIgnoreCase("Price : HighToLow"))
+                       {
+                           sort_text = "HighToLow";
+                       }else {
+                           sort_text = item_f.getSortBy();
+                       }
+                        niceSpinner.setText(sort_text);
+                        dialog.dismiss();
+                        getData(integer_diagnostic_id,finaltext_id,sort_text);
+                    }
+                });
+                recycler_view_sortby.setItemAnimator(new DefaultItemAnimator());
+                recycler_view_sortby.addItemDecoration(new android.support.v7.widget.DividerItemDecoration(DiagnosticCentersActivity.this, LinearLayoutManager.VERTICAL));
+                recycler_view_sortby.setLayoutManager(new LinearLayoutManager(DiagnosticCentersActivity.this, LinearLayoutManager.VERTICAL, false));
+                recycler_view_sortby.setAdapter(sortadapter);
+                sortadapter.notifyDataSetChanged();
+                Window dialogWindow = dialog.getWindow();
+                WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+                dialogWindow.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
 
+                dialogWindow.setAttributes(lp);
+                dialog.show();
             }
         });
 
@@ -151,6 +217,7 @@ public class DiagnosticCentersActivity extends AppCompatActivity implements View
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
         recycler_view=(RecyclerView)findViewById(R.id.recycler_view);
+        rl_spinner = (RelativeLayout) findViewById(R.id.rl_spinner);
     }
 
     public void getData(int integer_diagnostic_id, String newtest_id,String sortby){

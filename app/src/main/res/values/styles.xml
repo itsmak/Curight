@@ -8,7 +8,7 @@
         <item name="colorAccent">#0075b2</item>
     </style>
     <style name="ToolbarStyle" parent="AppTheme">
-        <!-- Customize color of navigation drawer icon and back arrow -->
+        <!-- Customize color of navigation drawer icon and barrownwrrow -->
         <item name="android:homeAsUpIndicator">@drawable/ic_arrow_back</item>
     </style>
     <style name="AppTheme.NoActionBar">

@@ -59,7 +59,7 @@ public class TrackDataFragment extends Fragment implements View.OnClickListener,
     ArrayList<String> arrayList = new ArrayList<String>();
     TrackAdapter mAdapter;
     Spinner spUser;
-    TextView tvSave;
+    TextView tvSave,tv_text_minutes;
     NumberPicker numberpicker;
     ImageView ivAdd, ivback, ivback1;
     LinearLayout llCalariesBurned, llCaloriesConsumed;
@@ -157,6 +157,7 @@ public class TrackDataFragment extends Fragment implements View.OnClickListener,
         tvTitle = (TextView) getActivity().findViewById(R.id.tvTitle);
         iv_search = (ImageView) getActivity().findViewById(R.id.select_loc);
         ivback = (ImageView) getActivity().findViewById(R.id.ivback);
+        tv_text_minutes = (TextView) rootView.findViewById(R.id.tv_text_minutes);
         ivback1 = (ImageView) getActivity().findViewById(R.id.ivback1);
         circularProgressbar_starttest = (ProgressBar) rootView.findViewById(R.id.circularProgressbar_starttest);
         tvMyGoal = (TextView) rootView.findViewById(R.id.tvMyGoal);
@@ -308,15 +309,24 @@ public class TrackDataFragment extends Fragment implements View.OnClickListener,
                                 Log.d(TAG,"get Goal burn:"+goal.getBurn());
                                 Log.d(TAG,"get Goal consumption:"+goal.getConsumption());
                                 Log.d(TAG,"get Goal goalpercentage:"+goal.getGoalpercentage());
+
                                 tvGoalTop.setText(String.valueOf(goal.getGoal()));
                                 tvMyGoal.setText(getString(R.string.my_goal_formatted, goal.getGoal()));
                                 tvBurnedNumber.setText(String.valueOf(goal.getBurn()));
                                 tvConsumedNumber.setText(String.valueOf(goal.getConsumption()));
-                                circularProgressbar_starttest.setProgress(75);
-                                ObjectAnimator animation = ObjectAnimator.ofInt (circularProgressbar_starttest, "progress", 0, 75); // see this max value coming back here, we animate towards that value
-                                animation.setDuration (2000); //in milliseconds
-                                animation.setInterpolator (new DecelerateInterpolator());
-                                animation.start ();
+                                if(goal.getGoalpercentage().equals(""))
+                                {
+
+                                }else {
+                                    int goal_percentage = Integer.parseInt(goal.getGoalpercentage());
+                                    tv_text_minutes.setText(String.valueOf(goal_percentage)+"%");
+                                    circularProgressbar_starttest.setProgress(goal_percentage);
+                                    ObjectAnimator animation = ObjectAnimator.ofInt (circularProgressbar_starttest, "progress", 0, goal_percentage); // see this max value coming back here, we animate towards that value
+                                    animation.setDuration (2000); //in milliseconds
+                                    animation.setInterpolator (new DecelerateInterpolator());
+                                    animation.start ();
+                                }
+
                             }
                         }
                     }
