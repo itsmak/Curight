@@ -148,6 +148,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="57"
+                    android:editable="true"
+                    android:focusableInTouchMode="true"
+                    android:singleLine="true"
                     android:text=""
                     android:textColor="@color/darkgray" />
             </LinearLayout>
@@ -182,6 +185,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="57"
+                    android:editable="true"
+                    android:focusableInTouchMode="true"
+                    android:singleLine="true"
                     android:text="a@gmail.com"
                     android:textColor="@color/darkgray" />
             </LinearLayout>
@@ -216,7 +222,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="57"
-                    android:text="tttw"
+                    android:editable="true"
+                    android:focusableInTouchMode="true"
+                    android:singleLine="true"
+                    android:text=""
                     android:textColor="@color/darkgray" />
             </LinearLayout>
 
@@ -249,7 +258,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="57"
-                    android:text="434243232"
+                    android:editable="true"
+                    android:focusableInTouchMode="true"
+                    android:singleLine="true"
+                    android:text=""
                     android:textColor="@color/darkgray" />
             </LinearLayout>
 
@@ -283,6 +295,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="57"
+                    android:editable="true"
+                    android:focusableInTouchMode="true"
+                    android:singleLine="true"
                     android:text="AECS Layout bangalore"
                     android:textColor="@color/darkgray" />
             </LinearLayout>

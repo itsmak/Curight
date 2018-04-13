@@ -44,6 +44,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class PaymentDetailsActivity extends AppCompatActivity implements View.OnClickListener{
+    private static final String TAG = ".Curight";
     RecyclerView recycler_view,recycler_view1;
     PaymentDetailsAdapter mAdapter;
     ImageView ivBack,ivOnline,ivCash;
@@ -73,14 +74,26 @@ public class PaymentDetailsActivity extends AppCompatActivity implements View.On
             email = bundle.getString("email");
             name = bundle.getString("name");
             //if (Util.isEmpty(uid+"") || Util.isEmpty(email) || Util.isEmpty(name)) {
-                SharedPreferences sharedPreferences = getSharedPreferences("mypref", Context.MODE_PRIVATE);
-                uid = sharedPreferences.getLong("user_id",0L);
-                email = sharedPreferences.getString("email","");
-                mobile = sharedPreferences.getString("mobile","");
-                loc = sharedPreferences.getString("location","");
-                name = sharedPreferences.getString("user_name","");
+//                SharedPreferences sharedPreferences = getSharedPreferences("mypref", Context.MODE_PRIVATE);
+//                uid = sharedPreferences.getLong("user_id",0L);
+//                email = sharedPreferences.getString("email","");
+//                mobile = sharedPreferences.getString("mobile","");
+//                loc = sharedPreferences.getString("location","");
+//                name = sharedPreferences.getString("user_name","");
+//                Log.d(TAG,"Payment details email::"+email);
+//                Log.d(TAG,"Payment details mobile::"+mobile);
+//                Log.d(TAG,"Payment details loc::"+loc);
             //}
         }
+        SharedPreferences sharedPreferences = getSharedPreferences("mypref", Context.MODE_PRIVATE);
+        uid = sharedPreferences.getLong("user_id",0L);
+        email = sharedPreferences.getString("email","");
+        mobile = sharedPreferences.getString("mobile","");
+        loc = sharedPreferences.getString("location","");
+        name = sharedPreferences.getString("user_name","");
+        Log.d(TAG,"Payment details email::"+email);
+        Log.d(TAG,"Payment details mobile::"+mobile);
+        Log.d(TAG,"Payment details loc::"+loc);
         init();
         iniClick();
         getData();
