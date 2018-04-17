@@ -150,6 +150,15 @@
                             android:layout_marginTop="10dp"
                             android:src="@drawable/ic_insert_drive_file_black_24dp"/>
 
+                        <ImageView
+                            android:id="@+id/img_reportfileshare"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_below="@+id/img_reportfiledownload"
+                            android:layout_marginTop="10dp"
+                            android:src="@drawable/share_svg"/>
+
 
                     </RelativeLayout>
 

@@ -71,7 +71,7 @@ public class Add_CalBurned_Exersize extends Activity implements View.OnClickList
     TextView tv_title,tvBurned,tvSlow,tvMedium,tvFast,tvCustom,calsBurned;
     LinearLayout llTime, llDate;
     Toolbar toolbar;
-    EditText etSpeed,tvTextDate,tvTextTime,distanceCovered,atTime,tvSpeed;
+    EditText tvTextDate,tvTextTime,distanceCovered,atTime,tvSpeed;
     ImageView ivCustom,ivSlow,ivMedium,ivFast,ivback1_exersize;
     Button btnSubmit;
     String format;
@@ -104,10 +104,22 @@ public class Add_CalBurned_Exersize extends Activity implements View.OnClickList
             public void afterTextChanged(Editable editable) {
                 if(editable.length()>0)
                 {
-                    if(tvSpeed.getText().toString().equals(""))
+                    if((tvSpeed.getText().toString().equals(""))||(tvSpeed.getText().toString().length()<3))
                     {
-                        Toast.makeText(Add_CalBurned_Exersize.this,"Select the Speed First",Toast.LENGTH_SHORT).show();
-                        atTime.setText("");
+//                        Toast.makeText(Add_CalBurned_Exersize.this,"Select the Speed First",Toast.LENGTH_SHORT).show();
+//                        atTime.setText("");
+                        if(distanceCovered.getText().toString().equals("")){
+                            Toast.makeText(Add_CalBurned_Exersize.this,"Please enter Speed/Distance !",Toast.LENGTH_SHORT).show();
+                            atTime.setText("");
+                        }else {
+                            double distance_km = Double.parseDouble(distanceCovered.getText().toString());
+                            double time_mint = Double.parseDouble(atTime.getText().toString());
+                            double speed_kmhr = (distance_km/time_mint)*60;
+                            tvSpeed.setText(String.valueOf(speed_kmhr));
+                            int uid = (int) Prefs.getLong("user_id",0);
+                            getcaloriesapi(title,uid,editable.toString());
+                        }
+
                     }else {
                         int uid = (int) Prefs.getLong("user_id",0);
                         Log.d(TAG,"Shared_profile_uid"+uid);
@@ -206,7 +218,7 @@ public class Add_CalBurned_Exersize extends Activity implements View.OnClickList
         tvFast=(TextView)findViewById(R.id.tvFast);
         tvCustom=(TextView)findViewById(R.id.tvCustom);
         tvSpeed=(EditText) findViewById(R.id.tvSpeed);
-        etSpeed=(EditText)findViewById(R.id.etSpeed);
+ //       etSpeed=(EditText)findViewById(R.id.etSpeed);
         ivback1_exersize = (ImageView) findViewById(R.id.ivback1_exersize);
         llspeedselecttext = (LinearLayout) findViewById(R.id.llspeedselecttext);
         llspeedselecticon = (LinearLayout) findViewById(R.id.llspeedselecticon);
@@ -531,7 +543,7 @@ public class Add_CalBurned_Exersize extends Activity implements View.OnClickList
                 if(title.equalsIgnoreCase("walking"))
                 {activitytype ="walkingslow";}
                 tvSpeed.setText("1");
-                etSpeed.setVisibility(View.GONE);
+             //   etSpeed.setVisibility(View.GONE);
                 break;
             case R.id.ivMedium:
                 setColor();
@@ -539,7 +551,7 @@ public class Add_CalBurned_Exersize extends Activity implements View.OnClickList
                 if(title.equalsIgnoreCase("walking"))
                 {activitytype ="walkingmedium";}
                 tvSpeed.setVisibility(View.VISIBLE);
-                etSpeed.setVisibility(View.GONE);
+               // etSpeed.setVisibility(View.GONE);
                 break;
             case R.id.ivFast:
                 setColor();
@@ -547,12 +559,12 @@ public class Add_CalBurned_Exersize extends Activity implements View.OnClickList
                 if(title.equalsIgnoreCase("walking"))
                 {activitytype ="walkingfast";}
                 tvSpeed.setVisibility(View.VISIBLE);
-                etSpeed.setVisibility(View.GONE);
+                //etSpeed.setVisibility(View.GONE);
                 break;
             case R.id.ivCustom:
                 setColor();
-                etSpeed.setVisibility(View.VISIBLE);
-                tvSpeed.setVisibility(View.GONE);
+             //   etSpeed.setVisibility(View.VISIBLE);
+                tvSpeed.setVisibility(View.VISIBLE);
                 break;
 //            case R.id.llDate:
 //                selectDate();

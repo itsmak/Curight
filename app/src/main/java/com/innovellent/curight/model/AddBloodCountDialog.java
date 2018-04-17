@@ -44,8 +44,6 @@ public class AddBloodCountDialog extends Dialog {
 
     }
 
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);

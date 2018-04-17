@@ -106,7 +106,7 @@
                         android:hint="@string/AntiCPP"
                         android:inputType="number"
                         android:textAlignment="center"
-                        android:textSize="10sp" />
+                        android:textSize="9sp" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
@@ -228,7 +228,7 @@
                         android:hint="@string/Haemoglobin"
                         android:inputType="number"
                         android:textAlignment="center"
-                        android:textSize="10sp" />
+                        android:textSize="9sp" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
@@ -348,7 +348,7 @@
                         android:hint="@string/Platelet"
                         android:inputType="number"
                         android:textAlignment="center"
-                        android:textSize="10sp" />
+                        android:textSize="9sp" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="1dp"

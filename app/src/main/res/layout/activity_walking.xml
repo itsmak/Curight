@@ -43,7 +43,7 @@
                 android:textSize="20sp" />
 
 
-        </RelativeLayout>
+    </RelativeLayout>
 
     </android.support.v7.widget.Toolbar>
 
@@ -244,31 +244,37 @@
 
             </LinearLayout>
 
-            <EditText
+            <com.rengwuxian.materialedittext.MaterialEditText
                 android:id="@+id/tvSpeed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="30dp"
-                android:editable="false"
                 android:hint="Speed - Km/h"
+                android:maxLength="2"
                 android:textAlignment="center"
-                android:textColor="#8a8a8a" />
+                android:textColor="#8a8a8a"
+                app:met_baseColor="#0056d3"
+                app:met_floatingLabel="highlight"
+                app:met_floatingLabelText="Speed in Km/H"
+                app:met_maxCharacters="2"
+                app:met_minCharacters="1"
+                app:met_primaryColor="#0056d3" />
 
-            <EditText
-                android:id="@+id/etSpeed"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="100dp"
-                android:layout_marginRight="100dp"
-                android:layout_marginTop="20dp"
-                android:backgroundTint="@color/gray"
-                android:hint="Speed-Km/h"
-                android:textAlignment="center"
-                android:textColor="@color/darkgray"
-                android:textColorHint="@color/graylight"
-                android:textSize="12sp"
-                android:visibility="gone" />
+            <!--<EditText-->
+                <!--android:id="@+id/etSpeed"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="100dp"-->
+                <!--android:layout_marginRight="100dp"-->
+                <!--android:layout_marginTop="20dp"-->
+                <!--android:backgroundTint="@color/gray"-->
+                <!--android:hint="Speed-Km/h"-->
+                <!--android:textAlignment="center"-->
+                <!--android:textColor="@color/darkgray"-->
+                <!--android:textColorHint="@color/graylight"-->
+                <!--android:textSize="12sp"-->
+                <!--android:visibility="gone" />-->
 
             <LinearLayout
                 android:id="@+id/llEnter"
@@ -287,6 +293,7 @@
                     android:backgroundTint="@color/gray"
                     android:hint="Enter Distance"
                     android:inputType="number"
+                    android:maxLength="2"
                     android:singleLine="true"
                     android:textColor="@color/darkgray"
                     android:textSize="12sp"
@@ -309,6 +316,7 @@
                     android:backgroundTint="@color/gray"
                     android:hint="Enter Time Spent"
                     android:inputType="number"
+                    android:maxLength="3"
                     android:singleLine="true"
                     android:textColor="@color/darkgray"
                     android:textSize="12sp"

@@ -157,7 +157,7 @@ public class YourReportsAdapter extends RecyclerView.Adapter<YourReportsAdapter.
 
             }
         });
-        holder.img_reportfiledownload.setOnClickListener(new View.OnClickListener() {
+        holder.img_reportfileshare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
@@ -295,7 +295,7 @@ public class YourReportsAdapter extends RecyclerView.Adapter<YourReportsAdapter.
     class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView txt_day,txt_month,txt_diagonsticname,txt_reason,txt_doctorname,txt_doctornumber,txt_comments,txt_visitdate;
-        ImageView img_calldoctor_fromreport,img_delete_parentreport,img_reportfiledownload;
+        ImageView img_calldoctor_fromreport,img_delete_parentreport,img_reportfiledownload,img_reportfileshare;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -310,6 +310,8 @@ public class YourReportsAdapter extends RecyclerView.Adapter<YourReportsAdapter.
             //txt_visitdate = (TextView)itemView.findViewById(R.id.txt_visitdate);
             img_calldoctor_fromreport = (ImageView)itemView.findViewById(R.id.img_calldoctor_fromreport);
             img_delete_parentreport =(ImageView)itemView.findViewById(R.id.img_delete_parentreport);
+
+            img_reportfileshare =(ImageView)itemView.findViewById(R.id.img_reportfileshare);
         }
     }
 

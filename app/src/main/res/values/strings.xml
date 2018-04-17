@@ -173,17 +173,17 @@
     <string name="pulse1">Pulse</string>
 
     <string name="BCid">BCID</string>
-    <string name="AntiCPP">AntiCPP</string>
-    <string name="CRP">CRP</string>
-    <string name="ESR">ESR</string>
-    <string name="Haemoglobin">Haemoglobin</string>
-    <string name="HbA1c">HbA1c</string>
-    <string name="Prolactin">Prolactin</string>
+    <string name="AntiCPP">AntiCPP(U/mL)</string>
+    <string name="CRP">CRP(mg/L)</string>
+    <string name="ESR">ESR(mm/hr)</string>
+    <string name="Haemoglobin">Haemoglobin(g/dL)</string>
+    <string name="HbA1c">HbA1c(%)</string>
+    <string name="Prolactin">Prolactin(ng/mL)</string>
     <string name="INR">INR</string>
-    <string name="RBC">RBC</string>
-    <string name="RF">RF</string>
-    <string name="WBC">WBC</string>
-    <string name="Platelet">Platelet</string>
+    <string name="RBC">RBC(x10^12/L)</string>
+    <string name="RF">RF(U/mL)</string>
+    <string name="WBC">WBC(x10^9/L)</string>
+    <string name="Platelet">Platelet(x10^9/L)</string>
     <string name="cholestrol">Cholestrol</string>
     <string name="whr">WHR</string>
     <string name="waistcircumference">Waist Circumference\n(inches)</string>
