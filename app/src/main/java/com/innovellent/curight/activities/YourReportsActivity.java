@@ -260,6 +260,20 @@ public class YourReportsActivity extends AppCompatActivity implements SearchView
                                 startActivity(callIntent);
                             }
                         }
+
+                        @Override
+                        public void onFileClick(Report_FEED item, int position) {
+                            if((item.getReportfiletype().equals("pdf")||(item.getReportfiletype().equals("image"))))
+                            {
+                                Intent webint = new Intent(YourReportsActivity.this,WebViewActivity.class);
+                                Prefs.putString("resurcetype",item.getReportfiletype());
+                                Prefs.putString("resurceurl",item.getReportfilename());
+                                startActivity(webint);
+                            }else {
+                                Toast.makeText(YourReportsActivity.this, "This type of report cannot be viewed ", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
                     });
                     recyclerView_reports.setLayoutManager(new LinearLayoutManager(YourReportsActivity.this, LinearLayoutManager.VERTICAL, false));
                     recyclerView_reports.setAdapter(_adpater);

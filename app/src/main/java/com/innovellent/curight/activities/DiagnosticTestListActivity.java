@@ -257,7 +257,7 @@ public class DiagnosticTestListActivity extends AppCompatActivity{
         });
     }
 
-    public  void getalltest(int test_id)
+    public void getalltest(int test_id)
     {
         clearData();
         progressDialog = ProgressDialog.show(DiagnosticTestListActivity.this, "Loading", "please wait", true, false);

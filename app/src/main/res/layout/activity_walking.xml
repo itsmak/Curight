@@ -251,14 +251,12 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="30dp"
                 android:hint="Speed - Km/h"
-                android:maxLength="2"
+                android:inputType="numberDecimal"
                 android:textAlignment="center"
                 android:textColor="#8a8a8a"
                 app:met_baseColor="#0056d3"
                 app:met_floatingLabel="highlight"
                 app:met_floatingLabelText="Speed in Km/H"
-                app:met_maxCharacters="2"
-                app:met_minCharacters="1"
                 app:met_primaryColor="#0056d3" />
 
             <!--<EditText-->
@@ -292,8 +290,7 @@
                     android:layout_weight="50"
                     android:backgroundTint="@color/gray"
                     android:hint="Enter Distance"
-                    android:inputType="number"
-                    android:maxLength="2"
+                    android:inputType="numberDecimal"
                     android:singleLine="true"
                     android:textColor="@color/darkgray"
                     android:textSize="12sp"
@@ -301,8 +298,6 @@
                     app:met_errorColor="#cccccc"
                     app:met_floatingLabel="normal"
                     app:met_floatingLabelText="Distance in Km"
-                    app:met_maxCharacters="2"
-                    app:met_minCharacters="1"
                     app:met_primaryColor="#cccccc"
                     app:met_singleLineEllipsis="true" />
 
@@ -315,15 +310,15 @@
                     android:layout_weight="50"
                     android:backgroundTint="@color/gray"
                     android:hint="Enter Time Spent"
-                    android:inputType="number"
-                    android:maxLength="3"
+                    android:inputType="numberDecimal"
+
                     android:singleLine="true"
                     android:textColor="@color/darkgray"
                     android:textSize="12sp"
                     app:met_baseColor="#0056d3"
                     app:met_errorColor="#cccccc"
                     app:met_floatingLabel="normal"
-                    app:met_floatingLabelText="Time in mints"
+                    app:met_floatingLabelText="Time in minutes"
                     app:met_maxCharacters="2"
                     app:met_minCharacters="1"
                     app:met_primaryColor="#cccccc"

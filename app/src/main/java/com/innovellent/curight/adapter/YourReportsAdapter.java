@@ -70,13 +70,7 @@ public class YourReportsAdapter extends RecyclerView.Adapter<YourReportsAdapter.
         this.position = position;
     }
 
-//    public YourReportsAdapter(Context context, ArrayList<PatientReportsData> patientReportsDatas) {
-//        mContext = context;
-//        this.patientReportsDatas = patientReportsDatas;
-//        this.model = new ArrayList<PatientReportsData>();
-//        this.model.addAll(patientReportsDatas);
-//
-//    }
+
 
     public void filterlist(ArrayList<Report_FEED> filteredlist) {
         reportlist=filteredlist;
@@ -136,24 +130,16 @@ public class YourReportsAdapter extends RecyclerView.Adapter<YourReportsAdapter.
 
 //       ResizableCustomTextView.doResizeTextView(holder.txt_comments, MAX_LINES, "View More", true);
 
-
+        holder.img_reportfiledownload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.onFileClick(reportlist.get(position),position);
+            }
+        });
         holder.img_calldoctor_fromreport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 listener.onItemClick(reportlist.get(position),position);
-//                Intent intent = new Intent(Intent.ACTION_CALL);
-//                intent.setData(Uri.parse("tel:" + doctorno));
-//                if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-//                    // TODO: Consider calling
-//                    //    ActivityCompat#requestPermissions
-//                    // here to request the missing permissions, and then overriding
-//                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-//                    //                                          int[] grantResults)
-//                    // to handle the case where the user grants the permission. See the documentation
-//                    // for ActivityCompat#requestPermissions for more details.
-//                    return;
-//                }
-
 
             }
         });
@@ -270,25 +256,11 @@ public class YourReportsAdapter extends RecyclerView.Adapter<YourReportsAdapter.
 
 
 
-        // Filter Class
-//    public void filter(String charText) {
-//        charText = charText.toLowerCase(Locale.getDefault());
-//        reportlist.clear();
-//        if (charText.length() == 0) {
-//            patientReportsDatas.addAll(model);
-//        } else {
-//            for (PatientReportsData wp : model) {
-//                if (wp.getReason().toLowerCase(Locale.getDefault()).contains(charText)|| wp.getDiagnsticcentrename().toLowerCase(Locale.getDefault()).contains(charText)|| wp.getDoctorname().toLowerCase(Locale.getDefault()).contains(charText)) {
-//                   patientReportsDatas.add(wp);
-//                }
-//            }
-//        }
-//        notifyDataSetChanged();
-//    }
 
     public interface OnItemClickListener {
 
         void onItemClick(Report_FEED item,int position);
+        void onFileClick(Report_FEED item,int position);
 
     }
 

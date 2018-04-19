@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -35,6 +36,7 @@ import com.innovellent.curight.model.Result_CAl;
 import com.innovellent.curight.utility.Config;
 import com.pixplicity.easyprefs.library.Prefs;
 
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -88,6 +90,67 @@ public class Add_CalBurned_Exersize extends Activity implements View.OnClickList
         init();
         setupToolbar();
         iniClick();
+        tvSpeed.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+
+                if(atTime.getText().toString().equals(""))
+                {
+                    Toast.makeText(Add_CalBurned_Exersize.this, "Please enter Time", Toast.LENGTH_SHORT).show();
+
+//                   // atTime.requestFocus();
+
+                    InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    mgr.hideSoftInputFromWindow(tvSpeed.getWindowToken(), 0);
+
+                }else {
+                    double time_double = Double.parseDouble(atTime.getText().toString());
+                     if(tvSpeed.getText().toString().equals(""))
+                    {
+
+                    }else {
+                        double time_speed = Double.parseDouble(tvSpeed.getText().toString());
+                        double distance = (time_speed)*(time_double/60);
+                         DecimalFormat dff=new DecimalFormat(".##");
+                        distanceCovered.setText(String.valueOf(dff.format(distance)));
+//                        InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//                        mgr.hideSoftInputFromWindow(tvSpeed.getWindowToken(), 0);
+                    }
+
+                }
+
+
+                return false;
+            }
+        });
+        distanceCovered.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+
+                if(atTime.getText().toString().equals(""))
+                {
+                    Toast.makeText(Add_CalBurned_Exersize.this, "Please enter Time", Toast.LENGTH_SHORT).show();
+                    InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    mgr.hideSoftInputFromWindow(distanceCovered.getWindowToken(), 0);
+                    //  distanceCovered.setText("");
+                }else {
+                    if(distanceCovered.getText().toString().equals(""))
+                    {
+
+                    }else {
+                        double time_double = Double.parseDouble(atTime.getText().toString());
+                        double distance_double = Double.parseDouble(distanceCovered.getText().toString());
+                        double speed_double = (distance_double/time_double)*60;
+                        DecimalFormat dff=new DecimalFormat(".##");
+                        tvSpeed.setText(String.valueOf(dff.format(speed_double)));
+//                        InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//                        mgr.hideSoftInputFromWindow(tvSpeed.getWindowToken(), 0);
+                    }
+
+                }
+                return false;
+            }
+        });
 
         atTime.addTextChangedListener(new TextWatcher() {
             @Override
@@ -104,30 +167,14 @@ public class Add_CalBurned_Exersize extends Activity implements View.OnClickList
             public void afterTextChanged(Editable editable) {
                 if(editable.length()>0)
                 {
-                    if((tvSpeed.getText().toString().equals(""))||(tvSpeed.getText().toString().length()<3))
-                    {
-//                        Toast.makeText(Add_CalBurned_Exersize.this,"Select the Speed First",Toast.LENGTH_SHORT).show();
-//                        atTime.setText("");
-                        if(distanceCovered.getText().toString().equals("")){
-                            Toast.makeText(Add_CalBurned_Exersize.this,"Please enter Speed/Distance !",Toast.LENGTH_SHORT).show();
-                            atTime.setText("");
-                        }else {
-                            double distance_km = Double.parseDouble(distanceCovered.getText().toString());
-                            double time_mint = Double.parseDouble(atTime.getText().toString());
-                            double speed_kmhr = (distance_km/time_mint)*60;
-                            tvSpeed.setText(String.valueOf(speed_kmhr));
-                            int uid = (int) Prefs.getLong("user_id",0);
-                            getcaloriesapi(title,uid,editable.toString());
-                        }
 
-                    }else {
-                        int uid = (int) Prefs.getLong("user_id",0);
-                        Log.d(TAG,"Shared_profile_uid"+uid);
-                        InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                        mgr.hideSoftInputFromWindow(atTime.getWindowToken(), 0);
-                        getcaloriesapi(title,uid,editable.toString());
-                    }
-
+                    int uid = (int) Prefs.getLong("user_id",0);
+                    Log.d(TAG,"Shared_profile_uid"+uid);
+//                    InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//                    mgr.hideSoftInputFromWindow(atTime.getWindowToken(), 0);
+                    getcaloriesapi(title,uid,editable.toString());
+                    tvSpeed.setText("");
+                    distanceCovered.setText("");
                 }else {
                     tvBurned.setText("");
                 }
