@@ -70,49 +70,49 @@ public class ArticleFragment extends Fragment {
         cv_cartview1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Prefs.putString("ArticleCategory","health");
+               // Prefs.putString("ArticleCategory","health");
                 viewpager.setCurrentItem(1,true);
             }
         });
         cv_cartview2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Prefs.putString("ArticleCategory","health");
+             //   Prefs.putString("ArticleCategory","health");
                 viewpager.setCurrentItem(1,true);
             }
         });
         cv_cartview3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Prefs.putString("ArticleCategory","health");
+               // Prefs.putString("ArticleCategory","health");
                 viewpager.setCurrentItem(1,true);
             }
         });
         cv_cartview4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Prefs.putString("ArticleCategory","health");
+            //    Prefs.putString("ArticleCategory","health");
                 viewpager.setCurrentItem(1,true);
             }
         });
         cv_cartview5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Prefs.putString("ArticleCategory","health");
+            //    Prefs.putString("ArticleCategory","health");
                 viewpager.setCurrentItem(1,true);
             }
         });
         cv_cartview6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Prefs.putString("ArticleCategory","health");
+              //  Prefs.putString("ArticleCategory","health");
                 viewpager.setCurrentItem(1,true);
             }
         });
         cv_cartview7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Prefs.putString("ArticleCategory","health");
+            //    Prefs.putString("ArticleCategory","health");
                 viewpager.setCurrentItem(1,true);
             }
         });
