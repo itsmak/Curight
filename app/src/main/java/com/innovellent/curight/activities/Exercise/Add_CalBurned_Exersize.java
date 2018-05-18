@@ -2,6 +2,7 @@ package com.innovellent.curight.activities.Exercise;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -26,6 +27,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.innovellent.curight.R;
+import com.innovellent.curight.activities.DiagnosticTestListActivity;
 import com.innovellent.curight.activities.HomeActivity;
 import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.AddExerciseResponse;
@@ -79,6 +81,7 @@ public class Add_CalBurned_Exersize extends Activity implements View.OnClickList
     String format;
     LinearLayout llspeedselecttext,llspeedselecticon;
     private String title;
+    private ProgressDialog progressDialog;
     private StringBuilder date;
     private int mYear, mMonth, mDay;
     private int mHour, mMinute, mhour1, mhour2, mhour3, minute1, minute2, minute3, mSeconds, seconds1, seconds2, seconds3;
@@ -486,7 +489,7 @@ public class Add_CalBurned_Exersize extends Activity implements View.OnClickList
                     }
                 }, mYear, mMonth, mDay);
 
-
+        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
         datePickerDialog.show();
     }
 
@@ -641,15 +644,19 @@ public class Add_CalBurned_Exersize extends Activity implements View.OnClickList
             Toast.makeText(Add_CalBurned_Exersize.this,"Please enter Date",Toast.LENGTH_SHORT).show();
         }else if(tvTextTime.getText().toString().trim().equals("")){
             Toast.makeText(Add_CalBurned_Exersize.this,"Please enter Time",Toast.LENGTH_SHORT).show();
-        }else if(distanceCovered.getText().toString().trim().equals("")){
-            Toast.makeText(Add_CalBurned_Exersize.this,"Please enter Distance",Toast.LENGTH_SHORT).show();
-        }else if(atTime.getText().toString().trim().equals(""))
+        }
+//        else if(distanceCovered.getText().toString().trim().equals("")){
+//            Toast.makeText(Add_CalBurned_Exersize.this,"Please enter Distance",Toast.LENGTH_SHORT).show();
+//        }
+        else if(atTime.getText().toString().trim().equals(""))
         {
             Toast.makeText(Add_CalBurned_Exersize.this,"Please enter Time Spend",Toast.LENGTH_SHORT).show();
-        }else if(tvSpeed.getText().toString().trim().equals(""))
-        {
-            Toast.makeText(Add_CalBurned_Exersize.this,"Please select your speed",Toast.LENGTH_SHORT).show();
-        }else {
+        }
+//        else if(tvSpeed.getText().toString().trim().equals(""))
+//        {
+//            Toast.makeText(Add_CalBurned_Exersize.this,"Please select your speed",Toast.LENGTH_SHORT).show();
+//        }
+        else {
 
             if(calsBurned.getText().toString().trim().equals(""))
             {
@@ -665,7 +672,9 @@ public class Add_CalBurned_Exersize extends Activity implements View.OnClickList
 
     private void addapicall(String exercisetype,String calorie_burn) {
 
-
+        progressDialog = ProgressDialog.show(Add_CalBurned_Exersize.this, "Loading", "please wait", true, false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(new Config().SERVER_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -680,13 +689,15 @@ public class Add_CalBurned_Exersize extends Activity implements View.OnClickList
         }
       //  int uid = (int) Prefs.getLong("user_id",0);
         ApiInterface reditapi = retrofit.create(ApiInterface.class);
+        Log.d(TAG,"add exercize :"+ exercisetype);
         PostBodyAddExersize addexersize = new PostBodyAddExersize(String.valueOf(uid),exercisetype,tvTextDate.getText().toString(),atTime.getText().toString(),tvTextTime.getText().toString(),tvSpeed.getText().toString(),distanceCovered.getText().toString(),calorie_burn);
         Call<AddExerciseResponse> call = reditapi.createCalorie(addexersize);
         call.enqueue(new Callback<AddExerciseResponse>() {
             @Override
             public void onResponse(Call<AddExerciseResponse> call, Response<AddExerciseResponse> response) {
-
+                progressDialog.dismiss();
                 if(response.body()!=null) {
+                    Log.d(TAG,"add exercize response:"+ response.body());
                     Log.e(TAG, "ExersizeResponse: code: " + response.body().getCode());
 
                     if(response.body().getCode()==200)
@@ -703,7 +714,7 @@ public class Add_CalBurned_Exersize extends Activity implements View.OnClickList
 
             @Override
             public void onFailure(Call<AddExerciseResponse> call, Throwable t) {
-
+                progressDialog.dismiss();
             }
         });
 

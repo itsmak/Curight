@@ -132,6 +132,9 @@ public class DoctorAppointmentActivity extends AppCompatActivity {
             if (item.getDoctorname().toLowerCase().contains(text.toLowerCase())) {
                 filteredlist.add(item);
             }
+            if (item.getSpecialization().toLowerCase().contains(text.toLowerCase())) {
+                filteredlist.add(item);
+            }
         }
         doctorAppointmentAdapter.filterlist(filteredlist);
     }

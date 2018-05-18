@@ -6,47 +6,47 @@
     android:background="@android:color/white"
     android:orientation="horizontal"
     android:paddingBottom="15sp"
-    android:paddingLeft="10dp"
-    android:paddingRight="5dp"
     android:paddingTop="15sp"
     android:weightSum="100">
     <TextView
         android:id="@+id/tvTestName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="left"
         android:layout_weight="23"
+        android:paddingLeft="5dp"
+        android:singleLine="true"
         android:text="Test Name"
+        android:textAlignment="center"
         android:textColor="@color/darkgray"
         android:textSize="12sp" />
     <TextView
         android:id="@+id/tvHour"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:layout_marginLeft="5dp"
         android:layout_weight="23"
+        android:singleLine="true"
         android:text="2"
+        android:textAlignment="center"
         android:textColor="@color/darkgray"
         android:textSize="12sp" />
     <TextView
         android:id="@+id/tvDistance"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:layout_marginLeft="5dp"
         android:layout_weight="23"
+        android:singleLine="true"
         android:text="3"
+        android:textAlignment="center"
         android:textColor="@color/darkgray"
         android:textSize="12sp" />
     <TextView
         android:id="@+id/tvUnit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:layout_marginLeft="5dp"
         android:layout_weight="23"
+        android:singleLine="true"
         android:text="3"
+        android:textAlignment="center"
         android:textColor="@color/darkgray"
         android:textSize="12sp" />
 

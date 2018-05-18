@@ -99,38 +99,37 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_marginLeft="10dp"
                 android:layout_weight="23"
                 android:background="@color/colorPrimary"
                 android:text="@string/item"
+                android:textAlignment="center"
                 android:textColor="@android:color/white" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
                 android:layout_weight="23"
                 android:background="@color/colorPrimary"
                 android:text="@string/quantity"
+                android:textAlignment="center"
                 android:textColor="@android:color/white" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
                 android:layout_weight="23"
                 android:background="@color/colorPrimary"
                 android:text="@string/unit"
+                android:textAlignment="center"
                 android:textColor="@android:color/white" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
                 android:layout_weight="23"
                 android:background="@color/colorPrimary"
                 android:text="@string/cal"
+                android:textAlignment="center"
                 android:textColor="@android:color/white" />
 
             <TextView
@@ -151,7 +150,6 @@
             android:background="@android:color/holo_blue_dark"
             android:orientation="horizontal"
             android:paddingBottom="5dp"
-            android:paddingLeft="10dp"
             android:paddingRight="5dp"
             android:paddingTop="5dp"
             >
@@ -160,6 +158,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
+                android:layout_marginLeft="5dp"
+                android:paddingLeft="5dp"
                 android:text="@string/breakfast"
                 android:textColor="@android:color/white"
                 android:textSize="15sp"
@@ -188,7 +188,6 @@
             android:background="@android:color/holo_blue_dark"
             android:orientation="horizontal"
             android:paddingBottom="5dp"
-            android:paddingLeft="10dp"
             android:paddingRight="5dp"
             android:paddingTop="5dp"
             >
@@ -197,6 +196,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
+                android:layout_marginLeft="5dp"
+                android:paddingLeft="5dp"
                 android:text="@string/lunch"
                 android:textColor="@android:color/white"
                 android:textSize="15sp"
@@ -225,7 +226,6 @@
             android:background="@android:color/holo_blue_dark"
             android:orientation="horizontal"
             android:paddingBottom="5dp"
-            android:paddingLeft="10dp"
             android:paddingRight="5dp"
             android:paddingTop="5dp"
             >
@@ -234,6 +234,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
+                android:layout_marginLeft="5dp"
+                android:paddingLeft="5dp"
                 android:text="@string/snack"
                 android:textColor="@android:color/white"
                 android:textSize="15sp"
@@ -263,7 +265,6 @@
             android:background="@android:color/holo_blue_dark"
             android:orientation="horizontal"
             android:paddingBottom="5dp"
-            android:paddingLeft="10dp"
             android:paddingRight="5dp"
             android:paddingTop="5dp"
             >
@@ -272,6 +273,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
+                android:layout_marginLeft="5dp"
+                android:paddingLeft="5dp"
                 android:text="@string/dinner"
                 android:textColor="@android:color/white"
                 android:textSize="15sp"

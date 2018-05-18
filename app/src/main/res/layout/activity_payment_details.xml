@@ -150,6 +150,8 @@
                     android:layout_weight="57"
                     android:editable="true"
                     android:focusableInTouchMode="true"
+                    android:inputType="number"
+                    android:maxLength="10"
                     android:singleLine="true"
                     android:text=""
                     android:textColor="@color/darkgray" />
@@ -260,6 +262,8 @@
                     android:layout_weight="57"
                     android:editable="true"
                     android:focusableInTouchMode="true"
+                    android:inputType="number"
+                    android:maxLength="10"
                     android:singleLine="true"
                     android:text=""
                     android:textColor="@color/darkgray" />

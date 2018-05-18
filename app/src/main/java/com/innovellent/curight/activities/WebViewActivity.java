@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebView;
@@ -22,6 +23,7 @@ import uk.co.senab.photoview.PhotoViewAttacher;
  */
 
 public class WebViewActivity extends AppCompatActivity{
+    private static final String TAG = "Curight";
     WebView webview;
     ImageView imageView_res;
     ProgressBar progressbar;
@@ -66,6 +68,7 @@ public class WebViewActivity extends AppCompatActivity{
             webview.setVisibility(View.GONE);
             progressbar.setVisibility(View.GONE);
             imageView_res.setVisibility(View.VISIBLE);
+            Log.d(TAG,"resource url :"+resurceurl);
             Picasso.with(WebViewActivity.this).load(resurceurl).into(imageView_res);
         }
 

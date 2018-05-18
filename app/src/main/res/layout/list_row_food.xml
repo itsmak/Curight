@@ -4,13 +4,13 @@
     android:layout_height="wrap_content"
     android:background="@android:color/white"
     android:orientation="horizontal"
-    android:padding="7dp"
     android:weightSum="100">
     <TextView
         android:id="@+id/tvTestName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="25"
+        android:singleLine="true"
         android:text=""
         android:textAlignment="center"
         android:textColor="@color/darkgray" />
@@ -26,7 +26,7 @@
         android:id="@+id/tvDistance"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="30"
+        android:layout_weight="25"
         android:text=""
         android:textAlignment="center"
         android:textColor="@color/darkgray" />
@@ -34,7 +34,7 @@
         android:id="@+id/tvUnit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="20"
+        android:layout_weight="25"
         android:text=""
         android:textAlignment="center"
         android:textColor="@color/darkgray" />

@@ -263,7 +263,7 @@ public class YourReportsActivity extends AppCompatActivity implements SearchView
 
                         @Override
                         public void onFileClick(Report_FEED item, int position) {
-                            if((item.getReportfiletype().equals("pdf")||(item.getReportfiletype().equals("image"))))
+                            if((item.getReportfiletype().equalsIgnoreCase("pdf")||(item.getReportfiletype().equalsIgnoreCase("image"))))
                             {
                                 Intent webint = new Intent(YourReportsActivity.this,WebViewActivity.class);
                                 Prefs.putString("resurcetype",item.getReportfiletype());

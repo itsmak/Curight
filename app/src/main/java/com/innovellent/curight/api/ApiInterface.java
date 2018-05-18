@@ -48,6 +48,8 @@ import com.innovellent.curight.model.Post_Body_Article;
 import com.innovellent.curight.model.Post_Body_DoctorList;
 import com.innovellent.curight.model.Post_Body_Toggle;
 import com.innovellent.curight.model.Post_Body_calorie;
+import com.innovellent.curight.model.Post_Body_categryid;
+import com.innovellent.curight.model.Post_Body_searchfood;
 import com.innovellent.curight.model.Post_Family_Update;
 import com.innovellent.curight.model.Post_MedReminderAdd;
 import com.innovellent.curight.model.Post_Profile_Update;
@@ -61,6 +63,7 @@ import com.innovellent.curight.model.ServerResponseBloodCount;
 import com.innovellent.curight.model.ServerResponseBloodSugar;
 import com.innovellent.curight.model.ServerResponseBookedTest;
 import com.innovellent.curight.model.ServerResponseCalorie;
+import com.innovellent.curight.model.ServerResponseCategory;
 import com.innovellent.curight.model.ServerResponseConsumption;
 import com.innovellent.curight.model.ServerResponseCreateExercise;
 import com.innovellent.curight.model.ServerResponseDiagCenter;
@@ -114,19 +117,20 @@ public interface ApiInterface {
     @POST("test/gettestbyid")
     Call<ServerResponseTest> getTestByTestID(@Body TestingCenter testid);
 
-    @GET("food/getfoodwithmultipleunits")
-    Call<ServerResponseFoodCategory> getcategory();
-
     @POST("food/getaloriesbyfood")
     Call<ServerResponse_getCalories> getcaloriesbyid(@Body Post_Body_calorie doctorid);
 
     @GET("food/getfoodwithmultipleunits/{cat_id}")
     Call<ServerResponseFoodItem> getfooditem(@Path("cat_id") Long taskId);
 
+    @POST("food/get")
+    Call<ServerResponseFoodCategory> getcategory(@Body Post_Body_categryid catid);
+
+    @POST("food/getfoodwithmultipleunits")
+    Call<ServerResponseFoodCategory> getfoodbysearch(@Body Post_Body_searchfood catid);
+
     @POST("test/gettestbyid")
     Call<ServerResponseTest> getTestById(@Header("x-access-token") String x_access_token, @Body TestingCenter testingCenter);
-
-
 
     @GET("diagnosticcentre/getalldoctor")
     Call<ServerResponseDoctorAppointment> getAllDoctor();
@@ -291,10 +295,10 @@ public interface ApiInterface {
     @POST("goal/update")
     Call<ServerResponse<String>> setGoal(@Header("x-access-token") String x_access_token, @Body String requestBody);
 
-    //Food APIs
-//    @Headers("Content-Type: application/json")
-//    @GET("food/getfoodwithmultipleunits/1")
-//    Call<ServerResponse<List<FoodItem>>> getAllFoodItems(@Header("x-access-token") String x_access_token);
+//    Food APIs
+    @Headers("Content-Type: application/json")
+    @GET("food/category/get")
+    Call<ServerResponseCategory> getallfoodcategory();
 
     @Headers("Content-Type: application/json")
     @POST("foodconsumption/get")

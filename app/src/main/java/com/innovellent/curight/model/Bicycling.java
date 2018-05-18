@@ -7,14 +7,14 @@ package com.innovellent.curight.model;
 public class Bicycling {
     private Long exerciseid;
     private Long speed;
-    private Long distancecovered;
+    private String distancecovered;
     private Long caloriesburnt;
     private String exercisetype;
     private String exercisedate;
     private String exerciseat;
     private String exercisetime;
 
-    public Bicycling(Long exerciseid, Long speed, Long distancecovered, Long caloriesburnt, String exercisetype, String exercisedate, String exerciseat, String exercisetime) {
+    public Bicycling(Long exerciseid, Long speed, String distancecovered, Long caloriesburnt, String exercisetype, String exercisedate, String exerciseat, String exercisetime) {
         this.exerciseid = exerciseid;
         this.speed = speed;
         this.distancecovered = distancecovered;
@@ -41,11 +41,11 @@ public class Bicycling {
         this.speed = speed;
     }
 
-    public Long getDistancecovered() {
+    public String getDistancecovered() {
         return distancecovered;
     }
 
-    public void setDistancecovered(Long distancecovered) {
+    public void setDistancecovered(String distancecovered) {
         this.distancecovered = distancecovered;
     }
 

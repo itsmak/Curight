@@ -394,6 +394,7 @@
                 android:hint="@string/entercal"
                 android:inputType="number"
                 android:maxLines="1"
+                android:textAlignment="center"
                 android:textColor="@color/darkgray"
                 android:textSize="15sp" />
 

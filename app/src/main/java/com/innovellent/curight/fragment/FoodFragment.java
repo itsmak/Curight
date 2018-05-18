@@ -30,6 +30,7 @@ import android.widget.Toast;
 import com.innovellent.curight.MainActivity;
 import com.innovellent.curight.R;
 import com.innovellent.curight.activities.AddFoodConsumptionActivity;
+import com.innovellent.curight.activities.FoodConsumptionOld;
 import com.innovellent.curight.adapter.BicyclingAdapter;
 import com.innovellent.curight.adapter.LunchAdapter;
 import com.innovellent.curight.adapter.ProfileSpinnerAdapter;
@@ -402,45 +403,45 @@ public class FoodFragment extends Fragment implements View.OnClickListener {
                 selectDate();
                 break;
             case R.id.tvWorkout:
-                intent = new Intent(getActivity(), AddFoodConsumptionActivity.class);
+                intent = new Intent(getActivity(), FoodConsumptionOld.class);
                 intent.putExtra(TITLE, BREAKFAST);
                 startActivity(intent);
                 break;
             case R.id.ivBreakfast:
-                intent = new Intent(getActivity(), AddFoodConsumptionActivity.class);
+                intent = new Intent(getActivity(), FoodConsumptionOld.class);
                 intent.putExtra(TITLE, BREAKFAST);
                 startActivity(intent);
                 break;
 
             case R.id.tvWorkout1:
-                intent = new Intent(getActivity(), AddFoodConsumptionActivity.class);
+                intent = new Intent(getActivity(), FoodConsumptionOld.class);
                 intent.putExtra(TITLE, LUNCH);
                 startActivity(intent);
                 break;
             case R.id.ivLunch:
-                intent = new Intent(getActivity(), AddFoodConsumptionActivity.class);
+                intent = new Intent(getActivity(), FoodConsumptionOld.class);
                 intent.putExtra(TITLE, LUNCH);
                 startActivity(intent);
                 break;
 
             case R.id.tvWorkout3:
-                intent = new Intent(getActivity(), AddFoodConsumptionActivity.class);
+                intent = new Intent(getActivity(), FoodConsumptionOld.class);
                 intent.putExtra(TITLE, DINNER);
                 startActivity(intent);
                 break;
             case R.id.ivDinner:
-                intent = new Intent(getActivity(), AddFoodConsumptionActivity.class);
+                intent = new Intent(getActivity(), FoodConsumptionOld.class);
                 intent.putExtra(TITLE, DINNER);
                 startActivity(intent);
                 break;
 
             case R.id.ivSnacks:
-                intent = new Intent(getActivity(), AddFoodConsumptionActivity.class);
+                intent = new Intent(getActivity(), FoodConsumptionOld.class);
                 intent.putExtra(TITLE, SNACKS);
                 startActivity(intent);
                 break;
             case R.id.tvWorkout2:
-                intent = new Intent(getActivity(), AddFoodConsumptionActivity.class);
+                intent = new Intent(getActivity(), FoodConsumptionOld.class);
                 intent.putExtra(TITLE, SNACKS);
                 startActivity(intent);
                 break;
