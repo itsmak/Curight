@@ -1,6 +1,7 @@
 package com.innovellent.curight.api;
 
 import com.innovellent.curight.model.AddExerciseResponse;
+import com.innovellent.curight.model.Apply_Coupon_Pojo;
 import com.innovellent.curight.model.Auth;
 import com.innovellent.curight.model.BloodSugarDeletePojo;
 import com.innovellent.curight.model.BloodcountPojo;
@@ -65,6 +66,7 @@ import com.innovellent.curight.model.ServerResponseBookedTest;
 import com.innovellent.curight.model.ServerResponseCalorie;
 import com.innovellent.curight.model.ServerResponseCategory;
 import com.innovellent.curight.model.ServerResponseConsumption;
+import com.innovellent.curight.model.ServerResponseCoupon;
 import com.innovellent.curight.model.ServerResponseCreateExercise;
 import com.innovellent.curight.model.ServerResponseDiagCenter;
 import com.innovellent.curight.model.ServerResponseDoctorAppointment;
@@ -373,6 +375,14 @@ public interface ApiInterface {
     //get all medicine
     @GET("medreminder/medicine/get")
     Call<ServerResponsemedicine> getAllMedicine();
+
+    //get all coupon
+    @GET("copoun/get")
+    Call<ServerResponseCoupon> getAllcouponcode();
+
+    @Headers("x-access-token: hjjgkuykg")
+    @POST("copoun/checkstatus")
+    Call<ServerResponseCoupon> applycouponcode(@Body Apply_Coupon_Pojo userId);
 
     //create user
     @Headers("x-access-token: hjjgkuykg")

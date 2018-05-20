@@ -2,8 +2,10 @@ package com.innovellent.curight.activities;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,6 +15,7 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -43,6 +46,7 @@ public class Diagnostic_mapTracking extends FragmentActivity implements OnMapRea
     double final_latitude;
     ImageView iv_dcentre_back;
     double final_longitude;
+    RelativeLayout rl_direction_text;
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
 
@@ -51,6 +55,7 @@ public class Diagnostic_mapTracking extends FragmentActivity implements OnMapRea
         super.onCreate(savedInstanceState);
         setContentView(R.layout.diagnostic_centre_mapactivity);
         iv_dcentre_back = (ImageView)findViewById(R.id.iv_dcentre_back);
+        rl_direction_text = (RelativeLayout) findViewById(R.id.rl_direction_text);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.diagnostic_gmap);
@@ -71,6 +76,21 @@ public class Diagnostic_mapTracking extends FragmentActivity implements OnMapRea
             @Override
             public void onClick(View view) {
                 Diagnostic_mapTracking.super.onBackPressed();
+            }
+        });
+        rl_direction_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                double latitude = 12.456754;
+                double longitude = -77.54436;
+                String label = "Diagnostic Centre";
+                String uriBegin = "geo:" + latitude + "," + longitude;
+                String query = latitude + "," + longitude + "(" + label + ")";
+                String encodedQuery = Uri.encode(query);
+                String uriString = uriBegin + "?q=" + encodedQuery + "&z=16";
+                Uri uri = Uri.parse(uriString);
+                Intent mapIntent = new Intent(android.content.Intent.ACTION_VIEW, uri);
+                startActivity(mapIntent);
             }
         });
     }
@@ -104,7 +124,7 @@ public class Diagnostic_mapTracking extends FragmentActivity implements OnMapRea
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         mMap.getUiSettings().setRotateGesturesEnabled(true);
         mMap.addPolyline(new PolylineOptions().add(mylocation,buslocation).width(5).color(Color.BLUE).geodesic(true));
-        mMap.addMarker(new MarkerOptions().position(buslocation).title("Bus Location").icon(BitmapDescriptorFactory.fromResource(R.drawable.mapmarker)));
+        mMap.addMarker(new MarkerOptions().position(buslocation).title("Diagnostic Centre").icon(BitmapDescriptorFactory.fromResource(R.drawable.mapmarker)));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(buslocation));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
         //    Toast.makeText(SearchLocations.this,"lat : "+String.valueOf(location.getLatitude())+" and longitude ::"+String.valueOf(location.getLongitude()),Toast.LENGTH_SHORT).show();

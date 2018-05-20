@@ -1,5 +1,6 @@
 package com.innovellent.curight.activities;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,20 +17,26 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.innovellent.curight.R;
+import com.innovellent.curight.activities.Exercise.Add_CalBurned_Exersize;
 import com.innovellent.curight.adapter.PaymentDetailsAdapter;
 import com.innovellent.curight.api.ApiInterface;
 import com.innovellent.curight.model.AddDiscountDialog;
+import com.innovellent.curight.model.Apply_Coupon_Pojo;
 import com.innovellent.curight.model.BookedTest;
+import com.innovellent.curight.model.CouponRes;
 import com.innovellent.curight.model.Login;
 import com.innovellent.curight.model.PaymentDetails;
 import com.innovellent.curight.model.ServerResponseBookedTest;
+import com.innovellent.curight.model.ServerResponseCoupon;
 import com.innovellent.curight.model.TestBookingCreate;
 import com.innovellent.curight.model.TestBookingDetail;
 import com.innovellent.curight.utility.Config;
 import com.innovellent.curight.utility.Util;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.ArrayList;
 
@@ -58,6 +65,8 @@ public class PaymentDetailsActivity extends AppCompatActivity implements View.On
     Toolbar toolbar;
     String[]spinner1={"code"};
     TextView tvParentNamelabel,tvPhoneNo,tvEmailID,tvPayment,tvPayableAmount;
+    ArrayList<CouponRes> resultarray;
+    private ProgressDialog progressDialog;
     private Long test_booking_id;
     private String user_id,email,name,mobile,loc;
     private Long uid;
@@ -168,9 +177,9 @@ public class PaymentDetailsActivity extends AppCompatActivity implements View.On
 
             @Override
             public void onSubmit(String code) {
-
-                tvCode.setText(code);
-                addDiscountDialog.dismiss();
+                apply_couponCode(code);
+               // tvCode.setText(code);
+               // addDiscountDialog.dismiss();
             }
 
             @Override
@@ -183,6 +192,61 @@ public class PaymentDetailsActivity extends AppCompatActivity implements View.On
 
 
     }
+
+    private void apply_couponCode(String code) {
+        progressDialog = ProgressDialog.show(PaymentDetailsActivity.this, "Loading", "please wait", true, false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(new Config().SERVER_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ApiInterface apiInterface = retrofit.create(ApiInterface.class);
+        int uid = (int) Prefs.getLong("user_id",0);
+        Log.d(TAG,"Shared_profile_uid"+uid);
+        Log.d(TAG,"payment coupon : input1"+code);
+        Log.d(TAG,"payment coupon : input2"+uid);
+        Apply_Coupon_Pojo coupon_pojo = new Apply_Coupon_Pojo(code,uid);
+        Call<ServerResponseCoupon> call = apiInterface.applycouponcode(coupon_pojo);
+        call.enqueue(new Callback<ServerResponseCoupon>() {
+            @Override
+            public void onResponse(Call<ServerResponseCoupon> call, Response<ServerResponseCoupon> response) {
+                Log.e(TAG, "payment coupon: response: " + response.body());
+                progressDialog.dismiss();
+                if (response.body() != null) {
+                    Log.e(TAG, "payment coupon: code: " + response.body().getCode());
+                    if(response.body().getCode()==200){
+                        resultarray = response.body().getResults();
+                        Log.e(TAG, "payment coupon: discount: " + resultarray.get(0).getStatus());
+                        if(resultarray.get(0).getStatus().equalsIgnoreCase("Expired")){
+                            Toast.makeText(PaymentDetailsActivity.this, "Sorry This Coupon is Expired", Toast.LENGTH_SHORT).show();
+                            addDiscountDialog.dismiss();
+                        }else {
+                            Toast.makeText(PaymentDetailsActivity.this, "Coupon Successfully Applied", Toast.LENGTH_SHORT).show();
+                            addDiscountDialog.dismiss();
+                        }
+                    }else {
+                        Toast.makeText(PaymentDetailsActivity.this, "Sorry This Coupon is doesn't exists", Toast.LENGTH_SHORT).show();
+                        addDiscountDialog.dismiss();
+                    }
+                }else {
+                    Toast.makeText(PaymentDetailsActivity.this, "Sorry This Coupon is doesn't exists", Toast.LENGTH_SHORT).show();
+                    addDiscountDialog.dismiss();
+                }
+            }
+            @Override
+            public void onFailure(Call<ServerResponseCoupon> call, Throwable t) {
+                progressDialog.dismiss();
+                t.getMessage();
+                String message = t.getMessage();
+                Log.e("TAG","error :: "+message);
+                Toast.makeText(PaymentDetailsActivity.this, "Internal Error. ", Toast.LENGTH_SHORT).show();
+                addDiscountDialog.dismiss();
+            }
+        });
+    }
+
     @Override
     public void onClick(View v) {
 
@@ -190,6 +254,9 @@ public class PaymentDetailsActivity extends AppCompatActivity implements View.On
         {
 
             case R.id.btnSubmit:
+                progressDialog = ProgressDialog.show(PaymentDetailsActivity.this, "Loading", "please wait", true, false);
+                progressDialog.setCanceledOnTouchOutside(false);
+                progressDialog.show();
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl(new Config().SERVER_URL)
                         .addConverterFactory(GsonConverterFactory.create())
@@ -209,7 +276,7 @@ public class PaymentDetailsActivity extends AppCompatActivity implements View.On
                 call.enqueue(new Callback<ServerResponseBookedTest>() {
                     @Override
                     public void onResponse(Call<ServerResponseBookedTest> call, Response<ServerResponseBookedTest> response) {
-
+                        progressDialog.dismiss();
                         if (response.isSuccessful()) {
                             Log.e("Payment","Server Response ::  "+response.body());
                             ArrayList<BookedTest> bookedTests = response.body().getResults();
@@ -232,7 +299,7 @@ public class PaymentDetailsActivity extends AppCompatActivity implements View.On
 
                     @Override
                     public void onFailure(Call<ServerResponseBookedTest> call, Throwable t) {
-
+                        progressDialog.dismiss();
                     }
                 });
 

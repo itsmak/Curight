@@ -442,31 +442,31 @@ public class AddFoodConsumptionActivity extends Activity {
                                     tv_spinner_food.setText(item_f.getFoodName());
                                     et_unit.setText(item_f.getUnit());
                                     Prefs.putInt("FOODID",item_f.getFoodid());
-                                    yvalues = new ArrayList<Entry>();
-                                    yvalues.add(new Entry(item_f.getCarbs(), 0));
-                                    yvalues.add(new Entry(item_f.getProtein(), 1));
-                                    yvalues.add(new Entry(item_f.getFat(), 2));
-                                    yvalues.add(new Entry(item_f.getFiber(), 3));
-                                    PieDataSet dataSet = new PieDataSet(yvalues, "Calorie Results");
-                                    xVals = new ArrayList<String>();
-                                    xVals.add("Carbs");
-                                    xVals.add("Protien");
-                                    xVals.add("Fat");
-                                    xVals.add("Fiber");
-
-                                    PieData data = new PieData(xVals, dataSet);
-                                    // In percentage Term
-                                    data.setValueFormatter(new PercentFormatter());
-                                    // Default value
-                                    //data.setValueFormatter(new DefaultValueFormatter(0));
-                                    dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
-                                    dataSet.setValueTextSize(10f);
-                                    dataSet.setValueTextColor(Color.DKGRAY);
-                                    pieChart_food.setDrawHoleEnabled(false);
-                                    pieChart_food.setRotationAngle(0);
-                                    pieChart_food.setRotationEnabled(true);
-                                    pieChart_food.setCenterTextSize(8f);
-                                    pieChart_food.setData(data);
+//                                    yvalues = new ArrayList<Entry>();
+//                                    yvalues.add(new Entry(item_f.getCarbs(), 0));
+//                                    yvalues.add(new Entry(item_f.getProtein(), 1));
+//                                    yvalues.add(new Entry(item_f.getFat(), 2));
+//                                    yvalues.add(new Entry(item_f.getFiber(), 3));
+//                                    PieDataSet dataSet = new PieDataSet(yvalues, "Calorie Results");
+//                                    xVals = new ArrayList<String>();
+//                                    xVals.add("Carbs");
+//                                    xVals.add("Protien");
+//                                    xVals.add("Fat");
+//                                    xVals.add("Fiber");
+//
+//                                    PieData data = new PieData(xVals, dataSet);
+//                                    // In percentage Term
+//                                    data.setValueFormatter(new PercentFormatter());
+//                                    // Default value
+//                                    //data.setValueFormatter(new DefaultValueFormatter(0));
+//                                    dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
+//                                    dataSet.setValueTextSize(10f);
+//                                    dataSet.setValueTextColor(Color.DKGRAY);
+//                                    pieChart_food.setDrawHoleEnabled(false);
+//                                    pieChart_food.setRotationAngle(0);
+//                                    pieChart_food.setRotationEnabled(true);
+//                                    pieChart_food.setCenterTextSize(8f);
+//                                    pieChart_food.setData(data);
 
                                     tv_protein.setText("Protien : "+String.valueOf(item_f.getProtein()));
                                     tv_carbs.setText("Carbs : "+String.valueOf(item_f.getCarbs()));
@@ -1069,29 +1069,29 @@ public class AddFoodConsumptionActivity extends Activity {
         et_unit.setText("");
    //     etQuantity.setText("");
         et_date.setText("");
-        yvalues = new ArrayList<Entry>();
-
-        //  yvalues.add(new Entry(foodUnits.get(0).getCalories(), 4));
-
-        PieDataSet dataSet = new PieDataSet(yvalues, "Calorie Results");
-        xVals = new ArrayList<String>();
-
-
-        // xVals.add("Calorie");
-
-        PieData data = new PieData(xVals, dataSet);
-        // In percentage Term
-        data.setValueFormatter(new PercentFormatter());
-        // Default value
-        //data.setValueFormatter(new DefaultValueFormatter(0));
-        dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
-        dataSet.setValueTextSize(10f);
-        dataSet.setValueTextColor(Color.DKGRAY);
-        pieChart_food.setDrawHoleEnabled(false);
-        pieChart_food.setRotationAngle(0);
-        pieChart_food.setRotationEnabled(true);
-        pieChart_food.setCenterTextSize(8f);
-        pieChart_food.setData(data);
+//        yvalues = new ArrayList<Entry>();
+//
+//        //  yvalues.add(new Entry(foodUnits.get(0).getCalories(), 4));
+//
+//        PieDataSet dataSet = new PieDataSet(yvalues, "Calorie Results");
+//        xVals = new ArrayList<String>();
+//
+//
+//        // xVals.add("Calorie");
+//
+//        PieData data = new PieData(xVals, dataSet);
+//        // In percentage Term
+//        data.setValueFormatter(new PercentFormatter());
+//        // Default value
+//        //data.setValueFormatter(new DefaultValueFormatter(0));
+//        dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
+//        dataSet.setValueTextSize(10f);
+//        dataSet.setValueTextColor(Color.DKGRAY);
+//        pieChart_food.setDrawHoleEnabled(false);
+//        pieChart_food.setRotationAngle(0);
+//        pieChart_food.setRotationEnabled(true);
+//        pieChart_food.setCenterTextSize(8f);
+//        pieChart_food.setData(data);
 
         tv_protein.setText("Protien : ");
         tv_carbs.setText("Carbs : ");
@@ -1237,35 +1237,35 @@ public class AddFoodConsumptionActivity extends Activity {
                 if (response.isSuccessful()) {
                     Log.e(TAG, "Calories Response ::  " + response.code() + "   message ::  " + response.message());
                     ArrayList<CalorieRes> result = response.body().getResults();
-                    yvalues = new ArrayList<Entry>();
-                    yvalues.add(new Entry(result.get(0).getCarbs(), 0));
-                    yvalues.add(new Entry(result.get(0).getProtein(), 1));
-                    yvalues.add(new Entry(result.get(0).getFat(), 2));
-                    yvalues.add(new Entry(result.get(0).getFiber(), 3));
-                   // yvalues.add(new Entry(result.get(0).getCalories(), 4));
-
-                    PieDataSet dataSet = new PieDataSet(yvalues, "Calorie Results");
-                    xVals = new ArrayList<String>();
-
-                    xVals.add("Carbs");
-                    xVals.add("Protien");
-                    xVals.add("Fat");
-                    xVals.add("Fiber");
-                  //  xVals.add("Calorie");
-
-                    PieData data = new PieData(xVals, dataSet);
-                    // In percentage Term
-                    data.setValueFormatter(new PercentFormatter());
-                    // Default value
-                    //data.setValueFormatter(new DefaultValueFormatter(0));
-                    dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
-                    dataSet.setValueTextSize(10f);
-                    dataSet.setValueTextColor(Color.DKGRAY);
-                    pieChart_food.setDrawHoleEnabled(false);
-                    pieChart_food.setRotationAngle(0);
-                    pieChart_food.setRotationEnabled(true);
-                    pieChart_food.setCenterTextSize(8f);
-                    pieChart_food.setData(data);
+//                    yvalues = new ArrayList<Entry>();
+//                    yvalues.add(new Entry(result.get(0).getCarbs(), 0));
+//                    yvalues.add(new Entry(result.get(0).getProtein(), 1));
+//                    yvalues.add(new Entry(result.get(0).getFat(), 2));
+//                    yvalues.add(new Entry(result.get(0).getFiber(), 3));
+//                   // yvalues.add(new Entry(result.get(0).getCalories(), 4));
+//
+//                    PieDataSet dataSet = new PieDataSet(yvalues, "Calorie Results");
+//                    xVals = new ArrayList<String>();
+//
+//                    xVals.add("Carbs");
+//                    xVals.add("Protien");
+//                    xVals.add("Fat");
+//                    xVals.add("Fiber");
+//                  //  xVals.add("Calorie");
+//
+//                    PieData data = new PieData(xVals, dataSet);
+//                    // In percentage Term
+//                    data.setValueFormatter(new PercentFormatter());
+//                    // Default value
+//                    //data.setValueFormatter(new DefaultValueFormatter(0));
+//                    dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
+//                    dataSet.setValueTextSize(10f);
+//                    dataSet.setValueTextColor(Color.DKGRAY);
+//                    pieChart_food.setDrawHoleEnabled(false);
+//                    pieChart_food.setRotationAngle(0);
+//                    pieChart_food.setRotationEnabled(true);
+//                    pieChart_food.setCenterTextSize(8f);
+//                    pieChart_food.setData(data);
                     pieChart_food.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {

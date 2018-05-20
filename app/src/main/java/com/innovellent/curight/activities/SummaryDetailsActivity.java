@@ -261,7 +261,11 @@ public class SummaryDetailsActivity extends AppCompatActivity implements View.On
                 if((startDate.getText().toString().trim().equals(""))&&(endDate.getText().toString().trim().equals("")))
                 {
                     Toast.makeText(getApplicationContext(),"Please Select your visit time",Toast.LENGTH_SHORT).show();
-                }else {
+                }else if((cbHomePickup.isChecked())&&(startDate.getText().toString().trim().equals("")))
+                {
+                    Toast.makeText(getApplicationContext(),"Please Select your Home PickUp time",Toast.LENGTH_SHORT).show();
+                }
+                else {
 
                     Long uid = Prefs.getLong("user_id",0);
                     Log.d(TAG,"shared_summary_id"+uid);

@@ -92,18 +92,54 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
                 android:orientation="horizontal"
                 android:weightSum="100">
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="23"
                     android:background="@color/colorPrimary"
-                    android:text="@string/workout"
+                    android:text="Calorie"
                     android:textAlignment="center"
                     android:textColor="@android:color/white" />
 
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="23"
+                    android:background="@color/colorPrimary"
+                    android:text="Time"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white" />
 
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="23"
+                    android:background="@color/colorPrimary"
+                    android:text="Distance"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="23"
+                    android:background="@color/colorPrimary"
+                    android:text="Speed"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="8"
+                    android:background="@color/colorPrimary"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white" />
             </LinearLayout>
 
             <LinearLayout
