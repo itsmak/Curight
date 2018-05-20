@@ -296,9 +296,9 @@
                     android:textSize="12sp"
                     app:met_baseColor="#0056d3"
                     app:met_errorColor="#cccccc"
-                    app:met_floatingLabel="normal"
+                    app:met_floatingLabel="highlight"
                     app:met_floatingLabelText="Distance in Km"
-                    app:met_primaryColor="#cccccc"
+                    app:met_primaryColor="#0056d3"
                     app:met_singleLineEllipsis="true" />
 
                 <com.rengwuxian.materialedittext.MaterialEditText
@@ -311,17 +311,16 @@
                     android:backgroundTint="@color/gray"
                     android:hint="Enter Time Spent"
                     android:inputType="numberDecimal"
-
                     android:singleLine="true"
                     android:textColor="@color/darkgray"
                     android:textSize="12sp"
                     app:met_baseColor="#0056d3"
                     app:met_errorColor="#cccccc"
-                    app:met_floatingLabel="normal"
+                    app:met_floatingLabel="highlight"
                     app:met_floatingLabelText="Time in minutes"
                     app:met_maxCharacters="2"
                     app:met_minCharacters="1"
-                    app:met_primaryColor="#cccccc"
+                    app:met_primaryColor="#0056d3"
                     app:met_singleLineEllipsis="true" />
 
 

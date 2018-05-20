@@ -67,7 +67,7 @@
     <RelativeLayout
         android:id="@+id/rl_direction_text"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@color/white"
         android:paddingBottom="10dp"
@@ -96,6 +96,14 @@
             android:textColor="@color/graylight"
             android:textSize="13sp"/>
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:src="@drawable/direction_black"/>
     </RelativeLayout>
 
 

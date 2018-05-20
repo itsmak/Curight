@@ -176,8 +176,8 @@ public class Add_CalBurned_Exersize extends Activity implements View.OnClickList
 //                    InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 //                    mgr.hideSoftInputFromWindow(atTime.getWindowToken(), 0);
                     getcaloriesapi(title,uid,editable.toString());
-                    tvSpeed.setText("");
-                    distanceCovered.setText("");
+//                    tvSpeed.setText("");
+//                    distanceCovered.setText("");
                 }else {
                     tvBurned.setText("");
                 }
@@ -593,8 +593,22 @@ public class Add_CalBurned_Exersize extends Activity implements View.OnClickList
                 if(title.equalsIgnoreCase("walking"))
                 {activitytype ="walkingslow";}
                 tvSpeed.setText("1");
+                if(atTime.getText().toString().equals(""))
+                {
+                    Toast.makeText(Add_CalBurned_Exersize.this, "Please enter Time first", Toast.LENGTH_SHORT).show();
+                    InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    mgr.hideSoftInputFromWindow(tvSpeed.getWindowToken(), 0);
+                }else {
+                    double time_double = Double.parseDouble(atTime.getText().toString());
+
+                        double time_speed = 1;
+                        double distance = (time_speed)*(time_double/60);
+                        DecimalFormat dff=new DecimalFormat(".##");
+                        distanceCovered.setText(String.valueOf(dff.format(distance)));
+                }
              //   etSpeed.setVisibility(View.GONE);
                 break;
+
             case R.id.ivMedium:
                 setColor();
                 tvSpeed.setText("2");
@@ -602,6 +616,19 @@ public class Add_CalBurned_Exersize extends Activity implements View.OnClickList
                 {activitytype ="walkingmedium";}
                 tvSpeed.setVisibility(View.VISIBLE);
                // etSpeed.setVisibility(View.GONE);
+                if(atTime.getText().toString().equals(""))
+                {
+                    Toast.makeText(Add_CalBurned_Exersize.this, "Please enter Time first", Toast.LENGTH_SHORT).show();
+                    InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    mgr.hideSoftInputFromWindow(tvSpeed.getWindowToken(), 0);
+                }else {
+                    double time_double = Double.parseDouble(atTime.getText().toString());
+
+                    double time_speed = 2;
+                    double distance = (time_speed)*(time_double/60);
+                    DecimalFormat dff=new DecimalFormat(".##");
+                    distanceCovered.setText(String.valueOf(dff.format(distance)));
+                }
                 break;
             case R.id.ivFast:
                 setColor();
@@ -609,7 +636,19 @@ public class Add_CalBurned_Exersize extends Activity implements View.OnClickList
                 if(title.equalsIgnoreCase("walking"))
                 {activitytype ="walkingfast";}
                 tvSpeed.setVisibility(View.VISIBLE);
-                //etSpeed.setVisibility(View.GONE);
+                if(atTime.getText().toString().equals(""))
+                {
+                    Toast.makeText(Add_CalBurned_Exersize.this, "Please enter Time first", Toast.LENGTH_SHORT).show();
+                    InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    mgr.hideSoftInputFromWindow(tvSpeed.getWindowToken(), 0);
+                }else {
+                    double time_double = Double.parseDouble(atTime.getText().toString());
+
+                    double time_speed = 3;
+                    double distance = (time_speed)*(time_double/60);
+                    DecimalFormat dff=new DecimalFormat(".##");
+                    distanceCovered.setText(String.valueOf(dff.format(distance)));
+                }
                 break;
             case R.id.ivCustom:
                 setColor();
@@ -652,10 +691,7 @@ public class Add_CalBurned_Exersize extends Activity implements View.OnClickList
         {
             Toast.makeText(Add_CalBurned_Exersize.this,"Please enter Time Spend",Toast.LENGTH_SHORT).show();
         }
-//        else if(tvSpeed.getText().toString().trim().equals(""))
-//        {
-//            Toast.makeText(Add_CalBurned_Exersize.this,"Please select your speed",Toast.LENGTH_SHORT).show();
-//        }
+
         else {
 
             if(calsBurned.getText().toString().trim().equals(""))
