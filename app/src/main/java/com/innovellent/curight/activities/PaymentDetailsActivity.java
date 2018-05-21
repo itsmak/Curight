@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.innovellent.curight.PayUmoney.PayuWebviewActivity;
 import com.innovellent.curight.R;
 import com.innovellent.curight.activities.Exercise.Add_CalBurned_Exersize;
 import com.innovellent.curight.adapter.PaymentDetailsAdapter;
@@ -284,16 +285,19 @@ public class PaymentDetailsActivity extends AppCompatActivity implements View.On
                                 long tms_id = bookedTests.get(i).getTestbookingmasterid();
                                 Log.e("PAID","Master ID :: "+tms_id);
                             }
-                            Intent intent = new Intent(PaymentDetailsActivity.this, AmountPaidActivity.class);
-                            Bundle bundle = new Bundle();
-                            bundle.putString("user_id", user_id);
-                            bundle.putString("mobile", mobile);
-
-                           // bundle.putLong("uid", uid);
-                            bundle.putString("name", name);
-                            bundle.putString("email", email);
-                            intent.putExtras(bundle);
-                            startActivity(intent);
+//                            Intent intent = new Intent(PaymentDetailsActivity.this, AmountPaidActivity.class);
+//                            Bundle bundle = new Bundle();
+//                            bundle.putString("user_id", user_id);
+//                            bundle.putString("mobile", mobile);
+//
+//                           // bundle.putLong("uid", uid);
+//                            bundle.putString("name", name);
+//                            bundle.putString("email", email);
+//                            intent.putExtras(bundle);
+//                            startActivity(intent);
+                            Intent pay_intent = new Intent(PaymentDetailsActivity.this, PayuWebviewActivity.class);
+                            startActivity(pay_intent);
+                            finish();
                         }
                     }
 

@@ -952,7 +952,6 @@ public class AddFoodConsumptionActivity extends Activity {
                    send_consumptionlist();
                }
 
-
             }
         });
     }

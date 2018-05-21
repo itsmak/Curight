@@ -170,7 +170,16 @@ public class Add_CalBurned_Exersize extends Activity implements View.OnClickList
             public void afterTextChanged(Editable editable) {
                 if(editable.length()>0)
                 {
+                    if(tvSpeed.getText().toString().equals(""))
+                    {
 
+                    }else {
+                        double time_double = Double.parseDouble(editable.toString());
+                        double time_speed = Double.parseDouble(tvSpeed.getText().toString());
+                        double distance = (time_speed)*(time_double/60);
+                        DecimalFormat dff=new DecimalFormat(".##");
+                        distanceCovered.setText(String.valueOf(dff.format(distance)));
+                    }
                     int uid = (int) Prefs.getLong("user_id",0);
                     Log.d(TAG,"Shared_profile_uid"+uid);
 //                    InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);

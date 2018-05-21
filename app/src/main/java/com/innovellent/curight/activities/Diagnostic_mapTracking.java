@@ -85,16 +85,13 @@ public class Diagnostic_mapTracking extends FragmentActivity implements OnMapRea
                 double longitude = -77.54436;
                 String label = "Diagnostic Centre";
                 String uriBegin = "geo:" + latitude + "," + longitude;
-                String query = latitude + "," + longitude + "(" + label + ")";
-                String encodedQuery = Uri.encode(query);
-                String uriString = uriBegin + "?q=" + encodedQuery + "&z=16";
-                Uri uri = Uri.parse(uriString);
-                Intent mapIntent = new Intent(android.content.Intent.ACTION_VIEW, uri);
-                startActivity(mapIntent);
+                Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                        Uri.parse("http://maps.google.com/maps?saddr="+final_latitude+", "+final_longitude+"&daddr=12.456754, 77.54436"));
+                intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+                startActivity(intent);
             }
         });
     }
-
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {

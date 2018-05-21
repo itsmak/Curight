@@ -108,6 +108,11 @@ public class DoctorAppointmentActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
+                if(editable.toString().length()==1)
+                {
+                    testid = 0;
+                    getAllDoctors(testid);
+                }
                 filter(editable.toString());
             }
         });
@@ -143,6 +148,7 @@ public class DoctorAppointmentActivity extends AppCompatActivity {
         progressDialog = ProgressDialog.show(DoctorAppointmentActivity.this, "Loading", "please wait", true, false);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
+        cleardoctorlist();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(new Config().SERVER_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -240,6 +246,24 @@ public class DoctorAppointmentActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void cleardoctorlist() {
+        arrayList_doctorlist.clear();
+        doctorArrayList.clear();
+        doctorAppointmentAdapter = new DoctorAppointmentAdapter(DoctorAppointmentActivity.this, doctorArrayList, arrayList_doctorlist, position, new DoctorAppointmentAdapter.OnItemClickListener() {
+            @Override
+            public void onPhoneClick(DoctorList item, int position) {
+
+            }
+
+            @Override
+            public void onLayoutClick(DoctorList item, int position) {
+
+            }
+        });
+
+        doctorAppointmentAdapter.notifyDataSetChanged();
     }
 
     public  boolean isPermissionGranted() {

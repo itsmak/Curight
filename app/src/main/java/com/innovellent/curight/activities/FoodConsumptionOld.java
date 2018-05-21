@@ -432,18 +432,38 @@ public class FoodConsumptionOld extends Activity implements OnChartValueSelected
                                     //  yvalues.add(new Entry(foodUnits.get(0).getCalories(), 4));
                                     piechatModelArrayList = new ArrayList<>();
                                     percentageList = new ArrayList<>();
-
-                                    piechatModelArrayList.add("Carbs");
-                                    percentageList.add(foodUnits.get(0).getCarbs());
-                                    piechatModelArrayList.add("Protien");
-                                    percentageList.add(foodUnits.get(0).getProtein());
-                                    piechatModelArrayList.add("Fat");
-                                    percentageList.add(foodUnits.get(0).getFat());
-                                    piechatModelArrayList.add("Fiber");
-                                    percentageList.add(foodUnits.get(0).getFiber());
-
+                                    double range_cal = foodUnits.get(0).getCarbs()+foodUnits.get(0).getProtein()+foodUnits.get(0).getFat()+foodUnits.get(0).getFiber();
+                                    if(foodUnits.get(0).getCarbs()>0)
+                                    {
+                                        piechatModelArrayList.add("Carbs");
+                                        double carbs_per = ((foodUnits.get(0).getCarbs())/range_cal)*100;
+                                        int carbs = (int) carbs_per;
+                                        percentageList.add(carbs);
+                                    }
+                                    if(foodUnits.get(0).getProtein()>0)
+                                    {
+                                        piechatModelArrayList.add("Protien");
+                                        double protien_per = ((foodUnits.get(0).getProtein())/range_cal)*100;
+                                        int protien = (int) protien_per;
+                                        percentageList.add(protien);
+                                    }
+                                    if(foodUnits.get(0).getFat()>0)
+                                    {
+                                        piechatModelArrayList.add("Fat");
+                                        double fat_per = ((foodUnits.get(0).getFat())/range_cal)*100;
+                                        int fat = (int) fat_per;
+                                        percentageList.add(fat);
+                                    }
+                                    if(foodUnits.get(0).getFiber()>0) {
+                                        piechatModelArrayList.add("Fiber");
+                                        double fiber_per = ((foodUnits.get(0).getFiber())/range_cal)*100;
+                                        int fiber = (int) fiber_per;
+                                        percentageList.add(fiber);
+                                    }
                                     foodchartarray = piechatModelArrayList.toArray(new String[0]);
+
                                     setData(foodchartarray.length, 100);
+                                  //  setData(foodchartarray.length, 100);
 //                                    PieDataSet dataSet = new PieDataSet(yvalues, "Calorie Results");
 //                                    xVals = new ArrayList<String>();
 //
@@ -504,18 +524,37 @@ public class FoodConsumptionOld extends Activity implements OnChartValueSelected
 //                                            xVals.add("Fiber");
                                             piechatModelArrayList = new ArrayList<>();
                                             percentageList = new ArrayList<>();
+                                            double range_cal = item_f.getCarbs()+item_f.getProtein()+item_f.getFat()+item_f.getFiber();
+                                            if(item_f.getCarbs()>0)
+                                            {
+                                                piechatModelArrayList.add("Carbs");
+                                                double carbs_per = ((item_f.getCarbs())/range_cal)*100;
+                                                int carbs = (int) carbs_per;
+                                                percentageList.add(carbs);
+                                            }
+                                            if(item_f.getProtein()>0) {
+                                                piechatModelArrayList.add("Protien");
+                                                double protien_per = ((item_f.getCarbs())/range_cal)*100;
+                                                int protien = (int) protien_per;
+                                                percentageList.add(protien);
+                                            }
+                                            if(item_f.getFat()>0) {
+                                                piechatModelArrayList.add("Fat");
+                                                double fat_per = ((item_f.getFat())/range_cal)*100;
+                                                int fat = (int) fat_per;
+                                                percentageList.add(fat);
+                                            }
+                                            if(item_f.getFiber()>0) {
+                                                piechatModelArrayList.add("Fiber");
+                                                double fiber_per = ((item_f.getFiber())/range_cal)*100;
+                                                int fiber = (int) fiber_per;
+                                                percentageList.add(fiber);
+                                            }
 
-                                            piechatModelArrayList.add("Carbs");
-                                            percentageList.add(item_f.getCarbs());
-                                            piechatModelArrayList.add("Protien");
-                                            percentageList.add(item_f.getProtein());
-                                            piechatModelArrayList.add("Fat");
-                                            percentageList.add(item_f.getFat());
-                                            piechatModelArrayList.add("Fiber");
-                                            percentageList.add(item_f.getFiber());
 
                                             foodchartarray = piechatModelArrayList.toArray(new String[0]);
-                                            setData(foodchartarray.length, 100);
+
+                                            setData(foodchartarray.length, range_cal);
 // xVals.add("Calorie");
 //                                            PieData data = new PieData(xVals, dataSet);
 //// In percentage Term
@@ -669,9 +708,9 @@ public class FoodConsumptionOld extends Activity implements OnChartValueSelected
         });
     }
 
-    private void setData(int count, float range) {
+    private void setData(int count, double range) {
 
-        float mult = range;
+        double mult = range;
 
         ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
 
@@ -1142,18 +1181,37 @@ public class FoodConsumptionOld extends Activity implements OnChartValueSelected
 //                    });
                     piechatModelArrayList = new ArrayList<>();
                     percentageList = new ArrayList<>();
-
-                    piechatModelArrayList.add("Carbs");
-                    percentageList.add(result.get(0).getCarbs());
-                    piechatModelArrayList.add("Protien");
-                    percentageList.add(result.get(0).getProtein());
-                    piechatModelArrayList.add("Fat");
-                    percentageList.add(result.get(0).getFat());
-                    piechatModelArrayList.add("Fiber");
-                    percentageList.add(result.get(0).getFiber());
+                    double range_cal = result.get(0).getCarbs()+result.get(0).getProtein()+result.get(0).getFat()+result.get(0).getFiber();
+                    if(result.get(0).getCarbs()>0)
+                    {
+                        piechatModelArrayList.add("Carbs");
+                        double carbs_per = ((result.get(0).getFiber())/range_cal)*100;
+                        int carbs = (int) carbs_per;
+                        percentageList.add(carbs);
+                    }
+                    if(result.get(0).getProtein()>0) {
+                        piechatModelArrayList.add("Protien");
+                        double protien_per = ((result.get(0).getProtein())/range_cal)*100;
+                        int protien = (int) protien_per;
+                        percentageList.add(protien);
+                    }
+                    if(result.get(0).getFat()>0) {
+                        piechatModelArrayList.add("Fat");
+                        double fat_per = ((result.get(0).getFat())/range_cal)*100;
+                        int fat = (int) fat_per;
+                        percentageList.add(fat);
+                    }
+                    if(result.get(0).getFiber()>0) {
+                        piechatModelArrayList.add("Fiber");
+                        double fiber_per = ((result.get(0).getFiber())/range_cal)*100;
+                        int fiber = (int) fiber_per;
+                        percentageList.add(result.get(0).getFiber());
+                    }
 
                     foodchartarray = piechatModelArrayList.toArray(new String[0]);
+
                     setData(foodchartarray.length, 100);
+
                     tv_protein.setText("Protien : "+String.valueOf(result.get(0).getProtein()));
                     tv_carbs.setText("Carbs : "+String.valueOf(result.get(0).getCarbs()));
                     tv_fat.setText("Fat : "+String.valueOf(result.get(0).getFat()));
@@ -1233,7 +1291,7 @@ public class FoodConsumptionOld extends Activity implements OnChartValueSelected
     @Override
     public void onValueSelected(Entry e, Highlight h) {
         if (e.getData() != null)
-            pieChart_food.setCenterText(e.getData().toString());
+            pieChart_food.setCenterText(e.getData().toString()+"%");
     }
 
     @Override
