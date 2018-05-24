@@ -48,7 +48,7 @@ public class DiagnosticTestListActivity extends AppCompatActivity{
     ArrayList<SelectedTest> selectedlist;
     Button btnSubmit;
     EditText etSearch;
-    TextView tv_AllTest;
+    TextView tv_AllTest,tv_selectedTest;
     Toolbar toolbar;
     int testid;
     int position;
@@ -112,6 +112,7 @@ public class DiagnosticTestListActivity extends AppCompatActivity{
         b = getIntent().getExtras();
         recycler_view=(RecyclerView)findViewById(R.id.recycler_view);
         tv_AllTest=(TextView) findViewById(R.id.tv_AllTest);
+        tv_selectedTest=(TextView) findViewById(R.id.tv_selectedTest);
         Log.d(TAG,"test bundle :"+b);
         if(b==null)
         {
@@ -309,6 +310,12 @@ public class DiagnosticTestListActivity extends AppCompatActivity{
                                 selectedlist.add(new SelectedTest(testlist.get(i).getTestid(),testlist.get(i).getTestname()));
                             }
                         }
+                        if(selectedlist.size()>0)
+                        {
+                            tv_selectedTest.setVisibility(View.VISIBLE);
+                        }else {
+                            tv_selectedTest.setVisibility(View.GONE);
+                        }
                         sAdapter = new Selected_Test_Adapter(DiagnosticTestListActivity.this, selectedlist, position, new Selected_Test_Adapter.OnTestClickListener() {
                             @Override
                             public void closeclicked(SelectedTest item_s, int position) {
@@ -461,6 +468,12 @@ public class DiagnosticTestListActivity extends AppCompatActivity{
             {
                 selectedlist.add(new SelectedTest(testlist.get(i).getTestid(),testlist.get(i).getTestname()));
             }
+        }
+        if(selectedlist.size()>0)
+        {
+            tv_selectedTest.setVisibility(View.VISIBLE);
+        }else {
+            tv_selectedTest.setVisibility(View.GONE);
         }
         sAdapter = new Selected_Test_Adapter(DiagnosticTestListActivity.this, selectedlist, position, new Selected_Test_Adapter.OnTestClickListener() {
             @Override

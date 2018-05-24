@@ -43,7 +43,8 @@
         android:text="Selected Test"
         android:textColor="@color/darkgray"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:visibility="invisible" />
 
 
 

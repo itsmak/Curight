@@ -87,7 +87,7 @@ public class FoodFragment extends Fragment implements View.OnClickListener {
     ArrayList<Lunch> breakfasts, lunches, snacks, dinners;
     LunchAdapter breakfastAdapter, lunchAdaoter, snacksAdapter, dinnerAdapter;
     ImageView ivBreakfast, ivLunch, ivSnacks, ivDinner, ivback, ivback1;
-    TextView tvDate, tvTitle,tv_locationtxt,tv_locationsymbl;
+    TextView tvDate, tvTitle,tv_locationtxt,tv_locationsymbl,tvBurned;
 //    String[] spinner1 = {"John", "Jobby", "Suresh", "Mahesh"};
     Context context;
     RelativeLayout rl_location;
@@ -161,11 +161,12 @@ public class FoodFragment extends Fragment implements View.OnClickListener {
         recycler_view1 = (RecyclerView) rootview.findViewById(R.id.recycler_view1);
         recycler_view2 = (RecyclerView) rootview.findViewById(R.id.recycler_view2);
         recycler_view3 = (RecyclerView) rootview.findViewById(R.id.recycler_view3);
-        spQuestion1 = (Spinner) rootview.findViewById(R.id.spQuestion1);
         tvDate = (TextView) rootview.findViewById(R.id.tv_date);
         ivBreakfast = (ImageView) rootview.findViewById(R.id.ivBreakfast);
         ivLunch = (ImageView) rootview.findViewById(R.id.ivLunch);
         ivSnacks = (ImageView) rootview.findViewById(R.id.ivSnacks);
+        spQuestion1 = (Spinner) rootview.findViewById(R.id.spQuestion1);
+        tvBurned = (TextView) rootview.findViewById(R.id.tvBurned);
         ivDinner = (ImageView) rootview.findViewById(R.id.ivDinner);
         tvTitle = (TextView) getActivity().findViewById(R.id.tvTitle);
         tvTitle.setVisibility(View.VISIBLE);
@@ -253,7 +254,7 @@ public class FoodFragment extends Fragment implements View.OnClickListener {
                             Log.e("FOOD", "Response ::  " + response.code() + "   message ::  " + response.message());
 
                             Food _food = response.body().getResults();
-
+                            tvBurned.setText(String.valueOf(_food.getCaloriesconsumbed()));
                             breakfasts = _food.getBreakFast();
                             lunches = _food.getLunch();
                             snacks = _food.getSnacks();

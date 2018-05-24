@@ -426,6 +426,7 @@
                     card_view:contentPadding="0dp">
 
                     <RelativeLayout
+                        android:id="@+id/rl_medicineandDesease"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"

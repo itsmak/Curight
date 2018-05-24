@@ -65,6 +65,7 @@ public class LunchAdapter extends RecyclerView.Adapter<LunchAdapter.MyViewHolder
         holder.tvTestName.setText(arrayList.get(position).getFoodname());
         holder.tvHour.setText(arrayList.get(position).getServing_qty());
         holder.tvDistance.setText(arrayList.get(position).getServing_unit());
+        holder.tvUnit.setText(String.valueOf(arrayList.get(position).getCalories()));
         if((position%2)==0){
 
         }else{
@@ -158,7 +159,7 @@ public class LunchAdapter extends RecyclerView.Adapter<LunchAdapter.MyViewHolder
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvTestName,tvHour,tvDistance;
+        TextView tvTestName,tvHour,tvDistance,tvUnit;
         LinearLayout llLayout;
         ImageView iv_exercise_delt;
 
@@ -167,6 +168,7 @@ public class LunchAdapter extends RecyclerView.Adapter<LunchAdapter.MyViewHolder
             tvTestName = (TextView) view.findViewById(R.id.tvTestName);
             tvHour = (TextView) view.findViewById(R.id.tvHour);
             tvDistance=(TextView) view.findViewById(R.id.tvDistance);
+            tvUnit=(TextView) view.findViewById(R.id.tvUnit);
             llLayout=(LinearLayout)view.findViewById(R.id.llLayout);
             iv_exercise_delt = (ImageView) view.findViewById(R.id.iv_exercise_delt);
         }

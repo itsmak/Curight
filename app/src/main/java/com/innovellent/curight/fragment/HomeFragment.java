@@ -67,7 +67,7 @@ public class HomeFragment extends Fragment  implements View.OnClickListener{
     TextView tv_home_txt,tv_remainder_txt,tv_article_txt,tv_track_txt,tv_profile_txt;
     RecyclerView recycler_view_searchhome;
     TextView tvTitle,titleOne,titleThree,tv_locationtxt,tv_locationsymbl,tv_locality;
-    RelativeLayout rlBookTest,rlFood,rlHealthPackage,rlDoctorAppoinment,rlYoursReports;
+    RelativeLayout rlBookTest,rlFood,rlHealthPackage,rlDoctorAppoinment,rlYoursReports,rl_medicineandDesease;
     LinearLayout llSliderdotpanel;
    // int[] luckyNumbers = {R.drawable.ic_inst, R.drawable.into_1, R.drawable.into_2,R.drawable.into_3, R.drawable.intro_4,R.drawable.intro_5,R.drawable.into_3,R.drawable.ic_inst};
     int[] luckyNumbers = {R.drawable.into_1, R.drawable.into_1, R.drawable.into_3, R.drawable.into_2, R.drawable.intro_4, R.drawable.intro_5, R.drawable.intro_4};
@@ -342,6 +342,7 @@ public class HomeFragment extends Fragment  implements View.OnClickListener{
         ivHealthPackage.setOnClickListener(this);
         rlDoctorAppoinment.setOnClickListener(this);
         rlYoursReports.setOnClickListener(this);
+        rl_medicineandDesease.setOnClickListener(this);
     }
 
     public void init(View rootView){
@@ -371,6 +372,7 @@ public class HomeFragment extends Fragment  implements View.OnClickListener{
     imageView5=(ImageView)rootView.findViewById(R.id.iv_image5);
     imageView6=(ImageView)rootView.findViewById(R.id.iv_image6);
     rlBookTest=(RelativeLayout)rootView.findViewById(R.id.rlBookTest);
+    rl_medicineandDesease=(RelativeLayout)rootView.findViewById(R.id.rl_medicineandDesease);
     recycler_view_searchhome = (RecyclerView) rootView.findViewById(R.id.recycler_view_searchhome);
     rlFood=(RelativeLayout)rootView.findViewById(R.id.rlFood);
     rlDoctorAppoinment = (RelativeLayout)rootView.findViewById(R.id.rlDoctorAppointment);
@@ -552,6 +554,12 @@ public class HomeFragment extends Fragment  implements View.OnClickListener{
             case R.id.titleOne:
                 Intent i=new Intent(getActivity(),DiagnosticTestListActivity.class);
                 startActivity(i);
+                break;
+             case R.id.rlHealthPackage:
+                 Toast.makeText(getActivity(), "This Section is under Development", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.rl_medicineandDesease:
+                 Toast.makeText(getActivity(), "This Section is under Development", Toast.LENGTH_SHORT).show();
                 break;
 
 

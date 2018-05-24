@@ -9,6 +9,7 @@ import java.util.ArrayList;
  */
 
 public class Food {
+    private int caloriesconsumbed;
     private ArrayList<Lunch> BreakFast;
     private ArrayList<Lunch> Lunch;
     private ArrayList<Lunch> Snacks;
@@ -19,6 +20,14 @@ public class Food {
         Lunch = lunch;
         Snacks = snacks;
         Dinner = dinner;
+    }
+
+    public int getCaloriesconsumbed() {
+        return caloriesconsumbed;
+    }
+
+    public void setCaloriesconsumbed(int caloriesconsumbed) {
+        this.caloriesconsumbed = caloriesconsumbed;
     }
 
     public ArrayList<com.innovellent.curight.model.Lunch> getBreakFast() {
