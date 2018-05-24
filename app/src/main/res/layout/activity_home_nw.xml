@@ -62,9 +62,9 @@
                     android:id="@+id/tv_home_locationsymbol"
                     android:layout_width="4dp"
                     android:layout_height="4dp"
-                    android:layout_alignRight="@+id/tv_locationtxt"
                     android:layout_below="@+id/tv_locationtxt"
                     android:layout_marginTop="4dp"
+                    android:layout_toRightOf="@+id/tv_locality"
                     android:background="@drawable/loc_symbol"
                     android:visibility="visible"/>
 
@@ -73,8 +73,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_locationtxt"
+                    android:layout_centerHorizontal="true"
                     android:layout_marginTop="-1dp"
-                    android:layout_toLeftOf="@+id/tv_home_locationsymbol"
                     android:singleLine="true"
                     android:text="Location name j gvgv gvg vgv "
                     android:textColor="@android:color/white"
