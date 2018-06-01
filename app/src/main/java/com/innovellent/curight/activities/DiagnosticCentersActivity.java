@@ -64,7 +64,7 @@ public class DiagnosticCentersActivity extends AppCompatActivity implements View
     SortSpinnerAdapter sortadapter;
     char newtest_id [];
     ArrayList<Center> centerObjs = new ArrayList<Center>();
-    String list[]={"None","Low to High","High to Low","Rating"};
+    String list[]={"Low to High","High to Low","Rating"};
     int position;
     ArrayList<SortBy_Item> sortitem = new ArrayList<>();
     private String test_ids="";
@@ -160,23 +160,23 @@ public class DiagnosticCentersActivity extends AppCompatActivity implements View
                 recycler_view_sortby = (RecyclerView) dialog.findViewById(R.id.recycler_view_sortby);
                 dialog.setCancelable(true);
                 sortitem.clear();
-                SortBy_Item movie = new SortBy_Item("None");
+//                SortBy_Item movie = new SortBy_Item("None");
+//                sortitem.add(movie);
+                SortBy_Item movie = new SortBy_Item("Price : Low To High");
                 sortitem.add(movie);
-                movie = new SortBy_Item("Price : LowToHigh");
+                movie = new SortBy_Item("Price : High To Low");
                 sortitem.add(movie);
-                movie = new SortBy_Item("Price : HighToLow");
-                sortitem.add(movie);
-                movie = new SortBy_Item("popularity");
+                movie = new SortBy_Item("Popularity");
                 sortitem.add(movie);
 
                 sortadapter = new SortSpinnerAdapter(DiagnosticCentersActivity.this, sortitem, position, new SortSpinnerAdapter.OnSpinnerClickListener() {
                     @Override
                     public void onspinneritemselect(SortBy_Item item_f, int position) {
                        String sort_text;
-                       if(item_f.getSortBy().equalsIgnoreCase("Price : LowToHigh"))
+                       if(item_f.getSortBy().equalsIgnoreCase("Price : Low To High"))
                        {
                            sort_text = "LowToHigh";
-                       }else if(item_f.getSortBy().equalsIgnoreCase("Price : HighToLow"))
+                       }else if(item_f.getSortBy().equalsIgnoreCase("Price : High To Low"))
                        {
                            sort_text = "HighToLow";
                        }else {

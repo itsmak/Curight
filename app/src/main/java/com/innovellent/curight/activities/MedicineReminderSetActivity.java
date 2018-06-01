@@ -459,11 +459,15 @@ public class MedicineReminderSetActivity extends AppCompatActivity implements Vi
         {
             tvSelectMedicine.setError("Please select a medicine");
             tvSelectMedicine.requestFocus();
-        }else if( (tvTimeMorning.getText().toString().trim().equals("")) && (tvTimeNoon.getText().toString().trim().equals("")) &&
-                (tvTimeEvening.getText().toString().trim().equals("")) && (tvTimetNight.getText().toString().trim().equals("")))
-        {
+        }else if((ismorningselected==false)&&(isnoonselected==false)&&(iseveningsselected==false)&&(isnightselected==false)){
             showalertdialog("Select atleast one Time");
-        }else
+        }
+//        else if( (tvTimeMorning.getText().toString().trim().equals("")) && (tvTimeNoon.getText().toString().trim().equals("")) &&
+//                (tvTimeEvening.getText().toString().trim().equals("")) && (tvTimetNight.getText().toString().trim().equals("")))
+//        {
+//            showalertdialog("Select atleast one Time");
+//        }
+        else
         {
             if(spHow.getSelectedItem().toString().trim().equals("How"))
             {
@@ -476,12 +480,13 @@ public class MedicineReminderSetActivity extends AppCompatActivity implements Vi
 //            etStrength.setError("Select Strength");
 //            etStrength.requestFocus();
 //        }else
-     if (etDos.getText().toString().trim().equals(""))
-        {
-            etDos.setError("Select a Dose");
-            etDos.requestFocus();
-
-        }else if(tvDate.getText().toString().trim().equals("Select Date"))
+//     if (etDos.getText().toString().trim().equals(""))
+//        {
+//            etDos.setError("Select a Dose");
+//            etDos.requestFocus();
+//
+//        }else
+        if(tvDate.getText().toString().trim().equals("Select Date"))
         {
             tvDate.setError("Select start date");
             tvDate.requestFocus();

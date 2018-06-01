@@ -142,7 +142,7 @@
     <string name="regitstraion">Registraion</string>
     <string name="close">Close</string>
     <string name="skip">Skip</string>
-    <string name="take"><b>Take</b></string>
+    <string name="take"><b>Taken</b></string>
     <string name="medication">Medication</string>
     <string name="selectmedicine">Select Medicine</string>
     <string name="startdate">Start Date:</string>
@@ -271,7 +271,7 @@
     <string name="weight_kg">Weight\n(kg)</string>
     <string name="height_inches">Height\n(inches)</string>
 
-    <string name="my_goal_formatted">My Goal is: %1$d</string>
+    <string name="my_goal_formatted">My Goal is: %1$d cal</string>
     <string name="date_format">yyyy-MM-dd</string>
     <string name="km_h_formatted">%1$d km/h</string>
     <string-array name="array_gender">

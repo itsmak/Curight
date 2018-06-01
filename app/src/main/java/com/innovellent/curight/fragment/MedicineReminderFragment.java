@@ -81,6 +81,7 @@ public class MedicineReminderFragment extends Fragment implements View.OnClickLi
     Context context;
     MedicineReminderAdapter mAdapter;
     private ProgressDialog progressDialog;
+
     @Override
     public void onAttach(Activity activity){
         super.onAttach(activity);

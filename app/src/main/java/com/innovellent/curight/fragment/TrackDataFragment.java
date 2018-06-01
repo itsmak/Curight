@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,6 +61,7 @@ public class TrackDataFragment extends Fragment implements View.OnClickListener,
     TrackAdapter mAdapter;
     Spinner spUser;
     TextView tvSave,tv_text_minutes;
+    RelativeLayout rl_location;
     NumberPicker numberpicker;
     ImageView ivAdd, ivback, ivback1;
     LinearLayout llCalariesBurned, llCaloriesConsumed;
@@ -91,7 +93,7 @@ public class TrackDataFragment extends Fragment implements View.OnClickListener,
         sharedPrefService = SharedPrefService.getInstance();
         userId = sharedPrefService.getLong(USER_ID);
         accessToken = sharedPrefService.getString(ACCESS_TOKEN);
-
+        rl_location.setVisibility(View.GONE);
         int uid = (int) Prefs.getLong("user_id",0);
         getFamilyProfiles(uid);
 
@@ -154,6 +156,7 @@ public class TrackDataFragment extends Fragment implements View.OnClickListener,
     }
 
     public void init(View rootView) {
+        rl_location = (RelativeLayout) getActivity().findViewById(R.id.rl_location);
         tvTitle = (TextView) getActivity().findViewById(R.id.tvTitle);
         iv_search = (ImageView) getActivity().findViewById(R.id.select_loc);
         ivback = (ImageView) getActivity().findViewById(R.id.ivback);
@@ -175,6 +178,7 @@ public class TrackDataFragment extends Fragment implements View.OnClickListener,
         iv_search.setVisibility(View.GONE);
         tvTitle.setVisibility(View.VISIBLE);
         tvTitle.setText("Food & Fitness");
+
        // ivback.setVisibility(View.GONE);
 
     }

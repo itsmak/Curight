@@ -224,6 +224,13 @@ public class PaymentDetailsActivity extends AppCompatActivity implements View.On
                             Toast.makeText(PaymentDetailsActivity.this, "Sorry This Coupon is Expired", Toast.LENGTH_SHORT).show();
                             addDiscountDialog.dismiss();
                         }else {
+                            double discount_val = Double.parseDouble((resultarray.get(0).getDiscount()).substring(0,2));
+                            double amount_before = Double.parseDouble(tvPayableAmount.getText().toString());
+                            double discount = (amount_before * (discount_val/100));
+                            double discounted_amount = amount_before - discount;
+                            Log.d(TAG,"payment coupon discount val 3:"+discount);
+                            Log.d(TAG,"payment coupon discount val 4:"+discounted_amount);
+                            tvPayableAmount.setText(String.valueOf(discounted_amount));
                             Toast.makeText(PaymentDetailsActivity.this, "Coupon Successfully Applied", Toast.LENGTH_SHORT).show();
                             addDiscountDialog.dismiss();
                         }

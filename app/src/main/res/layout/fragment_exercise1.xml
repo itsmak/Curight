@@ -17,62 +17,65 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:weightSum="100">
-
+                android:padding="5dp"
+                android:weightSum="5">
 
                 <Spinner
                     android:id="@+id/spQuestion1"
-                    style="@style/Widget.AppCompat.Spinner.Underlined"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:layout_weight="40"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
                     android:backgroundTint="@color/graylight" />
 
                 <RelativeLayout
                     android:id="@+id/date_layout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="35">
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="4dp"
+                    android:layout_weight="1.5"
+                    android:paddingBottom="2dp">
 
                     <ImageView
                         android:id="@+id/iv_date"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="2dp"
                         android:background="@mipmap/calendar" />
 
                     <TextView
                         android:id="@+id/tv_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginLeft="5dp"
                         android:layout_toRightOf="@id/iv_date"
                         android:hint="date"
-                        android:textSize="15sp" />
+                        android:maxWidth="150dp"
+                        android:textSize="14sp"
+                         />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_below="@id/iv_date"
-                        android:background="@color/graylight" />
+                        android:background="@color/graylight"
+                        android:maxWidth="150dp"/>
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="40dp"
-                    android:layout_weight="25">
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_weight="1.5">
 
                     <TextView
                         android:id="@+id/tvBurned"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
-                        android:hint=""
+                        android:text="0"
                         android:textColor="@color/carbs"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -82,6 +85,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/tvBurned"
+                        android:layout_centerHorizontal="true"
                         android:text="@string/consume"
                         android:textColor="@color/darkgray" />
                 </RelativeLayout>

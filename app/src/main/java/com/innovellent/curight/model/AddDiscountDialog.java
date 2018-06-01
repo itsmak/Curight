@@ -37,6 +37,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AddDiscountDialog extends Dialog {
 
+    private static final String TAG = ".Curight";
     public AddDiscountDialog.AddDiscountDialogClickListener listener;
     Context context;
     Spinner spCode;
@@ -78,7 +79,8 @@ public class AddDiscountDialog extends Dialog {
                 if(etCode.getText().toString().trim().length() > 0){
                    listener.onSubmit(etCode.getText().toString());
                 }else{
-                    listener.onSubmit(spCode.getSelectedItem().toString());
+                    Log.d(TAG,"selected item : "+strcode);
+                    listener.onSubmit(strcode);
                 }
 
             }
@@ -116,12 +118,14 @@ public class AddDiscountDialog extends Dialog {
                     spCode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                            strcode = spCode.getSelectedItem().toString();
+                            strcode = resultarray.get(i).getCopouncode().toString();
+                            Log.d(TAG,"On selected item :"+strcode);
                         }
 
                         @Override
                         public void onNothingSelected(AdapterView<?> adapterView) {
-
+//                            strcode = resultarray.get(0).getCopouncode().toString();
+//                            Log.d(TAG,"On selected non item :"+strcode);
                         }
                     });
                 }

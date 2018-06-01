@@ -117,7 +117,7 @@ public class ExerciseFragment extends Fragment  implements View.OnClickListener 
     ArrayList<String> arrayList=new ArrayList<String>();
     TrackAdapter mAdapter;
     RelativeLayout rl_location;
-    ImageView ivAddWalking,ivAddRunning,ivAddBicycling,ivAddSwimming;
+    ImageView ivAddWalking,ivAddRunning,ivAddBicycling,ivAddSwimming,ivAddgolf,ivAddfrisbee,ivAddracquetball,ivAddrowing,ivAddsoccer,ivAddsoftball,ivAddtennis,ivAddtrailbking,ivAddvolleyball,ivAddweightlifting,ivAddwrestling,ivAddyoga;
     Spinner spQuestion1;
     ArrayList<Walking> arraywalkingList=new ArrayList<>();
     ArrayList<Bicycling> arraybicycleList=new ArrayList<>();
@@ -257,10 +257,23 @@ public class ExerciseFragment extends Fragment  implements View.OnClickListener 
     }
 
     public void init(View rootview){
-        ivAddWalking=(ImageView)rootview.findViewById(R.id.ivAddWalking);
+        ivAddWalking = (ImageView)rootview.findViewById(R.id.ivAddWalking);
         ivAddRunning=(ImageView)rootview.findViewById(R.id.ivAddRunning);
         ivAddBicycling=(ImageView)rootview.findViewById(R.id.ivAddBicycling);
         ivAddSwimming=(ImageView)rootview.findViewById(R.id.ivAddSwimming);
+        ivAddgolf = (ImageView)rootview.findViewById(R.id.ivAddgolf);
+        ivAddfrisbee = (ImageView)rootview.findViewById(R.id.ivAddfrisbee);
+        ivAddracquetball = (ImageView)rootview.findViewById(R.id.ivAddracquetball);
+        ivAddrowing = (ImageView)rootview.findViewById(R.id.ivAddrowing);
+        ivAddsoccer = (ImageView)rootview.findViewById(R.id.ivAddsoccer);
+        ivAddsoftball = (ImageView)rootview.findViewById(R.id.ivAddsoftball);
+        ivAddtennis = (ImageView)rootview.findViewById(R.id.ivAddtennis);
+        ivAddtrailbking = (ImageView)rootview.findViewById(R.id.ivAddtrailbking);
+        ivAddvolleyball = (ImageView)rootview.findViewById(R.id.ivAddvolleyball);
+        ivAddweightlifting = (ImageView)rootview.findViewById(R.id.ivAddweightlifting);
+        ivAddwrestling = (ImageView)rootview.findViewById(R.id.ivAddwrestling);
+        ivAddyoga = (ImageView)rootview.findViewById(R.id.ivAddyoga);
+
         ivback=(ImageView)getActivity().findViewById(R.id.ivback);
         tvTitle=(TextView)getActivity().findViewById(R.id.tvTitle);
         tvBurned=(TextView)rootview.findViewById(R.id.tvBurned);
@@ -356,6 +369,20 @@ public class ExerciseFragment extends Fragment  implements View.OnClickListener 
         ivAddRunning.setOnClickListener(this);
         ivAddBicycling.setOnClickListener(this);
         ivAddSwimming.setOnClickListener(this);
+
+        ivAddgolf.setOnClickListener(this);
+        ivAddfrisbee.setOnClickListener(this);
+        ivAddracquetball.setOnClickListener(this);
+        ivAddrowing.setOnClickListener(this);
+        ivAddsoccer.setOnClickListener(this);
+        ivAddsoftball.setOnClickListener(this);
+        ivAddtennis.setOnClickListener(this);
+        ivAddtrailbking.setOnClickListener(this);
+        ivAddvolleyball.setOnClickListener(this);
+        ivAddweightlifting.setOnClickListener(this);
+        ivAddwrestling.setOnClickListener(this);
+        ivAddyoga.setOnClickListener(this);
+
         rlDate.setOnClickListener(this);
 
         tvWorkout_walking.setOnClickListener(this);
@@ -588,32 +615,36 @@ public class ExerciseFragment extends Fragment  implements View.OnClickListener 
             case R.id.date_layout:
                 selectDate();
                 break;
-//            case R.id.ivAddWalking:
-////                Intent i1=new Intent(getActivity(), WalkingActivity.class);
-////                startActivity(i1);
-//                break;
-//            case R.id.ivAddRunning:
-////                Intent i2=new Intent(getActivity(), WalkingActivity.class);
-////                startActivity(i2);
-//                break;
-//            case R.id.ivAddBicycling:
-////                Intent i3=new Intent(getActivity(), WalkingActivity.class);
-////                startActivity(i3);
-//                break;
-//            case R.id.ivAddSwimming:
-////                Intent i=new Intent(getActivity(), WalkingActivity.class);
-////                startActivity(i);
-//                break;
-            case R.id.tvWorkout_walking:
+            case R.id.ivAddWalking:
                 Intent ine=new Intent(getActivity(), Add_CalBurned_Exersize.class);
                 ine.putExtra(TITLE, WALKING);
                 startActivity(ine);
+                break;
+            case R.id.ivAddRunning:
+                Intent inr =new Intent(getActivity(), Add_CalBurned_Exersize.class);
+                inr.putExtra(TITLE, RUNNING);
+                startActivity(inr);
+                break;
+            case R.id.ivAddBicycling:
+                Intent inb1=new Intent(getActivity(), Add_CalBurned_Exersize.class);
+                inb1.putExtra(TITLE, BICYCLING);
+                startActivity(inb1);
+                break;
+            case R.id.ivAddSwimming:
+                Intent ins1=new Intent(getActivity(), Add_CalBurned_Exersize.class);
+                ins1.putExtra(TITLE, SWIMMING);
+                startActivity(ins1);
+                break;
+            case R.id.tvWorkout_walking:
+                Intent inw =new Intent(getActivity(), Add_CalBurned_Exersize.class);
+                inw.putExtra(TITLE, WALKING);
+                startActivity(inw);
 
                 break;
             case R.id.tvWorkout_running:
-                Intent inr=new Intent(getActivity(), Add_CalBurned_Exersize.class);
-                inr.putExtra(TITLE, RUNNING);
-                startActivity(inr);
+                Intent inr1=new Intent(getActivity(), Add_CalBurned_Exersize.class);
+                inr1.putExtra(TITLE, RUNNING);
+                startActivity(inr1);
                 break;
             case R.id.tvWorkout_bycycling:
                 Intent inb=new Intent(getActivity(), Add_CalBurned_Exersize.class);
@@ -630,10 +661,25 @@ public class ExerciseFragment extends Fragment  implements View.OnClickListener 
                 ing.putExtra(TITLE, GOLF);
                 startActivity(ing);
                 break;
+            case R.id.ivAddgolf:
+                Intent ing1=new Intent(getActivity(), Add_CalBurned_Exersize.class);
+                ing1.putExtra(TITLE, GOLF);
+                startActivity(ing1);
+                break;
+            case R.id.ivAddfrisbee:
+                Intent infsb1=new Intent(getActivity(), Add_CalBurned_Exersize.class);
+                infsb1.putExtra(TITLE, FRISBEE);
+                startActivity(infsb1);
+                break;
             case R.id.tvWorkout_frisbee:
                 Intent infsb=new Intent(getActivity(), Add_CalBurned_Exersize.class);
                 infsb.putExtra(TITLE, FRISBEE);
                 startActivity(infsb);
+                break;
+            case R.id.ivAddracquetball:
+                Intent inre1=new Intent(getActivity(), Add_CalBurned_Exersize.class);
+                inre1.putExtra(TITLE, RACQUETBALL);
+                startActivity(inre1);
                 break;
             case R.id.tvWorkout_Racquetball:
                 Intent inre=new Intent(getActivity(), Add_CalBurned_Exersize.class);
@@ -645,45 +691,90 @@ public class ExerciseFragment extends Fragment  implements View.OnClickListener 
                 inro.putExtra(TITLE, ROWING);
                 startActivity(inro);
                 break;
+            case R.id.ivAddrowing:
+                Intent inro1=new Intent(getActivity(), Add_CalBurned_Exersize.class);
+                inro1.putExtra(TITLE, ROWING);
+                startActivity(inro1);
+                break;
             case R.id.tvWorkout_soccer:
                 Intent inso=new Intent(getActivity(), Add_CalBurned_Exersize.class);
                 inso.putExtra(TITLE, SOCCER);
                 startActivity(inso);
+                break;
+            case R.id.ivAddsoccer:
+                Intent inso1=new Intent(getActivity(), Add_CalBurned_Exersize.class);
+                inso1.putExtra(TITLE, SOCCER);
+                startActivity(inso1);
                 break;
             case R.id.tvWorkout_softball:
                 Intent insft=new Intent(getActivity(), Add_CalBurned_Exersize.class);
                 insft.putExtra(TITLE, SOFTBALL);
                 startActivity(insft);
                 break;
+            case R.id.ivAddsoftball:
+                Intent insft1=new Intent(getActivity(), Add_CalBurned_Exersize.class);
+                insft1.putExtra(TITLE, SOFTBALL);
+                startActivity(insft1);
+                break;
             case R.id.tvWorkout_tennis:
                 Intent tns=new Intent(getActivity(), Add_CalBurned_Exersize.class);
                 tns.putExtra(TITLE, TENNIS);
                 startActivity(tns);
+                break;
+            case R.id.ivAddtennis:
+                Intent tns1=new Intent(getActivity(), Add_CalBurned_Exersize.class);
+                tns1.putExtra(TITLE, TENNIS);
+                startActivity(tns1);
                 break;
             case R.id.tvWorkout_trailbkng:
                 Intent incl=new Intent(getActivity(), Add_CalBurned_Exersize.class);
                 incl.putExtra(TITLE, TRAILBIKING);
                 startActivity(incl);
                 break;
+            case R.id.ivAddtrailbking:
+                Intent incl1=new Intent(getActivity(), Add_CalBurned_Exersize.class);
+                incl1.putExtra(TITLE, TRAILBIKING);
+                startActivity(incl1);
+                break;
             case R.id.tvWorkout_volleyball:
                 Intent invl=new Intent(getActivity(), Add_CalBurned_Exersize.class);
                 invl.putExtra(TITLE, VOLLEYBALL);
                 startActivity(invl);
+                break;
+            case R.id.ivAddvolleyball:
+                Intent invl1=new Intent(getActivity(), Add_CalBurned_Exersize.class);
+                invl1.putExtra(TITLE, VOLLEYBALL);
+                startActivity(invl1);
                 break;
             case R.id.tvWorkout_weightlifting:
                 Intent inwl=new Intent(getActivity(), Add_CalBurned_Exersize.class);
                 inwl.putExtra(TITLE, WEIGHTLIFTING);
                 startActivity(inwl);
                 break;
-            case R.id.tvWorkout_wrestling:
+            case R.id.ivAddweightlifting:
+                Intent inwl1=new Intent(getActivity(), Add_CalBurned_Exersize.class);
+                inwl1.putExtra(TITLE, WEIGHTLIFTING);
+                startActivity(inwl1);
+                break;
+            case R.id.ivAddwrestling:
                 Intent inwrs = new Intent(getActivity(), Add_CalBurned_Exersize.class);
                 inwrs.putExtra(TITLE, WRESTLING);
                 startActivity(inwrs);
+                break;
+            case R.id.tvWorkout_wrestling:
+                Intent inwrs1 = new Intent(getActivity(), Add_CalBurned_Exersize.class);
+                inwrs1.putExtra(TITLE, WRESTLING);
+                startActivity(inwrs1);
                 break;
             case R.id.tvWorkout_yoga:
                 Intent inyg=new Intent(getActivity(), Add_CalBurned_Exersize.class);
                 inyg.putExtra(TITLE, YOGA);
                 startActivity(inyg);
+                break;
+            case R.id.ivAddyoga:
+                Intent inyg1=new Intent(getActivity(), Add_CalBurned_Exersize.class);
+                inyg1.putExtra(TITLE, YOGA);
+                startActivity(inyg1);
                 break;
         }
     }

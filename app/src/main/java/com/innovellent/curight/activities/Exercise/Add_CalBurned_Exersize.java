@@ -79,6 +79,7 @@ public class Add_CalBurned_Exersize extends Activity implements View.OnClickList
     ImageView ivCustom,ivSlow,ivMedium,ivFast,ivback1_exersize;
     Button btnSubmit;
     String format;
+    String finaldate;
     LinearLayout llspeedselecttext,llspeedselecticon;
     private String title;
     private ProgressDialog progressDialog;
@@ -93,13 +94,29 @@ public class Add_CalBurned_Exersize extends Activity implements View.OnClickList
         init();
         setupToolbar();
         iniClick();
+        final Calendar c = Calendar.getInstance();
+        int monthnumbr = c.get(Calendar.MONTH)+1;
+        int daynumber = c.get(Calendar.DATE);
+        String month,day;
+        if (monthnumbr >= 1 && monthnumbr <= 9) {
+            month = "0" + monthnumbr;
+        } else {
+            month = monthnumbr + "";
+        }
+        if (daynumber >= 1 && daynumber <= 9) {
+            day = "0" + daynumber;
+        } else {
+            day = daynumber + "";
+        }
+        finaldate = c.get(Calendar.YEAR) +"-"+month+"-" +day;
+        tvTextDate.setText(finaldate);
         tvSpeed.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
 
                 if(atTime.getText().toString().equals(""))
                 {
-                    Toast.makeText(Add_CalBurned_Exersize.this, "Please enter Time", Toast.LENGTH_SHORT).show();
+                 //   Toast.makeText(Add_CalBurned_Exersize.this, "Please enter Time", Toast.LENGTH_SHORT).show();
 
 //                   // atTime.requestFocus();
 
@@ -132,9 +149,9 @@ public class Add_CalBurned_Exersize extends Activity implements View.OnClickList
 
                 if(atTime.getText().toString().equals(""))
                 {
-                    Toast.makeText(Add_CalBurned_Exersize.this, "Please enter Time", Toast.LENGTH_SHORT).show();
-                    InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    mgr.hideSoftInputFromWindow(distanceCovered.getWindowToken(), 0);
+//                    Toast.makeText(Add_CalBurned_Exersize.this, "Please enter Time", Toast.LENGTH_SHORT).show();
+//                    InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//                    mgr.hideSoftInputFromWindow(distanceCovered.getWindowToken(), 0);
                     //  distanceCovered.setText("");
                 }else {
                     if(distanceCovered.getText().toString().equals(""))
@@ -604,9 +621,9 @@ public class Add_CalBurned_Exersize extends Activity implements View.OnClickList
                 tvSpeed.setText("1");
                 if(atTime.getText().toString().equals(""))
                 {
-                    Toast.makeText(Add_CalBurned_Exersize.this, "Please enter Time first", Toast.LENGTH_SHORT).show();
-                    InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    mgr.hideSoftInputFromWindow(tvSpeed.getWindowToken(), 0);
+//                    Toast.makeText(Add_CalBurned_Exersize.this, "Please enter Time first", Toast.LENGTH_SHORT).show();
+//                    InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//                    mgr.hideSoftInputFromWindow(tvSpeed.getWindowToken(), 0);
                 }else {
                     double time_double = Double.parseDouble(atTime.getText().toString());
 
@@ -627,9 +644,9 @@ public class Add_CalBurned_Exersize extends Activity implements View.OnClickList
                // etSpeed.setVisibility(View.GONE);
                 if(atTime.getText().toString().equals(""))
                 {
-                    Toast.makeText(Add_CalBurned_Exersize.this, "Please enter Time first", Toast.LENGTH_SHORT).show();
-                    InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    mgr.hideSoftInputFromWindow(tvSpeed.getWindowToken(), 0);
+//                    Toast.makeText(Add_CalBurned_Exersize.this, "Please enter Time first", Toast.LENGTH_SHORT).show();
+//                    InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//                    mgr.hideSoftInputFromWindow(tvSpeed.getWindowToken(), 0);
                 }else {
                     double time_double = Double.parseDouble(atTime.getText().toString());
 
@@ -647,9 +664,9 @@ public class Add_CalBurned_Exersize extends Activity implements View.OnClickList
                 tvSpeed.setVisibility(View.VISIBLE);
                 if(atTime.getText().toString().equals(""))
                 {
-                    Toast.makeText(Add_CalBurned_Exersize.this, "Please enter Time first", Toast.LENGTH_SHORT).show();
-                    InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    mgr.hideSoftInputFromWindow(tvSpeed.getWindowToken(), 0);
+//                    Toast.makeText(Add_CalBurned_Exersize.this, "Please enter Time first", Toast.LENGTH_SHORT).show();
+//                    InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//                    mgr.hideSoftInputFromWindow(tvSpeed.getWindowToken(), 0);
                 }else {
                     double time_double = Double.parseDouble(atTime.getText().toString());
 
